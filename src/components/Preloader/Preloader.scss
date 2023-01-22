@@ -1,0 +1,27 @@
+.preloader {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 99999;
+  .loader {
+    border: 10px solid #333333;
+    border-top: 10px solid #3498db;
+    border-radius: 50%;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    animation: spin 1s linear infinite;
+    left: 15%;
+    top: 15%;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+

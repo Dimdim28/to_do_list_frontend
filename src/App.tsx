@@ -10,12 +10,13 @@ import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 import Register from "./pages/Register/Register";
 import Task from "./pages/Task/Task";
+import Preloader from "./components/Preloader/Preloader";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Suspense fallback={<div>loading</div>}>
+      <Suspense fallback={<Preloader />}>
         <Routes>
           <Route path="/profile" element={<Profile />} />
           <Route path="/category" element={<Category />} />
