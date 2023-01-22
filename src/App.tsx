@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
+import Preloader from "./components/Preloader/Preloader";
 import Category from "./pages/Category/Category";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 import Register from "./pages/Register/Register";
 import Task from "./pages/Task/Task";
-import Preloader from "./components/Preloader/Preloader";
 
 function App() {
   return (

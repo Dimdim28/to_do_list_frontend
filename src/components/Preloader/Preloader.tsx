@@ -1,9 +1,11 @@
-import styles from './Preloader.scss';
+import styles from "./Preloader.module.scss";
 
-export const Preloader = () => {
+const Preloader = () => {
   return (
     <div className={styles.preloader}>
       <div className="loader"></div>
-    </div> 
-  )
+    </div>
+  );
 };
+
+export default Preloader;
