@@ -1,11 +1,7 @@
-import React from 'react'
-
+import React from "react";
+import styles from "./Home.module.scss";
 const Home: React.FC = () => {
-  return (
-    <div>
-      Home
-    </div>
-  )
-}
+  return <div className={styles.row}>Home</div>;
+};
 
-export default Home
+export default Home;

@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Category from "./pages/Category/Category";
 import Home from "./pages/Home/Home";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </Suspense>
+      <Footer />
     </div>
   );
 }

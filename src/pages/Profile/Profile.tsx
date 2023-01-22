@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react";
+import styles from "./Profile.module.scss";
 
 const Profile: React.FC = () => {
-  return (
-    <div>
-      Profile
-    </div>
-  )
-}
+  return <div className={styles.row}>Profile</div>;
+};
 
-export default Profile
+export default Profile;

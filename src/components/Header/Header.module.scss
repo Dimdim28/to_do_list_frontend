@@ -1,26 +1,28 @@
 header {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(197, 197, 197);
+  align-items: center;
+  height: 40px;
+
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  nav {
     display: flex;
-    justify-content: space-between;
-    background-color: rgb(197, 197, 197);
-    align-items: center;
+    width: calc(100% - 30px);
+    justify-content: flex-end;
+    padding-right: 10px;
 
-    .logo {
-        width: 40px;
-        height: 40px;
+    a {
+      text-decoration: none;
+      color: black;
     }
+  }
 
-    nav {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-    }
-
-    .isActive {
-        display: none;
-    }
+  .isActive {
+    display: none;
+  }
 }
