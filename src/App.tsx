@@ -1,34 +1,31 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import Preloader from "./components/Preloader/Preloader";
+import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
-import Category from "./pages/Category/Category";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Profile from "./pages/Profile/Profile";
-import Register from "./pages/Register/Register";
-import Task from "./pages/Task/Task";
+
+const Login = React.lazy(() => import("./pages/Login/Login"));
+const Register = React.lazy(() => import("./pages/Register/Register"));
+const Category = React.lazy(() => import("./pages/Category/Category"));
+const Profile = React.lazy(() => import("./pages/Profile/Profile"));
+const Home = React.lazy(() => import("./pages/Home/Home"));
+const Task = React.lazy(() => import("./pages/Task/Task"));
 
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<Preloader />}>
-        <Routes>
-          <Route path="/auth">
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
-          <Route path="/" element={<PageLayout />}>
-            <Route path="profile" element={<Profile />} />
-            <Route path="category" element={<Category />} />
-            <Route path="task" element={<Task />} />
-            <Route path="" element={<Home />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+        <Route path="/" element={<PageLayout />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="category" element={<Category />} />
+          <Route path="task" element={<Task />} />
+          <Route path="" element={<Home />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
