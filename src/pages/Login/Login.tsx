@@ -3,6 +3,9 @@ import { useFormik } from "formik";
 import "./Login.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { fetchUserData } from "../../redux/slices/auth/thunk";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "../../redux/slices/auth/selectors";
+import { Navigate } from "react-router";
 
 interface Values {
   email?: string;
@@ -29,8 +32,9 @@ const validate = (values: Values) => {
 };
 
 const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const isAuth = useSelector(selectIsAuth);
 
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -43,6 +47,8 @@ const Login: React.FC = () => {
       setSubmitting(false);
     },
   });
+
+  if (isAuth) return <Navigate to="/" />;
 
   return (
     <main>
