@@ -1,11 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
 import "./Login.module.scss";
+import { useAppDispatch } from "../../hooks";
+import { fetchUserData } from "../../redux/slices/auth/thunk";
 
 interface Values {
   email?: string;
-  password?:string;
-};
+  password?: string;
+}
 
 const validate = (values: Values) => {
   const errors: Values = {};
@@ -23,11 +25,12 @@ const validate = (values: Values) => {
     errors.password = "Must be 15 characters or less";
   }
 
-  console.log(errors);
   return errors;
 };
 
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,7 +38,7 @@ const Login: React.FC = () => {
     },
     validate,
     onSubmit: (values, { setSubmitting }) => {
-      console.log("values =", values);
+      dispatch(fetchUserData(values));
       formik.resetForm();
       setSubmitting(false);
     },
@@ -63,7 +66,8 @@ const Login: React.FC = () => {
           <input
             id="passwprd"
             name="password"
-            type="text"
+            type="password"
+            autoComplete="on"
             onChange={formik.handleChange}
             value={formik.values.password}
             onBlur={formik.handleBlur}
