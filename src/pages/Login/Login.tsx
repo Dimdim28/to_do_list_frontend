@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import "./Login.module.scss";
 import { useAppDispatch } from "../../hooks";
@@ -33,16 +33,21 @@ const validate = (values: Values) => {
 
 const Login: React.FC = () => {
   const isAuth = useSelector(selectIsAuth);
-
+  const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validate,
-    onSubmit: (values, { setSubmitting }) => {
-      dispatch(fetchUserData(values));
+    onSubmit: async (values, { setSubmitting }) => {
+      const data: any = await dispatch(fetchUserData(values));
+      if (data.error) setError(data.payload);
+      if ("token" in data.payload) {
+        window.localStorage.setItem("token", data.payload.token);
+      }
       formik.resetForm();
       setSubmitting(false);
     },
@@ -81,7 +86,7 @@ const Login: React.FC = () => {
           {formik.errors.password && formik.touched.password ? (
             <p>{formik.errors.password}</p>
           ) : null}
-
+          {error ? <p>{error}</p> : null}
           <button
             disabled={
               formik.isSubmitting || Object.keys(formik.errors).length > 0
