@@ -1,10 +1,8 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { useAppSelector } from "./hooks";
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
-import { selectIsAuth } from "./redux/slices/auth/selectors";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import { useAppDispatch } from "./redux/store";
 
@@ -17,12 +15,10 @@ const Task = React.lazy(() => import("./pages/Task/Task"));
 
 function App() {
   const dispatch = useAppDispatch();
-  const isAuth = useAppSelector(selectIsAuth);
   React.useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
 
-  if (!isAuth) return <div>"not authorised"</div>;
   return (
     <div className="App">
       <Routes>

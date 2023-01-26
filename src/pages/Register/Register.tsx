@@ -1,6 +1,9 @@
 import React from "react";
 import { useFormik } from "formik";
 import "./Register.module.scss";
+import { useAppSelector } from "../../hooks";
+import { selectIsAuth } from "../../redux/slices/auth/selectors";
+import { Navigate } from "react-router";
 
 interface Values {
   email?: string;
@@ -61,6 +64,9 @@ const SignupForm: React.FC = () => {
       setSubmitting(false);
     },
   });
+
+  const isAuth = useAppSelector(selectIsAuth);
+  if (isAuth) return <Navigate to="/" />;
 
   return (
     <main>

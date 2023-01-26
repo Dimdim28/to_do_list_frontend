@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import { Navigate } from "react-router";
+import { useAppSelector } from "../../hooks";
+import { selectIsAuth } from "../../redux/slices/auth/selectors";
 
 const Category: React.FC = () => {
-  return (
-    <div>
-      Category
-    </div>
-  )
-}
+  const isAuth = useAppSelector(selectIsAuth);
+  if (!isAuth) return <Navigate to="/auth/login" />;
 
-export default Category
+  return <div>Category</div>;
+};
+
+export default Category;
