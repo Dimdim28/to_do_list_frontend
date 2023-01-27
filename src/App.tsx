@@ -17,7 +17,8 @@ function App() {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+    console.log("app mounted");
+  }, [dispatch]);
 
   return (
     <div className="App">

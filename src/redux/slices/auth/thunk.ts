@@ -14,7 +14,10 @@ export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
   }
 );
 
-export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
-  const { data } = await instanse.get("/auth/me");
-  return data;
-});
+export const fetchAuthMe = createAsyncThunk<Profile>(
+  "auth/fetchAuthMe",
+  async () => {
+    const { data } = await instanse.get("/auth/me");
+    return data;
+  }
+);
