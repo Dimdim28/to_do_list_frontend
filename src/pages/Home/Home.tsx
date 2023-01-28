@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router";
 import { useAppSelector } from "../../hooks";
 import {
@@ -15,7 +15,7 @@ const Home: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories({ limit: 2, page: 1 }));
+    dispatch(fetchCategories({ page: 1 }));
   }, [dispatch]);
 
   const isAuth = useAppSelector(selectIsAuth);

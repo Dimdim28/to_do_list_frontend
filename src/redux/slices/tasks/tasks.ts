@@ -22,7 +22,6 @@ const tasksSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
       state.category.status = Status.LOADING;
-      state.category.categories = [];
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [

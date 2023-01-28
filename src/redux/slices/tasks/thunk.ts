@@ -6,7 +6,6 @@ export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
   "task/fetchCategories",
   async (params, { rejectWithValue }) => {
     const { limit, page } = params;
-    console.log(page, limit);
     let url = "/category";
     if (limit || page) {
       url += "?";
@@ -16,7 +15,6 @@ export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
         else url += "page=" + page;
       }
     }
-    console.log(url);
 
     try {
       const response: CategoryResponse = await instanse.get(url);

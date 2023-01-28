@@ -1,3 +1,22 @@
-.wrapper {
-  background-color: rgb(136, 127, 127);
+.filtersWrapper {
+  background-color: rgb(226, 223, 223);
+  max-width: 300px;
+
+  .categoriesWrapper {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .categoriesError {
+      color: red;
+      width: 100%;
+      text-align: center;
+    }
+  }
 }

@@ -9,6 +9,7 @@ import {
 } from "../../../redux/slices/tasks/selectors";
 import { fetchCategories } from "../../../redux/slices/tasks/thunk";
 import { useAppDispatch } from "../../../redux/store";
+import Category from "./Category/Category";
 import styles from "./Filters.module.scss";
 
 const Filters = () => {
@@ -19,25 +20,32 @@ const Filters = () => {
   const message = useAppSelector(selectCategoriesrError);
   const dispatch = useAppDispatch();
 
-  const loadMore = React.useCallback(() => {
+  const loadMore = () => {
     const newPage = 1 + currentPage;
     console.log("newPage =", newPage);
-    dispatch(fetchCategories({ page: newPage, limit: 2 }));
-  }, [dispatch, currentPage]);
+    dispatch(fetchCategories({ page: newPage }));
+  };
 
   return (
-    <aside className={styles.wrapper}>
-      {status === "loading" ? (
-        <p>loading</p>
-      ) : categories.length === 0 ? (
-        <p>you have not categories</p>
-      ) : (
-        categories.map((el, id) => <div key={id}>{el.title}</div>)
-      )}
-      {message && <p>{message}</p>}
-      {currentPage < totalPages && (
-        <button onClick={loadMore}>load more</button>
-      )}
+    <aside className={styles.filtersWrapper}>
+      <section className={styles.categoriesWrapper}>
+        <div className={styles.categories}>
+          {status !== "error" && categories.length === 0 ? (
+            <p>loading</p>
+          ) : categories.length === 0 ? (
+            <p>you have not categories</p>
+          ) : (
+            categories.map((el, id) => <Category {...el} key={id} />)
+          )}
+        </div>
+
+        {message && totalPages ? (
+          <p className={styles.categoriesError}>{message}</p>
+        ) : null}
+        {currentPage < totalPages && (
+          <button onClick={loadMore}>load more</button>
+        )}
+      </section>
     </aside>
   );
 };
