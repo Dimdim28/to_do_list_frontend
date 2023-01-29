@@ -18,7 +18,7 @@ export const registerUser = createAsyncThunk<Profile, RegisterParams>(
   "auth/registerUser",
   async (params, { rejectWithValue }) => {
     try {
-      const response: ProfileResponse = await instanse.post("/register", params);
+      const response: ProfileResponse = await instanse.post("/user", params);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);
