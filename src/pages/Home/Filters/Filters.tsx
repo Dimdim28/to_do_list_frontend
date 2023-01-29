@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../../hooks";
 import {
   selectCategories,
@@ -19,6 +19,7 @@ const Filters = () => {
   const totalPages = useAppSelector(selectCategoryTotalPages);
   const message = useAppSelector(selectCategoriesrError);
   const dispatch = useAppDispatch();
+  const [isChecked, setIsChecked] = useState(false);
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
@@ -45,6 +46,16 @@ const Filters = () => {
         {currentPage < totalPages && (
           <button onClick={loadMore}>load more</button>
         )}
+      </section>
+      <section className={styles.filtersWrapper}>
+        <label>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={() => setIsChecked((prev) => !prev)}
+          />
+          <span>isCompleted</span>
+        </label>
       </section>
     </aside>
   );

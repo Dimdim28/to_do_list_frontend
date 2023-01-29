@@ -5,6 +5,7 @@ import {
   selectIsAuth,
   selectIsChecked,
 } from "../../redux/slices/auth/selectors";
+import { clearCategories } from "../../redux/slices/tasks/tasks";
 import { fetchCategories } from "../../redux/slices/tasks/thunk";
 import { useAppDispatch } from "../../redux/store";
 import Filters from "./Filters/Filters";
@@ -13,13 +14,15 @@ import Tasks from "./Tasks/Tasks";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchCategories({ page: 1 }));
-  }, [dispatch]);
-
   const isAuth = useAppSelector(selectIsAuth);
   const isChecked = useAppSelector(selectIsChecked);
+  useEffect(() => {
+    dispatch(fetchCategories({ page: 1 }));
+    return () => {
+      dispatch(clearCategories());
+    };
+  }, [dispatch]);
+
   if (isChecked && !isAuth) return <Navigate to="/auth/login" />;
 
   return (
