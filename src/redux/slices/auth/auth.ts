@@ -1,4 +1,4 @@
-import { fetchAuthMe, fetchUserData } from "./thunk";
+import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
 import { AuthSliceState, Status } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -40,6 +40,19 @@ const authSlice = createSlice({
       state.status = Status.SUCCESS;
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.profile = null;
+      state.message = String(action.payload);
+    });
+    builder.addCase(registerUser.pending, (state) => {
+      state.status = Status.LOADING;
+      state.profile = null;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.profile = action.payload;
+      state.status = Status.SUCCESS;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.profile = null;
       state.message = String(action.payload);

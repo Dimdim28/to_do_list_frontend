@@ -1,4 +1,4 @@
-import { LoginParams, Profile, ProfileResponse } from "./types";
+import { LoginParams, Profile, ProfileResponse, RegisterParams } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
 
@@ -7,6 +7,18 @@ export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
   async (params, { rejectWithValue }) => {
     try {
       const response: ProfileResponse = await instanse.post("/auth", params);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk<Profile, RegisterParams>(
+  "auth/registerUser",
+  async (params, { rejectWithValue }) => {
+    try {
+      const response: ProfileResponse = await instanse.post("/user", params);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);
