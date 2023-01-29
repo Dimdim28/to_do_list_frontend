@@ -51,7 +51,7 @@ const validate = (values: Values) => {
   if (values.firstPass !== values.secondPass) {
     errors.secondPass = "Passwords are not the same"
   }
-  
+
   console.log(errors);
   return errors;
 };
@@ -102,8 +102,8 @@ const SignupForm: React.FC = () => {
 
           <label htmlFor="lastname">Last Name</label>
           <input
-            id="login"
-            name="login"
+            id="lastname"
+            name="lastname"
             type="text"
             onChange={formik.handleChange}
             value={formik.values.lastname}
