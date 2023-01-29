@@ -38,7 +38,6 @@ const tasksSlice = createSlice({
     });
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.category.status = Status.ERROR;
-      state.category.categories = [];
       state.category.message = String(action.payload);
     });
   },

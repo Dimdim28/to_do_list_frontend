@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
 import {
   selectCategories,
@@ -25,36 +26,36 @@ const Filters = () => {
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
-    console.log("newPage =", newPage);
     dispatch(fetchCategories({ page: newPage }));
   };
 
+  const handleCategoriesScroll = (e: React.UIEvent<HTMLElement>) => {
+    const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+    const isScrolled = scrollHeight === scrollTop + clientHeight;
+    if (currentPage < totalPages && isScrolled) loadMore();
+  };
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
         <h2>Categories</h2>
-        <div className={styles.categories}>
-          {status !== "error" && categories.length === 0 ? (
-            <p>loading</p>
-          ) : categories.length === 0 ? (
+        <div className={styles.categories} onScroll={handleCategoriesScroll}>
+          {categories.length === 0 && status === "success" ? (
             <p>you have not categories</p>
           ) : (
             categories.map((el, id) => <Category {...el} key={id} />)
           )}
+          {status === "loading" && <Preloader />}
         </div>
 
         {message && totalPages ? (
           <p className={styles.categoriesError}>{message}</p>
         ) : null}
-        {currentPage < totalPages && (
-          <button onClick={loadMore}>load more</button>
-        )}
       </section>
       <section className={styles.filtersWrapper}>
         <h2>Date and status</h2>
 
         <label>
-          Choose Status
+          Сompletion status:
           <select
             value={isCompleted}
             onChange={(event) => setIsCompleted(event.target.value)}
@@ -71,7 +72,7 @@ const Filters = () => {
             checked={hasDeadline}
             onChange={() => setHasDeadline((prev) => !prev)}
           />
-          <span>Has task Deadline?</span>
+          <span>Find tasks with deadline</span>
         </label>
 
         {hasDeadline && (
