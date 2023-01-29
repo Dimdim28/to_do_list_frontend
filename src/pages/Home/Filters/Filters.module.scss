@@ -1,0 +1,48 @@
+.filtersWrapper {
+  background-color: rgb(226, 223, 223);
+  width: 300px;
+
+  .categoriesWrapper {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      overflow-y: scroll;
+      max-height: 100px;
+      width: 100%;
+
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgb(43, 42, 42);
+      }
+    }
+    .categoriesError {
+      color: red;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .filtersWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

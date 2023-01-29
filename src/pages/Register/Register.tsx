@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { useFormik } from "formik";
 import "./Register.module.scss";
-import { useAppSelector } from "../../hooks";
 import { selectIsAuth } from "../../redux/slices/auth/selectors";
 import { Navigate } from "react-router";
+import { useAppDispatch } from "../../hooks";
+import { useSelector } from "react-redux";
+import { registerUser } from "../../redux/slices/auth/thunk";
 
 interface Values {
   email?: string;
-  login?: string;
+  lastname?: string;
   firstPass?: string;
   secondPass?: string;
 }
@@ -20,12 +22,12 @@ const validate = (values: Values) => {
     errors.email = "Invalid email address";
   }
 
-  if (!values.login) {
-    errors.login = "Required";
-  } else if (values.login.length < 3) {
-    errors.login = "Must be 3 characters or more";
-  } else if (values.login.length > 15) {
-    errors.login = "Must be 15 characters or less";
+  if (!values.lastname) {
+    errors.lastname = "Required";
+  } else if (values.lastname.length < 3) {
+    errors.lastname = "Must be 3 characters or more";
+  } else if (values.lastname.length > 15) {
+    errors.lastname = "Must be 15 characters or less";
   }
 
   if (!values.firstPass) {
@@ -33,7 +35,7 @@ const validate = (values: Values) => {
   } else if (values.firstPass.length < 5) {
     errors.firstPass = "Must be 5 characters or more";
   } else if (values.firstPass.length > 15) {
-    errors.login = "Must be 15 characters or less";
+    errors.lastname = "Must be 15 characters or less";
   }
 
   if (!values.secondPass) {
@@ -41,32 +43,44 @@ const validate = (values: Values) => {
   } else if (values.secondPass.length < 5) {
     errors.secondPass = "Must be 5 characters or more";
   } else if (values.secondPass.length > 15) {
-    errors.login = "Must be 15 characters or less";
+    errors.lastname = "Must be 15 characters or less";
   } else if (values.firstPass !== values.secondPass) {
     errors.secondPass = "Passwords must be same";
   }
+
+  if (values.firstPass !== values.secondPass) {
+    errors.secondPass = "Passwords are not the same"
+  }
+
   console.log(errors);
   return errors;
 };
 
 const SignupForm: React.FC = () => {
+  const isRegistered = useSelector(selectIsAuth);
+  const [error, setError] = useState(null);
+  const dispatch = useAppDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
-      login: "",
+      lastname: "",
       firstPass: "",
-      secondPass: "",
+      secondPass: ""
     },
     validate,
-    onSubmit: (values, { setSubmitting }) => {
-      console.log("values =", values);
+    onSubmit: async (values, { setSubmitting }) => {
+      const data: any = await dispatch(registerUser(values));
+      if (data.error) setError(data.payload);
+      if ("token" in data.payload) {
+        window.localStorage.setItem("token", data.payload.token);
+      }
       formik.resetForm();
       setSubmitting(false);
     },
   });
 
-  const isAuth = useAppSelector(selectIsAuth);
-  if (isAuth) return <Navigate to="/" />;
+  if (isRegistered) return <Navigate to="/" />;
 
   return (
     <main>
@@ -86,17 +100,17 @@ const SignupForm: React.FC = () => {
             <p>{formik.errors.email}</p>
           ) : null}
 
-          <label htmlFor="login">Last Name</label>
+          <label htmlFor="lastname">Last Name</label>
           <input
-            id="login"
-            name="login"
+            id="lastname"
+            name="lastname"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.login}
+            value={formik.values.lastname}
             onBlur={formik.handleBlur}
           />
-          {formik.errors.login && formik.touched.login ? (
-            <p>{formik.errors.login}</p>
+          {formik.errors.lastname && formik.touched.lastname ? (
+            <p>{formik.errors.lastname}</p>
           ) : null}
 
           <label htmlFor="firstPass"> Enter your password</label>

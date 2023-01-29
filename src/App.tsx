@@ -17,7 +17,7 @@ function App() {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
