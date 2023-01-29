@@ -10,7 +10,6 @@ export interface CategoryProps {
 }
 
 const Category = (props: CategoryProps) => {
-  console.log(props);
   return (
     <div className={styles.category} style={{ borderColor: props.color }}>
       {props.title}

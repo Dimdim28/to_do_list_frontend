@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../../hooks";
 import {
   selectCategories,
@@ -19,6 +19,9 @@ const Filters = () => {
   const totalPages = useAppSelector(selectCategoryTotalPages);
   const message = useAppSelector(selectCategoriesrError);
   const dispatch = useAppDispatch();
+  const [hasDeadline, setHasDeadline] = useState(false);
+  const [date, setDate] = useState("all");
+  const [isCompleted, setIsCompleted] = useState("all");
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
@@ -29,6 +32,7 @@ const Filters = () => {
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
+        <h2>Categories</h2>
         <div className={styles.categories}>
           {status !== "error" && categories.length === 0 ? (
             <p>loading</p>
@@ -44,6 +48,45 @@ const Filters = () => {
         ) : null}
         {currentPage < totalPages && (
           <button onClick={loadMore}>load more</button>
+        )}
+      </section>
+      <section className={styles.filtersWrapper}>
+        <h2>Date and status</h2>
+
+        <label>
+          Choose Status
+          <select
+            value={isCompleted}
+            onChange={(event) => setIsCompleted(event.target.value)}
+          >
+            <option value="true">Completed</option>
+            <option value="false">In process</option>
+            <option value="all">all</option>
+          </select>
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={hasDeadline}
+            onChange={() => setHasDeadline((prev) => !prev)}
+          />
+          <span>Has task Deadline?</span>
+        </label>
+
+        {hasDeadline && (
+          <label>
+            Choose Period
+            <select
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+            >
+              <option value="day">day</option>
+              <option value="week">week</option>
+              <option value="month">month</option>
+              <option value="all">all</option>
+            </select>
+          </label>
         )}
       </section>
     </aside>
