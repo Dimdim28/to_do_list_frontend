@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
 import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
@@ -74,15 +75,11 @@ const Filters = () => {
           activeValue={isCompleted}
           callback={setIsCompleted}
         />
-        <label className={styles.checkboxContainer}>
-          <input
-            type="checkbox"
-            checked={hasDeadline}
-            onChange={() => setHasDeadline((prev) => !prev)}
-          />
-          <span className={styles.checkmark}></span>
-          With deadline
-        </label>
+        <Checkbox
+          isChecked={hasDeadline}
+          setIsChecked={setHasDeadline}
+          label="With deadline"
+        />
         {hasDeadline && (
           <Select
             items={selectDateOptions}
