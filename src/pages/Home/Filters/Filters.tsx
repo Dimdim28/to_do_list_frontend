@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
 import {
@@ -34,6 +35,20 @@ const Filters = () => {
     const isScrolled = scrollHeight === scrollTop + clientHeight;
     if (currentPage < totalPages && isScrolled) loadMore();
   };
+
+  const selectStatusOptions = [
+    { name: "Completed", value: "true" },
+    { name: "In process", value: "false" },
+    { name: "all", value: "all" },
+  ];
+
+  const selectDateOptions = [
+    { name: "day", value: "day" },
+    { name: "week", value: "week" },
+    { name: "month", value: "month" },
+    { name: "all", value: "all" },
+  ];
+
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
@@ -51,44 +66,34 @@ const Filters = () => {
           <p className={styles.categoriesError}>{message}</p>
         ) : null}
       </section>
-      <section className={styles.filtersWrapper}>
+      <section className={styles.dateWrapper}>
         <h2>Date and status</h2>
-
-        <label>
-          Сompletion status:
-          <select
-            value={isCompleted}
-            onChange={(event) => setIsCompleted(event.target.value)}
-          >
-            <option value="true">Completed</option>
-            <option value="false">In process</option>
-            <option value="all">all</option>
-          </select>
-        </label>
-
-        <label>
+        <Select
+          items={selectStatusOptions}
+          width="200px"
+          activeValue={isCompleted}
+          callback={setIsCompleted}
+        />
+        <label className={styles.checkboxContainer}>
           <input
             type="checkbox"
             checked={hasDeadline}
             onChange={() => setHasDeadline((prev) => !prev)}
           />
-          <span>Find tasks with deadline</span>
+          <span className={styles.checkmark}></span>
+          With deadline
         </label>
-
         {hasDeadline && (
-          <label>
-            Choose Period
-            <select
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-            >
-              <option value="day">day</option>
-              <option value="week">week</option>
-              <option value="month">month</option>
-              <option value="all">all</option>
-            </select>
-          </label>
+          <Select
+            items={selectDateOptions}
+            activeValue={date}
+            width="200px"
+            callback={setDate}
+          />
         )}
+        date: {date}
+        <br />
+        isCompleted: {isCompleted}
       </section>
     </aside>
   );
