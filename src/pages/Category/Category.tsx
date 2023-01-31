@@ -7,7 +7,7 @@ import {
   selectProfile,
 } from "../../redux/slices/auth/selectors";
 import {
-  selectCategoryInfo,
+  // selectCategoryInfo,
   selectCategoryrError,
 } from "../../redux/slices/category/selectors";
 import { createCategory } from "../../redux/slices/category/thunk";
@@ -15,7 +15,7 @@ import { useAppDispatch } from "../../redux/store";
 
 const Category: React.FC = () => {
   const dispatch = useAppDispatch();
-  const category = useAppSelector(selectCategoryInfo);
+  // const category = useAppSelector(selectCategoryInfo);
   const categoryError = useAppSelector(selectCategoryrError);
   const user = useAppSelector(selectProfile);
 
