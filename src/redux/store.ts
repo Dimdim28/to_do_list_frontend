@@ -1,10 +1,11 @@
-import { taskReducer } from "./slices/tasks/tasks";
+import { categoryReducer } from "./slices/category/category";
+import { homeReducer } from "./slices/home/home";
 import { useDispatch } from "react-redux";
 import { authReducer } from "./slices/auth/auth";
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
-  reducer: { auth: authReducer, task: taskReducer },
+  reducer: { auth: authReducer, home: homeReducer, category: categoryReducer },
 });
 
 export default store;

@@ -9,8 +9,8 @@ import {
   selectCategoriesStatus,
   selectCategoryCurrentPage,
   selectCategoryTotalPages,
-} from "../../../redux/slices/tasks/selectors";
-import { fetchCategories } from "../../../redux/slices/tasks/thunk";
+} from "../../../redux/slices/home/selectors";
+import { fetchCategories } from "../../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../../redux/store";
 import Category from "./Category/Category";
 import styles from "./Filters.module.scss";

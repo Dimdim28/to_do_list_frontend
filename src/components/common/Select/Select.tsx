@@ -12,7 +12,7 @@ interface SelectProps {
   width: string;
 }
 
-const Select = (props: SelectProps) => {
+const Select: React.FC<SelectProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(props.activeValue);
   const selectRef = useRef<HTMLDivElement>(null);

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
-import { Categories, CategoriesParams, CategoryResponse } from "./types";
+import { Categories, CategoriesParams, CategoriesResponse } from "./types";
 
 export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
   "task/fetchCategories",
@@ -17,7 +17,7 @@ export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
     }
 
     try {
-      const response: CategoryResponse = await instanse.get(url);
+      const response: CategoriesResponse = await instanse.get(url);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);

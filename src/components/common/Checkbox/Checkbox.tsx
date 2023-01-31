@@ -6,7 +6,7 @@ interface CheckboxProps {
   label: string;
 }
 
-export const Checkbox = (props: CheckboxProps) => {
+export const Checkbox: React.FC<CheckboxProps> = (props) => {
   return (
     <label className={styles.checkboxContainer}>
       <input

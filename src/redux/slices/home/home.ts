@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchCategories } from "./thunk";
-import { Status, TasksSliceState } from "./types";
+import { Status, HomeSliceState } from "./types";
 
-const initialState: TasksSliceState = {
+const initialState: HomeSliceState = {
   task: {
     tasks: [],
     status: Status.LOADING,
@@ -15,8 +15,8 @@ const initialState: TasksSliceState = {
   },
 };
 
-const tasksSlice = createSlice({
-  name: "tasks",
+const homeSlice = createSlice({
+  name: "home",
   initialState,
   reducers: {
     clearCategories(state) {
@@ -43,5 +43,5 @@ const tasksSlice = createSlice({
   },
 });
 
-export const taskReducer = tasksSlice.reducer;
-export const { clearCategories } = tasksSlice.actions;
+export const homeReducer = homeSlice.reducer;
+export const { clearCategories } = homeSlice.actions;

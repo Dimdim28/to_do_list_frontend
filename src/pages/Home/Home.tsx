@@ -5,8 +5,8 @@ import {
   selectIsAuth,
   selectIsChecked,
 } from "../../redux/slices/auth/selectors";
-import { clearCategories } from "../../redux/slices/tasks/tasks";
-import { fetchCategories } from "../../redux/slices/tasks/thunk";
+import { clearCategories } from "../../redux/slices/home/home";
+import { fetchCategories } from "../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../redux/store";
 import Filters from "./Filters/Filters";
 import styles from "./Home.module.scss";

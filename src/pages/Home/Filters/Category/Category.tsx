@@ -9,7 +9,7 @@ export interface CategoryProps {
   key: number;
 }
 
-const Category = (props: CategoryProps) => {
+const Category: React.FC<CategoryProps> = (props) => {
   return (
     <div className={styles.category} style={{ borderColor: props.color }}>
       {props.title}
