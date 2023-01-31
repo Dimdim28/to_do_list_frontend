@@ -10,7 +10,22 @@ export const createCategory = createAsyncThunk<Category, Category>(
         "/category",
         params
       );
-      console.log(response);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const updateCategory = createAsyncThunk<Category, Category>(
+  "category/updateCategory",
+  async (params, { rejectWithValue }) => {
+    const { title, color } = params;
+    try {
+      const response: CategoryResponse = await instanse.patch(
+        `/category/${params._id}`,
+        { title, color }
+      );
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);

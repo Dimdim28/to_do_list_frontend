@@ -13,12 +13,12 @@ export type CategoryResponse = {
 export type Category = {
   _id?: string;
   title: string;
-  user: string;
+  user?: string;
   color: string;
 };
 
 export interface HomeSliceState {
-  category: Category | {};
+  category: Category | null;
   status: Status;
   message?: string;
 }

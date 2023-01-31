@@ -1,9 +1,9 @@
-import { createCategory } from "./thunk";
+import { createCategory, updateCategory } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status, HomeSliceState } from "./types";
 
 const initialState: HomeSliceState = {
-  category: {},
+  category: null,
   status: Status.LOADING,
 };
 
@@ -12,7 +12,7 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     clearCategory(state) {
-      state.category = {};
+      state.category = null;
       state.status = Status.LOADING;
     },
     setCategory(state, action) {
@@ -29,6 +29,18 @@ const categorySlice = createSlice({
       state.category = { ...action.payload };
     });
     builder.addCase(createCategory.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+
+    builder.addCase(updateCategory.pending, (state) => {
+      state.status = Status.LOADING;
+    });
+    builder.addCase(updateCategory.fulfilled, (state, action) => {
+      state.status = Status.SUCCESS;
+      state.category = { ...action.payload };
+    });
+    builder.addCase(updateCategory.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });

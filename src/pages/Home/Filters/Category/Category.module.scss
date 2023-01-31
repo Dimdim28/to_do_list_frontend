@@ -9,4 +9,49 @@
   justify-content: center;
   font-weight: 500;
   margin: 5px;
+  position: relative;
+
+  .icons {
+    position: absolute;
+    right: -25px;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: 0.3s;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      z-index: 3;
+
+      &:hover {
+        transition: 0.3s;
+      }
+    }
+
+    .pencil {
+      &:hover {
+        color: white;
+      }
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .trash {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  &:hover {
+    .icons {
+      opacity: 100%;
+      right: -15px;
+    }
+  }
 }
