@@ -18,7 +18,7 @@ const Category: React.FC<CategoryProps> = (props) => {
   const dispatch = useAppDispatch();
   return (
     <div className={styles.category} style={{ borderColor: props.color }}>
-      {props.title}
+      <span className={styles.title}>{props.title}</span>
       <div className={styles.icons}>
         <NavLink to={"category"}>
           <FontAwesomeIcon

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Navigate } from "react-router";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router";
+import Button from "../../components/common/Button/Button";
 import { useAppSelector } from "../../hooks";
 import {
   selectIsAuth,
   selectIsChecked,
 } from "../../redux/slices/auth/selectors";
+import { clearCategory } from "../../redux/slices/category/category";
 import {
   selectCategoryInfo,
   selectCategoryrError,
@@ -14,6 +16,7 @@ import {
   updateCategory,
 } from "../../redux/slices/category/thunk";
 import { useAppDispatch } from "../../redux/store";
+import { selectProfile } from "../../redux/slices/auth/selectors";
 
 const Category: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,12 +25,19 @@ const Category: React.FC = () => {
   const isAuth = useAppSelector(selectIsAuth);
   const isChecked = useAppSelector(selectIsChecked);
 
-  const userId = category && category.user;
+  const userId = useAppSelector(selectProfile)?._id;
   const previousColor = (category && category.color) || "#000000";
   const previousTitle = (category && category.title) || "";
   const categoryId = (category && category._id) || "";
   const [color, setColor] = useState(previousColor);
   const [title, setTittle] = useState(previousTitle);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearCategory());
+    };
+  }, [dispatch]);
 
   function create() {
     return dispatch(
@@ -50,6 +60,21 @@ const Category: React.FC = () => {
   }
 
   if (!isAuth && isChecked) return <Navigate to="/auth/login" />;
+  const callback = () => {
+    category ? update() : create();
+  };
+
+  const submit = async () => {
+    await callback();
+    console.log(categoryError);
+    if (!categoryError) {
+      navigate("/");
+    }
+  };
+
+  const cancel = () => {
+    navigate("/");
+  };
 
   return (
     <div>
@@ -67,8 +92,8 @@ const Category: React.FC = () => {
 
       <div>{color}</div>
       <div>{title}</div>
-
-      <button onClick={() => (category ? update() : create())}>create</button>
+      <Button text="submit" callback={submit} class="submit" />
+      <Button text="cancel" callback={cancel} class="cancel" />
       {categoryError && <p>{categoryError}</p>}
     </div>
   );

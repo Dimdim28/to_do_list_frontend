@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
 import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
@@ -25,7 +26,7 @@ const Filters = () => {
   const [hasDeadline, setHasDeadline] = useState(false);
   const [date, setDate] = useState("all");
   const [isCompleted, setIsCompleted] = useState("all");
-
+  const navigate = useNavigate();
   const loadMore = () => {
     const newPage = 1 + currentPage;
     dispatch(fetchCategories({ page: newPage }));
@@ -62,7 +63,9 @@ const Filters = () => {
           )}
           {status === "loading" && <Preloader />}
         </div>
-
+        <p className={styles.addCategory} onClick={() => navigate("/category")}>
+          Create Category +
+        </p>
         {message && totalPages ? (
           <p className={styles.categoriesError}>{message}</p>
         ) : null}

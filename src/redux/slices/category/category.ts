@@ -14,6 +14,7 @@ const categorySlice = createSlice({
     clearCategory(state) {
       state.category = null;
       state.status = Status.LOADING;
+      state.message = undefined;
     },
     setCategory(state, action) {
       state.category = { ...action.payload };
@@ -27,6 +28,7 @@ const categorySlice = createSlice({
     builder.addCase(createCategory.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
       state.category = { ...action.payload };
+      state.message = undefined;
     });
     builder.addCase(createCategory.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -39,6 +41,7 @@ const categorySlice = createSlice({
     builder.addCase(updateCategory.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
       state.category = { ...action.payload };
+      state.message = undefined;
     });
     builder.addCase(updateCategory.rejected, (state, action) => {
       state.status = Status.ERROR;
