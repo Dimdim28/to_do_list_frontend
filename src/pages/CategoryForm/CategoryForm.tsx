@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router";
 import Button from "../../components/common/Button/Button";
 import { useAppSelector } from "../../hooks";
@@ -17,6 +17,7 @@ import {
 } from "../../redux/slices/category/thunk";
 import { useAppDispatch } from "../../redux/store";
 import { selectProfile } from "../../redux/slices/auth/selectors";
+import styles from "./CategoryForm.module.scss";
 
 interface CategoryFormProps {
   toggleActive?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,12 +36,6 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   const categoryId = (category && category._id) || "";
   const [color, setColor] = useState(previousColor);
   const [title, setTittle] = useState(previousTitle);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearCategory());
-    };
-  }, [dispatch]);
 
   function create() {
     return dispatch(
@@ -68,35 +63,46 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   };
 
   const submit = async () => {
+    dispatch(clearCategory());
     await callback();
-    if (!categoryError) {
+    if (categoryError === undefined) {
       props.toggleActive && props.toggleActive(false);
+      setColor(previousColor);
+      setTittle(previousTitle);
+      dispatch(clearCategory());
     }
   };
 
   const cancel = () => {
     props.toggleActive && props.toggleActive(false);
+    setColor(previousColor);
+    setTittle(previousTitle);
+    dispatch(clearCategory());
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
+      <h2 className={styles.title}>Category color</h2>
       <input
+        className={styles.chooseColor}
         type="color"
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
 
+      <h2 className={styles.title}> Category title</h2>
       <input
+        className={styles.chooseTitle}
         type="text"
         value={title}
         onChange={(e) => setTittle(e.target.value)}
       />
+      <div className={styles.buttons}>
+        <Button text="submit" callback={submit} class="submit" />
+        <Button text="cancel" callback={cancel} class="cancel" />
+      </div>
 
-      <div>{color}</div>
-      <div>{title}</div>
-      <Button text="submit" callback={submit} class="submit" />
-      <Button text="cancel" callback={cancel} class="cancel" />
-      {categoryError && <p>{categoryError}</p>}
+      {categoryError && <p className={styles.error}>{categoryError}</p>}
     </div>
   );
 };

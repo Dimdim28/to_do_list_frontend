@@ -2,14 +2,24 @@
   outline: none;
   color: white;
   border: none;
+  transition: 0.3s;
 }
 
 .submit {
   background-color: rgb(15, 168, 15);
-  border: 2px solid rgb(16, 143, 16);
+  border: 3px solid rgb(16, 143, 16);
+  &:hover,
+  &:focus {
+    border: 3px solid rgb(11, 68, 11);
+  }
 }
 
 .cancel {
   background-color: red;
-  border: 2px solid rgb(230, 71, 71);
+  border: 3px solid rgb(230, 71, 71);
+
+  &:hover,
+  &:focus {
+    border: 3px solid rgb(151, 2, 2);
+  }
 }

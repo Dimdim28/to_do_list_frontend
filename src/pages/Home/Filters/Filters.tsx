@@ -27,7 +27,7 @@ const Filters = () => {
   const [hasDeadline, setHasDeadline] = useState(false);
   const [date, setDate] = useState("all");
   const [isCompleted, setIsCompleted] = useState("all");
-  const [categoryEditing, setCategoryEditing] = useState(true);
+  const [categoryEditing, setCategoryEditing] = useState(false);
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
@@ -100,6 +100,7 @@ const Filters = () => {
         <br />
         isCompleted: {isCompleted}
       </section>
+
       <Modal
         active={categoryEditing}
         setActive={setCategoryEditing}
