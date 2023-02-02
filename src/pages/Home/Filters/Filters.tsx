@@ -62,7 +62,13 @@ const Filters = () => {
           {categories.length === 0 && status === "success" ? (
             <p>you have not categories</p>
           ) : (
-            categories.map((el, id) => <Category {...el} key={id} />)
+            categories.map((el, id) => (
+              <Category
+                {...el}
+                key={id}
+                setCategoryEditing={setCategoryEditing}
+              />
+            ))
           )}
           {status === "loading" && <Preloader />}
         </div>
@@ -72,7 +78,9 @@ const Filters = () => {
         >
           Create Category +
         </p>
-        {message && totalPages ? (
+        {message === "undefined" ? (
+          <p className={styles.categoriesError}>Server error</p>
+        ) : message ? (
           <p className={styles.categoriesError}>{message}</p>
         ) : null}
       </section>

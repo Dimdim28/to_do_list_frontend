@@ -1,7 +1,6 @@
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { setCategory } from "../../../../redux/slices/category/category";
 import { useAppDispatch } from "../../../../redux/store";
 import styles from "./Category.module.scss";
@@ -12,6 +11,7 @@ export interface CategoryProps {
   user: string;
   color: string;
   key: number;
+  setCategoryEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Category: React.FC<CategoryProps> = (props) => {
@@ -20,15 +20,16 @@ const Category: React.FC<CategoryProps> = (props) => {
     <div className={styles.category} style={{ borderColor: props.color }}>
       <span className={styles.title}>{props.title}</span>
       <div className={styles.icons}>
-        <NavLink to={"category"}>
-          <FontAwesomeIcon
-            className={`${styles.icon} ${styles.pencil}`}
-            onClick={() => dispatch(setCategory(props))}
-            color="black"
-            fontSize="15px"
-            icon={faPencil}
-          />
-        </NavLink>
+        <FontAwesomeIcon
+          className={`${styles.icon} ${styles.pencil}`}
+          onClick={() => {
+            dispatch(setCategory(props));
+            props.setCategoryEditing(true);
+          }}
+          color="black"
+          fontSize="15px"
+          icon={faPencil}
+        />
         <FontAwesomeIcon
           color="black"
           fontSize="15px"
