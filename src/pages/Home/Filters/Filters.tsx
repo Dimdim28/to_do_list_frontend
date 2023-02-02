@@ -37,7 +37,8 @@ const Filters = () => {
   const handleCategoriesScroll = (e: React.UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
     const isScrolled = scrollHeight === scrollTop + clientHeight;
-    if (currentPage < totalPages && isScrolled) loadMore();
+    if (status !== "loading" && currentPage < totalPages && isScrolled)
+      loadMore();
   };
 
   const selectStatusOptions = [

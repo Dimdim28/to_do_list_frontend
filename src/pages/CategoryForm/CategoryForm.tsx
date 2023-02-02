@@ -63,14 +63,17 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   };
 
   const submit = async () => {
-    dispatch(clearCategory());
     await callback();
+    dispatch(clearCategory());
+    console.log("before =", categoryError, color, title);
     if (categoryError === undefined) {
+      console.log("after =", categoryError, color, title);
       props.toggleActive && props.toggleActive(false);
       setColor(previousColor);
       setTittle(previousTitle);
       dispatch(clearCategory());
     }
+    console.log("result=", categoryError, color, title);
   };
 
   const cancel = () => {
