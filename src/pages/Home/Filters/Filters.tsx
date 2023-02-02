@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
+import { Modal } from "../../../components/common/Modal/Modal";
+import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
 import {
@@ -7,9 +10,10 @@ import {
   selectCategoriesStatus,
   selectCategoryCurrentPage,
   selectCategoryTotalPages,
-} from "../../../redux/slices/tasks/selectors";
-import { fetchCategories } from "../../../redux/slices/tasks/thunk";
+} from "../../../redux/slices/home/selectors";
+import { fetchCategories } from "../../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../../redux/store";
+import CategoryForm from "../../CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import styles from "./Filters.module.scss";
 
@@ -23,6 +27,7 @@ const Filters = () => {
   const [hasDeadline, setHasDeadline] = useState(false);
   const [date, setDate] = useState("all");
   const [isCompleted, setIsCompleted] = useState("all");
+  const [categoryEditing, setCategoryEditing] = useState(false);
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
@@ -32,8 +37,23 @@ const Filters = () => {
   const handleCategoriesScroll = (e: React.UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
     const isScrolled = scrollHeight === scrollTop + clientHeight;
-    if (currentPage < totalPages && isScrolled) loadMore();
+    if (status !== "loading" && currentPage < totalPages && isScrolled)
+      loadMore();
   };
+
+  const selectStatusOptions = [
+    { name: "Completed", value: "true" },
+    { name: "In process", value: "false" },
+    { name: "all", value: "all" },
+  ];
+
+  const selectDateOptions = [
+    { name: "day", value: "day" },
+    { name: "week", value: "week" },
+    { name: "month", value: "month" },
+    { name: "all", value: "all" },
+  ];
+
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
@@ -42,54 +62,59 @@ const Filters = () => {
           {categories.length === 0 && status === "success" ? (
             <p>you have not categories</p>
           ) : (
-            categories.map((el, id) => <Category {...el} key={id} />)
+            categories.map((el, id) => (
+              <Category
+                {...el}
+                key={id}
+                setCategoryEditing={setCategoryEditing}
+              />
+            ))
           )}
           {status === "loading" && <Preloader />}
         </div>
-
-        {message && totalPages ? (
+        <p
+          className={styles.addCategory}
+          onClick={() => setCategoryEditing(true)}
+        >
+          Create Category +
+        </p>
+        {message === "undefined" ? (
+          <p className={styles.categoriesError}>Server error</p>
+        ) : message ? (
           <p className={styles.categoriesError}>{message}</p>
         ) : null}
       </section>
-      <section className={styles.filtersWrapper}>
+      <section className={styles.dateWrapper}>
         <h2>Date and status</h2>
-
-        <label>
-          Сompletion status:
-          <select
-            value={isCompleted}
-            onChange={(event) => setIsCompleted(event.target.value)}
-          >
-            <option value="true">Completed</option>
-            <option value="false">In process</option>
-            <option value="all">all</option>
-          </select>
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={hasDeadline}
-            onChange={() => setHasDeadline((prev) => !prev)}
-          />
-          <span>Find tasks with deadline</span>
-        </label>
-
+        <Select
+          items={selectStatusOptions}
+          width="200px"
+          activeValue={isCompleted}
+          callback={setIsCompleted}
+        />
+        <Checkbox
+          isChecked={hasDeadline}
+          setIsChecked={setHasDeadline}
+          label="With deadline"
+        />
         {hasDeadline && (
-          <label>
-            Choose Period
-            <select
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-            >
-              <option value="day">day</option>
-              <option value="week">week</option>
-              <option value="month">month</option>
-              <option value="all">all</option>
-            </select>
-          </label>
+          <Select
+            items={selectDateOptions}
+            activeValue={date}
+            width="200px"
+            callback={setDate}
+          />
         )}
+        date: {date}
+        <br />
+        isCompleted: {isCompleted}
       </section>
+
+      <Modal
+        active={categoryEditing}
+        setActive={setCategoryEditing}
+        ChildComponent={CategoryForm}
+      />
     </aside>
   );
 };

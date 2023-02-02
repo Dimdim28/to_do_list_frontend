@@ -1,0 +1,42 @@
+.modalActive,
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s;
+}
+
+.modal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modalActive {
+  opacity: 1;
+}
+
+.modalContentActive,
+.modalContent {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  height: 15px;
+  width: 15px;
+  transition: 0.3s;
+  &:hover {
+    color: red;
+  }
+}

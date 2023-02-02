@@ -1,12 +1,12 @@
-import { RootState } from "./../../store";
+import { RootState } from "../../store";
 
 export const selectCategoryCurrentPage = (state: RootState) =>
-  state.task.category.currentPage;
+  state.home.category.currentPage;
 export const selectCategoryTotalPages = (state: RootState) =>
-  state.task.category.totalPages;
+  state.home.category.totalPages;
 export const selectCategories = (state: RootState) =>
-  state.task.category.categories;
+  state.home.category.categories;
 export const selectCategoriesStatus = (state: RootState) =>
-  state.task.category.status;
+  state.home.category.status;
 export const selectCategoriesrError = (state: RootState) =>
-  state.task.category.message;
+  state.home.category.message;

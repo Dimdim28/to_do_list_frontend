@@ -4,7 +4,7 @@ export enum Status {
   ERROR = "error",
 }
 
-export type CategoryResponse = {
+export type CategoriesResponse = {
   data: Categories;
   status: number;
   statusText: string;
@@ -25,7 +25,7 @@ export type Categories = {
   message?: string;
 };
 
-export interface TasksSliceState {
+export interface HomeSliceState {
   category: Categories;
   task: {
     tasks: [];

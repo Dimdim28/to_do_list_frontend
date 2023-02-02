@@ -1,0 +1,36 @@
+.wrapper {
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+
+  .title,
+  .activeTitle {
+    background-color: rgb(20, 105, 233);
+    padding: 5px;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .items {
+    position: absolute;
+    width: 100%;
+    top: 36px;
+    z-index: 2;
+    .item,
+    .activeItem {
+      list-style: none;
+      background-color: rgb(20, 105, 233);
+      padding: 5px;
+      border: 1px solid white;
+      border-top: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .activeItem {
+      background-color: rgb(77, 94, 119);
+    }
+  }
+}

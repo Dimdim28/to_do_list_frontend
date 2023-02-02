@@ -3,7 +3,7 @@
   width: 300px;
 
   .categoriesWrapper {
-    max-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,9 +15,11 @@
       overflow-y: scroll;
       max-height: 100px;
       width: 100%;
+      padding-right: 20px;
 
       &::-webkit-scrollbar {
         width: 5px;
+        height: 5px;
       }
 
       &::-webkit-scrollbar-track {
@@ -34,13 +36,20 @@
         background: rgb(43, 42, 42);
       }
     }
+    .addCategory {
+      border: 2px solid black;
+      border-radius: 15px;
+      padding: 5px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
     .categoriesError {
       color: red;
       width: 100%;
       text-align: center;
     }
   }
-  .filtersWrapper {
+  .dateWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;

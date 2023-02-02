@@ -8,7 +8,6 @@ import { useAppDispatch } from "./redux/store";
 
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Register = React.lazy(() => import("./pages/Register/Register"));
-const Category = React.lazy(() => import("./pages/Category/Category"));
 const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const Task = React.lazy(() => import("./pages/Task/Task"));
@@ -28,7 +27,6 @@ function App() {
         </Route>
         <Route path="/" element={<PageLayout />}>
           <Route path="profile" element={<Profile />} />
-          <Route path="category" element={<Category />} />
           <Route path="task" element={<Task />} />
           <Route path="" element={<Home />} />
         </Route>
