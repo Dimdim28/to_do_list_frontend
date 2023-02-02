@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate } from "react-router";
 import Button from "../../components/common/Button/Button";
 import { useAppSelector } from "../../hooks";
 import {
@@ -18,7 +18,11 @@ import {
 import { useAppDispatch } from "../../redux/store";
 import { selectProfile } from "../../redux/slices/auth/selectors";
 
-const Category: React.FC = () => {
+interface CategoryFormProps {
+  toggleActive?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   const dispatch = useAppDispatch();
   const category = useAppSelector(selectCategoryInfo);
   const categoryError = useAppSelector(selectCategoryrError);
@@ -31,7 +35,6 @@ const Category: React.FC = () => {
   const categoryId = (category && category._id) || "";
   const [color, setColor] = useState(previousColor);
   const [title, setTittle] = useState(previousTitle);
-  const navigate = useNavigate();
 
   useEffect(() => {
     return () => {
@@ -66,14 +69,13 @@ const Category: React.FC = () => {
 
   const submit = async () => {
     await callback();
-    console.log(categoryError);
     if (!categoryError) {
-      navigate("/");
+      props.toggleActive && props.toggleActive(false);
     }
   };
 
   const cancel = () => {
-    navigate("/");
+    props.toggleActive && props.toggleActive(false);
   };
 
   return (
@@ -99,4 +101,4 @@ const Category: React.FC = () => {
   );
 };
 
-export default Category;
+export default CategoryForm;

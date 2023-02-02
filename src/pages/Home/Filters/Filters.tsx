@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
+import { Modal } from "../../../components/common/Modal/Modal";
 import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
@@ -13,6 +13,7 @@ import {
 } from "../../../redux/slices/home/selectors";
 import { fetchCategories } from "../../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../../redux/store";
+import CategoryForm from "../../CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import styles from "./Filters.module.scss";
 
@@ -26,7 +27,8 @@ const Filters = () => {
   const [hasDeadline, setHasDeadline] = useState(false);
   const [date, setDate] = useState("all");
   const [isCompleted, setIsCompleted] = useState("all");
-  const navigate = useNavigate();
+  const [categoryEditing, setCategoryEditing] = useState(true);
+
   const loadMore = () => {
     const newPage = 1 + currentPage;
     dispatch(fetchCategories({ page: newPage }));
@@ -63,7 +65,10 @@ const Filters = () => {
           )}
           {status === "loading" && <Preloader />}
         </div>
-        <p className={styles.addCategory} onClick={() => navigate("/category")}>
+        <p
+          className={styles.addCategory}
+          onClick={() => setCategoryEditing(true)}
+        >
           Create Category +
         </p>
         {message && totalPages ? (
@@ -95,6 +100,11 @@ const Filters = () => {
         <br />
         isCompleted: {isCompleted}
       </section>
+      <Modal
+        active={categoryEditing}
+        setActive={setCategoryEditing}
+        ChildComponent={CategoryForm}
+      />
     </aside>
   );
 };
