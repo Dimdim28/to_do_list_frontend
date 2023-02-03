@@ -6,6 +6,8 @@ import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
   reducer: { auth: authReducer, home: homeReducer, category: categoryReducer },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

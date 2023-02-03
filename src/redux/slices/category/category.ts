@@ -1,10 +1,10 @@
-import { createCategory, updateCategory } from "./thunk";
+import { sendCategory } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status, HomeSliceState } from "./types";
 
 const initialState: HomeSliceState = {
   category: null,
-  status: Status.LOADING,
+  status: Status.EMPTY,
 };
 
 const categorySlice = createSlice({
@@ -13,7 +13,7 @@ const categorySlice = createSlice({
   reducers: {
     clearCategory(state) {
       state.category = null;
-      state.status = Status.LOADING;
+      state.status = Status.EMPTY;
       state.message = undefined;
     },
     setCategory(state, action) {
@@ -22,30 +22,16 @@ const categorySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createCategory.pending, (state) => {
+    builder.addCase(sendCategory.pending, (state) => {
       state.status = Status.LOADING;
       state.message = undefined;
     });
-    builder.addCase(createCategory.fulfilled, (state, action) => {
+    builder.addCase(sendCategory.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
       state.category = { ...action.payload };
       state.message = undefined;
     });
-    builder.addCase(createCategory.rejected, (state, action) => {
-      state.status = Status.ERROR;
-      state.message = String(action.payload);
-    });
-
-    builder.addCase(updateCategory.pending, (state) => {
-      state.status = Status.LOADING;
-      state.message = undefined;
-    });
-    builder.addCase(updateCategory.fulfilled, (state, action) => {
-      state.status = Status.SUCCESS;
-      state.category = { ...action.payload };
-      state.message = undefined;
-    });
-    builder.addCase(updateCategory.rejected, (state, action) => {
+    builder.addCase(sendCategory.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });

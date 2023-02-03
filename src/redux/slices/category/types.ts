@@ -1,4 +1,5 @@
 export enum Status {
+  EMPTY = "empty",
   LOADING = "loading",
   SUCCESS = "success",
   ERROR = "error",

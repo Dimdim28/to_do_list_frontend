@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
 import { Modal } from "../../../components/common/Modal/Modal";
 import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
+import { setCategory } from "../../../redux/slices/category/category";
 import {
   selectCategories,
   selectCategoriesrError,
@@ -54,6 +55,10 @@ const Filters = () => {
     { name: "all", value: "all" },
   ];
 
+  useEffect(() => {
+    console.log("category updated");
+  }, [categories]);
+
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
@@ -74,7 +79,10 @@ const Filters = () => {
         </div>
         <p
           className={styles.addCategory}
-          onClick={() => setCategoryEditing(true)}
+          onClick={() => {
+            setCategoryEditing(true);
+            dispatch(setCategory(null));
+          }}
         >
           Create Category +
         </p>
