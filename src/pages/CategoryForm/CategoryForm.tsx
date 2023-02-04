@@ -1,70 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router";
+import React, { useState } from "react";
 import Button from "../../components/common/Button/Button";
-import { useAppSelector } from "../../hooks";
-import {
-  selectIsAuth,
-  selectIsChecked,
-} from "../../redux/slices/auth/selectors";
-import { clearCategory } from "../../redux/slices/category/category";
-import {
-  selectCategoryInfo,
-  selectCategoryError,
-  selectCategoryStatus,
-} from "../../redux/slices/category/selectors";
-import { sendCategory } from "../../redux/slices/category/thunk";
-import { useAppDispatch } from "../../redux/store";
-import { selectProfile } from "../../redux/slices/auth/selectors";
+// import { useAppDispatch } from "../../redux/store";
 import styles from "./CategoryForm.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
-
+import { Category, sendCategory, Status } from "../../api/sendCategory";
+import { useAppSelector } from "../../hooks";
+import { selectProfile } from "../../redux/slices/auth/selectors";
 interface CategoryFormProps {
-  toggleActive?: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  childProps: Category;
 }
 
-const CategoryForm: React.FC<CategoryFormProps> = (props) => {
-  const dispatch = useAppDispatch();
-  const category = useAppSelector(selectCategoryInfo);
-  const categoryError = useAppSelector(selectCategoryError);
-  const isAuth = useAppSelector(selectIsAuth);
-  const isChecked = useAppSelector(selectIsChecked);
-  const categoryStatus = useAppSelector(selectCategoryStatus);
+const CategoryForm: React.FC<CategoryFormProps> = ({
+  childProps,
+  toggleActive,
+}) => {
+  // const dispatch = useAppDispatch();
   const userId = useAppSelector(selectProfile)?._id;
-  const previousColor = category?.color || "#000000";
-  const previousTitle = category?.title || "";
-  const categoryId = (category && category._id) || "";
-  const [color, setColor] = useState(previousColor);
-  const [title, setTittle] = useState(previousTitle);
-
-  useEffect(() => {
-    setColor(previousColor);
-    setTittle(previousTitle);
-  }, [previousColor, previousTitle]);
-
-  if (!isAuth && isChecked) return <Navigate to="/auth/login" />;
+  const [status, setStatus] = useState(Status.SUCCESS);
+  const [categoryError, setCategoryError] = useState("");
+  const { _id, title: prevTitle, color: prevColor } = childProps;
+  const [color, setColor] = useState(prevColor || "#000000");
+  const [title, setTittle] = useState(prevTitle || "");
 
   const submit = async () => {
-    const data: any = await dispatch(
-      sendCategory({ title, color, user: userId, _id: categoryId })
-    );
-    if (!data.error) {
-      props.toggleActive && props.toggleActive(false);
-      setColor("#000000");
-      setTittle("");
-      dispatch(clearCategory());
+    setStatus(Status.LOADING);
+    const result = await sendCategory({ _id, title, user: userId, color });
+    const { message, status } = result;
+    setStatus(status);
+    setCategoryError(message || "");
+    if (status === Status.SUCCESS) {
+      toggleActive(false);
     }
   };
 
   const cancel = () => {
-    props.toggleActive && props.toggleActive(false);
-    setColor("#000000");
-    setTittle("");
-    dispatch(clearCategory());
+    toggleActive(false);
   };
 
   return (
     <div className={styles.wrapper}>
-      {["loading", "empty"].includes(categoryStatus) ? (
+      {status === Status.LOADING ? (
         <Preloader />
       ) : (
         <>
