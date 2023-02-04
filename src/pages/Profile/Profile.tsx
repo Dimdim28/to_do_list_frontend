@@ -16,9 +16,30 @@ const Profile: React.FC = () => {
   if (!isAuth && isChecked) return <Navigate to="/auth/login" />;
 
   return (
-    <div className={styles.row}>
-      Profile
-      <Input title="name" value={name} setValue={setName} type="password" />
+    <div className={styles.wrapper}>
+      <div className={styles.profile}>
+        <div className={styles["profile__data"]}>
+          <div className={styles["profile__avatar"]}>
+            <img src="https://i.imgur.com/gqJvKwW.png" alt="Error" />
+          </div>
+          <div className={styles["profile__info"]}>
+            <div>
+              <div className="profile__username">
+                <p>Username</p>
+                <p>noobmaster669</p>
+              </div>
+              <div className="profile__email">
+                <p>Email</p>
+                <p>noob@gmail.com</p>
+              </div>
+            </div>
+            <div className={styles["profile__btn"]}>
+              <button>Change profile</button>
+              <button>Change password</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
