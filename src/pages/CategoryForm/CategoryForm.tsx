@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Button from "../../components/common/Button/Button";
-// import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import styles from "./CategoryForm.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
 import { Category, sendCategory, Status } from "../../api/sendCategory";
 import { useAppSelector } from "../../hooks";
 import { selectProfile } from "../../redux/slices/auth/selectors";
+import { updateCategoryInList } from "../../redux/slices/home/home";
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Category;
@@ -15,7 +16,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   childProps,
   toggleActive,
 }) => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const userId = useAppSelector(selectProfile)?._id;
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
@@ -31,6 +32,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     setCategoryError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
+      if (_id) {
+        dispatch(updateCategoryInList({ _id, title, color }));
+      }
     }
   };
 
