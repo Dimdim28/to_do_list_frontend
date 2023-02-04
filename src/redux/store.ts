@@ -1,11 +1,12 @@
-import { categoryReducer } from "./slices/category/category";
 import { homeReducer } from "./slices/home/home";
 import { useDispatch } from "react-redux";
 import { authReducer } from "./slices/auth/auth";
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
-  reducer: { auth: authReducer, home: homeReducer, category: categoryReducer },
+  reducer: { auth: authReducer, home: homeReducer },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;
