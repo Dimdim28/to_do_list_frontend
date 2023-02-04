@@ -11,7 +11,7 @@ export const Input: React.FC<InputProps> = (props) => {
   return (
     <div className={styles.inputBox}>
       <input
-        className={styles.input}
+        className={props.value ? styles.activeInput : styles.input}
         type={props.type}
         value={props.value}
         onChange={(e) => props.setValue(e.target.value)}

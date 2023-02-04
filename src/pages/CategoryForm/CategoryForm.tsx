@@ -10,6 +10,7 @@ import {
   addCategoryToList,
   updateCategoryInList,
 } from "../../redux/slices/home/home";
+import { Input } from "../../components/common/Input/Input";
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Category;
@@ -60,14 +61,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             value={color}
             onChange={(e) => setColor(e.target.value)}
           />
+          <Input title="title" value={title} setValue={setTittle} type="text" />
 
-          <h2 className={styles.title}> Category title</h2>
-          <input
-            className={styles.chooseTitle}
-            type="text"
-            value={title}
-            onChange={(e) => setTittle(e.target.value)}
-          />
           <div className={styles.buttons}>
             <Button text="submit" callback={submit} class="submit" />
             <Button text="cancel" callback={cancel} class="cancel" />

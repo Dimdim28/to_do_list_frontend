@@ -1,9 +1,10 @@
 .inputBox {
   position: relative;
-  width: 300px;
+  width: 100%;
   margin-top: 30px;
 }
-.input {
+.input,
+.activeInput {
   position: relative;
   width: 100%;
   padding: 20px 10px 10px;
@@ -27,7 +28,8 @@
   transition: 0.5s;
 }
 
-.input:focus ~ span {
+.input:focus ~ span,
+.activeInput ~ span {
   color: #ffa41b;
   transform: translateX(-10px) translateY(-34px);
   font-size: 0.75em;
@@ -45,6 +47,7 @@
   pointer-events: none;
 }
 
-.input:focus ~ i {
+.input:focus ~ i,
+.activeInput ~ i {
   height: 44px;
 }
