@@ -22,6 +22,15 @@ const homeSlice = createSlice({
     clearCategories(state) {
       state.category.categories = [];
     },
+    updateCategoryInList(state, action) {
+      for (const category of state.category.categories) {
+        if (category._id === action.payload._id) {
+          category.title = action.payload.title;
+          category.color = action.payload.color;
+        }
+      }
+    },
+    addCategoryToList(state, action) {},
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
@@ -44,4 +53,4 @@ const homeSlice = createSlice({
 });
 
 export const homeReducer = homeSlice.reducer;
-export const { clearCategories } = homeSlice.actions;
+export const { clearCategories, updateCategoryInList } = homeSlice.actions;
