@@ -6,7 +6,10 @@ import Preloader from "../../components/Preloader/Preloader";
 import { Category, sendCategory, Status } from "../../api/sendCategory";
 import { useAppSelector } from "../../hooks";
 import { selectProfile } from "../../redux/slices/auth/selectors";
-import { updateCategoryInList } from "../../redux/slices/home/home";
+import {
+  addCategoryToList,
+  updateCategoryInList,
+} from "../../redux/slices/home/home";
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Category;
@@ -34,6 +37,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       toggleActive(false);
       if (_id) {
         dispatch(updateCategoryInList({ _id, title, color }));
+      } else {
+        dispatch(addCategoryToList(result.category));
       }
     }
   };

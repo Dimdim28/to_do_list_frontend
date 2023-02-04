@@ -30,7 +30,16 @@ const homeSlice = createSlice({
         }
       }
     },
-    addCategoryToList(state, action) {},
+    addCategoryToList(state, action) {
+      const { currentPage, totalPages, categories } = state.category;
+      if (currentPage === totalPages) {
+        if (categories.length < currentPage * 10) {
+          categories.push(action.payload);
+        } else {
+          ++state.category.totalPages;
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
@@ -53,4 +62,5 @@ const homeSlice = createSlice({
 });
 
 export const homeReducer = homeSlice.reducer;
-export const { clearCategories, updateCategoryInList } = homeSlice.actions;
+export const { clearCategories, updateCategoryInList, addCategoryToList } =
+  homeSlice.actions;
