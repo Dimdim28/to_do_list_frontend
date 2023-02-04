@@ -4,7 +4,6 @@ import { Modal } from "../../../components/common/Modal/Modal";
 import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
-import { setCategory } from "../../../redux/slices/category/category";
 import {
   selectCategories,
   selectCategoriesrError,
@@ -16,7 +15,7 @@ import { fetchCategories } from "../../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../../redux/store";
 import CategoryForm from "../../CategoryForm/CategoryForm";
 import Category from "./Category/Category";
-import styles from "./Filters.module.scss";
+import styles from "./FiltersBar.module.scss";
 
 const Filters = () => {
   const categories = useAppSelector(selectCategories);
@@ -29,7 +28,7 @@ const Filters = () => {
   const [date, setDate] = useState("all");
   const [isCompleted, setIsCompleted] = useState("all");
   const [categoryEditing, setCategoryEditing] = useState(false);
-
+  const [categoryProps, setCategoryProps] = useState({});
   const loadMore = () => {
     const newPage = 1 + currentPage;
     dispatch(fetchCategories({ page: newPage }));
@@ -55,10 +54,6 @@ const Filters = () => {
     { name: "all", value: "all" },
   ];
 
-  useEffect(() => {
-    console.log("category updated");
-  }, [categories]);
-
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
@@ -72,6 +67,7 @@ const Filters = () => {
                 {...el}
                 key={id}
                 setCategoryEditing={setCategoryEditing}
+                setCategoryInfo={setCategoryProps}
               />
             ))
           )}
@@ -80,8 +76,8 @@ const Filters = () => {
         <p
           className={styles.addCategory}
           onClick={() => {
+            setCategoryProps({});
             setCategoryEditing(true);
-            dispatch(setCategory(null));
           }}
         >
           Create Category +
@@ -122,6 +118,7 @@ const Filters = () => {
         active={categoryEditing}
         setActive={setCategoryEditing}
         ChildComponent={CategoryForm}
+        childProps={categoryProps}
       />
     </aside>
   );
