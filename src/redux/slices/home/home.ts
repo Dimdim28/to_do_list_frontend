@@ -32,6 +32,10 @@ const homeSlice = createSlice({
     },
     addCategoryToList(state, action) {
       const { currentPage, totalPages, categories } = state.category;
+      if (totalPages === 0) {
+        categories.push(action.payload);
+        ++state.category.totalPages;
+      }
       if (currentPage === totalPages) {
         if (categories.length < currentPage * 10) {
           categories.push(action.payload);
