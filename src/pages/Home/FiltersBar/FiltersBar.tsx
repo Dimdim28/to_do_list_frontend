@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
 import { Modal } from "../../../components/common/Modal/Modal";
 import Select from "../../../components/common/Select/Select";
@@ -13,9 +13,10 @@ import {
 } from "../../../redux/slices/home/selectors";
 import { fetchCategories } from "../../../redux/slices/home/thunk";
 import { useAppDispatch } from "../../../redux/store";
-import CategoryForm from "../../CategoryForm/CategoryForm";
+import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import styles from "./FiltersBar.module.scss";
+import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
 
 const Filters = () => {
   const categories = useAppSelector(selectCategories);
@@ -29,6 +30,7 @@ const Filters = () => {
   const [isCompleted, setIsCompleted] = useState("all");
   const [categoryEditing, setCategoryEditing] = useState(false);
   const [categoryProps, setCategoryProps] = useState({});
+  const [categoryDeleting, setCategoryDeleting] = useState(false);
   const loadMore = () => {
     const newPage = 1 + currentPage;
     dispatch(fetchCategories({ page: newPage }));
@@ -68,6 +70,7 @@ const Filters = () => {
                 key={id}
                 setCategoryEditing={setCategoryEditing}
                 setCategoryInfo={setCategoryProps}
+                setCategoryDeleting={setCategoryDeleting}
               />
             ))
           )}
@@ -118,6 +121,13 @@ const Filters = () => {
         active={categoryEditing}
         setActive={setCategoryEditing}
         ChildComponent={CategoryForm}
+        childProps={categoryProps}
+      />
+
+      <Modal
+        active={categoryDeleting}
+        setActive={setCategoryDeleting}
+        ChildComponent={CategoryDeleting}
         childProps={categoryProps}
       />
     </aside>
