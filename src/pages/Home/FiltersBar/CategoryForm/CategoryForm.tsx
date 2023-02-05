@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import Button from "../../components/common/Button/Button";
-import { useAppDispatch } from "../../redux/store";
+import Button from "../../../../components/common/Button/Button";
+import { useAppDispatch } from "../../../../redux/store";
 import styles from "./CategoryForm.module.scss";
-import Preloader from "../../components/Preloader/Preloader";
-import { Category, sendCategory, Status } from "../../api/sendCategory";
-import { useAppSelector } from "../../hooks";
-import { selectProfile } from "../../redux/slices/auth/selectors";
-import { updateCategoryInList } from "../../redux/slices/home/home";
+import Preloader from "../../../../components/Preloader/Preloader";
+import { Category, sendCategory, Status } from "../../../../api/sendCategory";
+import { useAppSelector } from "../../../../hooks";
+import { selectProfile } from "../../../../redux/slices/auth/selectors";
+import {
+  addCategoryToList,
+  updateCategoryInList,
+} from "../../../../redux/slices/home/home";
+import { Input } from "../../../../components/common/Input/Input";
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Category;
@@ -34,6 +38,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       toggleActive(false);
       if (_id) {
         dispatch(updateCategoryInList({ _id, title, color }));
+      } else {
+        dispatch(addCategoryToList(result.category));
       }
     }
   };
@@ -55,17 +61,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             value={color}
             onChange={(e) => setColor(e.target.value)}
           />
+          <Input title="title" value={title} setValue={setTittle} type="text" />
 
-          <h2 className={styles.title}> Category title</h2>
-          <input
-            className={styles.chooseTitle}
-            type="text"
-            value={title}
-            onChange={(e) => setTittle(e.target.value)}
-          />
           <div className={styles.buttons}>
-            <Button text="submit" callback={submit} class="submit" />
             <Button text="cancel" callback={cancel} class="cancel" />
+            <Button text="submit" callback={submit} class="submit" />
           </div>
 
           {categoryError && <p className={styles.error}>{categoryError}</p>}

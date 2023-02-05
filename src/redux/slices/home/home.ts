@@ -30,7 +30,35 @@ const homeSlice = createSlice({
         }
       }
     },
-    addCategoryToList(state, action) {},
+    addCategoryToList(state, action) {
+      const { currentPage, totalPages, categories } = state.category;
+      if (totalPages === 0) {
+        categories.push(action.payload);
+        state.category.totalPages = 1;
+        state.category.currentPage = 1;
+      } else if (currentPage === totalPages) {
+        if (categories.length < currentPage * 10) {
+          categories.push(action.payload);
+        } else {
+          ++state.category.totalPages;
+        }
+      }
+    },
+    removeCategoryFromList(state, action) {
+      const { currentPage, totalPages, categories } = state.category;
+      if (currentPage !== 0) {
+        const categoryIndex = categories.findIndex(
+          (category) => category._id === action.payload
+        );
+        console.log(categoryIndex);
+        state.category.categories.splice(categoryIndex, 1);
+        if (categories.length < (currentPage - 1) * 10 + 1) {
+          --state.category.currentPage;
+          state.category.totalPages =
+            totalPages === 1 ? totalPages : totalPages - 1;
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
@@ -53,4 +81,9 @@ const homeSlice = createSlice({
 });
 
 export const homeReducer = homeSlice.reducer;
-export const { clearCategories, updateCategoryInList } = homeSlice.actions;
+export const {
+  clearCategories,
+  updateCategoryInList,
+  addCategoryToList,
+  removeCategoryFromList,
+} = homeSlice.actions;

@@ -1,4 +1,10 @@
-.input {
+.inputBox {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+.input,
+.activeInput {
   position: relative;
   width: 100%;
   padding: 20px 10px 10px;
@@ -9,7 +15,6 @@
   font-size: 1em;
   letter-spacing: 0.05em;
   z-index: 10;
-
 }
 
 .span {
@@ -23,9 +28,9 @@
   transition: 0.5s;
 }
 
-.input:valid ~ span,
-.input:focus ~ span {
-  color: #45f3ff;
+.input:focus ~ span,
+.activeInput ~ span {
+  color: #ffa41b;
   transform: translateX(-10px) translateY(-34px);
   font-size: 0.75em;
 }
@@ -36,13 +41,13 @@
   bottom: 0;
   width: 100%;
   height: 2px;
-  background: #45f3ff;
+  background: #ffa41b;
   border-radius: 4px;
   transition: 0.5s;
   pointer-events: none;
 }
 
-.input:valid ~ i,
-.input:focus ~ i {
+.input:focus ~ i,
+.activeInput ~ i {
   height: 44px;
 }
