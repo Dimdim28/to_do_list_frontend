@@ -37,10 +37,10 @@ const homeSlice = createSlice({
         state.category.totalPages = 1;
         state.category.currentPage = 1;
       } else if (currentPage === totalPages) {
-        if (categories.length < currentPage * 10) {
-          categories.push(action.payload);
-        } else {
+        categories.push(action.payload);
+        if (categories.length > currentPage * 10) {
           ++state.category.totalPages;
+          ++state.category.currentPage;
         }
       }
     },
