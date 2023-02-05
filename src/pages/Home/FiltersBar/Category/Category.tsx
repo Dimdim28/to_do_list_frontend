@@ -1,6 +1,7 @@
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
+import { deleteCategory, Status } from "../../../../api/deleteCategory";
 import styles from "./Category.module.scss";
 
 export interface CategoryProps {
@@ -14,6 +15,24 @@ export interface CategoryProps {
 }
 
 const Category: React.FC<CategoryProps> = ({ setCategoryInfo, ...props }) => {
+  const [status, setStatus] = useState(Status.SUCCESS);
+  const [categoryError, setCategoryError] = useState("");
+
+  const removeCategory = async () => {
+    setStatus(Status.LOADING);
+    const result = await deleteCategory(props._id);
+    const { message, status } = result;
+    setStatus(status);
+    setCategoryError(message || "");
+    // if (status === Status.SUCCESS) {
+    //   if (_id) {
+    //     dispatch(updateCategoryInList({ _id, title, color }));
+    //   } else {
+    //     dispatch(addCategoryToList(result.category));
+    //   }
+    // }
+  };
+
   return (
     <div className={styles.category} style={{ borderColor: props.color }}>
       <span className={styles.title}>{props.title}</span>
@@ -33,6 +52,7 @@ const Category: React.FC<CategoryProps> = ({ setCategoryInfo, ...props }) => {
           fontSize="15px"
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
+          onClick={removeCategory}
         />
       </div>
     </div>
