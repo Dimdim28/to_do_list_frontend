@@ -6,7 +6,7 @@ import ROUTES from "../../routes";
 
 const Task: React.FC = () => {
   const isAuth = useAppSelector(selectIsAuth);
-  if (!isAuth) return <Navigate to={`${ROUTES.AUTH}${ROUTES.LOGIN}`} />;
+  if (!isAuth) return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
 
   return <div>Task</div>;
 };

@@ -24,8 +24,11 @@ const Home: React.FC = () => {
     };
   }, [dispatch]);
 
-  if (isChecked && !isAuth)
-    return <Navigate to={`${ROUTES.AUTH}${ROUTES.LOGIN}`} />;
+  console.log(!isAuth, isChecked);
+  if (!isAuth && isChecked) {
+    console.log("redirected");
+    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
+  }
 
   return (
     <div className={styles.row}>

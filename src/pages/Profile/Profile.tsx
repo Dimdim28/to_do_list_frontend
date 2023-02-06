@@ -15,7 +15,7 @@ const Profile: React.FC = () => {
   const [name, setName] = useState("");
 
   if (!isAuth && isChecked)
-    return <Navigate to={`${ROUTES.AUTH}${ROUTES.LOGIN}`} />;
+    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
 
   return (
     <div className={styles.wrapper}>
