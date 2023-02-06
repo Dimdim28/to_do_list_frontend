@@ -51,7 +51,6 @@ const homeSlice = createSlice({
         const categoryIndex = categories.findIndex(
           (category) => category._id === action.payload
         );
-        console.log(categoryIndex);
         state.category.categories.splice(categoryIndex, 1);
         if (categories.length < (currentPage - 1) * 10 + 1) {
           --state.category.currentPage;
