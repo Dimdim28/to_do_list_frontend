@@ -6,6 +6,7 @@ import {
   selectIsAuth,
   selectIsChecked,
 } from "../../redux/slices/auth/selectors";
+import ROUTES from "../../routes";
 import styles from "./Profile.module.scss";
 
 const Profile: React.FC = () => {
@@ -13,7 +14,8 @@ const Profile: React.FC = () => {
   const isChecked = useAppSelector(selectIsChecked);
   const [name, setName] = useState("");
 
-  if (!isAuth && isChecked) return <Navigate to="/auth/login" />;
+  if (!isAuth && isChecked)
+    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
 
   return (
     <div className={styles.wrapper}>

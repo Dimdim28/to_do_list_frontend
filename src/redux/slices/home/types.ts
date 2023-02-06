@@ -1,20 +1,10 @@
-export enum Status {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-}
+import { Category } from "../../../api/categoryAPI";
+import { Status } from "../../../types";
 
 export type CategoriesResponse = {
   data: Categories;
   status: number;
   statusText: string;
-};
-
-export type Category = {
-  _id: string;
-  title: string;
-  user: string;
-  color: string;
 };
 
 export type Categories = {
