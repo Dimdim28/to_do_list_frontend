@@ -6,6 +6,7 @@ import { fetchUserData } from "../../redux/slices/auth/thunk";
 import { useSelector } from "react-redux";
 import { selectIsAuth } from "../../redux/slices/auth/selectors";
 import { Navigate } from "react-router";
+import ROUTES from "../../routes";
 
 interface Values {
   email?: string;
@@ -53,7 +54,7 @@ const Login: React.FC = () => {
     },
   });
 
-  if (isAuth) return <Navigate to="/" />;
+  if (isAuth) return <Navigate to={ROUTES.HOME} />;
 
   return (
     <main>

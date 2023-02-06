@@ -5,6 +5,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import { useAppDispatch } from "./redux/store";
+import ROUTES from "./routes";
 
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Register = React.lazy(() => import("./pages/Register/Register"));
@@ -21,14 +22,14 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+        <Route path={ROUTES.AUTH} element={<AuthLayout />}>
+          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.REGISTER} element={<Register />} />
         </Route>
-        <Route path="/" element={<PageLayout />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="task" element={<Task />} />
-          <Route path="" element={<Home />} />
+        <Route path={ROUTES.HOME} element={<PageLayout />}>
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.TASK} element={<Task />} />
+          <Route path={ROUTES.HOME} element={<Home />} />
         </Route>
       </Routes>
     </div>
