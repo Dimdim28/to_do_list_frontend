@@ -3,10 +3,7 @@ import { useFormik } from "formik";
 import "./Login.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { fetchUserData } from "../../redux/slices/auth/thunk";
-import { useSelector } from "react-redux";
-import { selectIsAuth } from "../../redux/slices/auth/selectors";
-import { Navigate } from "react-router";
-import ROUTES from "../../routes";
+import withHomeRedirect from "../../hoc/withHomeRedirect";
 
 interface Values {
   email?: string;
@@ -32,8 +29,7 @@ const validate = (values: Values) => {
   return errors;
 };
 
-const Login: React.FC = () => {
-  const isAuth = useSelector(selectIsAuth);
+const Login: React.FC<{}> = () => {
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 
@@ -53,8 +49,6 @@ const Login: React.FC = () => {
       setSubmitting(false);
     },
   });
-
-  if (isAuth) return <Navigate to={ROUTES.HOME} />;
 
   return (
     <main>
@@ -102,4 +96,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default withHomeRedirect(Login);

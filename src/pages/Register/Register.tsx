@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import "./Register.module.scss";
-import { selectIsAuth } from "../../redux/slices/auth/selectors";
-import { Navigate } from "react-router";
 import { useAppDispatch } from "../../hooks";
-import { useSelector } from "react-redux";
 import { registerUser } from "../../redux/slices/auth/thunk";
-import ROUTES from "../../routes";
+import withHomeRedirect from "../../hoc/withHomeRedirect";
 
 interface Values {
   email?: string;
@@ -52,13 +49,10 @@ const validate = (values: Values) => {
   if (values.firstPass !== values.secondPass) {
     errors.secondPass = "Passwords are not the same";
   }
-
-  console.log(errors);
   return errors;
 };
 
 const SignupForm: React.FC = () => {
-  const isRegistered = useSelector(selectIsAuth);
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 
@@ -80,8 +74,6 @@ const SignupForm: React.FC = () => {
       setSubmitting(false);
     },
   });
-
-  if (isRegistered) return <Navigate to={ROUTES.HOME} />;
 
   return (
     <main>
@@ -149,9 +141,10 @@ const SignupForm: React.FC = () => {
             Submit
           </button>
         </form>
+        {error && <p>{error}</p>}
       </div>
     </main>
   );
 };
 
-export default SignupForm;
+export default withHomeRedirect(SignupForm);
