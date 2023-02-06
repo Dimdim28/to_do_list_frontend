@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Status } from "../../../types";
 import { fetchCategories } from "./thunk";
-import { Status, HomeSliceState } from "./types";
+import { HomeSliceState } from "./types";
 
 const initialState: HomeSliceState = {
   task: {

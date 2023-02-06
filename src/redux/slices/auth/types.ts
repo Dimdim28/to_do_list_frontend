@@ -1,9 +1,3 @@
-export type ProfileResponse = {
-  data: Profile;
-  status: number;
-  statusText: string;
-};
-
 export type Profile = {
   _id: string;
   createdAt: string;
@@ -11,6 +5,12 @@ export type Profile = {
   token: string;
   updatedAt: string;
   username: string;
+};
+
+export type ProfileResponse = {
+  data: Profile;
+  status: number;
+  statusText: string;
 };
 
 export enum Status {

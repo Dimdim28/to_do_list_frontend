@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Category } from "../../../../api/deleteCategory";
-import { deleteCategory, Status } from "../../../../api/deleteCategory";
+import categoryAPI, { Category } from "../../../../api/categoryAPI";
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
 import { useAppDispatch } from "../../../../hooks";
 import { removeCategoryFromList } from "../../../../redux/slices/home/home";
+import { Status } from "../../../../types";
 import styles from "./CategoryDeleting.module.scss";
 
 interface CategoryDeletingProps {
@@ -23,7 +23,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    const result = await deleteCategory(_id);
+    const result = await categoryAPI.deleteCategory(_id);
     console.log(result);
     const { message, status } = result;
     setStatus(status);

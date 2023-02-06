@@ -3,7 +3,6 @@ import Button from "../../../../components/common/Button/Button";
 import { useAppDispatch } from "../../../../redux/store";
 import styles from "./CategoryForm.module.scss";
 import Preloader from "../../../../components/Preloader/Preloader";
-import { Category, sendCategory, Status } from "../../../../api/sendCategory";
 import { useAppSelector } from "../../../../hooks";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
 import {
@@ -11,6 +10,8 @@ import {
   updateCategoryInList,
 } from "../../../../redux/slices/home/home";
 import { Input } from "../../../../components/common/Input/Input";
+import categoryAPI, { Category } from "../../../../api/categoryAPI";
+import { Status } from "../../../../types";
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Category;
@@ -21,7 +22,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   toggleActive,
 }) => {
   const dispatch = useAppDispatch();
-  const userId = useAppSelector(selectProfile)?._id;
+  const userId = useAppSelector(selectProfile)?._id || "";
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
   const { _id, title: prevTitle, color: prevColor } = childProps;
@@ -30,7 +31,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    const result = await sendCategory({ _id, title, user: userId, color });
+    const result = _id
+      ? await categoryAPI.editCategory({ _id, title, color })
+      : await categoryAPI.addCategory({ title, user: userId, color });
     const { message, status } = result;
     setStatus(status);
     setCategoryError(message || "");
