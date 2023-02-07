@@ -2,9 +2,10 @@ import { homeReducer } from "./slices/home/home";
 import { useDispatch } from "react-redux";
 import { authReducer } from "./slices/auth/auth";
 import { configureStore } from "@reduxjs/toolkit";
+import { profileReducer } from "./slices/profile/profile";
 
 const store = configureStore({
-  reducer: { auth: authReducer, home: homeReducer },
+  reducer: { auth: authReducer, home: homeReducer, profile: profileReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
