@@ -1,5 +1,6 @@
+import { Status } from "../../../types";
 import { RootState } from "./../../store";
-import { Profile, Status } from "./types";
+import { Profile } from "./types";
 
 export const selectIsAuth = (state: RootState) => Boolean(state.auth.profile);
 export const selectIsChecked = (state: RootState) =>

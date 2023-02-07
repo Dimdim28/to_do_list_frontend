@@ -1,6 +1,7 @@
 import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
-import { AuthSliceState, Status } from "./types";
+import { AuthSliceState } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
+import { Status } from "../../../types";
 
 const initialState: AuthSliceState = {
   profile: null,

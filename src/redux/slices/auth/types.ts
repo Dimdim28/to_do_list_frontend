@@ -1,3 +1,5 @@
+import { Status } from "../../../types";
+
 export type Profile = {
   _id: string;
   createdAt: string;
@@ -12,12 +14,6 @@ export type ProfileResponse = {
   status: number;
   statusText: string;
 };
-
-export enum Status {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-}
 
 export interface AuthSliceState {
   status: Status;
