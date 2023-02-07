@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import categoryAPI, { Category } from "../../../../api/categoryAPI";
-import Button from "../../../../components/common/Button/Button";
-import Preloader from "../../../../components/Preloader/Preloader";
-import { useAppDispatch } from "../../../../hooks";
-import { removeCategoryFromList } from "../../../../redux/slices/home/home";
-import { Status } from "../../../../types";
+import categoryAPI, { Category } from "../../../../../api/categoryAPI";
+import Button from "../../../../../components/common/Button/Button";
+import Preloader from "../../../../../components/Preloader/Preloader";
+import { useAppDispatch } from "../../../../../hooks";
+import { removeCategoryFromList } from "../../../../../redux/slices/home/home";
+import { Status } from "../../../../../types";
 import styles from "./CategoryDeleting.module.scss";
 
 interface CategoryDeletingProps {
