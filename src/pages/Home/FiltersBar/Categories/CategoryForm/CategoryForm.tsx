@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Button from "../../../../../components/common/Button/Button";
-import { useAppDispatch } from "../../../../../redux/store";
 import styles from "./CategoryForm.module.scss";
 import Preloader from "../../../../../components/Preloader/Preloader";
-import { useAppSelector } from "../../../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../../../hooks";
 import { selectProfile } from "../../../../../redux/slices/auth/selectors";
 import {
   addCategoryToList,

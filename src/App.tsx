@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import { useAppDispatch } from "./hooks";
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
-import { useAppDispatch } from "./redux/store";
+
 import ROUTES from "./routes";
 
 const Login = React.lazy(() => import("./pages/Login/Login"));

@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import { Input } from "../../components/common/Input/Input";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
+import { fetchUserProfile } from "../../redux/slices/profile/thunk";
 
 import styles from "./Profile.module.scss";
 
 const Profile: React.FC = () => {
   const [name, setName] = useState("");
+  const dispatch = useAppDispatch();
+  const id = useAppSelector(selectProfile)?._id || "";
+  const isAuth = useAppSelector(selectIsAuth);
+  console.log(id);
+  React.useEffect(() => {
+    if (isAuth) dispatch(fetchUserProfile({ id }));
+  }, [dispatch, id, isAuth]);
 
   return (
     <div className={styles.wrapper}>
