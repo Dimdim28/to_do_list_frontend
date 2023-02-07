@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Checkbox } from "../../../components/common/Checkbox/Checkbox";
 import { Modal } from "../../../components/common/Modal/Modal";
-import Select from "../../../components/common/Select/Select";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppSelector } from "../../../hooks";
 import {
@@ -17,17 +15,20 @@ import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import styles from "./FiltersBar.module.scss";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
+import Filters, { FiltersState } from "./Filters/Filters";
 
-const Filters = () => {
+const FiltersBar: React.FC = () => {
   const categories = useAppSelector(selectCategories);
   const status = useAppSelector(selectCategoriesStatus);
   const currentPage = useAppSelector(selectCategoryCurrentPage);
   const totalPages = useAppSelector(selectCategoryTotalPages);
   const message = useAppSelector(selectCategoriesrError);
   const dispatch = useAppDispatch();
-  const [hasDeadline, setHasDeadline] = useState(false);
-  const [date, setDate] = useState("all");
-  const [isCompleted, setIsCompleted] = useState("all");
+  const [filters, setFilters] = useState<FiltersState>({
+    hasDeadline: false,
+    date: "all",
+    isCompleted: "all",
+  });
   const [categoryEditing, setCategoryEditing] = useState(false);
   const [categoryProps, setCategoryProps] = useState({});
   const [categoryDeleting, setCategoryDeleting] = useState(false);
@@ -42,19 +43,6 @@ const Filters = () => {
     if (status !== "loading" && currentPage < totalPages && isScrolled)
       loadMore();
   };
-
-  const selectStatusOptions = [
-    { name: "Completed", value: "true" },
-    { name: "In process", value: "false" },
-    { name: "all", value: "all" },
-  ];
-
-  const selectDateOptions = [
-    { name: "day", value: "day" },
-    { name: "week", value: "week" },
-    { name: "month", value: "month" },
-    { name: "all", value: "all" },
-  ];
 
   return (
     <aside className={styles.filtersWrapper}>
@@ -91,32 +79,7 @@ const Filters = () => {
           <p className={styles.categoriesError}>{message}</p>
         ) : null}
       </section>
-      <section className={styles.dateWrapper}>
-        <h2>Date and status</h2>
-        <Select
-          items={selectStatusOptions}
-          width="200px"
-          activeValue={isCompleted}
-          callback={setIsCompleted}
-        />
-        <Checkbox
-          isChecked={hasDeadline}
-          setIsChecked={setHasDeadline}
-          label="With deadline"
-        />
-        {hasDeadline && (
-          <Select
-            items={selectDateOptions}
-            activeValue={date}
-            width="200px"
-            callback={setDate}
-          />
-        )}
-        date: {date}
-        <br />
-        isCompleted: {isCompleted}
-      </section>
-
+      <Filters data={filters} setData={setFilters} />
       <Modal
         active={categoryEditing}
         setActive={setCategoryEditing}
@@ -134,4 +97,4 @@ const Filters = () => {
   );
 };
 
-export default Filters;
+export default FiltersBar;
