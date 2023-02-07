@@ -4,9 +4,11 @@ import instanse from "../../../axios";
 
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   "profile/fetchUserProfile",
-  async (id, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response: ProfileResponse = await instanse.get(`/auth${id}`);
+      const response: ProfileResponse = await instanse.get(
+        `/user/${params.id}`
+      );
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);
