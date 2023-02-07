@@ -43,7 +43,6 @@ const FiltersBar: React.FC = () => {
     if (status !== "loading" && currentPage < totalPages && isScrolled)
       loadMore();
   };
-
   return (
     <aside className={styles.filtersWrapper}>
       <section className={styles.categoriesWrapper}>
@@ -86,7 +85,6 @@ const FiltersBar: React.FC = () => {
         ChildComponent={CategoryForm}
         childProps={categoryProps}
       />
-
       <Modal
         active={categoryDeleting}
         setActive={setCategoryDeleting}

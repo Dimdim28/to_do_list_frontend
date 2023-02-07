@@ -43,9 +43,12 @@ const Filters: React.FC<FiltersProps> = (props) => {
       />
       <Checkbox
         isChecked={props.data.hasDeadline}
-        setIsChecked={(newValue: any) =>
-          props.setData({ ...props.data, hasDeadline: newValue })
-        }
+        setIsChecked={(toggleStatus: any) => {
+          props.setData({
+            ...props.data,
+            hasDeadline: toggleStatus(props.data.hasDeadline),
+          });
+        }}
         label="With deadline"
       />
       {props.data.hasDeadline && (
