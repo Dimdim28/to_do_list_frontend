@@ -7,7 +7,8 @@
 .activeInput {
   position: relative;
   width: 100%;
-  padding: 20px 10px 10px;
+  padding: 10px;
+  margin-top: 10px;
   background: transparent;
   border: none;
   outline: none;
@@ -15,6 +16,7 @@
   font-size: 1em;
   letter-spacing: 0.05em;
   z-index: 10;
+  border-radius: 4px;
 }
 
 .span {
