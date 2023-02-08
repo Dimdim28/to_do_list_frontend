@@ -28,6 +28,6 @@ export interface LoginParams {
 
 export interface RegisterParams {
   email: string;
-  lastname: string;
+  login: string;
   firstPass: string;
 }

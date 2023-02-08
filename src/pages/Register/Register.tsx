@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import "./Register.module.scss";
+import styles from "./Register.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { registerUser } from "../../redux/slices/auth/thunk";
 import withHomeRedirect from "../../hoc/withHomeRedirect";
+import { FormikInput } from "../../components/common/Input/Input";
+import { NavLink } from "react-router-dom";
 
 interface Values {
   email?: string;
-  lastname?: string;
+  login?: string;
   firstPass?: string;
   secondPass?: string;
 }
@@ -20,12 +22,12 @@ const validate = (values: Values) => {
     errors.email = "Invalid email address";
   }
 
-  if (!values.lastname) {
-    errors.lastname = "Required";
-  } else if (values.lastname.length < 3) {
-    errors.lastname = "Must be 3 characters or more";
-  } else if (values.lastname.length > 15) {
-    errors.lastname = "Must be 15 characters or less";
+  if (!values.login) {
+    errors.login = "Required";
+  } else if (values.login.length < 3) {
+    errors.login = "Must be 3 characters or more";
+  } else if (values.login.length > 15) {
+    errors.login = "Must be 15 characters or less";
   }
 
   if (!values.firstPass) {
@@ -33,7 +35,7 @@ const validate = (values: Values) => {
   } else if (values.firstPass.length < 5) {
     errors.firstPass = "Must be 5 characters or more";
   } else if (values.firstPass.length > 15) {
-    errors.lastname = "Must be 15 characters or less";
+    errors.firstPass = "Must be 15 characters or less";
   }
 
   if (!values.secondPass) {
@@ -41,7 +43,7 @@ const validate = (values: Values) => {
   } else if (values.secondPass.length < 5) {
     errors.secondPass = "Must be 5 characters or more";
   } else if (values.secondPass.length > 15) {
-    errors.lastname = "Must be 15 characters or less";
+    errors.secondPass = "Must be 15 characters or less";
   } else if (values.firstPass !== values.secondPass) {
     errors.secondPass = "Passwords must be same";
   }
@@ -59,7 +61,7 @@ const SignupForm: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      lastname: "",
+      login: "",
       firstPass: "",
       secondPass: "",
     },
@@ -77,71 +79,81 @@ const SignupForm: React.FC = () => {
 
   return (
     <main>
-      <div className="wrapper">
+      <div className={styles.wrapper}>
         <h1>Sign up</h1>
         <form onSubmit={formik.handleSubmit}>
-          <label htmlFor="email"> email </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.errors.email && formik.touched.email ? (
-            <p>{formik.errors.email}</p>
-          ) : null}
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="email"
+              type="email"
+              title="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+            {formik.errors.email && formik.touched.email ? (
+              <p>{formik.errors.email}</p>
+            ) : null}
+          </div>
 
-          <label htmlFor="lastname">Last Name</label>
-          <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.lastname}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.lastname && formik.touched.lastname ? (
-            <p>{formik.errors.lastname}</p>
-          ) : null}
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="login"
+              type="text"
+              title="login"
+              onChange={formik.handleChange}
+              value={formik.values.login}
+              onBlur={formik.handleBlur}
+            />
 
-          <label htmlFor="firstPass"> Enter your password</label>
-          <input
-            id="firstPass"
-            name="firstPass"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.firstPass}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.firstPass && formik.touched.firstPass ? (
-            <p>{formik.errors.firstPass}</p>
-          ) : null}
+            {formik.errors.login && formik.touched.login ? (
+              <p>{formik.errors.login}</p>
+            ) : null}
+          </div>
 
-          <label htmlFor="secondPass"> Enter it again</label>
-          <input
-            id="secondPass"
-            name="secondPass"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.secondPass}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.secondPass && formik.touched.secondPass ? (
-            <p>{formik.errors.secondPass}</p>
-          ) : null}
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="firstPass"
+              type="text"
+              title="enter password"
+              onChange={formik.handleChange}
+              value={formik.values.firstPass}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.firstPass && formik.touched.firstPass ? (
+              <p>{formik.errors.firstPass}</p>
+            ) : null}
+          </div>
 
-          <button
-            disabled={
-              formik.isSubmitting || Object.keys(formik.errors).length > 0
-            }
-            type="submit"
-          >
-            Submit
-          </button>
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="secondPass"
+              type="text"
+              title="confirm password"
+              onChange={formik.handleChange}
+              value={formik.values.secondPass}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.secondPass && formik.touched.secondPass ? (
+              <p>{formik.errors.secondPass}</p>
+            ) : null}
+          </div>
+
+          <div className={styles.buttonsWrapper}>
+            <button
+              disabled={
+                formik.isSubmitting || Object.keys(formik.errors).length > 0
+              }
+              type="submit"
+            >
+              Submit
+            </button>
+            <NavLink className={styles.link} to={"/auth/login"}>
+              Have account
+            </NavLink>
+          </div>
         </form>
-        {error && <p>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
       </div>
     </main>
   );
