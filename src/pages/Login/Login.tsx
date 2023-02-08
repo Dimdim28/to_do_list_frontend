@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import "./Login.module.scss";
+import styles from "./Login.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { fetchUserData } from "../../redux/slices/auth/thunk";
 import withHomeRedirect from "../../hoc/withHomeRedirect";
+import { FormikInput } from "../../components/common/Input/Input";
+import { NavLink } from "react-router-dom";
+import ROUTES from "../../routes";
 
 interface Values {
   email?: string;
@@ -52,44 +55,55 @@ const Login: React.FC<{}> = () => {
 
   return (
     <main>
-      <div className="wrapper">
+      <div className={styles.wrapper}>
         <h1>Login</h1>
         <form onSubmit={formik.handleSubmit}>
-          <label htmlFor="email">email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.errors.email && formik.touched.email ? (
-            <p>{formik.errors.email}</p>
-          ) : null}
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              title="email"
+            />
+            {formik.errors.email && formik.touched.email ? (
+              <p>{formik.errors.email}</p>
+            ) : null}
+          </div>
 
-          <label htmlFor="password">password</label>
-          <input
-            id="passwprd"
-            name="password"
-            type="password"
-            autoComplete="on"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.password && formik.touched.password ? (
-            <p>{formik.errors.password}</p>
-          ) : null}
-          {error ? <p>{error}</p> : null}
-          <button
-            disabled={
-              formik.isSubmitting || Object.keys(formik.errors).length > 0
-            }
-            type="submit"
-          >
-            Piece of submition
-          </button>
+          <div className={styles.fieldsWrapper}>
+            <FormikInput
+              name="password"
+              type="password"
+              title="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.password && formik.touched.password ? (
+              <p>{formik.errors.password}</p>
+            ) : null}
+          </div>
+
+          <div className={styles.buttonsWrapper}>
+            <button
+              disabled={
+                formik.isSubmitting || Object.keys(formik.errors).length > 0
+              }
+              type="submit"
+            >
+              Sign in
+            </button>
+            <NavLink
+              className={styles.link}
+              to={`${ROUTES.AUTH}/${ROUTES.REGISTER}`}
+            >
+              Sign up
+            </NavLink>
+          </div>
+
+          {error ? <p className={styles.error}>{error}</p> : null}
         </form>
       </div>
     </main>

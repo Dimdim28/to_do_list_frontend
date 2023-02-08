@@ -10,11 +10,6 @@ h1 {
   text-align: center;
 }
 
-.formWrapper {
-  width: 50%;
-  height: 50%;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -50,7 +45,7 @@ form {
 
     &:hover {
       background-color: chocolate;
-      color: black;
+      color: white;
     }
     &:disabled {
       background-color: inherit;

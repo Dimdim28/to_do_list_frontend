@@ -42,6 +42,7 @@ export const FormikInput: React.FC<FormikInputProps> = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         value={props.value}
+        autoComplete="on"
       />
       <span className={styles.span}>{props.title}</span>
       <i className={styles.i}></i>

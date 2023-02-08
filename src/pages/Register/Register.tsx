@@ -6,6 +6,7 @@ import { registerUser } from "../../redux/slices/auth/thunk";
 import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
 import { NavLink } from "react-router-dom";
+import ROUTES from "../../routes";
 
 interface Values {
   email?: string;
@@ -146,10 +147,13 @@ const SignupForm: React.FC = () => {
               }
               type="submit"
             >
-              Submit
+              Sign up
             </button>
-            <NavLink className={styles.link} to={"/auth/login"}>
-              Have account
+            <NavLink
+              className={styles.link}
+              to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`}
+            >
+              Sign in
             </NavLink>
           </div>
         </form>
