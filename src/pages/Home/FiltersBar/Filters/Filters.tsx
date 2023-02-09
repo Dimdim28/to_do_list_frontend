@@ -1,29 +1,27 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
-import Select from "../../../../components/common/Select/Select";
+import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
 export type Date = "day" | "week" | "month" | "all";
 export type IsCompleted = "true" | "false" | "all";
 
-export interface FiltersState {
-  hasDeadline: boolean;
+interface FiltersProps {
   date: Date;
   isCompleted: IsCompleted;
-}
-
-interface FiltersProps {
-  data: FiltersState;
-  setData: React.Dispatch<FiltersState>;
+  hasDeadline: boolean;
+  setDate: React.Dispatch<SetStateAction<Date>>;
+  setHasDeadline: React.Dispatch<SetStateAction<boolean>>;
+  setIsCompleted: React.Dispatch<SetStateAction<IsCompleted>>;
 }
 const Filters: React.FC<FiltersProps> = (props) => {
-  const selectStatusOptions = [
+  const selectStatusOptions: Item<IsCompleted>[] = [
     { name: "Completed", value: "true" },
     { name: "In process", value: "false" },
     { name: "all", value: "all" },
   ];
 
-  const selectDateOptions = [
+  const selectDateOptions: Item<Date>[] = [
     { name: "day", value: "day" },
     { name: "week", value: "week" },
     { name: "month", value: "month" },
@@ -33,37 +31,28 @@ const Filters: React.FC<FiltersProps> = (props) => {
   return (
     <section className={styles.dateWrapper}>
       <h2>Date and status</h2>
-      <Select
+      <Select<IsCompleted>
         items={selectStatusOptions}
         width="200px"
-        activeValue={props.data.isCompleted}
-        callback={(newValue: any) =>
-          props.setData({ ...props.data, isCompleted: newValue })
-        }
+        activeValue={props.isCompleted}
+        callback={props.setIsCompleted}
       />
       <Checkbox
-        isChecked={props.data.hasDeadline}
-        setIsChecked={(toggleStatus: any) => {
-          props.setData({
-            ...props.data,
-            hasDeadline: toggleStatus(props.data.hasDeadline),
-          });
-        }}
+        isChecked={props.hasDeadline}
+        setIsChecked={props.setHasDeadline}
         label="With deadline"
       />
-      {props.data.hasDeadline && (
-        <Select
+      {props.hasDeadline && (
+        <Select<Date>
           items={selectDateOptions}
-          activeValue={props.data.date}
+          activeValue={props.date}
           width="200px"
-          callback={(newValue: any) =>
-            props.setData({ ...props.data, date: newValue })
-          }
+          callback={props.setDate}
         />
       )}
-      date: {props.data.date}
+      date: {props.date}
       <br />
-      isCompleted: {props.data.isCompleted}
+      isCompleted: {props.isCompleted}
     </section>
   );
 };
