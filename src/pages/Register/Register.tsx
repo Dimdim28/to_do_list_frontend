@@ -115,7 +115,7 @@ const SignupForm: React.FC = () => {
           <div className={styles.fieldsWrapper}>
             <FormikInput
               name="firstPass"
-              type="text"
+              type="password"
               title="enter password"
               onChange={formik.handleChange}
               value={formik.values.firstPass}
@@ -129,7 +129,7 @@ const SignupForm: React.FC = () => {
           <div className={styles.fieldsWrapper}>
             <FormikInput
               name="secondPass"
-              type="text"
+              type="password"
               title="confirm password"
               onChange={formik.handleChange}
               value={formik.values.secondPass}

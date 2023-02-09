@@ -11,10 +11,12 @@ import {
   faPencil,
   faTrash,
   faCircleXmark,
+  faEye,
+  faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-library.add(faS, faPencil, faTrash, faCircleXmark);
+library.add(faS, faPencil, faTrash, faCircleXmark, faEye, faEyeSlash);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
