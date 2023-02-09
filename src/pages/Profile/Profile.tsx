@@ -13,19 +13,20 @@ import { fetchUserProfile } from "../../redux/slices/profile/thunk";
 import styles from "./Profile.module.scss";
 
 const Profile: React.FC = () => {
-  const [name, setName] = useState("");
   const dispatch = useAppDispatch();
   const id = useAppSelector(selectProfile)?._id || "";
   const isAuth = useAppSelector(selectIsAuth);
   const profile = useAppSelector(selectUserProfile) || {
-    username: "",
+    username: "dima",
     avatarUrl: "",
-    email: "",
+    email: "dima@gmail.com",
+    createdAt: "22-03-2020",
   };
   const status = useAppSelector(selectProfileStatus);
-  const { email, username, avatarUrl } = profile;
+  const { email, username, avatarUrl, createdAt } = profile;
+  const date = new Date(createdAt).toLocaleDateString();
+  const [name, setName] = useState(username);
 
-  console.log(id);
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
   }, [dispatch, id, isAuth]);
@@ -35,31 +36,30 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <main className={styles.wrapper}>
       <div className={styles.profile}>
-        <div className={styles["profile__data"]}>
-          <div className={styles["profile__avatar"]}>
-            <img src="https://i.imgur.com/gqJvKwW.png" alt="Error" />
+        <div className={styles.avatar}>
+          {avatarUrl && <img src={avatarUrl} alt="logo" />}
+        </div>
+
+        <div className={styles.info}>
+          <div className={styles.line}>
+            <p className={styles.name}>name:</p>
+            <p className={styles.text}>{name}</p>
           </div>
-          <div className={styles["profile__info"]}>
-            <div>
-              <div className="profile__username">
-                <p>Username</p>
-                <p>{username}</p>
-              </div>
-              <div className="profile__email">
-                <p>Email</p>
-                <p>{email}</p>
-              </div>
-            </div>
-            <div className={styles["profile__btn"]}>
-              <button>Change profile</button>
-              <button>Change password</button>
-            </div>
+
+          <div className={styles.line}>
+            <p className={styles.name}>email:</p>
+            <p className={styles.text}>{email}</p>
+          </div>
+
+          <div className={styles.line}>
+            <p className={styles.name}>registered:</p>
+            <p className={styles.text}>{date}</p>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
