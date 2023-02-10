@@ -41,7 +41,6 @@ const profileSlice = createSlice({
     });
     builder.addCase(changeAvatar.rejected, (state, action) => {
       state.status = Status.ERROR;
-      state.data = null;
       state.message = String(action.payload);
     });
   },

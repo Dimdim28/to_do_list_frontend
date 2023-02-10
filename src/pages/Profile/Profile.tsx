@@ -7,6 +7,7 @@ import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
 import {
+  selectProfileMessage,
   selectProfileStatus,
   selectUserProfile,
 } from "../../redux/slices/profile/selectors";
@@ -28,6 +29,7 @@ const Profile: React.FC = () => {
     createdAt: "",
   };
   const status = useAppSelector(selectProfileStatus);
+  const message = useAppSelector(selectProfileMessage);
   const { email, username, avatarUrl, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
@@ -120,6 +122,7 @@ const Profile: React.FC = () => {
             </div>
           </div>
         </div>
+        {message && <p className={styles.error}>{message}</p>}
       </div>
     </main>
   );
