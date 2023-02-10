@@ -9,6 +9,7 @@ export type Profile = {
   updatedAt: string;
 };
 
+export type Avatar = { url: string };
 export type ProfileResponse = {
   data: Profile;
   status: number;
@@ -24,3 +25,13 @@ export interface ProfileSliceState {
 export interface GetProfileParams {
   id: string;
 }
+
+export interface ChangeAvatarParams {
+  image: FormData;
+}
+
+export type AvatarResponse = {
+  data: Avatar;
+  status: number;
+  statusText: string;
+};

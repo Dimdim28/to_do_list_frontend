@@ -10,7 +10,10 @@ import {
   selectProfileStatus,
   selectUserProfile,
 } from "../../redux/slices/profile/selectors";
-import { fetchUserProfile } from "../../redux/slices/profile/thunk";
+import {
+  changeAvatar,
+  fetchUserProfile,
+} from "../../redux/slices/profile/thunk";
 
 import styles from "./Profile.module.scss";
 
@@ -40,13 +43,13 @@ const Profile: React.FC = () => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
   }, [dispatch, id, isAuth]);
 
-  const handleChangeFile = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
-
     try {
       const formdata = new FormData();
       formdata.append("image", file);
+      await dispatch(changeAvatar({ image: formdata }));
     } catch (e) {
       console.log(e);
     }

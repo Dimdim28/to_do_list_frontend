@@ -1,4 +1,4 @@
-import { fetchUserProfile } from "./thunk";
+import { changeAvatar, fetchUserProfile } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../types";
 import { ProfileSliceState } from "./types";
@@ -22,6 +22,24 @@ const profileSlice = createSlice({
       state.status = Status.SUCCESS;
     });
     builder.addCase(fetchUserProfile.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.data = null;
+      state.message = String(action.payload);
+    });
+    builder.addCase(changeAvatar.pending, (state) => {
+      state.status = Status.LOADING;
+    });
+    builder.addCase(changeAvatar.fulfilled, (state, action) => {
+      console.log("fulfilled");
+      if (state.data)
+        state.data = {
+          ...state.data,
+          avatarUrl: `http://localhost:5000${action.payload.url}`,
+        };
+
+      state.status = Status.SUCCESS;
+    });
+    builder.addCase(changeAvatar.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.data = null;
       state.message = String(action.payload);
