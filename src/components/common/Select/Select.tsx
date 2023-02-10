@@ -1,18 +1,22 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
+
 import styles from "./Select.module.scss";
 
-type Item = {
+export type Item<T> = {
   name: string;
-  value: string;
+  value: T;
 };
-interface SelectProps {
-  items: Item[];
+
+interface SelectProps<T> {
+  items: Item<T>[];
   activeValue: string;
-  callback: React.Dispatch<SetStateAction<string>>;
+  callback: React.Dispatch<SetStateAction<T>>;
   width: string;
 }
 
-const Select: React.FC<SelectProps> = (props) => {
+const Select = <T,>(
+  props: React.PropsWithChildren<SelectProps<T>>
+): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(props.activeValue);
   const selectRef = useRef<HTMLDivElement>(null);
