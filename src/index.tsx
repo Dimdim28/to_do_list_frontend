@@ -6,17 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import {
-  faS,
-  faPencil,
-  faTrash,
-  faCircleXmark,
-  faEye,
-  faEyeSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
 
-library.add(faS, faPencil, faTrash, faCircleXmark, faEye, faEyeSlash);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
