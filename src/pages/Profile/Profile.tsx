@@ -1,7 +1,6 @@
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
-import { Input } from "../../components/common/Input/Input";
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -15,6 +14,7 @@ import {
   changeAvatar,
   fetchUserProfile,
 } from "../../redux/slices/profile/thunk";
+import { ChangePass } from "./ChangePass/ChangePass";
 
 import styles from "./Profile.module.scss";
 
@@ -35,11 +35,7 @@ const Profile: React.FC = () => {
 
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  //const [name, setName] = useState(username);
-
   const [isPassEditing, setIspassEditing] = useState(false);
-  const [prevPass, setPrevPass] = useState("");
-  const [newPass, setNewPass] = useState("");
 
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
@@ -92,36 +88,21 @@ const Profile: React.FC = () => {
               <p className={styles.text}>{date}</p>
             </div>
           </div>
-        </div>
-
-        <div className={styles.passwordWrapper}>
           <p
             className={styles.button}
             onClick={() => setIspassEditing((prev) => !prev)}
           >
             change password
           </p>
+        </div>
 
-          <div className={isPassEditing ? styles.passEditing : styles.pass}>
-            <div className={styles.input}>
-              <Input
-                title="password"
-                value={prevPass}
-                setValue={setPrevPass}
-                type="password"
-              />
-            </div>
-
-            <div className={styles.input}>
-              <Input
-                title="new password"
-                value={newPass}
-                setValue={setNewPass}
-                type="password"
-              />
+        {isPassEditing && (
+          <div className={styles.passwordWrapper}>
+            <div className={styles.passEditing}>
+              <ChangePass />
             </div>
           </div>
-        </div>
+        )}
         {message && <p className={styles.error}>{message}</p>}
       </div>
     </main>
