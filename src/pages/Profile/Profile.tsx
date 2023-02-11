@@ -1,6 +1,7 @@
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
+import { Modal } from "../../components/common/Modal/Modal";
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -15,6 +16,7 @@ import {
   fetchUserProfile,
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
+import DeleteProfile from "./DeleteProfile/DeleteProfile";
 
 import styles from "./Profile.module.scss";
 
@@ -36,7 +38,7 @@ const Profile: React.FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const [isPassEditing, setIspassEditing] = useState(false);
-
+  const [isAccountdeleting, setIsAccountdeleting] = useState(false);
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
   }, [dispatch, id, isAuth]);
@@ -94,6 +96,23 @@ const Profile: React.FC = () => {
           >
             change password
           </p>
+
+          <p
+            className={styles.delete}
+            onClick={() => {
+              setIsAccountdeleting(true);
+            }}
+          >
+            delete account
+          </p>
+          {isAccountdeleting && (
+            <Modal
+              active={isAccountdeleting}
+              setActive={setIsAccountdeleting}
+              ChildComponent={DeleteProfile}
+              childProps={{ toggleActive: setIsAccountdeleting }}
+            />
+          )}
         </div>
 
         {isPassEditing && (
@@ -103,10 +122,10 @@ const Profile: React.FC = () => {
             </div>
           </div>
         )}
-        {message && <p className={styles.error}>{message}</p>}
+        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
     </main>
   );
 };
 
-export default withLoginRedirect(Profile);
+export default Profile;

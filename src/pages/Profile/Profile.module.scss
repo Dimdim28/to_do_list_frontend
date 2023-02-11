@@ -18,21 +18,34 @@
       width: 100%;
       border: 2px solid chocolate;
       border-radius: 15px;
-      padding: 25px;
+      padding: 30px;
       position: relative;
 
       .button {
-        margin-bottom: 5px;
         color: gray;
         font-weight: 500;
         white-space: nowrap;
         cursor: pointer;
         transition: 0.3s;
         position: absolute;
-        left: 5px;
-        bottom: 0;
+        left: 7px;
+        bottom: 7px;
         &:hover {
           color: chocolate;
+        }
+      }
+
+      .delete {
+        color: gray;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: 0.3s;
+        position: absolute;
+        right: 7px;
+        bottom: 7px;
+        &:hover {
+          color: red;
         }
       }
 

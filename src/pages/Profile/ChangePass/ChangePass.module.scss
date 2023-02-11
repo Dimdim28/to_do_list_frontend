@@ -13,7 +13,13 @@
       justify-content: space-around;
       width: 100%;
       .fieldsWrapper {
-        max-width: 200px;
+        max-width: 250px;
+        position: relative;
+        p {
+          color: red;
+          position: absolute;
+          right: 0;
+        }
       }
     }
     .button {
