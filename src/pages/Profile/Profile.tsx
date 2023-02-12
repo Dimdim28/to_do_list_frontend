@@ -1,7 +1,7 @@
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
-import { Input } from "../../components/common/Input/Input";
+import { Modal } from "../../components/common/Modal/Modal";
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -15,6 +15,8 @@ import {
   changeAvatar,
   fetchUserProfile,
 } from "../../redux/slices/profile/thunk";
+import { ChangePass } from "./ChangePass/ChangePass";
+import DeleteProfile from "./DeleteProfile/DeleteProfile";
 
 import styles from "./Profile.module.scss";
 
@@ -35,12 +37,8 @@ const Profile: React.FC = () => {
 
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  //const [name, setName] = useState(username);
-
   const [isPassEditing, setIspassEditing] = useState(false);
-  const [prevPass, setPrevPass] = useState("");
-  const [newPass, setNewPass] = useState("");
-
+  const [isAccountdeleting, setIsAccountdeleting] = useState(false);
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
   }, [dispatch, id, isAuth]);
@@ -92,9 +90,6 @@ const Profile: React.FC = () => {
               <p className={styles.text}>{date}</p>
             </div>
           </div>
-        </div>
-
-        <div className={styles.passwordWrapper}>
           <p
             className={styles.button}
             onClick={() => setIspassEditing((prev) => !prev)}
@@ -102,27 +97,32 @@ const Profile: React.FC = () => {
             change password
           </p>
 
-          <div className={isPassEditing ? styles.passEditing : styles.pass}>
-            <div className={styles.input}>
-              <Input
-                title="password"
-                value={prevPass}
-                setValue={setPrevPass}
-                type="password"
-              />
-            </div>
+          <p
+            className={styles.delete}
+            onClick={() => {
+              setIsAccountdeleting(true);
+            }}
+          >
+            delete account
+          </p>
+          {isAccountdeleting && (
+            <Modal
+              active={isAccountdeleting}
+              setActive={setIsAccountdeleting}
+              ChildComponent={DeleteProfile}
+              childProps={{ toggleActive: setIsAccountdeleting }}
+            />
+          )}
+        </div>
 
-            <div className={styles.input}>
-              <Input
-                title="new password"
-                value={newPass}
-                setValue={setNewPass}
-                type="password"
-              />
+        {isPassEditing && (
+          <div className={styles.passwordWrapper}>
+            <div className={styles.passEditing}>
+              <ChangePass />
             </div>
           </div>
-        </div>
-        {message && <p className={styles.error}>{message}</p>}
+        )}
+        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
     </main>
   );
