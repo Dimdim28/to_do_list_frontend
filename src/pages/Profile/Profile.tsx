@@ -17,6 +17,7 @@ import {
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
+import Exit from "./Exit/Exit";
 
 import styles from "./Profile.module.scss";
 
@@ -38,7 +39,9 @@ const Profile: React.FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const [isPassEditing, setIspassEditing] = useState(false);
-  const [isAccountdeleting, setIsAccountdeleting] = useState(false);
+  const [isAccountDeleting, setIsAccountDeleting] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
   }, [dispatch, id, isAuth]);
@@ -90,27 +93,48 @@ const Profile: React.FC = () => {
               <p className={styles.text}>{date}</p>
             </div>
           </div>
-          <p
-            className={styles.button}
-            onClick={() => setIspassEditing((prev) => !prev)}
-          >
-            change password
-          </p>
 
-          <p
-            className={styles.delete}
-            onClick={() => {
-              setIsAccountdeleting(true);
-            }}
-          >
-            delete account
-          </p>
-          {isAccountdeleting && (
+          <div className={styles.buttons}>
+            <p
+              className={styles.exit}
+              onClick={() => {
+                setIsExiting(true);
+              }}
+            >
+              log out
+            </p>
+
+            <p
+              className={styles.button}
+              onClick={() => setIspassEditing((prev) => !prev)}
+            >
+              change password
+            </p>
+
+            <p
+              className={styles.delete}
+              onClick={() => {
+                setIsAccountDeleting(true);
+              }}
+            >
+              delete account
+            </p>
+          </div>
+
+          {isAccountDeleting && (
             <Modal
-              active={isAccountdeleting}
-              setActive={setIsAccountdeleting}
+              active={isAccountDeleting}
+              setActive={setIsAccountDeleting}
               ChildComponent={DeleteProfile}
-              childProps={{ toggleActive: setIsAccountdeleting }}
+              childProps={{ toggleActive: setIsAccountDeleting }}
+            />
+          )}
+          {isExiting && (
+            <Modal
+              active={isExiting}
+              setActive={setIsExiting}
+              ChildComponent={Exit}
+              childProps={{ toggleActive: setIsExiting }}
             />
           )}
         </div>

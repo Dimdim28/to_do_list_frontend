@@ -21,31 +21,47 @@
       padding: 30px;
       position: relative;
 
-      .button {
-        color: gray;
-        font-weight: 500;
-        white-space: nowrap;
-        cursor: pointer;
-        transition: 0.3s;
+      .buttons {
         position: absolute;
-        left: 7px;
-        bottom: 7px;
-        &:hover {
-          color: chocolate;
-        }
-      }
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px;
 
-      .delete {
-        color: gray;
-        font-weight: 500;
-        white-space: nowrap;
-        cursor: pointer;
-        transition: 0.3s;
-        position: absolute;
-        right: 7px;
-        bottom: 7px;
-        &:hover {
-          color: red;
+        .exit {
+          color: gray;
+          font-weight: 500;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: 0.3s;
+          &:hover {
+            color: red;
+          }
+        }
+
+        .button {
+          color: gray;
+          font-weight: 500;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: 0.3s;
+          &:hover {
+            color: chocolate;
+          }
+        }
+
+        .delete {
+          color: gray;
+          font-weight: 500;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: 0.3s;
+          &:hover {
+            color: red;
+          }
         }
       }
 
@@ -68,8 +84,8 @@
         }
 
         .addPhoto {
-          width: 100%;
-          height: 100%;
+          height: 0;
+          width: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -78,13 +94,17 @@
           opacity: 0;
           transition: 0.5s;
           cursor: pointer;
-
+          .camera {
+            font-size: 0;
+          }
           &:hover {
             opacity: 1;
-          }
-          .camera {
-            font-size: 80px;
-            color: white;
+            width: 100%;
+            height: 100%;
+            .camera {
+              font-size: 80px;
+              color: white;
+            }
           }
         }
       }
