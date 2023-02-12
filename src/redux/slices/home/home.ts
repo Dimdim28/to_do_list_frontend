@@ -20,6 +20,7 @@ const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
+    clear: () => initialState,
     clearCategories(state) {
       state.category.categories = [];
     },
@@ -86,4 +87,5 @@ export const {
   updateCategoryInList,
   addCategoryToList,
   removeCategoryFromList,
+  clear,
 } = homeSlice.actions;

@@ -11,7 +11,11 @@ const initialState: ProfileSliceState = {
 const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    exit(state) {
+      state.data = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.status = Status.LOADING;
@@ -62,3 +66,4 @@ const profileSlice = createSlice({
 });
 
 export const profileReducer = profileSlice.reducer;
+export const { exit } = profileSlice.actions;
