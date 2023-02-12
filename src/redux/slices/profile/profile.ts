@@ -1,4 +1,4 @@
-import { changeAvatar, fetchUserProfile } from "./thunk";
+import { changeAvatar, deleteAccount, fetchUserProfile } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../types";
 import { ProfileSliceState } from "./types";
@@ -16,6 +16,7 @@ const profileSlice = createSlice({
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.status = Status.LOADING;
       state.data = null;
+      state.message = "";
     });
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -28,6 +29,7 @@ const profileSlice = createSlice({
     });
     builder.addCase(changeAvatar.pending, (state) => {
       state.status = Status.LOADING;
+      state.message = "";
     });
     builder.addCase(changeAvatar.fulfilled, (state, action) => {
       console.log("fulfilled");
@@ -40,6 +42,19 @@ const profileSlice = createSlice({
       state.status = Status.SUCCESS;
     });
     builder.addCase(changeAvatar.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+
+    builder.addCase(deleteAccount.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = "";
+    });
+    builder.addCase(deleteAccount.fulfilled, (state) => {
+      state.data = null;
+      state.status = Status.SUCCESS;
+    });
+    builder.addCase(deleteAccount.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });

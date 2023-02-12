@@ -10,6 +10,7 @@ export type Profile = {
 };
 
 export type Avatar = { url: string };
+export type Message = { message: string };
 export type ProfileResponse = {
   data: Profile;
   status: number;
@@ -32,6 +33,16 @@ export interface ChangeAvatarParams {
 
 export type AvatarResponse = {
   data: Avatar;
+  status: number;
+  statusText: string;
+};
+
+export interface DeleteAccountParams {
+  id: string;
+}
+
+export type DeleteAccountResponse = {
+  data: Message;
   status: number;
   statusText: string;
 };

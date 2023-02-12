@@ -128,4 +128,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default withLoginRedirect(Profile);
