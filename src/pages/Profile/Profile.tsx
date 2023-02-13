@@ -52,7 +52,7 @@ const Profile: React.FC = () => {
     try {
       const formdata = new FormData();
       formdata.append("image", file);
-      await dispatch(changeAvatar({ image: formdata }));
+      await dispatch(changeAvatar({ image: formdata, userId: id }));
     } catch (e) {
       console.log(e);
     }

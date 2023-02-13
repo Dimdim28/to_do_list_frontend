@@ -37,6 +37,15 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
         `/upload`,
         params.image
       );
+
+      const updatingAvatarUrlResult: UpdateProfileResponse =
+        await instanse.patch(`/user/${params.userId}`, {
+          avatarUrl: `http://localhost:5000${response.data.url}`,
+        });
+      if (updatingAvatarUrlResult.status !== 200) {
+        return rejectWithValue(updatingAvatarUrlResult.data.message);
+      }
+
       return response.data;
     } catch (err: any) {
       console.log(err);

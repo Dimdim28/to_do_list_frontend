@@ -30,6 +30,7 @@ export interface GetProfileParams {
 
 export interface ChangeAvatarParams {
   image: FormData;
+  userId: string;
 }
 
 export type AvatarResponse = {
