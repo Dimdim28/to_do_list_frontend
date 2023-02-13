@@ -1,7 +1,10 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { FormikInput } from "../../../components/common/Input/Input";
-import { useAppDispatch } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { selectProfileStatus } from "../../../redux/slices/profile/selectors";
+import { changePass } from "../../../redux/slices/profile/thunk";
+import { Status } from "../../../types";
 import styles from "./ChangePass.module.scss";
 
 interface Values {
@@ -30,10 +33,12 @@ const validate = (values: Values) => {
   return errors;
 };
 
-export const ChangePass = () => {
-  const [error, setError] = useState(null);
-  // const dispatch = useAppDispatch();
-
+interface ChangePassProps {
+  id: string;
+}
+export const ChangePass: React.FC<ChangePassProps> = ({ id }) => {
+  const dispatch = useAppDispatch();
+  const status = useAppSelector(selectProfileStatus);
   const formik = useFormik({
     initialValues: {
       firstpass: "",
@@ -41,13 +46,17 @@ export const ChangePass = () => {
     },
     validate,
     onSubmit: async (values, { setSubmitting }) => {
-      //   const data: any = await dispatch(fetchUserData(values));
-      //   if (data.error) setError(data.payload);
-      //   if ("token" in data.payload) {
-      //     window.localStorage.setItem("token", data.payload.token);
-      //   }
-      formik.resetForm();
-      setSubmitting(false);
+      await dispatch(
+        changePass({
+          previous: values.firstpass,
+          new: values.secondpass,
+          userId: id,
+        })
+      );
+      if (status === Status.SUCCESS) {
+        formik.resetForm();
+        setSubmitting(false);
+      }
     },
   });
 
@@ -94,7 +103,6 @@ export const ChangePass = () => {
           submit
         </button>
       </form>
-      {error ? <p className={styles.error}>{error}</p> : null}
     </aside>
   );
 };

@@ -142,7 +142,7 @@ const Profile: React.FC = () => {
         {isPassEditing && (
           <div className={styles.passwordWrapper}>
             <div className={styles.passEditing}>
-              <ChangePass />
+              <ChangePass id={id} />
             </div>
           </div>
         )}
