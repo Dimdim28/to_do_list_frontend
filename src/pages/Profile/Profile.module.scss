@@ -132,7 +132,18 @@
             font-size: 20px;
             width: 100%;
           }
+          .inputName {
+            outline: none;
+            color: grey;
+            border: none;
+            border-bottom: 2px solid chocolate;
+            margin: 10px;
+            font-size: 20px;
+            width: 100%;
+          }
+
           .icon {
+            opacity: 0;
             width: 15px;
             height: 15px;
             z-index: 3;
@@ -147,6 +158,11 @@
             top: calc(50% - 10px);
             right: 0;
             cursor: pointer;
+          }
+          &:hover {
+            .icon {
+              opacity: 1;
+            }
           }
         }
       }

@@ -1,6 +1,6 @@
 import { faCirclePlus, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
@@ -41,6 +41,8 @@ const Profile: React.FC = () => {
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  const [name, setName] = useState(username);
 
   React.useEffect(() => {
     if (isAuth) dispatch(fetchUserProfile({ id }));
@@ -57,6 +59,10 @@ const Profile: React.FC = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    setName(username);
+  }, [username]);
 
   if (status === "loading") {
     return <Preloader />;
@@ -80,14 +86,31 @@ const Profile: React.FC = () => {
           <div className={styles.info}>
             <div className={styles.line}>
               <p className={styles.name}>name:</p>
-              <p className={styles.text}>{username}</p>
-              <FontAwesomeIcon
-                className={`${styles.icon} ${styles.pencil}`}
-                onClick={() => {}}
-                color="rgb(163, 163, 163)"
-                fontSize="15px"
-                icon={faPencil}
-              />
+              {isNameEditing ? (
+                <input
+                  className={styles.inputName}
+                  value={name}
+                  onChange={(e) => setName(e.currentTarget.value)}
+                  onBlur={() => setIsNameEditing(false)}
+                />
+              ) : (
+                <>
+                  <p className={styles.text}>{name}</p>
+                  <div
+                    onClick={() => {
+                      setIsNameEditing(true);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      className={`${styles.icon} ${styles.pencil}`}
+                      onClick={() => {}}
+                      color="rgb(163, 163, 163)"
+                      fontSize="15px"
+                      icon={faPencil}
+                    />
+                  </div>
+                </>
+              )}
             </div>
 
             <div className={styles.line}>
