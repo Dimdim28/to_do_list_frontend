@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     width: 50%;
+    position: relative;
     .row {
       display: flex;
       align-items: center;
@@ -72,7 +73,7 @@
         border: 4px solid chocolate;
         text-align: center;
         background-color: rgb(163, 163, 163);
-
+        position: relative;
         input[type="file"] {
           display: none;
         }
@@ -84,8 +85,11 @@
         }
 
         .addPhoto {
-          height: 0;
-          width: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -95,16 +99,11 @@
           transition: 0.5s;
           cursor: pointer;
           .camera {
-            font-size: 0;
+            font-size: 80px;
+            color: white;
           }
           &:hover {
             opacity: 1;
-            width: 100%;
-            height: 100%;
-            .camera {
-              font-size: 80px;
-              color: white;
-            }
           }
         }
       }
@@ -157,8 +156,9 @@
     .error {
       width: 100%;
       position: absolute;
-      top: 5px;
+      bottom: -5px;
       text-align: center;
+      color: red;
     }
   }
 }

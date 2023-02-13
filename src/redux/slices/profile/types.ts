@@ -11,6 +11,7 @@ export type Profile = {
 
 export type Avatar = { url: string };
 export type Message = { message: string };
+
 export type ProfileResponse = {
   data: Profile;
   status: number;
@@ -29,6 +30,7 @@ export interface GetProfileParams {
 
 export interface ChangeAvatarParams {
   image: FormData;
+  userId: string;
 }
 
 export type AvatarResponse = {
@@ -42,6 +44,18 @@ export interface DeleteAccountParams {
 }
 
 export type DeleteAccountResponse = {
+  data: Message;
+  status: number;
+  statusText: string;
+};
+
+export interface ChangePassword {
+  previous: string;
+  new: string;
+  userId: string;
+}
+
+export type UpdateProfileResponse = {
   data: Message;
   status: number;
   statusText: string;
