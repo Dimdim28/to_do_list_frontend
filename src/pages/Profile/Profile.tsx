@@ -1,4 +1,4 @@
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
@@ -81,6 +81,13 @@ const Profile: React.FC = () => {
             <div className={styles.line}>
               <p className={styles.name}>name:</p>
               <p className={styles.text}>{username}</p>
+              <FontAwesomeIcon
+                className={`${styles.icon} ${styles.pencil}`}
+                onClick={() => {}}
+                color="rgb(163, 163, 163)"
+                fontSize="15px"
+                icon={faPencil}
+              />
             </div>
 
             <div className={styles.line}>

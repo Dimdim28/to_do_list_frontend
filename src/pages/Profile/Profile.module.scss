@@ -119,6 +119,7 @@
           justify-content: start;
           width: 100%;
           align-items: center;
+          position: relative;
           .name {
             color: chocolate;
             font-weight: 600;
@@ -130,6 +131,22 @@
             margin: 10px;
             font-size: 20px;
             width: 100%;
+          }
+          .icon {
+            width: 15px;
+            height: 15px;
+            z-index: 3;
+          }
+
+          .pencil {
+            &:hover {
+              color: chocolate;
+            }
+            transition: 0.3s;
+            position: absolute;
+            top: calc(50% - 10px);
+            right: 0;
+            cursor: pointer;
           }
         }
       }

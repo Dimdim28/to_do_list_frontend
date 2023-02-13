@@ -29,10 +29,7 @@
       width: 15px;
       height: 15px;
       z-index: 3;
-
-      &:hover {
-        transition: 0.3s;
-      }
+      cursor: pointer;
     }
 
     .pencil {
