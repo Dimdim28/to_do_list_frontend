@@ -1,4 +1,9 @@
-import { faCirclePlus, faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCirclePlus,
+  faPencil,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
@@ -74,6 +79,11 @@ const Profile: React.FC = () => {
     return <Preloader />;
   }
 
+  const cancelChangeName = async () => {
+    setIsNameEditing(false);
+    setName(username);
+  };
+
   return (
     <main className={styles.wrapper}>
       <div className={styles.profile}>
@@ -93,12 +103,24 @@ const Profile: React.FC = () => {
             <div className={styles.line}>
               <p className={styles.name}>name:</p>
               {isNameEditing ? (
-                <input
-                  className={styles.inputName}
-                  value={name}
-                  onChange={(e) => setName(e.currentTarget.value)}
-                  onBlur={() => sumbitChangeName()}
-                />
+                <>
+                  <input
+                    className={styles.inputName}
+                    value={name}
+                    onChange={(e) => setName(e.currentTarget.value)}
+                  />
+                  <FontAwesomeIcon
+                    onClick={sumbitChangeName}
+                    className={styles.check}
+                    icon={faCheck}
+                  />
+
+                  <FontAwesomeIcon
+                    onClick={cancelChangeName}
+                    className={styles.close}
+                    icon={faX}
+                  />
+                </>
               ) : (
                 <>
                   <p className={styles.text}>{name}</p>

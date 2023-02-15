@@ -148,6 +148,34 @@
             display: block;
           }
 
+          .check {
+            width: 15px;
+            height: 15px;
+            z-index: 3;
+            transition: 0.3s;
+            cursor: pointer;
+            position: absolute;
+            right: -5px;
+
+            &:hover {
+              color: green;
+            }
+          }
+
+          .close {
+            width: 15px;
+            height: 15px;
+            z-index: 3;
+            transition: 0.3s;
+            cursor: pointer;
+            position: absolute;
+            right: -20px;
+
+            &:hover {
+              color: red;
+            }
+          }
+
           .icon {
             opacity: 0;
             width: 15px;
