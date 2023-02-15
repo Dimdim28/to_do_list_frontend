@@ -1,4 +1,9 @@
-import { faCirclePlus, faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCirclePlus,
+  faPencil,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
@@ -6,6 +11,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
+import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
@@ -13,6 +19,7 @@ import {
 } from "../../redux/slices/profile/selectors";
 import {
   changeAvatar,
+  changeName,
   fetchUserProfile,
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
@@ -60,6 +67,11 @@ const Profile: React.FC = () => {
     }
   };
 
+  const sumbitChangeName = async () => {
+    const result = await dispatch(changeName({ userId: id, username: name }));
+    console.log(result);
+    setIsNameEditing(false);
+  };
   useEffect(() => {
     setName(username);
   }, [username]);
@@ -67,6 +79,11 @@ const Profile: React.FC = () => {
   if (status === "loading") {
     return <Preloader />;
   }
+
+  const cancelChangeName = async () => {
+    setIsNameEditing(false);
+    setName(username);
+  };
 
   return (
     <main className={styles.wrapper}>
@@ -87,17 +104,30 @@ const Profile: React.FC = () => {
             <div className={styles.line}>
               <p className={styles.name}>name:</p>
               {isNameEditing ? (
-                <input
-                  className={styles.inputName}
-                  value={name}
-                  onChange={(e) => setName(e.currentTarget.value)}
-                  onBlur={() => setIsNameEditing(false)}
-                />
+                <>
+                  <input
+                    className={styles.inputName}
+                    value={name}
+                    onChange={(e) => setName(e.currentTarget.value)}
+                  />
+                  <FontAwesomeIcon
+                    onClick={sumbitChangeName}
+                    className={styles.check}
+                    icon={faCheck}
+                  />
+
+                  <FontAwesomeIcon
+                    onClick={cancelChangeName}
+                    className={styles.close}
+                    icon={faX}
+                  />
+                </>
               ) : (
                 <>
                   <p className={styles.text}>{name}</p>
                   <div
                     onClick={() => {
+                      dispatch(clearProfileErrorMessage());
                       setIsNameEditing(true);
                     }}
                   >
@@ -128,6 +158,7 @@ const Profile: React.FC = () => {
             <p
               className={styles.exit}
               onClick={() => {
+                dispatch(clearProfileErrorMessage());
                 setIsExiting(true);
               }}
             >
@@ -136,7 +167,10 @@ const Profile: React.FC = () => {
 
             <p
               className={styles.button}
-              onClick={() => setIspassEditing((prev) => !prev)}
+              onClick={() => {
+                dispatch(clearProfileErrorMessage());
+                setIspassEditing((prev) => !prev);
+              }}
             >
               change password
             </p>
@@ -144,6 +178,7 @@ const Profile: React.FC = () => {
             <p
               className={styles.delete}
               onClick={() => {
+                dispatch(clearProfileErrorMessage());
                 setIsAccountDeleting(true);
               }}
             >

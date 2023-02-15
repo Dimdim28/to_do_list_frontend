@@ -21,10 +21,12 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.pending, (state) => {
       state.status = Status.LOADING;
+      state.message = "";
       state.profile = null;
     });
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
       state.profile = action.payload;
+      state.message = "";
       state.status = Status.SUCCESS;
     });
     builder.addCase(fetchUserData.rejected, (state, action) => {
@@ -35,10 +37,12 @@ const authSlice = createSlice({
     builder.addCase(fetchAuthMe.pending, (state) => {
       state.status = Status.LOADING;
       state.profile = null;
+      state.message = "";
     });
     builder.addCase(fetchAuthMe.fulfilled, (state, action) => {
       state.profile = action.payload;
       state.status = Status.SUCCESS;
+      state.message = "";
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -48,10 +52,12 @@ const authSlice = createSlice({
     builder.addCase(registerUser.pending, (state) => {
       state.status = Status.LOADING;
       state.profile = null;
+      state.message = "";
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.profile = action.payload;
       state.status = Status.SUCCESS;
+      state.message = "";
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.status = Status.ERROR;

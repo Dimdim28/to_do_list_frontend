@@ -3,6 +3,7 @@ import {
   changePass,
   deleteAccount,
   fetchUserProfile,
+  changeName,
 } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../types";
@@ -20,6 +21,9 @@ const profileSlice = createSlice({
     exit(state) {
       state.data = null;
     },
+    clearProfileErrorMessage(state) {
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserProfile.pending, (state) => {
@@ -30,6 +34,7 @@ const profileSlice = createSlice({
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.data = action.payload;
       state.status = Status.SUCCESS;
+      state.message = "";
     });
     builder.addCase(fetchUserProfile.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -48,7 +53,7 @@ const profileSlice = createSlice({
           ...state.data,
           avatarUrl: `http://localhost:5000${action.payload.url}`,
         };
-
+      state.message = "";
       state.status = Status.SUCCESS;
     });
     builder.addCase(changeAvatar.rejected, (state, action) => {
@@ -63,6 +68,7 @@ const profileSlice = createSlice({
     builder.addCase(deleteAccount.fulfilled, (state) => {
       state.data = null;
       state.status = Status.SUCCESS;
+      state.message = "";
     });
     builder.addCase(deleteAccount.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -75,8 +81,22 @@ const profileSlice = createSlice({
     });
     builder.addCase(changePass.fulfilled, (state) => {
       state.status = Status.SUCCESS;
+      state.message = "";
     });
     builder.addCase(changePass.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+
+    builder.addCase(changeName.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = "";
+    });
+    builder.addCase(changeName.fulfilled, (state) => {
+      state.status = Status.SUCCESS;
+      state.message = "";
+    });
+    builder.addCase(changeName.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });
@@ -84,4 +104,4 @@ const profileSlice = createSlice({
 });
 
 export const profileReducer = profileSlice.reducer;
-export const { exit } = profileSlice.actions;
+export const { exit, clearProfileErrorMessage } = profileSlice.actions;

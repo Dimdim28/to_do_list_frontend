@@ -10,6 +10,7 @@ import {
   Message,
   ChangePassword,
   UpdateProfileResponse,
+  ChangeName,
 } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
@@ -85,6 +86,22 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
         { password: params.new }
       );
       return updatingPassResult.data;
+    } catch (err: any) {
+      console.log(err);
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const changeName = createAsyncThunk<Message, ChangeName>(
+  "profile/changeName",
+  async (params, { rejectWithValue }) => {
+    try {
+      const result: UpdateProfileResponse = await instanse.patch(
+        `/user/${params.userId}`,
+        { username: params.username }
+      );
+      return result.data;
     } catch (err: any) {
       console.log(err);
       return rejectWithValue(err.response.data.message);

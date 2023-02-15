@@ -64,12 +64,14 @@ const homeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
       state.category.status = Status.LOADING;
+      state.category.message = "";
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [
         ...state.category.categories,
         ...action.payload.categories,
       ];
+      state.category.message = "";
       state.category.status = Status.SUCCESS;
       state.category.totalPages = action.payload.totalPages;
       state.category.currentPage = Number(action.payload.currentPage);
