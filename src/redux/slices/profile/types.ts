@@ -60,3 +60,8 @@ export type UpdateProfileResponse = {
   status: number;
   statusText: string;
 };
+
+export interface ChangeName {
+  username: string;
+  userId: string;
+}

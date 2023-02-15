@@ -13,6 +13,7 @@ import {
 } from "../../redux/slices/profile/selectors";
 import {
   changeAvatar,
+  changeName,
   fetchUserProfile,
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
@@ -60,6 +61,11 @@ const Profile: React.FC = () => {
     }
   };
 
+  const sumbitChangeName = async () => {
+    const result = await dispatch(changeName({ userId: id, username: name }));
+    console.log(result);
+    setIsNameEditing(false);
+  };
   useEffect(() => {
     setName(username);
   }, [username]);
@@ -91,7 +97,7 @@ const Profile: React.FC = () => {
                   className={styles.inputName}
                   value={name}
                   onChange={(e) => setName(e.currentTarget.value)}
-                  onBlur={() => setIsNameEditing(false)}
+                  onBlur={() => sumbitChangeName()}
                 />
               ) : (
                 <>

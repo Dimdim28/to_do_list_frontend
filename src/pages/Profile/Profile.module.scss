@@ -114,17 +114,20 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
+
         .line {
           display: flex;
           justify-content: start;
           width: 100%;
           align-items: center;
           position: relative;
+
           .name {
             color: chocolate;
             font-weight: 600;
             font-size: 20px;
           }
+
           .text {
             color: rgb(163, 163, 163);
             border-bottom: 2px solid chocolate;
@@ -132,6 +135,7 @@
             font-size: 20px;
             width: 100%;
           }
+
           .inputName {
             outline: none;
             color: grey;
@@ -140,6 +144,8 @@
             margin: 10px;
             font-size: 20px;
             width: 100%;
+            padding: 0;
+            display: block;
           }
 
           .icon {
