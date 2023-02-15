@@ -11,6 +11,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
+import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
@@ -126,6 +127,7 @@ const Profile: React.FC = () => {
                   <p className={styles.text}>{name}</p>
                   <div
                     onClick={() => {
+                      dispatch(clearProfileErrorMessage());
                       setIsNameEditing(true);
                     }}
                   >
@@ -156,6 +158,7 @@ const Profile: React.FC = () => {
             <p
               className={styles.exit}
               onClick={() => {
+                dispatch(clearProfileErrorMessage());
                 setIsExiting(true);
               }}
             >
@@ -164,7 +167,10 @@ const Profile: React.FC = () => {
 
             <p
               className={styles.button}
-              onClick={() => setIspassEditing((prev) => !prev)}
+              onClick={() => {
+                dispatch(clearProfileErrorMessage());
+                setIspassEditing((prev) => !prev);
+              }}
             >
               change password
             </p>
@@ -172,6 +178,7 @@ const Profile: React.FC = () => {
             <p
               className={styles.delete}
               onClick={() => {
+                dispatch(clearProfileErrorMessage());
                 setIsAccountDeleting(true);
               }}
             >
