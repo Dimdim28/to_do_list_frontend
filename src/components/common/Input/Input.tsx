@@ -19,51 +19,63 @@ interface FormikInputProps {
   onBlur: React.FocusEventHandler<HTMLInputElement> | undefined;
 }
 
-export const Input: React.FC<InputProps> = (props) => {
+export const Input: React.FC<InputProps> = ({
+  value,
+  type,
+  title,
+  setValue,
+}) => {
   return (
     <div className={styles.inputBox}>
       <input
-        className={props.value ? styles.activeInput : styles.input}
-        type={props.type}
-        value={props.value}
-        onChange={(e) => props.setValue(e.target.value)}
+        className={value ? styles.activeInput : styles.input}
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
-      <span className={styles.span}>{props.title}</span>
+      <span className={styles.span}>{title}</span>
       <i className={styles.i}></i>
     </div>
   );
 };
 
-export const FormikInput: React.FC<FormikInputProps> = (props) => {
-  const [type, setType] = useState(props.type);
+export const FormikInput: React.FC<FormikInputProps> = ({
+  type,
+  value,
+  name,
+  onChange,
+  onBlur,
+  title,
+}) => {
+  const [activeType, setActiveType] = useState(type);
 
   return (
     <div className={styles.inputBox}>
       <input
-        className={props.value ? styles.activeInput : styles.input}
-        name={props.name}
-        type={type}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        value={props.value}
+        className={value ? styles.activeInput : styles.input}
+        name={name}
+        type={activeType}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={value}
         autoComplete="on"
       />
-      <span className={styles.span}>{props.title}</span>
+      <span className={styles.span}>{title}</span>
       <i className={styles.i}></i>
-      {props.type === "password" && (
+      {type === "password" && (
         <>
-          {type === "password" && (
+          {activeType === "password" && (
             <FontAwesomeIcon
               className={styles.show}
               icon={faEye}
-              onClick={() => setType("text")}
+              onClick={() => setActiveType("text")}
             />
           )}
-          {type === "text" && (
+          {activeType === "text" && (
             <FontAwesomeIcon
               className={styles.hide}
               icon={faEyeSlash}
-              onClick={() => setType("password")}
+              onClick={() => setActiveType("password")}
             />
           )}
         </>

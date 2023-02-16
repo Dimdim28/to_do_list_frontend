@@ -8,13 +8,13 @@ interface Props {
   callback: any;
 }
 
-const Button: React.FC<Props> = (props) => {
+const Button: React.FC<Props> = ({ callback, text, class: nameOfClass }) => {
   return (
     <button
-      className={`${styles.button} ${styles[props.class]}`}
-      onClick={() => props.callback()}
+      className={`${styles.button} ${styles[nameOfClass]}`}
+      onClick={() => callback()}
     >
-      {props.text}
+      {text}
     </button>
   );
 };

@@ -6,16 +6,20 @@ interface CheckboxProps {
   label: string;
 }
 
-export const Checkbox: React.FC<CheckboxProps> = (props) => {
+export const Checkbox: React.FC<CheckboxProps> = ({
+  isChecked,
+  setIsChecked,
+  label,
+}) => {
   return (
     <label className={styles.checkboxContainer}>
       <input
         type="checkbox"
-        checked={props.isChecked}
-        onChange={() => props.setIsChecked((prev) => !prev)}
+        checked={isChecked}
+        onChange={() => setIsChecked((prev) => !prev)}
       />
       <span className={styles.checkmark}></span>
-      {props.label}
+      {label}
     </label>
   );
 };
