@@ -14,7 +14,14 @@ interface FiltersProps {
   setHasDeadline: React.Dispatch<SetStateAction<boolean>>;
   setIsCompleted: React.Dispatch<SetStateAction<IsCompleted>>;
 }
-const Filters: React.FC<FiltersProps> = (props) => {
+const Filters: React.FC<FiltersProps> = ({
+  isCompleted,
+  setIsCompleted,
+  hasDeadline,
+  setHasDeadline,
+  date,
+  setDate,
+}) => {
   const selectStatusOptions: Item<IsCompleted>[] = [
     { name: "Completed", value: "true" },
     { name: "In process", value: "false" },
@@ -34,25 +41,25 @@ const Filters: React.FC<FiltersProps> = (props) => {
       <Select<IsCompleted>
         items={selectStatusOptions}
         width="200px"
-        activeValue={props.isCompleted}
-        callback={props.setIsCompleted}
+        activeValue={isCompleted}
+        callback={setIsCompleted}
       />
       <Checkbox
-        isChecked={props.hasDeadline}
-        setIsChecked={props.setHasDeadline}
+        isChecked={hasDeadline}
+        setIsChecked={setHasDeadline}
         label="With deadline"
       />
-      {props.hasDeadline && (
+      {hasDeadline && (
         <Select<Date>
           items={selectDateOptions}
-          activeValue={props.date}
+          activeValue={date}
           width="200px"
-          callback={props.setDate}
+          callback={setDate}
         />
       )}
-      date: {props.date}
+      date: {date}
       <br />
-      isCompleted: {props.isCompleted}
+      isCompleted: {isCompleted}
     </section>
   );
 };
