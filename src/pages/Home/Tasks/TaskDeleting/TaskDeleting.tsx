@@ -1,6 +1,5 @@
 import styles from './TaskDeleting.module.scss';
 import Button from '../../../../components/common/Button/Button';
-import Task from '../../../Task/Task';
 
 interface TaskDeletingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
