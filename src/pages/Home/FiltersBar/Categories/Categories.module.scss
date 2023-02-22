@@ -18,6 +18,7 @@
     &::-webkit-scrollbar {
       width: 5px;
       height: 5px;
+      cursor: pointer;
     }
 
     &::-webkit-scrollbar-track {
@@ -26,12 +27,16 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #888;
+      background: $gray-300;
       border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: rgb(43, 42, 42);
+      background: $background-dark-200;
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background: $gray-300;
     }
   }
   .addCategory {
