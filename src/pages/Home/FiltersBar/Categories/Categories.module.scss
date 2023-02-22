@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .categoriesWrapper {
   width: 100%;
   display: flex;
@@ -40,7 +42,7 @@
     cursor: pointer;
   }
   .categoriesError {
-    color: red;
+    color: $error-200;
     width: 100%;
     text-align: center;
   }

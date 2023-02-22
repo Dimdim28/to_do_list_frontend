@@ -56,7 +56,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         <Preloader />
       ) : (
         <>
-          <h2 className={styles.title}>Category color</h2>
+          <h3 className={styles.title}>Category color</h3>
           <input
             className={styles.chooseColor}
             type="color"

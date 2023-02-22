@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,21 @@
     border-radius: 20px;
     border: none;
     background: none;
-    height: 54px;
+    height: 34px;
+    margin-top: 20px;
+    outline-width: 0;
+    &::-moz-color-swatch {
+      border: none;
+    }
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border-radius: 0;
+    }
+
+    &::-webkit-color-swatch {
+      border: none;
+    }
   }
   .buttons {
     display: flex;
@@ -24,6 +40,6 @@
     margin-top: 20px;
   }
   .error {
-    color: red;
+    color: $error-200;
   }
 }

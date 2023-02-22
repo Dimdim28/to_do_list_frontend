@@ -40,7 +40,7 @@ const Categories: React.FC = () => {
   return (
     <>
       <section className={styles.categoriesWrapper}>
-        <h2>Categories</h2>
+        <h3>Categories</h3>
         <div className={styles.categories} onScroll={handleCategoriesScroll}>
           {categories.length === 0 && status === "success" ? (
             <p>you have not categories</p>
