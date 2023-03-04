@@ -25,7 +25,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
   const { _id, title: prevTitle, color: prevColor } = childProps;
-  const [color, setColor] = useState(prevColor || "#000000");
+  const [color, setColor] = useState(prevColor || "#ffffff");
   const [title, setTittle] = useState(prevTitle || "");
 
   const submit = async () => {

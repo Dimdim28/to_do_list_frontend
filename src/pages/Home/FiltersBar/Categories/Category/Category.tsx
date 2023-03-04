@@ -1,8 +1,7 @@
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Category.module.scss";
-
 export interface CategoryProps {
   _id: string;
   title: string;
@@ -20,8 +19,22 @@ const Category: React.FC<CategoryProps> = ({
   setCategoryEditing,
   ...props
 }) => {
+  const [hover, setHover] = useState(false);
+  const handleMouseEnter = () => {
+    setHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHover(false);
+  };
+
   return (
-    <div className={styles.category} style={{ borderColor: props.color }}>
+    <div
+      className={styles.category}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ borderColor: hover ? "#f97316" : props.color }}
+    >
       <span className={styles.title}>{props.title}</span>
       <div className={styles.icons}>
         <FontAwesomeIcon
