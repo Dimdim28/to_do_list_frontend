@@ -1,4 +1,6 @@
+@import "src/styles/partials/theme";
+
 .wrapper {
-  background-color: rgb(75, 55, 55);
+  background-color: $background-dark-35;
   width: calc(100% - 300px);
 }

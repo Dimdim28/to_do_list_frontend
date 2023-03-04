@@ -1,7 +1,9 @@
+@import "src/styles/partials/theme";
+
 header {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(197, 197, 197);
+  background-color: $background-dark--10;
   align-items: center;
   height: 40px;
   width: 100%;
@@ -19,7 +21,7 @@ header {
 
     a {
       text-decoration: none;
-      color: black;
+      color: $gray-600;
     }
   }
 

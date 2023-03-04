@@ -1,8 +1,11 @@
+@import "src/styles/partials/theme";
+
 .modalActive,
 .modal {
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: $black;
+  opacity: 0.4;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,7 +29,7 @@
 .modalContent {
   padding: 20px;
   border-radius: 12px;
-  background-color: white;
+  background-color: $background-dark-0;
   position: relative;
 }
 
@@ -37,7 +40,8 @@
   height: 15px;
   width: 15px;
   transition: 0.3s;
+  cursor: pointer;
   &:hover {
-    color: red;
+    color: $error-200;
   }
 }

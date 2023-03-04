@@ -1,4 +1,6 @@
+@import "src/styles/partials/theme";
+
 .filtersWrapper {
-  background-color: rgb(226, 223, 223);
+  background-color: $background-dark-0;
   width: 300px;
 }

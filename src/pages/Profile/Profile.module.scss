@@ -1,3 +1,18 @@
+@import "src/styles/partials/theme";
+
+@mixin style-button-icon-color($default, $hover, $active, $focus) {
+  color: $default;
+  &:hover {
+    color: $hover;
+  }
+  &:focus {
+    color: $focus;
+  }
+  &:active {
+    color: $active;
+  }
+}
+
 .wrapper {
   width: 100%;
   height: calc(100% - 80px);
@@ -17,7 +32,7 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      border: 2px solid chocolate;
+      border: 2px solid $warning-200;
       border-radius: 15px;
       padding: 30px;
       position: relative;
@@ -33,36 +48,40 @@
         padding: 7px;
 
         .exit {
-          color: gray;
           font-weight: 500;
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
-          &:hover {
-            color: red;
-          }
+          @include style-button-icon-color(
+            $gray-600,
+            $error-200,
+            $error-300,
+            $error-200
+          );
         }
 
         .button {
-          color: gray;
+          color: $gray-600;
           font-weight: 500;
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
           &:hover {
-            color: chocolate;
+            color: $warning-200;
           }
         }
 
         .delete {
-          color: gray;
           font-weight: 500;
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
-          &:hover {
-            color: red;
-          }
+          @include style-button-icon-color(
+            $gray-600,
+            $error-200,
+            $error-300,
+            $error-200
+          );
         }
       }
 
@@ -70,9 +89,9 @@
         height: 300px;
         width: 300px;
         border-radius: 50%;
-        border: 4px solid chocolate;
+        border: 4px solid $warning-200;
         text-align: center;
-        background-color: rgb(163, 163, 163);
+        background-color: $background-dark-0;
         position: relative;
         input[type="file"] {
           display: none;
@@ -93,17 +112,17 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(0, 0, 0, 0.8);
+          background: $black;
           border-radius: 50%;
           opacity: 0;
           transition: 0.5s;
           cursor: pointer;
           .camera {
             font-size: 80px;
-            color: white;
+            color: $gray-600;
           }
           &:hover {
-            opacity: 1;
+            opacity: 0.5;
           }
         }
       }
@@ -123,14 +142,14 @@
           position: relative;
 
           .name {
-            color: chocolate;
+            color: $warning-200;
             font-weight: 600;
             font-size: 20px;
           }
 
           .text {
-            color: rgb(163, 163, 163);
-            border-bottom: 2px solid chocolate;
+            color: $gray-600;
+            border-bottom: 2px solid $warning-200;
             margin: 10px;
             font-size: 20px;
             width: 100%;
@@ -138,14 +157,15 @@
 
           .inputName {
             outline: none;
-            color: grey;
+            color: $gray-600;
             border: none;
-            border-bottom: 2px solid chocolate;
+            border-bottom: 2px solid $warning-200;
             margin: 10px;
             font-size: 20px;
             width: 100%;
             padding: 0;
             display: block;
+            background-color: transparent;
           }
 
           .check {
@@ -158,7 +178,7 @@
             right: -5px;
 
             &:hover {
-              color: green;
+              color: $green-200;
             }
           }
 
@@ -172,7 +192,7 @@
             right: -20px;
 
             &:hover {
-              color: red;
+              color: $error-200;
             }
           }
 
@@ -185,7 +205,7 @@
 
           .pencil {
             &:hover {
-              color: chocolate;
+              color: $warning-200;
             }
             transition: 0.3s;
             position: absolute;
@@ -209,7 +229,7 @@
       justify-content: space-between;
       margin-top: 20px;
       width: 100%;
-      border: 2px solid chocolate;
+      border: 2px solid $warning-200;
       border-radius: 15px;
 
       .passEditing {
@@ -225,7 +245,7 @@
       position: absolute;
       bottom: -5px;
       text-align: center;
-      color: red;
+      color: $error-200;
     }
   }
 }
