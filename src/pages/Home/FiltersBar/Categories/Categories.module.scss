@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .categoriesWrapper {
   width: 100%;
   display: flex;
@@ -12,35 +14,23 @@
     max-height: 100px;
     width: 100%;
     padding-right: 20px;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: rgb(43, 42, 42);
-    }
   }
   .addCategory {
-    border: 2px solid black;
+    border: 2px solid $white;
     border-radius: 15px;
     padding: 5px;
     margin-top: 5px;
     cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+    &:hover {
+      color: $warning-200;
+      border-color: $warning-200;
+      box-shadow: 0 0 10px $warning-200;
+    }
   }
   .categoriesError {
-    color: red;
+    color: $error-200;
     width: 100%;
     text-align: center;
   }

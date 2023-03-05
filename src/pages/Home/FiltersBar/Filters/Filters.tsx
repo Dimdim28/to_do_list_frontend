@@ -37,7 +37,7 @@ const Filters: React.FC<FiltersProps> = ({
 
   return (
     <section className={styles.dateWrapper}>
-      <h2>Date and status</h2>
+      <h3>Date and status</h3>
       <Select<IsCompleted>
         items={selectStatusOptions}
         width="200px"

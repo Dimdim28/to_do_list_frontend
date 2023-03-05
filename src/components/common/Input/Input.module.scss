@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .inputBox {
   position: relative;
   width: 100%;
@@ -11,7 +13,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #23242a;
+  color: $background-dark--10;
   font-size: 1em;
   letter-spacing: 0.05em;
   z-index: 10;
@@ -22,7 +24,7 @@
   left: 0;
   padding: 20px 10px 10px;
   font-size: 1em;
-  color: #8f8f8f;
+  color: $background-light-50;
   pointer-events: none;
   letter-spacing: 0.05em;
   transition: 0.5s;
@@ -30,7 +32,7 @@
 
 .input:focus ~ span,
 .activeInput ~ span {
-  color: #ffa41b;
+  color: $warning-200;
   transform: translateX(-10px) translateY(-34px);
   font-size: 0.75em;
 }
@@ -41,7 +43,7 @@
   bottom: 0;
   width: 100%;
   height: 2px;
-  background: #ffa41b;
+  background: $warning-200;
   border-radius: 4px;
   transition: 0.5s;
   pointer-events: none;
@@ -57,11 +59,11 @@
   position: absolute;
   right: -25px;
   bottom: 12px;
-  color: grey;
+  color: $background-light-50;
   z-index: 2;
   cursor: pointer;
   transition: 0.3s;
   &:hover {
-    color: #ffa41b;
+    color: $warning-200;
   }
 }
