@@ -14,30 +14,6 @@
     max-height: 100px;
     width: 100%;
     padding-right: 20px;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-      cursor: pointer;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $gray-300;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: $background-dark-200;
-    }
-
-    &::-webkit-scrollbar-thumb:active {
-      background: $gray-300;
-    }
   }
   .addCategory {
     border: 2px solid $white;
