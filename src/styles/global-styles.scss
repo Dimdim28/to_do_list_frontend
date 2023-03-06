@@ -27,10 +27,14 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 1.11vw;
+  width: 8px;
 }
+
+::-webkit-scrollbar-track {
+  background-color: $background-dark--10;
+}
+
 ::-webkit-scrollbar-thumb {
-  border: 0.28vw $background-dark-0 solid;
   background-clip: padding-box;
 
   transition: all 0.2s ease-in-out;
