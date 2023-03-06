@@ -249,3 +249,59 @@
     }
   }
 }
+
+@media screen and (max-width: 1480px) {
+  .wrapper {
+    .profile {
+      width: 60%;
+      .row {
+        .avatar {
+          width: 280px;
+          height: 280px;
+        }
+        .info {
+          .line {
+            .text,
+            .name,
+            .inputName {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .wrapper {
+    .profile {
+      width: 70%;
+      .row {
+        .avatar {
+          width: 260px;
+          height: 260px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    .profile {
+      width: 90%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    .profile {
+      width: 95%;
+      .row {
+        flex-direction: column;
+      }
+    }
+  }
+}
