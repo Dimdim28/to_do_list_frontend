@@ -67,7 +67,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
           <div className={styles.buttons}>
             <Button text="cancel" callback={cancel} class="cancel" />
-            <Button text="submit" callback={submit} class="submit" />
+            <Button
+              text="submit"
+              callback={submit}
+              class="submit"
+              disabled={title.length < 3}
+            />
           </div>
 
           {categoryError && <p className={styles.error}>{categoryError}</p>}

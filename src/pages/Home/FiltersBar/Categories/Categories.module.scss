@@ -11,9 +11,10 @@
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
-    max-height: 100px;
+    max-height: 200px;
     width: 100%;
-    padding-right: 20px;
+    padding: 0 20px;
+    margin-top: 20px;
   }
   .addCategory {
     border: 2px solid $white;
@@ -22,7 +23,7 @@
     margin-top: 5px;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 10px;
+    margin-top: 20px;
     &:hover {
       color: $warning-200;
       border-color: $warning-200;
