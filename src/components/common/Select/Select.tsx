@@ -7,18 +7,22 @@ export type Item<T> = {
   value: T;
 };
 
-interface SelectProps<T> {
+interface SelectProps<T> extends React.ComponentPropsWithoutRef<"input"> {
   items: Item<T>[];
   activeValue: string;
   callback: React.Dispatch<SetStateAction<T>>;
   width: string;
 }
 
-const Select = <T,>(
-  props: React.PropsWithChildren<SelectProps<T>>
-): JSX.Element => {
+const Select = <T,>({
+  items,
+  activeValue,
+  callback,
+  width,
+  ...rest
+}: React.PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeName, setActiveName] = useState(props.activeValue);
+  const [activeName, setActiveName] = useState(activeValue);
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,11 +38,7 @@ const Select = <T,>(
   }, [selectRef]);
 
   return (
-    <div
-      ref={selectRef}
-      className={styles.wrapper}
-      style={{ width: props.width }}
-    >
+    <div ref={selectRef} className={styles.wrapper} style={{ width: width }}>
       <div
         className={isOpen ? styles.activeTitle : styles.title}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -47,7 +47,7 @@ const Select = <T,>(
       </div>
       {isOpen && (
         <ul className={styles.items}>
-          {props.items.map((el, id) => (
+          {items.map((el, id) => (
             <li
               key={id}
               className={
@@ -55,7 +55,7 @@ const Select = <T,>(
               }
               onClick={() => {
                 setActiveName(el.name);
-                props.callback(el.value);
+                callback(el.value);
                 setIsOpen(false);
               }}
             >
