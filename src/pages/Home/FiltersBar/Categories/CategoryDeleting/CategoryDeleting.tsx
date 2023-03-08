@@ -20,7 +20,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
-
+ 
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = await categoryAPI.deleteCategory(_id);
