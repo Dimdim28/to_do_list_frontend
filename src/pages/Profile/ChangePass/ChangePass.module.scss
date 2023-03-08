@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .aside {
   width: 100%;
   border-radius: 15px;
@@ -16,7 +18,7 @@
         max-width: 250px;
         position: relative;
         p {
-          color: red;
+          color: $error-200;
           position: absolute;
           right: 0;
         }
@@ -26,19 +28,44 @@
       margin-top: 40px;
       outline: none;
       background-color: inherit;
-      color: chocolate;
+      color: $warning-200;
       border-radius: 15px;
       padding: 5px 10px;
-      border: 2px solid chocolate;
+      border: 2px solid $warning-200;
       transition: 0.3s;
 
       &:hover {
-        background-color: chocolate;
-        color: white;
+        background-color: $warning-200;
+        color: $white;
       }
       &:disabled {
-        color: chocolate;
+        color: $warning-200;
         background-color: inherit;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .aside {
+    .form {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aside {
+    .form {
+      .wrapper {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        .fieldsWrapper {
+          max-width: 100%;
+          width: calc(100% - 30px);
+        }
       }
     }
   }

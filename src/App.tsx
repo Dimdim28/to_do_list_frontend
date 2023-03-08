@@ -1,10 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import { useAppDispatch } from "./hooks";
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
+
+import "./styles/reset.scss";
+import "./styles/typography.scss";
+import "./styles/global-styles.scss";
 
 import ROUTES from "./routes";
 

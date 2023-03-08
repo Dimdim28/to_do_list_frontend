@@ -43,10 +43,10 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
         <Preloader />
       ) : (
         <>
-          <h2 className={styles.title}>
+          <h3 className={styles.title}>
             Do you really want to delete <i style={{ color }}>{title}</i>{" "}
             category
-          </h2>
+          </h3>
           <div className={styles.buttons}>
             <Button text="cancel" callback={cancel} class="cancel" />
             <Button text="submit" callback={submit} class="submit" />

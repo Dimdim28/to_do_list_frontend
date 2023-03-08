@@ -37,25 +37,29 @@ const Filters: React.FC<FiltersProps> = ({
 
   return (
     <section className={styles.dateWrapper}>
-      <h2>Date and status</h2>
-      <Select<IsCompleted>
-        items={selectStatusOptions}
-        width="200px"
-        activeValue={isCompleted}
-        callback={setIsCompleted}
-      />
+      <h3>Date and status</h3>
+      <div className={styles.progressStatus}>
+        <Select<IsCompleted>
+          items={selectStatusOptions}
+          width="200px"
+          activeValue={isCompleted}
+          callback={setIsCompleted}
+        />
+      </div>
       <Checkbox
         isChecked={hasDeadline}
         setIsChecked={setHasDeadline}
         label="With deadline"
       />
       {hasDeadline && (
-        <Select<Date>
-          items={selectDateOptions}
-          activeValue={date}
-          width="200px"
-          callback={setDate}
-        />
+        <div className={styles.deadline}>
+          <Select<Date>
+            items={selectDateOptions}
+            activeValue={date}
+            width="200px"
+            callback={setDate}
+          />
+        </div>
       )}
       date: {date}
       <br />

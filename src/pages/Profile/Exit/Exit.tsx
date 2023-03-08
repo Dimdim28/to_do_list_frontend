@@ -38,7 +38,7 @@ const Exit: React.FC<ExitFromAccountProps> = ({ toggleActive }) => {
         <Preloader />
       ) : (
         <>
-          <h2 className={styles.title}>Are you sure?</h2>
+          <h3 className={styles.title}>Are you sure?</h3>
           <div className={styles.buttons}>
             <Button text="No" callback={cancel} class="cancel" />
             <Button text="Yes" callback={submit} class="submit" />

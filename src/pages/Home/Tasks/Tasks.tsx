@@ -4,8 +4,7 @@ import TaskDeleting from "./TaskDeleting/TaskDeleting";
 import { Modal } from "../../../components/common/Modal/Modal";
 
 const Tasks = () => {
-  // const [taskEditing, setTaskEditing] = useState(false);
-  const [taskDeleting, setTaskDeleting] = useState(true);
+  const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskProps, setTaskProps] = useState({});
 
   return (
