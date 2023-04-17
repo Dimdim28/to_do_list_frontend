@@ -78,11 +78,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             setValue={setDescription}
             type="text"
           />
-          <Checkbox
-            isChecked={hasDeadline}
-            setIsChecked={setHasDeadline}
-            label="Task has deadline"
-          />
+          <div className={styles.checkBox}>
+            <Checkbox
+              isChecked={hasDeadline}
+              setIsChecked={setHasDeadline}
+              label="Task has deadline"
+            />
+          </div>
+
           {hasDeadline && (
             <input
               type="date"
@@ -91,12 +94,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               onChange={(e) => setDeadline(e.target.value)}
             />
           )}
-
-          <Checkbox
-            isChecked={isCompleted}
-            setIsChecked={setIsCompleted}
-            label="Task completed"
-          />
+          <div className={styles.checkBox}>
+            <Checkbox
+              isChecked={isCompleted}
+              setIsChecked={setIsCompleted}
+              label="Task completed"
+            />
+          </div>
 
           <div className={styles.actions}>
             <Button text="cancel" callback={cancel} class="cancel" />
