@@ -20,7 +20,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
- 
+
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = await categoryAPI.deleteCategory(_id);
@@ -44,7 +44,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
       ) : (
         <>
           <h3 className={styles.title}>
-            Do you really want to delete <i style={{ color }}>{title}</i>{" "}
+            Do you really want to delete <i style={{ color }}>{title}</i>
             category
           </h3>
           <div className={styles.buttons}>
