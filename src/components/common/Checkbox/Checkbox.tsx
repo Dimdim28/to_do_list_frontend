@@ -1,6 +1,7 @@
-import React, { SetStateAction } from "react";
+import React, { InputHTMLAttributes, SetStateAction } from "react";
 import styles from "./Checkbox.module.scss";
-interface CheckboxProps {
+
+interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   isChecked: boolean;
   setIsChecked: React.Dispatch<SetStateAction<boolean>>;
   label: string;

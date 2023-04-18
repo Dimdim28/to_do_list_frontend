@@ -16,6 +16,7 @@
     padding: 0 20px;
     margin-top: 20px;
   }
+
   .addCategory {
     border: 2px solid $white;
     border-radius: 15px;
@@ -24,12 +25,19 @@
     cursor: pointer;
     transition: 0.3s;
     margin-top: 20px;
+
     &:hover {
       color: $warning-200;
       border-color: $warning-200;
       box-shadow: 0 0 10px $warning-200;
     }
+
+    &:active {
+      color: white;
+      background-color: $warning-200;
+    }
   }
+
   .categoriesError {
     color: $error-200;
     width: 100%;

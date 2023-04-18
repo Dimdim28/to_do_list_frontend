@@ -10,19 +10,23 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
   input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    &:checked ~ .checkmark {
+
+    &:checked~.checkmark {
       background-color: $error-50;
+
       &:after {
         display: block;
       }
     }
   }
+
   .checkmark {
     position: absolute;
     top: 0;
@@ -46,7 +50,8 @@
       transform: rotate(45deg);
     }
   }
-  &:hover input ~ .checkmark {
+
+  &:hover input~.checkmark {
     background-color: $error-100;
   }
 }
