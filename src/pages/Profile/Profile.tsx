@@ -28,6 +28,19 @@ import Exit from "./Exit/Exit";
 
 import styles from "./Profile.module.scss";
 
+const convertToBase64 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (err) => {
+      reject(err);
+    };
+  });
+};
+
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
   const id = useAppSelector(selectProfile)?._id || "";
@@ -58,10 +71,17 @@ const Profile: React.FC = () => {
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
+
+    if (file.size > 67153) {
+      return alert("Too large");
+    }
+
+    const base64: any = await convertToBase64(file);
+
     try {
-      const formdata = new FormData();
-      formdata.append("image", file);
-      await dispatch(changeAvatar({ image: formdata, userId: id }));
+      // const formdata = new FormData();
+      // formdata.append("image", file);
+      await dispatch(changeAvatar({ image: base64, userId: id }));
     } catch (e) {
       console.log(e);
     }
