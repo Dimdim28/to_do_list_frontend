@@ -1,0 +1,72 @@
+@import "src/styles/partials/theme";
+
+.wrapper,
+.completedWrapper {
+    background-color: $background-dark-0;
+    width: 350px;
+    padding: 0 20px 20px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.completedWrapper {
+    opacity: 0.6;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 20px;
+    max-width: calc(100% - 50px);
+    margin-top: 20px;
+
+}
+
+.deadline {
+    color: $error-200;
+    margin-top: 10px;
+    text-align: end;
+}
+
+.description {}
+
+@media screen and (max-width: 1420px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 1320px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}
+
+@media screen and (max-width: 1120px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}

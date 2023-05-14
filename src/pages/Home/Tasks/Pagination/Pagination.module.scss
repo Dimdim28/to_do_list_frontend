@@ -1,0 +1,39 @@
+@import "src/styles/partials/theme";
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pageButton,
+.disabledPageButton,
+.activePageButton {
+    background-color: $background-dark-0;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.pageButton {
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: $background-dark--10;
+    }
+}
+
+.activePageButton {
+    background-color: $error-200;
+}
+
+.disabledPageButton {
+    opacity: 0.6;
+}

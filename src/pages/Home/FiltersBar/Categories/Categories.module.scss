@@ -12,6 +12,9 @@
     flex-wrap: wrap;
     overflow-y: scroll;
     max-height: 200px;
+    overflow-x: hidden;
+    min-width: 100%;
+    max-width: 100%;
     width: 100%;
     padding: 0 20px;
     margin-top: 20px;
