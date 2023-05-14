@@ -12,9 +12,12 @@
   font-weight: 500;
   margin: 5px;
   position: relative;
-  width: 100%;
+  width: calc(100% - 5px);
+  max-width: calc(100% - 5px);
+  min-width: calc(100% - 5px);
   cursor: pointer;
   transition: 0.3s;
+
   &:hover {
     color: $warning-200;
     box-shadow: 0 0 10px $warning-200;
@@ -23,6 +26,8 @@
   .title {
     max-width: 100%;
     overflow-wrap: break-word;
+    width: 100%;
+    text-align: center;
   }
 
   .icons {
@@ -42,9 +47,11 @@
 
     .pencil {
       color: $white;
+
       &:hover {
         color: $warning-200;
       }
+
       position: absolute;
       top: 0;
       right: 0;
@@ -55,6 +62,7 @@
       position: absolute;
       bottom: 0;
       right: 0;
+
       &:hover {
         color: $error-200;
       }

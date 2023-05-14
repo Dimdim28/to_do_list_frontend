@@ -1,0 +1,40 @@
+@import "src/styles/partials/theme";
+
+.wrapper,
+.completedWrapper {
+    background-color: $background-dark-0;
+    width: 300px;
+    padding: 0 20px 20px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.completedWrapper {
+    opacity: 0.6;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 20px;
+    max-width: calc(100% - 50px);
+    margin-top: 20px;
+
+}
+
+.deadline {
+    color: red;
+    margin-top: 10px;
+    text-align: end;
+}
+
+.description {}

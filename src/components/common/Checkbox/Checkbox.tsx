@@ -5,12 +5,14 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   isChecked: boolean;
   setIsChecked: React.Dispatch<SetStateAction<boolean>>;
   label: string;
+  isRounded?: boolean;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   isChecked,
   setIsChecked,
   label,
+  isRounded
 }) => {
   return (
     <label className={styles.checkboxContainer}>
@@ -19,7 +21,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         checked={isChecked}
         onChange={() => setIsChecked((prev) => !prev)}
       />
-      <span className={styles.checkmark}></span>
+      <span className={isRounded ? styles.roundedCheckMark : styles.checkmark}></span>
       {label}
     </label>
   );

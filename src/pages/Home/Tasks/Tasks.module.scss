@@ -3,6 +3,17 @@
 .wrapper {
   background-color: $background-dark-35;
   width: calc(100% - 300px);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
+  height: 100%;
+}
+
+.wrapperWithTasks {
+  background-color: $background-dark-35;
+  width: calc(100% - 300px);
+  height: 100%;
 }
 
 .line {
@@ -10,6 +21,7 @@
   justify-content: end;
   align-items: center;
   padding: 10px;
+  height: 63px;
 
   .createTask {
     border: 2px solid $white;
@@ -30,4 +42,28 @@
       background-color: $warning-200;
     }
   }
+}
+
+.tasksWrapper {
+  height: calc(100% - 63px);
+  width: 100%;
+  padding: 10px 0;
+  overflow-y: auto;
+}
+
+.tasks {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.pagination {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
