@@ -28,15 +28,45 @@ type Date = {
   updatedAt: string;
 };
 
-interface EditTask extends PureTask, Id { }
-interface AddTask extends PureTask, User { }
-export interface Task extends PureTask, Id, User, Date { }
+interface EditTask extends PureTask, Id {}
+interface AddTask extends PureTask, User {}
+export interface Task extends PureTask, Id, User, Date {}
+
+export interface getTask {
+  page?: number;
+  limit?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  title?: string;
+  description?: string;
+  categories?: string[];
+  deadline?: string | null;
+  isCompleted?: boolean;
+}
 
 export interface Result {
   task: Task | null;
   status: Status;
   message?: string;
 }
+
+export interface TasksResult {
+  tasks: Task[];
+  status: Status;
+  message?: string;
+  totalPages?: number;
+  currentPage?: number;
+}
+
+export type TasksResponse = {
+  status: number;
+  statusText: string;
+  data: {
+    tasks: Task[];
+    totalPages: number;
+    currentPage: number;
+  };
+};
 
 class taskAPIClass {
   public async deletetask(id: string): Promise<Result> {
@@ -92,6 +122,20 @@ class taskAPIClass {
         message: err.response.data.message,
         status: Status.ERROR,
         task: null,
+      };
+    }
+  }
+
+  public async getTasks(params?: getTask): Promise<TasksResult> {
+    try {
+      const response: TasksResponse = await instanse.get(`/task`, { params });
+      const { tasks, currentPage, totalPages } = response.data;
+      return { tasks, currentPage, totalPages, status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        message: err.response.data.message,
+        status: Status.ERROR,
+        tasks: [],
       };
     }
   }
