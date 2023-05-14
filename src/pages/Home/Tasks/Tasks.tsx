@@ -22,6 +22,10 @@ const Tasks = () => {
     setIsLoading(true);
     setError("");
     const result = await taskAPI.getTasks(params);
+    if (!result) {
+      setError("Could not fetch tasks");
+      return;
+    }
     const { message, tasks, totalPages: fetchedTotalPages } = result;
     if (message) {
       setError(message);
@@ -72,7 +76,7 @@ const Tasks = () => {
       ) : (
         <div className={styles.tasksWrapper}>
           {error ? (
-            <div>{error}</div>
+            <div className={styles.errorMessage}>{error}</div>
           ) : (
             <div className={styles.tasks}>
               {Tasks.map((el) => (
