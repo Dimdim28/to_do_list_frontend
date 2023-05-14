@@ -25,6 +25,7 @@ import {
 import { ChangePass } from "./ChangePass/ChangePass";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
 import Exit from "./Exit/Exit";
+import imageCompression from "browser-image-compression";
 
 import styles from "./Profile.module.scss";
 
@@ -39,6 +40,12 @@ const convertToBase64 = (file: any) => {
       reject(err);
     };
   });
+};
+
+const compressionOptions = {
+  maxSizeMB: 0.067,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true
 };
 
 const Profile: React.FC = () => {
@@ -72,11 +79,12 @@ const Profile: React.FC = () => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    if (file.size > 67153) {
-      return alert("Too large");
-    }
+    // if (file.size > 67153) {
+    //   return alert("Too large");
+    // }
 
-    const base64: any = await convertToBase64(file);
+    const compressedFile = await imageCompression(file, compressionOptions);
+    const base64: any = await convertToBase64(compressedFile);
 
     try {
       // const formdata = new FormData();
