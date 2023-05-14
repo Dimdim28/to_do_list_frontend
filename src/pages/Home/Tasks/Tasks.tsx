@@ -11,7 +11,7 @@ import Preloader from "../../../components/Preloader/Preloader";
 const Tasks = () => {
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
-  const [taskProps, setTaskProps] = useState({});
+  const [taskProps, setTaskProps] = useState<Task | {}>({});
   const [Tasks, setTasks] = useState<Task[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(2);
@@ -80,7 +80,13 @@ const Tasks = () => {
           ) : (
             <div className={styles.tasks}>
               {Tasks.map((el) => (
-                <TaskCard task={el} key={el._id} />
+                <TaskCard
+                  setTaskEditing={setTaskEditing}
+                  setTaskProps={setTaskProps}
+                  setTaskDeleting={setTaskDeleting}
+                  task={el}
+                  key={el._id}
+                />
               ))}
             </div>
           )}

@@ -69,7 +69,7 @@ export type TasksResponse = {
 };
 
 class taskAPIClass {
-  public async deletetask(id: string): Promise<Result> {
+  public async deleteTask(id: string): Promise<Result> {
     try {
       const response: TaskResponse = await instanse.delete(`/task/${id}`);
       return { task: response.data, status: Status.SUCCESS };

@@ -11,9 +11,17 @@ import styles from "./TaskCard.module.scss";
 
 interface taskProps {
   task: Task;
+  setTaskEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskProps: React.Dispatch<React.SetStateAction<{} | Task>>;
+  setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TaskCard = ({ task }: taskProps) => {
+const TaskCard = ({
+  task,
+  setTaskEditing,
+  setTaskProps,
+  setTaskDeleting,
+}: taskProps) => {
   const { title, description, deadline, isCompleted } = task;
   const [completed, setIsCompleted] = useState(isCompleted || false);
   return (
@@ -36,8 +44,8 @@ const TaskCard = ({ task }: taskProps) => {
         <FontAwesomeIcon
           className={`${styles.icon} ${styles.pencil}`}
           onClick={() => {
-            // setCategoryInfo(props);
-            // setCategoryEditing(true);
+            setTaskProps(task);
+            setTaskEditing(true);
           }}
           color="black"
           fontSize="15px"
@@ -49,8 +57,8 @@ const TaskCard = ({ task }: taskProps) => {
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
           onClick={() => {
-            // setCategoryInfo(props);
-            // setCategoryDeleting(true);
+            setTaskProps(task);
+            setTaskDeleting(true);
           }}
         />
       </div>
