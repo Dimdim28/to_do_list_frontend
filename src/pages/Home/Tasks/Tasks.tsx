@@ -6,6 +6,7 @@ import TaskDeleting from "./TaskDeleting/TaskDeleting";
 import { Modal } from "../../../components/common/Modal/Modal";
 import TaskEditing from "./TaskEditing/TaskForm";
 import TaskCard from "./TaskCard/TaskCard";
+import Pagination from "./Pagination/Pagination";
 
 const Tasks = () => {
   const [taskDeleting, setTaskDeleting] = useState(false);
@@ -123,6 +124,8 @@ const Tasks = () => {
       updatedAt: "2023-04-17T14:39:32.871Z",
     },
   ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(2);
 
   return (
     <main
@@ -157,7 +160,15 @@ const Tasks = () => {
             <TaskCard task={el} />
           ))}
         </div>
-        <div className={styles.pagination}>Pagination </div>
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
+          </div>
+        )}
       </div>
     </main>
   );
