@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Task } from "../../../../api/taskAPI";
 
-import styles from "./TaskCard.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 import { humaniseDate } from "../../../../helpers/string";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
+
+import styles from "./TaskCard.module.scss";
 
 interface taskProps {
   task: Task;
@@ -28,6 +32,28 @@ const TaskCard = ({ task }: taskProps) => {
       {deadline && (
         <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
       )}
+      <div className={styles.icons}>
+        <FontAwesomeIcon
+          className={`${styles.icon} ${styles.pencil}`}
+          onClick={() => {
+            // setCategoryInfo(props);
+            // setCategoryEditing(true);
+          }}
+          color="black"
+          fontSize="15px"
+          icon={faPencil}
+        />
+        <FontAwesomeIcon
+          color="black"
+          fontSize="15px"
+          icon={faTrash}
+          className={`${styles.icon} ${styles.trash}`}
+          onClick={() => {
+            // setCategoryInfo(props);
+            // setCategoryDeleting(true);
+          }}
+        />
+      </div>
     </div>
   );
 };
