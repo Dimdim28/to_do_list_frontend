@@ -38,3 +38,27 @@
 }
 
 .description {}
+
+@media screen and (max-width: 1320px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}
+
+@media screen and (max-width: 1120px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}
