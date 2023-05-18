@@ -1,20 +1,23 @@
 import styles from "./TaskDeleting.module.scss";
 import Button from "../../../../components/common/Button/Button";
-import taskAPI, { Task } from "../../../../api/taskAPI";
+import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 import { useState } from "react";
 import { Status } from "../../../../types";
 import Preloader from "../../../../components/Preloader/Preloader";
 
 interface TaskDeletingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
-  childProps: Task;
+  childProps: Task & {
+    fetchTasks: (params: getTask) => void;
+    taskFetchingParams: getTask;
+  };
 }
 
 const TaskDeleting: React.FC<TaskDeletingProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { _id, title } = childProps;
+  const { _id, title, fetchTasks, taskFetchingParams } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
@@ -27,6 +30,8 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
+      console.log(taskFetchingParams);
+      fetchTasks(taskFetchingParams);
     }
   };
 

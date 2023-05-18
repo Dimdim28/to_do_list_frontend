@@ -37,7 +37,7 @@ const Tasks = () => {
   }
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasks({ page: currentPage });
   }, []);
 
   useEffect(() => {
@@ -86,6 +86,8 @@ const Tasks = () => {
                   setTaskDeleting={setTaskDeleting}
                   task={el}
                   key={el._id}
+                  fetchTasks={fetchTasks}
+                  taskFetchingParams={{ page: currentPage }}
                 />
               ))}
             </div>

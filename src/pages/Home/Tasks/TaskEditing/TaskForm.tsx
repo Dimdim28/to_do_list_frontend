@@ -1,8 +1,8 @@
 import styles from "./TaskForm.module.scss";
 import Button from "../../../../components/common/Button/Button";
-import taskAPI, { Task } from "../../../../api/taskAPI";
+import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
+import { useAppSelector } from "../../../../hooks";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
 import { Status } from "../../../../types";
 import { Input } from "../../../../components/common/Input/Input";
@@ -11,11 +11,13 @@ import Preloader from "../../../../components/Preloader/Preloader";
 
 interface TaskFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
-  childProps: Task;
+  childProps: Task & {
+    fetchTasks: (params: getTask) => void;
+    taskFetchingParams: getTask;
+  };
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
-  const dispatch = useAppDispatch();
   const userId = useAppSelector(selectProfile)?._id || "";
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
@@ -27,8 +29,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     categories: prevCategories,
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
+    fetchTasks,
+    taskFetchingParams,
   } = childProps;
-
+  console.log(childProps);
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
   const [categories, setCategories] = useState(prevCategories || []);
@@ -53,11 +57,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      // if (_id) {
-      //   dispatch(updateCategoryInList({ _id, title, color }));
-      // } else {
-      //   dispatch(addCategoryToList(result.category));
-      // }
+      console.log(taskFetchingParams);
+      fetchTasks(taskFetchingParams);
     }
   };
 

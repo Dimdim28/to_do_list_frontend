@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Task } from "../../../../api/taskAPI";
+import { Task, getTask } from "../../../../api/taskAPI";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -12,8 +12,18 @@ import styles from "./TaskCard.module.scss";
 interface taskProps {
   task: Task;
   setTaskEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setTaskProps: React.Dispatch<React.SetStateAction<{} | Task>>;
+  setTaskProps: React.Dispatch<
+    React.SetStateAction<
+      | {}
+      | (Task & {
+          fetchTasks: (params: getTask) => void;
+          fetchingParams: getTask;
+        })
+    >
+  >;
   setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchTasks: () => void;
+  taskFetchingParams: getTask;
 }
 
 const TaskCard = ({
@@ -21,6 +31,8 @@ const TaskCard = ({
   setTaskEditing,
   setTaskProps,
   setTaskDeleting,
+  fetchTasks,
+  taskFetchingParams,
 }: taskProps) => {
   const { title, description, deadline, isCompleted } = task;
   const [completed, setIsCompleted] = useState(isCompleted || false);
@@ -44,7 +56,7 @@ const TaskCard = ({
         <FontAwesomeIcon
           className={`${styles.icon} ${styles.pencil}`}
           onClick={() => {
-            setTaskProps(task);
+            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskEditing(true);
           }}
           color="black"
@@ -57,7 +69,7 @@ const TaskCard = ({
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
           onClick={() => {
-            setTaskProps(task);
+            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskDeleting(true);
           }}
         />
