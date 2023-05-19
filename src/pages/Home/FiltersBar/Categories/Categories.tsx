@@ -15,7 +15,16 @@ import Category from "./Category/Category";
 import styles from "./Categories.module.scss";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
 
-const Categories: React.FC = () => {
+interface CategoryProps {
+  isForTask?: boolean;
+  activeCategories: string[];
+  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+}
+const Categories: React.FC<CategoryProps> = ({
+  isForTask,
+  activeCategories,
+  setActiveCategories,
+}) => {
   const categories = useAppSelector(selectCategories);
   const status = useAppSelector(selectCategoriesStatus);
   const currentPage = useAppSelector(selectCategoryCurrentPage);
@@ -39,9 +48,16 @@ const Categories: React.FC = () => {
   };
   return (
     <>
-      <section className={styles.categoriesWrapper}>
-        <h3>Categories</h3>
-        <div className={styles.categories} onScroll={handleCategoriesScroll}>
+      <section
+        className={
+          isForTask ? styles.categoriesWrapperForTask : styles.categoriesWrapper
+        }
+      >
+        {!isForTask && <h3>Categories</h3>}
+        <div
+          className={isForTask ? styles.categoriesForTask : styles.categories}
+          onScroll={handleCategoriesScroll}
+        >
           {categories.length === 0 && status === "success" ? (
             <p>you have not categories</p>
           ) : (
@@ -52,6 +68,9 @@ const Categories: React.FC = () => {
                 setCategoryEditing={setCategoryEditing}
                 setCategoryInfo={setCategoryProps}
                 setCategoryDeleting={setCategoryDeleting}
+                isForTask={isForTask}
+                setActiveCategories={setActiveCategories}
+                isActive={activeCategories.includes(el._id)}
               />
             ))
           )}

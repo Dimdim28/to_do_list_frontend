@@ -8,6 +8,7 @@ import { Status } from "../../../../types";
 import { Input } from "../../../../components/common/Input/Input";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Preloader from "../../../../components/Preloader/Preloader";
+import Categories from "../../FiltersBar/Categories/Categories";
 
 interface TaskFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +33,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     fetchTasks,
     taskFetchingParams,
   } = childProps;
-  console.log(childProps);
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
   const [categories, setCategories] = useState(prevCategories || []);
@@ -42,13 +42,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-
+    console.log(childProps);
     let payload = { title, description };
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
     if (categories.length > 0) payload = Object.assign(payload, { categories });
     if (isCompleted) payload = Object.assign(payload, { isCompleted });
 
-    console.log(payload);
     const result = _id
       ? await taskAPI.edittask({ _id, ...payload })
       : await taskAPI.addtask({ user: userId, ...payload });
@@ -72,6 +71,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         <Preloader />
       ) : (
         <>
+          <Categories
+            isForTask={true}
+            activeCategories={categories}
+            setActiveCategories={setCategories}
+          />
           <Input title="title" value={title} setValue={setTittle} type="text" />
           <Input
             title="description"

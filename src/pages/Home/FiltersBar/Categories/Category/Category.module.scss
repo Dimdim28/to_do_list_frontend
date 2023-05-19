@@ -1,6 +1,7 @@
 @import "src/styles/partials/theme";
 
-.category {
+.category,
+.tasksFormCategory {
   padding: 5px;
   line-height: 1;
   font-size: 20px;
@@ -23,11 +24,16 @@
     box-shadow: 0 0 10px $warning-200;
   }
 
-  .title {
+  .title,
+  .activeTitle {
     max-width: 100%;
     overflow-wrap: break-word;
     width: 100%;
     text-align: center;
+  }
+
+  .activeTitle {
+    color: $warning-200;
   }
 
   .icons {
@@ -75,4 +81,10 @@
       right: -15px;
     }
   }
+}
+
+.tasksFormCategory {
+  min-width: 0px;
+  padding: 5px 10px;
+  width: fit-content;
 }

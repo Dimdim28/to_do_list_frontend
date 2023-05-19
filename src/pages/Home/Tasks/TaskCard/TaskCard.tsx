@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+
 import { Task, getTask } from "../../../../api/taskAPI";
+import { selectCategories } from "../../../../redux/slices/home/selectors";
+import { useAppSelector } from "../../../../hooks";
+import { humaniseDate } from "../../../../helpers/string";
+import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
+import { Category } from "../../../../api/categoryAPI";
+
+import styles from "./TaskCard.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-
-import { humaniseDate } from "../../../../helpers/string";
-import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
-
-import styles from "./TaskCard.module.scss";
 
 interface taskProps {
   task: Task;
@@ -26,6 +29,13 @@ interface taskProps {
   taskFetchingParams: getTask;
 }
 
+function getCategoryInfo(categories: Category[], id: string) {
+  const category = categories.find((el) => el._id === id);
+  const color = category?.color || "#FFFFFF";
+  const name = category?.title || "";
+  return [color, name];
+}
+
 const TaskCard = ({
   task,
   setTaskEditing,
@@ -34,8 +44,12 @@ const TaskCard = ({
   fetchTasks,
   taskFetchingParams,
 }: taskProps) => {
-  const { title, description, deadline, isCompleted } = task;
+  const { title, description, deadline, isCompleted, categories } = task;
+
+  const categoriesData = useAppSelector(selectCategories);
+
   const [completed, setIsCompleted] = useState(isCompleted || false);
+
   return (
     <div className={completed ? styles.completedWrapper : styles.wrapper}>
       <div className={styles.header}>
@@ -47,7 +61,20 @@ const TaskCard = ({
           isRounded
         />
       </div>
-
+      <div className={styles.categoriesWrapper}>
+        {categories?.map((el) => {
+          const [color, name] = getCategoryInfo(categoriesData, el);
+          return (
+            <span
+              key={el}
+              style={{ borderColor: color }}
+              className={styles.category}
+            >
+              {name}
+            </span>
+          );
+        })}
+      </div>
       <p className={styles.description}>{description}</p>
       {deadline && (
         <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>

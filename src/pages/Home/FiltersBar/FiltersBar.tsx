@@ -7,9 +7,14 @@ const FiltersBar: React.FC = () => {
   const [hasDeadline, setHasDeadline] = useState<boolean>(false);
   const [date, setDate] = useState<Date>("all");
   const [isCompleted, setIsCompleted] = useState<IsCompleted>("all");
+  const [categories, setCategories] = useState<string[]>([]);
+
   return (
     <aside className={styles.filtersWrapper}>
-      <Categories />
+      <Categories
+        activeCategories={categories}
+        setActiveCategories={setCategories}
+      />
       <Filters
         hasDeadline={hasDeadline}
         setHasDeadline={setHasDeadline}

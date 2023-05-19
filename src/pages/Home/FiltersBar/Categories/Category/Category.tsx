@@ -8,15 +8,21 @@ export interface CategoryProps {
   user: string;
   color: string;
   key: number;
+  isForTask?: boolean;
   setCategoryEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoryDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoryInfo: React.Dispatch<React.SetStateAction<{}>>;
+  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  isActive: boolean;
 }
 
 const Category: React.FC<CategoryProps> = ({
   setCategoryInfo,
   setCategoryDeleting,
   setCategoryEditing,
+  setActiveCategories,
+  isForTask,
+  isActive,
   ...props
 }) => {
   const [hover, setHover] = useState(false);
@@ -30,12 +36,21 @@ const Category: React.FC<CategoryProps> = ({
 
   return (
     <div
-      className={styles.category}
+      onClick={() => {
+        if (isActive) {
+          setActiveCategories((prev) => prev.filter((el) => el !== props._id));
+        } else {
+          setActiveCategories((prev) => [...prev, props._id]);
+        }
+      }}
+      className={isForTask ? styles.tasksFormCategory : styles.category}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ borderColor: hover ? "#f97316" : props.color }}
+      style={{ borderColor: hover || isActive ? "#f97316" : props.color }}
     >
-      <span className={styles.title}>{props.title}</span>
+      <span className={isActive ? styles.activeTitle : styles.title}>
+        {props.title}
+      </span>
       <div className={styles.icons}>
         <FontAwesomeIcon
           className={`${styles.icon} ${styles.pencil}`}

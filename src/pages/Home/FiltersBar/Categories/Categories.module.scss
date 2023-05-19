@@ -1,16 +1,18 @@
 @import "src/styles/partials/theme";
 
-.categoriesWrapper {
+.categoriesWrapper,
+.categoriesWrapperForTask {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
 
-  .categories {
+  .categories,
+  .categoriesForTask {
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 200px;
     overflow-x: hidden;
     min-width: 100%;
@@ -45,5 +47,13 @@
     color: $error-200;
     width: 100%;
     text-align: center;
+  }
+}
+
+.categoriesWrapperForTask {
+  align-items: flex-end;
+
+  .addCategory {
+    margin-right: 10px;
   }
 }

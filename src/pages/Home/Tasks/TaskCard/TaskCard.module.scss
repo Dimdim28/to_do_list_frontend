@@ -57,6 +57,21 @@
     }
 }
 
+.categoriesWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category {
+    padding: 5px 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    word-break: break-all;
+    text-align: center;
+}
+
 .completedWrapper {
     opacity: 0.6;
 }
@@ -85,7 +100,9 @@
     text-align: end;
 }
 
-.description {}
+.description {
+    margin-top: 10px;
+}
 
 @media screen and (max-width: 1420px) {
 
