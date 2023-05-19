@@ -42,7 +42,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    console.log(childProps);
     let payload = { title, description };
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
     if (categories.length > 0) payload = Object.assign(payload, { categories });
@@ -56,7 +55,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      console.log(taskFetchingParams);
       fetchTasks(taskFetchingParams);
     }
   };
@@ -72,7 +70,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       ) : (
         <>
           <Categories
-            isForTask={true}
+            isForTask
             activeCategories={categories}
             setActiveCategories={setCategories}
           />

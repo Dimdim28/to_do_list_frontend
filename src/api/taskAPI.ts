@@ -8,8 +8,8 @@ export type TaskResponse = {
 };
 
 type PureTask = {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   categories?: string[];
   deadline?: string | null;
   isCompleted?: boolean;
@@ -106,16 +106,11 @@ class taskAPIClass {
   }
 
   public async edittask(params: EditTask): Promise<Result> {
-    const { title, description, categories, _id, deadline, isCompleted } =
-      params;
     try {
-      const response: TaskResponse = await instanse.patch(`/task/${_id}`, {
-        title,
-        description,
-        categories,
-        deadline,
-        isCompleted,
-      });
+      const response: TaskResponse = await instanse.patch(
+        `/task/${params._id}`,
+        params
+      );
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {

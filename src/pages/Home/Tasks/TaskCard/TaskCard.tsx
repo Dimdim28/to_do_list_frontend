@@ -44,7 +44,7 @@ const TaskCard = ({
   fetchTasks,
   taskFetchingParams,
 }: taskProps) => {
-  const { title, description, deadline, isCompleted, categories } = task;
+  const { title, description, deadline, isCompleted, categories, _id } = task;
 
   const categoriesData = useAppSelector(selectCategories);
 
@@ -55,10 +55,12 @@ const TaskCard = ({
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
+          isForChangeCompletedStatus
           isChecked={completed}
           label=""
           setIsChecked={setIsCompleted}
           isRounded
+          id={_id}
         />
       </div>
       <div className={styles.categoriesWrapper}>
