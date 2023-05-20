@@ -71,6 +71,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         <>
           <Categories
             isForTask
+            fetchTasks={fetchTasks}
+            taskFetchingParams={taskFetchingParams}
             activeCategories={categories}
             setActiveCategories={setCategories}
           />

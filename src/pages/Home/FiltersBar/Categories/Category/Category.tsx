@@ -2,7 +2,7 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styles from "./Category.module.scss";
-import { Category as TaskCategory } from "../../../../../api/taskAPI";
+import { Category as TaskCategory, getTask } from "../../../../../api/taskAPI";
 export interface CategoryProps {
   _id: string;
   title: string;
@@ -15,6 +15,8 @@ export interface CategoryProps {
   setCategoryInfo: React.Dispatch<React.SetStateAction<{}>>;
   setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
   isActive: boolean;
+  taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
 }
 
 const Category: React.FC<CategoryProps> = ({

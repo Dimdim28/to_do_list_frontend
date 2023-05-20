@@ -6,17 +6,21 @@ import { useAppDispatch } from "../../../../../hooks";
 import { removeCategoryFromList } from "../../../../../redux/slices/home/home";
 import { Status } from "../../../../../types";
 import styles from "./CategoryDeleting.module.scss";
+import { getTask } from "../../../../../api/taskAPI";
 
 interface CategoryDeletingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
-  childProps: Category;
+  childProps: Category & {
+    fetchTasks: (params: getTask) => void;
+    taskFetchingParams: getTask;
+  };
 }
 
 export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
   toggleActive,
   childProps,
 }) => {
-  const { _id, title, color } = childProps;
+  const { _id, title, color, fetchTasks, taskFetchingParams } = childProps;
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
@@ -29,6 +33,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
     setCategoryError(message || "");
     if (status === Status.SUCCESS) {
       dispatch(removeCategoryFromList(_id));
+      fetchTasks(taskFetchingParams);
       toggleActive(false);
     }
   };

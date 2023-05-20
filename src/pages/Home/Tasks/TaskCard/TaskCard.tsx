@@ -22,7 +22,7 @@ interface taskProps {
     >
   >;
   setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchTasks: () => void;
+  fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
 }
 

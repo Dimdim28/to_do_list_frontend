@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./FiltersBar.module.scss";
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
-import { Category } from "../../../api/taskAPI";
+import { Category, getTask } from "../../../api/taskAPI";
 
 interface FiltersBarProps {
   date: Date;
@@ -11,6 +11,8 @@ interface FiltersBarProps {
   setIsCompleted: React.Dispatch<React.SetStateAction<IsCompleted>>;
   categories: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
 }
 
 const FiltersBar: React.FC<FiltersBarProps> = ({
@@ -20,6 +22,8 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   setIsCompleted,
   categories,
   setCategories,
+  taskFetchingParams,
+  fetchTasks,
 }) => {
   const [hasDeadline, setHasDeadline] = useState<boolean>(false);
 
@@ -28,6 +32,8 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
       <Categories
         activeCategories={categories}
         setActiveCategories={setCategories}
+        taskFetchingParams={taskFetchingParams}
+        fetchTasks={fetchTasks}
       />
       <Filters
         hasDeadline={hasDeadline}

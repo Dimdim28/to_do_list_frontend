@@ -13,7 +13,7 @@ import { fetchCategories } from "../../../../redux/slices/home/thunk";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
-import { Category as TaskCategory } from "../../../../api/taskAPI";
+import { Category as TaskCategory, getTask } from "../../../../api/taskAPI";
 
 import styles from "./Categories.module.scss";
 
@@ -21,11 +21,15 @@ interface CategoryProps {
   isForTask?: boolean;
   activeCategories: TaskCategory[];
   setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
+  taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
 }
 const Categories: React.FC<CategoryProps> = ({
   isForTask,
   activeCategories,
   setActiveCategories,
+  taskFetchingParams,
+  fetchTasks,
 }) => {
   const categories = useAppSelector(selectCategories);
   const status = useAppSelector(selectCategoriesStatus);
@@ -75,6 +79,8 @@ const Categories: React.FC<CategoryProps> = ({
                 isActive={
                   !!activeCategories.find((category) => category._id === el._id)
                 }
+                taskFetchingParams={taskFetchingParams}
+                fetchTasks={fetchTasks}
               />
             ))
           )}
@@ -83,7 +89,7 @@ const Categories: React.FC<CategoryProps> = ({
         <p
           className={styles.addCategory}
           onClick={() => {
-            setCategoryProps({});
+            setCategoryProps({ ...taskFetchingParams, fetchTasks });
             setCategoryEditing(true);
           }}
         >

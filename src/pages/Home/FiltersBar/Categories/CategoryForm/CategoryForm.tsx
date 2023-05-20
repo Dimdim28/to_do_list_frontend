@@ -11,9 +11,14 @@ import {
 import { Input } from "../../../../../components/common/Input/Input";
 import categoryAPI, { Category } from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
+import { getTask } from "../../../../../api/taskAPI";
+
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
-  childProps: Category;
+  childProps: Category & {
+    fetchTasks: (params: getTask) => void;
+    taskFetchingParams: getTask;
+  };
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({
@@ -24,7 +29,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const userId = useAppSelector(selectProfile)?._id || "";
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
-  const { _id, title: prevTitle, color: prevColor } = childProps;
+  const {
+    _id,
+    title: prevTitle,
+    color: prevColor,
+    fetchTasks,
+    taskFetchingParams,
+  } = childProps;
   const [color, setColor] = useState(prevColor || "#ffffff");
   const [title, setTittle] = useState(prevTitle || "");
 
@@ -38,6 +49,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     setCategoryError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
+      fetchTasks(taskFetchingParams);
       if (_id) {
         dispatch(updateCategoryInList({ _id, title, color }));
       } else {

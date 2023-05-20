@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import taskAPI, { Task, getTask } from "../../../api/taskAPI";
+import { Task, getTask } from "../../../api/taskAPI";
 
 import styles from "./Tasks.module.scss";
 import TaskDeleting from "./TaskDeleting/TaskDeleting";
@@ -11,43 +11,30 @@ import Preloader from "../../../components/Preloader/Preloader";
 
 interface TaskProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  currentPage: number;
+  taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
+  isLoading: boolean;
+  error: string;
+  Tasks: Task[];
+  totalPages: number;
 }
 
-const Tasks: React.FC<TaskProps> = ({ setCurrentPage, currentPage }) => {
+const Tasks: React.FC<TaskProps> = ({
+  setCurrentPage,
+  taskFetchingParams,
+  fetchTasks,
+  isLoading,
+  error,
+  Tasks,
+  totalPages,
+}) => {
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
-  const [Tasks, setTasks] = useState<Task[]>([]);
-  const [totalPages, setTotalPages] = useState(2);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  async function fetchTasks(params?: getTask) {
-    setIsLoading(true);
-    setError("");
-    const result = await taskAPI.getTasks(params);
-    if (!result) {
-      setError("Could not fetch tasks");
-      return;
-    }
-    const { message, tasks, totalPages: fetchedTotalPages } = result;
-    if (message) {
-      setError(message);
-    } else {
-      setTasks(tasks);
-      setTotalPages(fetchedTotalPages || totalPages);
-      setIsLoading(false);
-    }
-  }
-
-  // useEffect(() => {
-  //   fetchTasks({ page: currentPage });
-  // }, []);
 
   useEffect(() => {
-    fetchTasks({ page: currentPage });
-  }, [currentPage]);
+    fetchTasks(taskFetchingParams);
+  }, [taskFetchingParams.page]);
 
   return (
     <main
@@ -60,7 +47,7 @@ const Tasks: React.FC<TaskProps> = ({ setCurrentPage, currentPage }) => {
             setTaskEditing(true);
             setTaskProps({
               fetchTasks,
-              taskFetchingParams: { page: currentPage },
+              taskFetchingParams,
             });
           }}
         >
@@ -95,7 +82,7 @@ const Tasks: React.FC<TaskProps> = ({ setCurrentPage, currentPage }) => {
                   task={el}
                   key={el._id}
                   fetchTasks={fetchTasks}
-                  taskFetchingParams={{ page: currentPage }}
+                  taskFetchingParams={taskFetchingParams}
                 />
               ))}
             </div>
@@ -104,7 +91,7 @@ const Tasks: React.FC<TaskProps> = ({ setCurrentPage, currentPage }) => {
           {totalPages > 1 && (
             <div className={styles.pagination}>
               <Pagination
-                currentPage={currentPage}
+                currentPage={taskFetchingParams.page || 1}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
               />
