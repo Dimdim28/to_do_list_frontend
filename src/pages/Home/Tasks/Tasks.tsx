@@ -8,12 +8,17 @@ import TaskEditing from "./TaskEditing/TaskForm";
 import TaskCard from "./TaskCard/TaskCard";
 import Pagination from "./Pagination/Pagination";
 import Preloader from "../../../components/Preloader/Preloader";
-const Tasks = () => {
+
+interface TaskProps {
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+}
+
+const Tasks: React.FC<TaskProps> = ({ setCurrentPage, currentPage }) => {
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
   const [Tasks, setTasks] = useState<Task[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,9 +41,9 @@ const Tasks = () => {
     }
   }
 
-  useEffect(() => {
-    fetchTasks({ page: currentPage });
-  }, []);
+  // useEffect(() => {
+  //   fetchTasks({ page: currentPage });
+  // }, []);
 
   useEffect(() => {
     fetchTasks({ page: currentPage });

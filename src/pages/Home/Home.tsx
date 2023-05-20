@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch } from "../../hooks";
 
@@ -7,9 +7,17 @@ import { fetchCategories } from "../../redux/slices/home/thunk";
 import Filters from "./FiltersBar/FiltersBar";
 import styles from "./Home.module.scss";
 import Tasks from "./Tasks/Tasks";
+import { IsCompleted, Date } from "./FiltersBar/Filters/Filters";
+import { Category } from "../../api/taskAPI";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [date, setDate] = useState<Date>("all");
+  const [isCompleted, setIsCompleted] = useState<IsCompleted>("all");
+  const [categories, setCategories] = useState<Category[]>([]);
+
   useEffect(() => {
     dispatch(fetchCategories({ page: 1 }));
     return () => {
@@ -19,8 +27,15 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.row}>
-      <Filters />
-      <Tasks />
+      <Filters
+        date={date}
+        setDate={setDate}
+        isCompleted={isCompleted}
+        setIsCompleted={setIsCompleted}
+        categories={categories}
+        setCategories={setCategories}
+      />
+      <Tasks currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>
   );
 };
