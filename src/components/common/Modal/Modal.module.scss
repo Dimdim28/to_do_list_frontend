@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   transition: 0.5s;
-  z-index: 2;
+  z-index: 5;
 }
 
 .modal {
@@ -41,6 +41,7 @@
   width: 15px;
   transition: 0.3s;
   cursor: pointer;
+
   &:hover {
     color: $error-200;
   }

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 
 import { Task, getTask } from "../../../../api/taskAPI";
-import { selectCategories } from "../../../../redux/slices/home/selectors";
-import { useAppSelector } from "../../../../hooks";
 import { humaniseDate } from "../../../../helpers/string";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
-import { Category } from "../../../../api/categoryAPI";
 
 import styles from "./TaskCard.module.scss";
 
@@ -20,20 +17,13 @@ interface taskProps {
       | {}
       | (Task & {
           fetchTasks: (params: getTask) => void;
-          fetchingParams: getTask;
+          taskFetchingParams: getTask;
         })
     >
   >;
   setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   fetchTasks: () => void;
   taskFetchingParams: getTask;
-}
-
-function getCategoryInfo(categories: Category[], id: string) {
-  const category = categories.find((el) => el._id === id);
-  const color = category?.color || "#FFFFFF";
-  const name = category?.title || "";
-  return [color, name];
 }
 
 const TaskCard = ({
@@ -45,8 +35,6 @@ const TaskCard = ({
   taskFetchingParams,
 }: taskProps) => {
   const { title, description, deadline, isCompleted, categories, _id } = task;
-
-  const categoriesData = useAppSelector(selectCategories);
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
@@ -65,14 +53,14 @@ const TaskCard = ({
       </div>
       <div className={styles.categoriesWrapper}>
         {categories?.map((el) => {
-          const [color, name] = getCategoryInfo(categoriesData, el);
+          const { color, title } = el;
           return (
             <span
-              key={el}
+              key={el._id}
               style={{ borderColor: color }}
               className={styles.category}
             >
-              {name}
+              {title}
             </span>
           );
         })}

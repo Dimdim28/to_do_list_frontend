@@ -12,13 +12,15 @@ import {
 import { fetchCategories } from "../../../../redux/slices/home/thunk";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
-import styles from "./Categories.module.scss";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
+import { Category as TaskCategory } from "../../../../api/taskAPI";
+
+import styles from "./Categories.module.scss";
 
 interface CategoryProps {
   isForTask?: boolean;
-  activeCategories: string[];
-  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  activeCategories: TaskCategory[];
+  setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
 }
 const Categories: React.FC<CategoryProps> = ({
   isForTask,
@@ -70,7 +72,9 @@ const Categories: React.FC<CategoryProps> = ({
                 setCategoryDeleting={setCategoryDeleting}
                 isForTask={isForTask}
                 setActiveCategories={setActiveCategories}
-                isActive={activeCategories.includes(el._id)}
+                isActive={
+                  !!activeCategories.find((category) => category._id === el._id)
+                }
               />
             ))
           )}

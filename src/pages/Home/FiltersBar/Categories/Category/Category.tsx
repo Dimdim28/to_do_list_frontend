@@ -2,6 +2,7 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styles from "./Category.module.scss";
+import { Category as TaskCategory } from "../../../../../api/taskAPI";
 export interface CategoryProps {
   _id: string;
   title: string;
@@ -12,7 +13,7 @@ export interface CategoryProps {
   setCategoryEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoryDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setCategoryInfo: React.Dispatch<React.SetStateAction<{}>>;
-  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
   isActive: boolean;
 }
 
@@ -38,9 +39,14 @@ const Category: React.FC<CategoryProps> = ({
     <div
       onClick={() => {
         if (isActive) {
-          setActiveCategories((prev) => prev.filter((el) => el !== props._id));
+          setActiveCategories((prev) =>
+            prev.filter((el) => el._id !== props._id)
+          );
         } else {
-          setActiveCategories((prev) => [...prev, props._id]);
+          setActiveCategories((prev) => [
+            ...prev,
+            { _id: props._id, title: props.title, color: props.color },
+          ]);
         }
       }}
       className={isForTask ? styles.tasksFormCategory : styles.category}

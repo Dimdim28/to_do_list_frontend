@@ -53,7 +53,10 @@ const Tasks = () => {
           className={styles.createTask}
           onClick={() => {
             setTaskEditing(true);
-            setTaskProps({});
+            setTaskProps({
+              fetchTasks,
+              taskFetchingParams: { page: currentPage },
+            });
           }}
         >
           Create task +

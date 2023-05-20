@@ -1,6 +1,12 @@
 import instanse from "../axios";
 import { Status } from "../types";
 
+export type Category = {
+  _id: string;
+  title: string;
+  color: string;
+};
+
 export type TaskResponse = {
   status: number;
   statusText: string;
@@ -10,7 +16,7 @@ export type TaskResponse = {
 type PureTask = {
   title?: string;
   description?: string;
-  categories?: string[];
+  categories?: Category[];
   deadline?: string | null;
   isCompleted?: boolean;
 };
@@ -39,7 +45,7 @@ export interface getTask {
   updatedAt?: string;
   title?: string;
   description?: string;
-  categories?: string[];
+  categories?: Category[];
   deadline?: string | null;
   isCompleted?: boolean;
 }
