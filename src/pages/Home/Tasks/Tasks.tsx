@@ -34,7 +34,7 @@ const Tasks: React.FC<TaskProps> = ({
 
   useEffect(() => {
     fetchTasks(taskFetchingParams);
-  }, [taskFetchingParams.page]);
+  }, [taskFetchingParams.page, taskFetchingParams.isCompleted]);
 
   return (
     <main

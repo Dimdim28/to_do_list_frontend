@@ -23,8 +23,16 @@ const Home: React.FC = () => {
   const [isTasksLoading, setIsTasksLoading] = useState(false);
   const [tasksError, setTasksError] = useState("");
 
+  const fetchingParams: getTask = { page: currentPage };
+  if (isCompleted !== "all") {
+    if (isCompleted === "false") {
+      fetchingParams.isCompleted = false;
+    } else {
+      fetchingParams.isCompleted = true;
+    }
+  }
   useEffect(() => {
-    dispatch(fetchCategories({ page: currentPage }));
+    dispatch(fetchCategories(fetchingParams));
     return () => {
       dispatch(clearCategories());
     };
@@ -58,7 +66,7 @@ const Home: React.FC = () => {
         categories={categories}
         setCategories={setCategories}
         fetchTasks={fetchTasks}
-        taskFetchingParams={{ page: currentPage }}
+        taskFetchingParams={fetchingParams}
       />
       <Tasks
         Tasks={TasksArray}
@@ -66,7 +74,7 @@ const Home: React.FC = () => {
         isLoading={isTasksLoading}
         error={tasksError}
         fetchTasks={fetchTasks}
-        taskFetchingParams={{ page: currentPage }}
+        taskFetchingParams={fetchingParams}
         setCurrentPage={setCurrentPage}
       />
     </div>
