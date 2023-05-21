@@ -28,13 +28,14 @@ const Tasks: React.FC<TaskProps> = ({
   Tasks,
   totalPages,
 }) => {
+  const { page, isCompleted, deadline } = taskFetchingParams;
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
   useEffect(() => {
     fetchTasks(taskFetchingParams);
-  }, [taskFetchingParams.page, taskFetchingParams.isCompleted]);
+  }, [page, isCompleted, deadline]);
 
   return (
     <main
@@ -97,7 +98,7 @@ const Tasks: React.FC<TaskProps> = ({
           {totalPages > 1 && (
             <div className={styles.pagination}>
               <Pagination
-                currentPage={taskFetchingParams.page || 1}
+                currentPage={page || 1}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
               />

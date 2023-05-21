@@ -23,7 +23,8 @@ const Home: React.FC = () => {
   const [isTasksLoading, setIsTasksLoading] = useState(false);
   const [tasksError, setTasksError] = useState("");
 
-  const fetchingParams: getTask = { page: currentPage };
+  const fetchingParams: getTask = { page: currentPage, deadline: date };
+
   if (isCompleted !== "all") {
     if (isCompleted === "false") {
       fetchingParams.isCompleted = false;
