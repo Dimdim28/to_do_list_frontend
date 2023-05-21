@@ -45,7 +45,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     let payload = { title, description };
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
     if (categories.length > 0) payload = Object.assign(payload, { categories });
-    if (isCompleted) payload = Object.assign(payload, { isCompleted });
+    if ([false, true].includes(isCompleted))
+      payload = Object.assign(payload, { isCompleted });
 
     const result = _id
       ? await taskAPI.edittask({ _id, ...payload })
