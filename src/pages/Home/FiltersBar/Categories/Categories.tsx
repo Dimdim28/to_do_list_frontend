@@ -65,7 +65,7 @@ const Categories: React.FC<CategoryProps> = ({
           onScroll={handleCategoriesScroll}
         >
           {categories.length === 0 && status === "success" ? (
-            <p>you have not categories</p>
+            <p className={styles.noCategories}>you have no categories</p>
           ) : (
             categories.map((el, id) => (
               <Category

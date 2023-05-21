@@ -38,7 +38,9 @@ const Tasks: React.FC<TaskProps> = ({
 
   return (
     <main
-      className={Tasks.length > 0 ? styles.wrapperWithTasks : styles.wrapper}
+      className={
+        Tasks && Tasks.length > 0 ? styles.wrapperWithTasks : styles.wrapper
+      }
     >
       <div className={styles.line}>
         <span
@@ -74,17 +76,21 @@ const Tasks: React.FC<TaskProps> = ({
             <div className={styles.errorMessage}>{error}</div>
           ) : (
             <div className={styles.tasks}>
-              {Tasks.map((el) => (
-                <TaskCard
-                  setTaskEditing={setTaskEditing}
-                  setTaskProps={setTaskProps}
-                  setTaskDeleting={setTaskDeleting}
-                  task={el}
-                  key={el._id}
-                  fetchTasks={fetchTasks}
-                  taskFetchingParams={taskFetchingParams}
-                />
-              ))}
+              {Tasks && Tasks.length > 0 ? (
+                Tasks.map((el) => (
+                  <TaskCard
+                    setTaskEditing={setTaskEditing}
+                    setTaskProps={setTaskProps}
+                    setTaskDeleting={setTaskDeleting}
+                    task={el}
+                    key={el._id}
+                    fetchTasks={fetchTasks}
+                    taskFetchingParams={taskFetchingParams}
+                  />
+                ))
+              ) : (
+                <p className={styles.noTasks}>You have no tasks</p>
+              )}
             </div>
           )}
 
