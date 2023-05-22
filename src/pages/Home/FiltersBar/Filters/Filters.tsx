@@ -3,7 +3,7 @@ import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
-export type Date = "day" | "week" | "month" | "all";
+export type Date = "day" | "week" | "month" | "year" | "all";
 export type IsCompleted = "true" | "false" | "all";
 
 interface FiltersProps {
@@ -32,6 +32,7 @@ const Filters: React.FC<FiltersProps> = ({
     { name: "day", value: "day" },
     { name: "week", value: "week" },
     { name: "month", value: "month" },
+    { name: "year", value: "year" },
     { name: "all", value: "all" },
   ];
 
