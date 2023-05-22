@@ -51,7 +51,7 @@ const profileSlice = createSlice({
       if (state.data)
         state.data = {
           ...state.data,
-          avatarUrl: `http://localhost:5000${action.payload.url}`,
+          avatarUrl: action.payload.url,
         };
       state.message = "";
       state.status = Status.SUCCESS;

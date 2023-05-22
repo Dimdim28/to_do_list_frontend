@@ -3,7 +3,7 @@ import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
-export type Date = "day" | "week" | "month" | "all";
+export type Date = "day" | "week" | "month" | "year" | "all";
 export type IsCompleted = "true" | "false" | "all";
 
 interface FiltersProps {
@@ -32,30 +32,35 @@ const Filters: React.FC<FiltersProps> = ({
     { name: "day", value: "day" },
     { name: "week", value: "week" },
     { name: "month", value: "month" },
+    { name: "year", value: "year" },
     { name: "all", value: "all" },
   ];
 
   return (
     <section className={styles.dateWrapper}>
       <h3>Date and status</h3>
-      <Select<IsCompleted>
-        items={selectStatusOptions}
-        width="200px"
-        activeValue={isCompleted}
-        callback={setIsCompleted}
-      />
+      <div className={styles.progressStatus}>
+        <Select<IsCompleted>
+          items={selectStatusOptions}
+          width="200px"
+          activeValue={isCompleted}
+          callback={setIsCompleted}
+        />
+      </div>
       <Checkbox
         isChecked={hasDeadline}
         setIsChecked={setHasDeadline}
         label="With deadline"
       />
       {hasDeadline && (
-        <Select<Date>
-          items={selectDateOptions}
-          activeValue={date}
-          width="200px"
-          callback={setDate}
-        />
+        <div className={styles.deadline}>
+          <Select<Date>
+            items={selectDateOptions}
+            activeValue={date}
+            width="200px"
+            callback={setDate}
+          />
+        </div>
       )}
       date: {date}
       <br />

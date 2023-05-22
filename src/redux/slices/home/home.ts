@@ -34,7 +34,7 @@ const homeSlice = createSlice({
     },
     addCategoryToList(state, action) {
       const { currentPage, totalPages, categories } = state.category;
-      if (totalPages === 0) {
+      if (totalPages === 0 || currentPage === 0) {
         categories.push(action.payload);
         state.category.totalPages = 1;
         state.category.currentPage = 1;

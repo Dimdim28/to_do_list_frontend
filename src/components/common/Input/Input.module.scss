@@ -5,6 +5,7 @@
   width: 100%;
   margin-top: 30px;
 }
+
 .input,
 .activeInput {
   position: relative;
@@ -16,7 +17,7 @@
   color: $background-dark--10;
   font-size: 1em;
   letter-spacing: 0.05em;
-  z-index: 10;
+  z-index: 4;
 }
 
 .span {
@@ -30,8 +31,8 @@
   transition: 0.5s;
 }
 
-.input:focus ~ span,
-.activeInput ~ span {
+.input:focus~span,
+.activeInput~span {
   color: $warning-200;
   transform: translateX(-10px) translateY(-34px);
   font-size: 0.75em;
@@ -49,8 +50,8 @@
   pointer-events: none;
 }
 
-.input:focus ~ i,
-.activeInput ~ i {
+.input:focus~i,
+.activeInput~i {
   height: 44px;
 }
 
@@ -63,6 +64,7 @@
   z-index: 2;
   cursor: pointer;
   transition: 0.3s;
+
   &:hover {
     color: $warning-200;
   }

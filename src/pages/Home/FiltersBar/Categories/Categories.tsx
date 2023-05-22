@@ -12,10 +12,25 @@ import {
 import { fetchCategories } from "../../../../redux/slices/home/thunk";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
-import styles from "./Categories.module.scss";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
+import { Category as TaskCategory, getTask } from "../../../../api/taskAPI";
 
-const Categories: React.FC = () => {
+import styles from "./Categories.module.scss";
+
+interface CategoryProps {
+  isForTask?: boolean;
+  activeCategories: TaskCategory[];
+  setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
+  taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
+}
+const Categories: React.FC<CategoryProps> = ({
+  isForTask,
+  activeCategories,
+  setActiveCategories,
+  taskFetchingParams,
+  fetchTasks,
+}) => {
   const categories = useAppSelector(selectCategories);
   const status = useAppSelector(selectCategoriesStatus);
   const currentPage = useAppSelector(selectCategoryCurrentPage);
@@ -39,11 +54,18 @@ const Categories: React.FC = () => {
   };
   return (
     <>
-      <section className={styles.categoriesWrapper}>
-        <h3>Categories</h3>
-        <div className={styles.categories} onScroll={handleCategoriesScroll}>
+      <section
+        className={
+          isForTask ? styles.categoriesWrapperForTask : styles.categoriesWrapper
+        }
+      >
+        {!isForTask && <h3>Categories</h3>}
+        <div
+          className={isForTask ? styles.categoriesForTask : styles.categories}
+          onScroll={handleCategoriesScroll}
+        >
           {categories.length === 0 && status === "success" ? (
-            <p>you have not categories</p>
+            <p className={styles.noCategories}>you have no categories</p>
           ) : (
             categories.map((el, id) => (
               <Category
@@ -52,6 +74,13 @@ const Categories: React.FC = () => {
                 setCategoryEditing={setCategoryEditing}
                 setCategoryInfo={setCategoryProps}
                 setCategoryDeleting={setCategoryDeleting}
+                isForTask={isForTask}
+                setActiveCategories={setActiveCategories}
+                isActive={
+                  !!activeCategories.find((category) => category._id === el._id)
+                }
+                taskFetchingParams={taskFetchingParams}
+                fetchTasks={fetchTasks}
               />
             ))
           )}
@@ -60,7 +89,7 @@ const Categories: React.FC = () => {
         <p
           className={styles.addCategory}
           onClick={() => {
-            setCategoryProps({});
+            setCategoryProps({ ...taskFetchingParams, fetchTasks });
             setCategoryEditing(true);
           }}
         >

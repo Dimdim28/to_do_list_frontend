@@ -1,0 +1,137 @@
+@import "src/styles/partials/theme";
+
+.wrapper,
+.completedWrapper {
+    background-color: $background-dark-0;
+    width: 350px;
+    padding: 0 20px 20px;
+    border-radius: 20px;
+    position: relative;
+    transition: 0.3s;
+    margin-right: 20px;
+
+    .icons {
+        position: absolute;
+        right: -25px;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: 0.3s;
+
+        .icon {
+            width: 15px;
+            height: 15px;
+            z-index: 3;
+            cursor: pointer;
+        }
+
+        .pencil {
+            color: $white;
+
+            &:hover {
+                color: $warning-200;
+            }
+
+            position: absolute;
+            top: 10px;
+            right: 0;
+        }
+
+        .trash {
+            color: $white;
+            position: absolute;
+            top: 25px;
+            right: 0;
+
+            &:hover {
+                color: $error-200;
+            }
+        }
+    }
+
+    &:hover {
+        .icons {
+            opacity: 100%;
+            right: -15px;
+        }
+    }
+}
+
+.categoriesWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category {
+    padding: 5px 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    word-break: break-all;
+    text-align: center;
+}
+
+.completedWrapper {
+    opacity: 0.6;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 20px;
+    max-width: calc(100% - 50px);
+    margin-top: 20px;
+
+}
+
+.deadline {
+    color: $error-200;
+    margin-top: 10px;
+    text-align: end;
+}
+
+.description {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1420px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 1320px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}
+
+@media screen and (max-width: 1120px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+
+    .wrapper,
+    .completedWrapper {
+        width: 250px;
+    }
+}

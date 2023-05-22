@@ -1,20 +1,27 @@
 @import "src/styles/partials/theme";
 
-.categoriesWrapper {
+.categoriesWrapper,
+.categoriesWrapperForTask {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
 
-  .categories {
+  .categories,
+  .categoriesForTask {
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
-    max-height: 100px;
+    overflow-y: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    min-width: 100%;
+    max-width: 100%;
     width: 100%;
-    padding-right: 20px;
+    padding: 0 20px;
+    margin-top: 20px;
   }
+
   .addCategory {
     border: 2px solid $white;
     border-radius: 15px;
@@ -22,16 +29,36 @@
     margin-top: 5px;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 10px;
+    margin-top: 20px;
+
     &:hover {
       color: $warning-200;
       border-color: $warning-200;
       box-shadow: 0 0 10px $warning-200;
     }
+
+    &:active {
+      color: white;
+      background-color: $warning-200;
+    }
   }
+
   .categoriesError {
     color: $error-200;
     width: 100%;
     text-align: center;
   }
+}
+
+.categoriesWrapperForTask {
+  align-items: flex-end;
+
+  .addCategory {
+    margin-right: 10px;
+  }
+}
+
+.noCategories {
+  width: 100%;
+  text-align: center;
 }

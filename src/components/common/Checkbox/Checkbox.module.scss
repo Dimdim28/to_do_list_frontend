@@ -4,27 +4,41 @@
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
   font-size: 15px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
   input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    &:checked ~ .checkmark {
+
+    &:checked~.checkmark {
       background-color: $error-50;
+
       &:after {
         display: block;
       }
     }
+
+    &:checked~.roundedCheckMark {
+      background-color: $error-50;
+
+      &:after {
+        display: block;
+      }
+    }
+
+
   }
-  .checkmark {
+
+  .checkmark,
+  .roundedCheckMark {
     position: absolute;
     top: 0;
     left: 0;
@@ -36,8 +50,6 @@
       content: "";
       position: absolute;
       display: none;
-      left: 9px;
-      top: 5px;
       width: 5px;
       height: 10px;
       border: solid $white;
@@ -47,7 +59,35 @@
       transform: rotate(45deg);
     }
   }
-  &:hover input ~ .checkmark {
+
+  .roundedCheckMark {
+    background-color: transparent;
+    transition: 0.3s;
+    border: 2px solid white;
+  }
+
+  &:hover input~.checkmark {
     background-color: $error-100;
+  }
+
+  &:hover input~.roundedCheckMark {
+    background-color: $error-50;
+  }
+}
+
+.checkmark {
+  &::after {
+    left: 9px;
+    top: 5px;
+  }
+}
+
+.roundedCheckMark {
+  border-radius: 100%;
+  background-color: transparent;
+
+  &::after {
+    left: 9px;
+    top: 6px;
   }
 }

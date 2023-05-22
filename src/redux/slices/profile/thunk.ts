@@ -22,7 +22,13 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
       const response: ProfileResponse = await instanse.get(
         `/user/${params.id}`
       );
-      return response.data;
+      const response2: any = await instanse.get('/upload');
+      console.log(response2.data);
+
+      return {
+              ...response.data, 
+              avatarUrl: response2.data[0].image
+            };
     } catch (err: any) {
       console.log(err);
       return rejectWithValue(err.response.data.message);
@@ -36,17 +42,23 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
     try {
       const response: AvatarResponse = await instanse.post(
         `/upload`,
-        params.image
+        {
+          image: params.image
+        }
       );
 
       const updatingAvatarUrlResult: UpdateProfileResponse =
-        await instanse.patch(`/user/${params.userId}`, {
-          avatarUrl: `http://localhost:5000${response.data.url}`,
+        await instanse.get(`/upload`, {
+          headers: {
+            authorization: localStorage.getItem("token")
+          }
         });
+
       if (updatingAvatarUrlResult.status !== 200) {
         return rejectWithValue(updatingAvatarUrlResult.data.message);
       }
 
+      console.log(response.data);
       return response.data;
     } catch (err: any) {
       console.log(err);

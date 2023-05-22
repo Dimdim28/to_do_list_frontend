@@ -22,6 +22,11 @@
   border: none;
   transition: 0.3s;
   padding: 6px 18px;
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .submit {

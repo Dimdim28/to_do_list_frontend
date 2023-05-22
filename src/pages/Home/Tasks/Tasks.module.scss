@@ -3,4 +3,98 @@
 .wrapper {
   background-color: $background-dark-35;
   width: calc(100% - 300px);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
+  height: 100%;
+}
+
+.wrapperWithTasks {
+  background-color: $background-dark-35;
+  width: calc(100% - 300px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 10px;
+  height: 63px;
+  width: 100%;
+
+  .createTask {
+    border: 2px solid $white;
+    border-radius: 15px;
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      color: $warning-200;
+      border-color: $warning-200;
+      box-shadow: 0 0 10px $warning-200;
+    }
+
+    &:active {
+      color: white;
+      background-color: $warning-200;
+    }
+  }
+}
+
+.tasksWrapper {
+  height: calc(100% - 63px);
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+}
+
+.errorMessage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: $error-200;
+}
+
+.tasks {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 10px;
+  width: 100%;
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  padding-bottom: 60px;
+}
+
+.pagination {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.noTasks {
+  width: 100%;
+}
+
+@media screen and (max-width: 964px) {
+
+  .tasks {
+    justify-content: space-around;
+  }
 }
