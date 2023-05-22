@@ -28,14 +28,14 @@ const Tasks: React.FC<TaskProps> = ({
   Tasks,
   totalPages,
 }) => {
-  const { page, isCompleted, deadline } = taskFetchingParams;
+  const { page, isCompleted, deadline, categories } = taskFetchingParams;
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
   useEffect(() => {
     fetchTasks(taskFetchingParams);
-  }, [page, isCompleted, deadline]);
+  }, [page, isCompleted, deadline, categories]);
 
   return (
     <main
