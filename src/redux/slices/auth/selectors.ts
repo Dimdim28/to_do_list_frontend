@@ -9,3 +9,5 @@ export const selectIsRegistered = (state: RootState) =>
   Boolean(state.auth.profile);
 export const selectProfile = (state: RootState): Profile | null =>
   state.auth.profile;
+export const selectMessage = (state: RootState): string | undefined =>
+  state.auth.message;
