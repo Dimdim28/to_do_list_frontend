@@ -3,7 +3,7 @@ import {
   MOCK_OBJECT_THREE,
   MOCK_OBJECT_TWO,
 } from "../../../mocs/state";
-import { Status } from "../../../types";
+
 import {
   selectIsAuth,
   selectIsChecked,
@@ -46,5 +46,11 @@ describe("Testing auth slice selectors", () => {
 
     expect(recievedSecondState).toBe(null);
     expect(recievedThirdState).toBe(null);
+  });
+
+  it("selectMessage must work correctly", () => {
+    expect(selectMessage(MOCK_OBJECT_ONE)).toBe("");
+    expect(selectMessage(MOCK_OBJECT_TWO)).toBe("this is an error");
+    expect(selectMessage(MOCK_OBJECT_THREE)).toBe(undefined);
   });
 });
