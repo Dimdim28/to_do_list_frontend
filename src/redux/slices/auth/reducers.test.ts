@@ -26,16 +26,16 @@ describe("Testing auth slice reducers", () => {
     describe("Token should be removed from localStorage this reducer calling", () => {
       it("should work correctly for the authorised user", () => {
         authReducer(MOCK_OBJECT_ONE.auth, logOutAction);
-        expect(localStorage.getItem("token")).toBe(undefined);
+        expect(localStorage.getItem("token")).toBe(null);
       });
       it("should work correctly for the user with error", () => {
         authReducer(MOCK_OBJECT_TWO.auth, logOutAction);
-        expect(localStorage.getItem("token")).toBe(undefined);
+        expect(localStorage.getItem("token")).toBe(null);
       });
 
       it("should work correctly for the user with loading", () => {
         authReducer(MOCK_OBJECT_THREE.auth, logOutAction);
-        expect(localStorage.getItem("token")).toBe(undefined);
+        expect(localStorage.getItem("token")).toBe(null);
       });
     });
   });
