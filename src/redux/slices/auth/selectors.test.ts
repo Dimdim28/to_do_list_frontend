@@ -23,4 +23,10 @@ describe("Testing auth slice selectors", () => {
     expect(selectIsChecked(MOCK_OBJECT_TWO)).toBe(true);
     expect(selectIsChecked(MOCK_OBJECT_THREE)).toBe(false);
   });
+
+  it("selectIsRegistered must work correctly", () => {
+    expect(selectIsRegistered(MOCK_OBJECT_ONE)).toBe(true);
+    expect(selectIsRegistered(MOCK_OBJECT_TWO)).toBe(false);
+    expect(selectIsRegistered(MOCK_OBJECT_THREE)).toBe(false);
+  });
 });
