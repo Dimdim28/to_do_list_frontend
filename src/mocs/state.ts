@@ -30,8 +30,8 @@ export const MOCK_OBJECT_ONE: RootState = {
           color: "#16a29f",
         },
       ],
-      totalPages: 1,
-      currentPage: 1,
+      totalPages: 5,
+      currentPage: 4,
       status: Status.SUCCESS,
       message: "",
     },
@@ -39,6 +39,7 @@ export const MOCK_OBJECT_ONE: RootState = {
   profile: {
     data: null,
     status: Status.LOADING,
+    message: "",
   },
 };
 
@@ -50,29 +51,24 @@ export const MOCK_OBJECT_TWO: RootState = {
   },
   home: {
     category: {
-      categories: [
-        {
-          _id: "646b95736b2cb6353f4fd104",
-          title: "hello",
-          user: "63f6342acc86923016194255",
-          color: "#d82222",
-        },
-        {
-          _id: "646bbbaefedb212d312d0447",
-          title: "lalala",
-          user: "63f6342acc86923016194255",
-          color: "#16a29f",
-        },
-      ],
-      totalPages: 1,
+      categories: [],
+      totalPages: 0,
       currentPage: 1,
-      status: Status.SUCCESS,
+      status: Status.LOADING,
       message: "",
     },
   },
   profile: {
-    data: null,
-    status: Status.LOADING,
+    data: {
+      _id: "6460e2e3832ea98269aa3777",
+      username: "dench",
+      email: "dench@gmail.com",
+      createdAt: "2023",
+      updatedAt: "2024",
+      avatarUrl: "link",
+    },
+    status: Status.SUCCESS,
+    message: "",
   },
 };
 
@@ -83,28 +79,16 @@ export const MOCK_OBJECT_THREE: RootState = {
   },
   home: {
     category: {
-      categories: [
-        {
-          _id: "646b95736b2cb6353f4fd104",
-          title: "hello",
-          user: "63f6342acc86923016194255",
-          color: "#d82222",
-        },
-        {
-          _id: "646bbbaefedb212d312d0447",
-          title: "lalala",
-          user: "63f6342acc86923016194255",
-          color: "#16a29f",
-        },
-      ],
-      totalPages: 1,
+      categories: [],
+      totalPages: 0,
       currentPage: 1,
-      status: Status.SUCCESS,
-      message: "",
+      status: Status.ERROR,
+      message: "Error",
     },
   },
   profile: {
     data: null,
-    status: Status.LOADING,
+    status: Status.ERROR,
+    message: "Error",
   },
 };
