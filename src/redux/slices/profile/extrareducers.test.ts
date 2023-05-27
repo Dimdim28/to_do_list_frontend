@@ -135,4 +135,18 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
   });
+
+  describe("changePass extra reducers:", () => {
+    it("should return null profile when changePass fulfilled", () => {
+      const action = {
+        type: changePass.fulfilled.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+  });
 });
