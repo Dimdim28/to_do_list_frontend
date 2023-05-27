@@ -103,8 +103,23 @@ describe("Testing profile slice extra reducers", () => {
         type: deleteAccount.fulfilled.type,
       };
       const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
-      expect(result).toEqual({ data: null, message: "", status: Status.SUCCESS });
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+
+    it("should return null profile when deleteAccount is loading", () => {
+      const action = {
+        type: deleteAccount.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+      });
     });
   });
-
 });
