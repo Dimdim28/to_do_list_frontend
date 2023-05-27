@@ -148,5 +148,17 @@ describe("Testing profile slice extra reducers", () => {
         status: Status.SUCCESS,
       });
     });
+
+    it("should return null profile when changePass is loading", () => {
+      const action = {
+        type: changePass.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+      });
+    });
   });
 });
