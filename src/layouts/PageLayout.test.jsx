@@ -19,7 +19,7 @@ jest.mock("react-router", () => ({
 }));
 
 describe("PageLayout", () => {
-  test("renders Header, Preloader, Outlet, and Footer components", () => {
+  it("renders Header, Preloader, Outlet, and Footer components", () => {
     render(
       <PageLayout>
         <div>Test Outlet</div>

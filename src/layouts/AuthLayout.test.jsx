@@ -12,7 +12,7 @@ jest.mock("react-router", () => ({
 }));
 
 describe("AuthLayout", () => {
-  test("renders Preloader component while suspending", () => {
+  it("renders Preloader component while suspending", () => {
     render(
       <AuthLayout>
         <div>Test Outlet</div>
@@ -22,7 +22,7 @@ describe("AuthLayout", () => {
     expect(screen.getByTestId("outlet")).toBeInTheDocument();
   });
 
-  test("renders Outlet component after suspending", async () => {
+  it("renders Outlet component after suspending", async () => {
     render(
       <AuthLayout>
         <div>Test Outlet</div>
