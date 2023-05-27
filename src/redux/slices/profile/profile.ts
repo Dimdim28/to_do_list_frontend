@@ -47,7 +47,6 @@ const profileSlice = createSlice({
       state.message = "";
     });
     builder.addCase(changeAvatar.fulfilled, (state, action) => {
-      console.log("fulfilled");
       if (state.data)
         state.data = {
           ...state.data,

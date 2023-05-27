@@ -4,10 +4,6 @@ import { fetchCategories } from "./thunk";
 import { HomeSliceState } from "./types";
 
 const initialState: HomeSliceState = {
-  task: {
-    tasks: [],
-    status: Status.LOADING,
-  },
   category: {
     categories: [],
     totalPages: 0,

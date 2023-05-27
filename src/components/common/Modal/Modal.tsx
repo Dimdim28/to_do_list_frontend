@@ -19,15 +19,19 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <div
+      role="dialog-wrapper"
       className={active ? styles.modalActive : styles.modal}
       onClick={() => setActive(false)}
     >
       {active && (
         <div
+          role="dialog"
+          data-testid="modal-content"
           className={active ? styles.modalContentActive : styles.modalContent}
           onClick={(e) => e.stopPropagation()}
         >
           <FontAwesomeIcon
+            data-testid="modal-close-button"
             icon={faCircleXmark}
             className={styles.close}
             onClick={() => setActive(false)}

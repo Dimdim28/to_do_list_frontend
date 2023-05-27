@@ -66,6 +66,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
         <>
           {activeType === "password" && (
             <FontAwesomeIcon
+              data-testid="eye-icon"
               className={styles.show}
               icon={faEye}
               onClick={() => setActiveType("text")}
@@ -73,6 +74,7 @@ export const FormikInput: React.FC<FormikInputProps> = ({
           )}
           {activeType === "text" && (
             <FontAwesomeIcon
+              data-testid="eye-icon"
               className={styles.hide}
               icon={faEyeSlash}
               onClick={() => setActiveType("password")}

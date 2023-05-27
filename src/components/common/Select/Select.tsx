@@ -40,6 +40,7 @@ const Select = <T,>({
   return (
     <div ref={selectRef} className={styles.wrapper} style={{ width: width }}>
       <div
+        data-testid="select-button"
         className={isOpen ? styles.activeTitle : styles.title}
         onClick={() => setIsOpen((prev) => !prev)}
       >
@@ -49,6 +50,7 @@ const Select = <T,>({
         <ul className={styles.items}>
           {items.map((el, id) => (
             <li
+              data-testid={`option-${1 + id}`}
               key={id}
               className={
                 el.name === activeName ? styles.activeItem : styles.item
