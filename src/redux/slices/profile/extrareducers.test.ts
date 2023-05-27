@@ -58,4 +58,17 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
   });
+
+  describe("changeAvatar extra reducers:", () => {
+    it("should return profile when changeAvatar fulfilled", () => {
+      const avatarUrl = "string";
+
+      const action = {
+        type: changeAvatar.fulfilled.type,
+        payload: avatarUrl,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({ data: null, message: "", status: "success" });
+    });
+  });
 });
