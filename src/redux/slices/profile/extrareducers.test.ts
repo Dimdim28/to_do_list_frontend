@@ -82,5 +82,18 @@ describe("Testing profile slice extra reducers", () => {
         status: Status.LOADING,
       });
     });
+
+    it("should return null profile when changeAvatar rejected", () => {
+      const action = {
+        type: changeAvatar.rejected.type,
+        payload: "Error fetchUserData",
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "Error fetchUserData",
+        status: "error",
+      });
+    });
   });
 });
