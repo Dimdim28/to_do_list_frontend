@@ -198,5 +198,17 @@ describe("Testing profile slice extra reducers", () => {
         status: Status.LOADING,
       });
     });
+
+    it("should return null profile when changeName is rejected", () => {
+      const action = {
+        type: changeName.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+      });
+    });
   });
 });
