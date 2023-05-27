@@ -14,7 +14,7 @@ jest.mock("react-router", () => ({
 }));
 
 describe("withLoginRedirect", () => {
-  it(" renders the Navigate component when isAuth is false and isChecked is true", () => {
+  it("renders the Navigate component when isAuth is false and isChecked is true", () => {
     (useSelector as jest.Mock).mockReturnValueOnce(false);
     (useSelector as jest.Mock).mockReturnValueOnce(true);
     const MockComponent = withLoginRedirect(TestComponent);
