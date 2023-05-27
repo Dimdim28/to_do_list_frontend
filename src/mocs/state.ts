@@ -15,10 +15,6 @@ export const MOCK_OBJECT_ONE: RootState = {
     message: "",
   },
   home: {
-    task: {
-      tasks: [],
-      status: Status.LOADING,
-    },
     category: {
       categories: [
         {
@@ -53,10 +49,6 @@ export const MOCK_OBJECT_TWO: RootState = {
     message: "this is an error",
   },
   home: {
-    task: {
-      tasks: [],
-      status: Status.LOADING,
-    },
     category: {
       categories: [
         {
@@ -90,10 +82,6 @@ export const MOCK_OBJECT_THREE: RootState = {
     profile: null,
   },
   home: {
-    task: {
-      tasks: [],
-      status: Status.LOADING,
-    },
     category: {
       categories: [
         {
