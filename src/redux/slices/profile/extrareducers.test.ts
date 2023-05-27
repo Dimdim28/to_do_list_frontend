@@ -33,7 +33,7 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
 
-    it("should return null profile when fetchAuthMe is loading", () => {
+    it("should return null profile when fetchUserProfile is loading", () => {
       const action = {
         type: fetchUserProfile.pending.type,
       };
@@ -42,6 +42,19 @@ describe("Testing profile slice extra reducers", () => {
         message: "",
         data: null,
         status: Status.LOADING,
+      });
+    });
+
+    it("should return null profile when fetchUserProfile rejected", () => {
+      const action = {
+        type: fetchUserProfile.rejected.type,
+        payload: "Error fetchUserProfile",
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        message: "Error fetchUserProfile",
+        data: null,
+        status: Status.ERROR,
       });
     });
   });
