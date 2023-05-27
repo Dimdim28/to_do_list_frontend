@@ -1,7 +1,13 @@
 import { MOCK_OBJECT_ONE } from "../../../mocs/state";
 import { Status } from "../../../types";
 import { profileReducer } from "./profile";
-import { fetchUserProfile, changeAvatar, deleteAccount, changePass, changeName } from "./thunk";
+import {
+  fetchUserProfile,
+  changeAvatar,
+  deleteAccount,
+  changePass,
+  changeName,
+} from "./thunk";
 
 describe("Testing profile slice extra reducers", () => {
   describe("fetchUserProfile extra reducers:", () => {
@@ -24,6 +30,18 @@ describe("Testing profile slice extra reducers", () => {
         message: "",
         data: PROFILE_META,
         status: Status.SUCCESS,
+      });
+    });
+
+    it("should return null profile when fetchAuthMe is loading", () => {
+      const action = {
+        type: fetchUserProfile.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        message: "",
+        data: null,
+        status: Status.LOADING,
       });
     });
   });
