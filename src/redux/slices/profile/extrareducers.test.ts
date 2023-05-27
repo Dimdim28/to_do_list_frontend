@@ -70,5 +70,17 @@ describe("Testing profile slice extra reducers", () => {
       const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
       expect(result).toEqual({ data: null, message: "", status: "success" });
     });
+
+    it("should return null profile when changeAvatar is loading", () => {
+      const action = {
+        type: changeAvatar.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        message: "",
+        data: null,
+        status: Status.LOADING,
+      });
+    });
   });
 });
