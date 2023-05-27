@@ -121,5 +121,18 @@ describe("Testing profile slice extra reducers", () => {
         status: Status.LOADING,
       });
     });
+
+    
+    it("should return null profile when deleteAccount is rejected", () => {
+      const action = {
+        type: deleteAccount.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+      });
+    });
   });
 });
