@@ -35,4 +35,10 @@ describe("Testing profile slice selectors", () => {
     });
     expect(recievedThirdState).toBe(null);
   });
+
+  it("selectProfileMessage must work correctly", () => {
+    expect(selectProfileMessage(MOCK_OBJECT_ONE)).toBe("");
+    expect(selectProfileMessage(MOCK_OBJECT_TWO)).toBe("");
+    expect(selectProfileMessage(MOCK_OBJECT_THREE)).toBe("Error");
+  });
 });
