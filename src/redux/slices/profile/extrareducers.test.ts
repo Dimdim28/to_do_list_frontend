@@ -173,4 +173,18 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
   });
+
+  describe("changeName extra reducers:", () => {
+    it("should return null profile when changeName fulfilled", () => {
+      const action = {
+        type: changePass.fulfilled.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+  });
 });
