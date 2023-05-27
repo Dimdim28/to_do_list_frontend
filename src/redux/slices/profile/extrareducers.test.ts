@@ -122,7 +122,6 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
 
-    
     it("should return null profile when deleteAccount is rejected", () => {
       const action = {
         type: deleteAccount.rejected.type,
