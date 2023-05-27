@@ -44,6 +44,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         }}
       />
       <span
+        data-testid="checkbox-span"
         className={isRounded ? styles.roundedCheckMark : styles.checkmark}
       ></span>
       {label}
