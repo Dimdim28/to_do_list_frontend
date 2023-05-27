@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import { useSelector } from "react-redux";
 import { withHomeRedirect } from "./withHomeRedirect";
 import TestComponent from "./testComponent";
+import ROUTES from "../routes";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
@@ -31,6 +32,6 @@ describe("withHomeRedirect", () => {
     render(MockComponent());
 
     expect(screen.queryByTestId("test-component")).not.toBeInTheDocument();
-    expect(Navigate).toHaveBeenCalledWith({ to: "/" }, {});
+    expect(Navigate).toHaveBeenCalledWith({ to: ROUTES.HOME }, {});
   });
 });

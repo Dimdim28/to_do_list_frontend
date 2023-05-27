@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Navigate } from "react-router";
 import { useSelector } from "react-redux";
 import TestComponent from "./testComponent";
+import ROUTES from "../routes";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
@@ -21,7 +22,10 @@ describe("withLoginRedirect", () => {
     render(MockComponent());
 
     expect(screen.queryByTestId("test-component")).not.toBeInTheDocument();
-    expect(Navigate).toHaveBeenCalledWith({ to: "/auth/login" }, {});
+    expect(Navigate).toHaveBeenCalledWith(
+      { to: `${ROUTES.AUTH}/${ROUTES.LOGIN}` },
+      {}
+    );
   });
 
   it("renders the component when isAuth is true and isChecked is true", () => {
