@@ -96,4 +96,118 @@ describe("Testing profile slice extra reducers", () => {
       });
     });
   });
+
+  describe("deleteAccount extra reducers:", () => {
+    it("should return null profile when deleteAccount fulfilled", () => {
+      const action = {
+        type: deleteAccount.fulfilled.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+
+    it("should return null profile when deleteAccount is loading", () => {
+      const action = {
+        type: deleteAccount.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+      });
+    });
+
+    it("should return null profile when deleteAccount is rejected", () => {
+      const action = {
+        type: deleteAccount.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+      });
+    });
+  });
+
+  describe("changePass extra reducers:", () => {
+    it("should return null profile when changePass fulfilled", () => {
+      const action = {
+        type: changePass.fulfilled.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+
+    it("should return null profile when changePass is loading", () => {
+      const action = {
+        type: changePass.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+      });
+    });
+
+    it("should return null profile when changePass is rejected", () => {
+      const action = {
+        type: changePass.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+      });
+    });
+  });
+
+  describe("changeName extra reducers:", () => {
+    it("should return null profile when changeName fulfilled", () => {
+      const action = {
+        type: changePass.fulfilled.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+      });
+    });
+
+    it("should return null profile when changeName is loading", () => {
+      const action = {
+        type: changeName.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+      });
+    });
+
+    it("should return null profile when changeName is rejected", () => {
+      const action = {
+        type: changeName.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+      });
+    });
+  });
 });
