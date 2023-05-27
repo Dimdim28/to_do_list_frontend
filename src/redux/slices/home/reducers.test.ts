@@ -16,11 +16,34 @@ import {
 import { HomeSliceState } from "./types";
 import { Status } from "../../../types";
 
+const initialState = {
+  category: {
+    categories: [
+      {
+        _id: "646b95736b2cb6353f4fd104",
+        title: "hello",
+        user: "63f6342acc86923016194255",
+        color: "#d82222",
+      },
+      {
+        _id: "646bbbaefedb212d312d0447",
+        title: "lalala",
+        user: "63f6342acc86923016194255",
+        color: "#16a29f",
+      },
+    ],
+    totalPages: 4,
+    currentPage: 4,
+    status: Status.SUCCESS,
+    message: "",
+  },
+};
+
 describe("Testing home slice reducers", () => {
   const clearAction = { type: clear.type };
   const clearCategoriesAction = { type: clearCategories.type };
 
-  describe("clear reducer must works currectly", () => {
+  describe("clear reducer must works correctly", () => {
     it("All slice must be cleared after this reducer calling", () => {
       const firstResult = homeReducer(MOCK_OBJECT_ONE.home, clearAction);
       const secondResult = homeReducer(MOCK_OBJECT_TWO.home, clearAction);
@@ -85,7 +108,7 @@ describe("Testing home slice reducers", () => {
     });
   });
 
-  describe("updateCategoryInList reducer must works currectly", () => {
+  describe("updateCategoryInList reducer must works correctly", () => {
     const updateFirstCategory = {
       _id: "646b95736b2cb6353f4fd104",
       title: "hi",
@@ -111,6 +134,37 @@ describe("Testing home slice reducers", () => {
     });
     it("Second cartegory do not changed", () => {
       expect(prevSecondCategory).toEqual(recivedResult.category.categories[1]);
+    });
+  });
+
+  describe("addCategoryToList reducer must works correctly if totalPages = currentPage", () => {
+    const newCategory = {
+      _id: "646b95736b2cb6353f4fd105",
+      title: "hi",
+      user: "63f6342acc86923016194255",
+      color: "#000000",
+    };
+    const addCategoryToListAction = {
+      type: addCategoryToList.type,
+      payload: newCategory,
+    };
+
+    it("Third cartegory must be added if we are at the last page", () => {
+      const recivedResult = homeReducer(initialState, addCategoryToListAction);
+      expect(recivedResult.category.totalPages).toBe(4);
+      expect(recivedResult.category.currentPage).toBe(4);
+      expect(recivedResult.category.categories.length).toBe(3);
+      expect(recivedResult.category.categories[2]).toEqual(newCategory);
+    });
+
+    it("Third cartegory must not be added if we are not at the last page", () => {
+      const recivedResult = homeReducer(
+        MOCK_OBJECT_ONE.home,
+        addCategoryToListAction
+      );
+      expect(recivedResult.category.totalPages).toBe(5);
+      expect(recivedResult.category.currentPage).toBe(4);
+      expect(recivedResult.category.categories.length).toBe(2);
     });
   });
 });
