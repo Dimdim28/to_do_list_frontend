@@ -129,6 +129,7 @@ describe("Testing home slice reducers", () => {
       MOCK_OBJECT_ONE.home,
       updateCategoryInListAction
     );
+
     it("First cartegory must be changed", () => {
       expect(updateFirstCategory).toEqual(recivedResult.category.categories[0]);
     });
@@ -140,7 +141,7 @@ describe("Testing home slice reducers", () => {
   describe("addCategoryToList reducer must works correctly if totalPages = currentPage", () => {
     const newCategory = {
       _id: "646b95736b2cb6353f4fd105",
-      title: "hi",
+      title: "hi!",
       user: "63f6342acc86923016194255",
       color: "#000000",
     };
@@ -165,6 +166,38 @@ describe("Testing home slice reducers", () => {
       expect(recivedResult.category.totalPages).toBe(5);
       expect(recivedResult.category.currentPage).toBe(4);
       expect(recivedResult.category.categories.length).toBe(2);
+    });
+  });
+
+  describe("removeCategoryFromList reducer must work correctly", () => {
+    const firstCategory = {
+      _id: "646b95736b2cb6353f4fd104",
+      title: "hello",
+      user: "63f6342acc86923016194255",
+      color: "#d82222",
+    };
+
+    const addCategoryToListAction = {
+      type: removeCategoryFromList.type,
+    };
+
+    it("removeCategoryFromList if we are at the last page", () => {
+      const recivedResult = homeReducer(initialState, addCategoryToListAction);
+      expect(recivedResult.category.totalPages).toBe(3);
+      expect(recivedResult.category.currentPage).toBe(3);
+      expect(recivedResult.category.categories.length).toBe(1);
+      expect(recivedResult.category.categories[0]).toEqual(firstCategory);
+    });
+
+    it("removeCategoryFromList if we are not at the last page", () => {
+      const recivedResult = homeReducer(
+        MOCK_OBJECT_ONE.home,
+        addCategoryToListAction
+      );
+      expect(recivedResult.category.totalPages).toBe(4);
+      expect(recivedResult.category.currentPage).toBe(3);
+      expect(recivedResult.category.categories.length).toBe(1);
+      expect(recivedResult.category.categories[0]).toEqual(firstCategory);
     });
   });
 });
