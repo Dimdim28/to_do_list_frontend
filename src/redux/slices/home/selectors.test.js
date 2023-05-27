@@ -50,5 +50,11 @@ import {
       expect(recievedSecondState).toEqual([]);
       expect(recievedThirdState).toEqual([]);
     });
+
+    it("selectCategoriesStatus must work correctly", () => {
+      expect(selectCategoriesStatus(MOCK_OBJECT_ONE)).toBe(Status.SUCCESS);
+      expect(selectCategoriesStatus(MOCK_OBJECT_TWO)).toBe(Status.LOADING);
+      expect(selectCategoriesStatus(MOCK_OBJECT_THREE)).toBe(Status.ERROR);
+    });
   });
   
