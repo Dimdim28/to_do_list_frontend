@@ -56,5 +56,11 @@ import {
       expect(selectCategoriesStatus(MOCK_OBJECT_TWO)).toBe(Status.LOADING);
       expect(selectCategoriesStatus(MOCK_OBJECT_THREE)).toBe(Status.ERROR);
     });
+
+    it("selectCategoriesrError must work correctly", () => {
+      expect(selectCategoriesrError(MOCK_OBJECT_ONE)).toBe("");
+      expect(selectCategoriesrError(MOCK_OBJECT_TWO)).toBe("");
+      expect(selectCategoriesrError(MOCK_OBJECT_THREE)).toBe("Error");
+    });
   });
   
