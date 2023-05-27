@@ -39,6 +39,7 @@ export const MOCK_OBJECT_ONE: RootState = {
   profile: {
     data: null,
     status: Status.LOADING,
+    message: "",
   },
 };
 
@@ -71,8 +72,16 @@ export const MOCK_OBJECT_TWO: RootState = {
     },
   },
   profile: {
-    data: null,
-    status: Status.LOADING,
+    data: {
+      _id: "6460e2e3832ea98269aa3777",
+      username: "dench",
+      email: "dench@gmail.com",
+      createdAt: "2023",
+      updatedAt: "2024",
+      avatarUrl: "link",
+    },
+    status: Status.SUCCESS,
+    message: "",
   },
 };
 
@@ -105,6 +114,7 @@ export const MOCK_OBJECT_THREE: RootState = {
   },
   profile: {
     data: null,
-    status: Status.LOADING,
+    status: Status.ERROR,
+    message: "Error"
   },
 };
