@@ -26,7 +26,7 @@ import { ChangePass } from "./ChangePass/ChangePass";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
 import Exit from "./Exit/Exit";
 import imageCompression from "browser-image-compression";
-
+import { toast } from "react-toastify";
 import styles from "./Profile.module.scss";
 
 const convertToBase64 = (file: any) => {
@@ -45,7 +45,7 @@ const convertToBase64 = (file: any) => {
 const compressionOptions = {
   maxSizeMB: 0.067,
   maxWidthOrHeight: 1920,
-  useWebWorker: true
+  useWebWorker: true,
 };
 
 const Profile: React.FC = () => {
@@ -60,6 +60,9 @@ const Profile: React.FC = () => {
   };
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
+
+  if (status === "error") toast.error(message);
+
   const { email, username, avatarUrl, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
@@ -79,19 +82,20 @@ const Profile: React.FC = () => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    // if (file.size > 67153) {
-    //   return alert("Too large");
-    // }
+    if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+      return toast.error("File type should be image, png, jpg or jpeg");
+    }
+    if (file.size > 67153) {
+      return toast.error("Too large");
+    }
 
     const compressedFile = await imageCompression(file, compressionOptions);
     const base64: any = await convertToBase64(compressedFile);
 
     try {
-      // const formdata = new FormData();
-      // formdata.append("image", file);
       await dispatch(changeAvatar({ image: base64, userId: id }));
     } catch (e) {
-      console.log(e);
+      toast.error(`${e}`);
     }
   };
 
@@ -239,7 +243,6 @@ const Profile: React.FC = () => {
             </div>
           </div>
         )}
-        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
     </main>
   );
