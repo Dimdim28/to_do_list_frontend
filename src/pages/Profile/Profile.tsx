@@ -60,6 +60,9 @@ const Profile: React.FC = () => {
   };
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
+
+  if (status === "error") toast.error(message);
+
   const { email, username, avatarUrl, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
@@ -240,7 +243,6 @@ const Profile: React.FC = () => {
             </div>
           </div>
         )}
-        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
     </main>
   );
