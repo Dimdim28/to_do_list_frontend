@@ -1,6 +1,7 @@
 import { LoginParams, Profile, ProfileResponse, RegisterParams } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
+import { toast } from "react-toastify";
 
 export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
   "auth/fetchUserData",
@@ -9,6 +10,7 @@ export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
       const response: ProfileResponse = await instanse.post("/auth", params);
       return response.data;
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -21,6 +23,7 @@ export const registerUser = createAsyncThunk<Profile, RegisterParams>(
       const response: ProfileResponse = await instanse.post("/user", params);
       return response.data;
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
