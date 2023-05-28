@@ -8,8 +8,10 @@ import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import "./styles/reset.scss";
 import "./styles/typography.scss";
 import "./styles/global-styles.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 import ROUTES from "./routes";
+import { ToastContainer } from "react-toastify";
 
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Register = React.lazy(() => import("./pages/Register/Register"));
@@ -24,19 +26,33 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App">
-      <Routes>
-        <Route path={ROUTES.AUTH} element={<AuthLayout />}>
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path={ROUTES.REGISTER} element={<Register />} />
-        </Route>
-        <Route path={ROUTES.HOME} element={<PageLayout />}>
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.TASK} element={<Task />} />
-          <Route path={ROUTES.HOME} element={<Home />} />
-        </Route>
-      </Routes>
-    </div>
+    <>
+      <div className="App">
+        <Routes>
+          <Route path={ROUTES.AUTH} element={<AuthLayout />}>
+            <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.REGISTER} element={<Register />} />
+          </Route>
+          <Route path={ROUTES.HOME} element={<PageLayout />}>
+            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route path={ROUTES.TASK} element={<Task />} />
+            <Route path={ROUTES.HOME} element={<Home />} />
+          </Route>
+        </Routes>
+      </div>{" "}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 }
 
