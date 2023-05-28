@@ -36,6 +36,7 @@ const Home: React.FC = () => {
       fetchingParams.isCompleted = true;
     }
   }
+
   useEffect(() => {
     dispatch(fetchCategories(fetchingParams));
     return () => {
