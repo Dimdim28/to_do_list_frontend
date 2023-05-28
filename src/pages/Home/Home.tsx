@@ -41,7 +41,7 @@ const Home: React.FC = () => {
     return () => {
       dispatch(clearCategories());
     };
-  }, [dispatch]);
+  }, []);
 
   async function fetchTasks(params?: getTask) {
     setIsTasksLoading(true);
