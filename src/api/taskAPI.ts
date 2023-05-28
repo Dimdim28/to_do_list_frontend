@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import instanse from "../axios";
 import { Status } from "../types";
 
@@ -80,6 +81,7 @@ class taskAPIClass {
       const response: TaskResponse = await instanse.delete(`/task/${id}`);
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return {
         message: err.response.data.message,
         status: Status.ERROR,
@@ -103,6 +105,7 @@ class taskAPIClass {
       });
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return {
         message: err.response.data.message,
         status: Status.ERROR,
@@ -119,6 +122,7 @@ class taskAPIClass {
       );
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return {
         message: err.response.data.message,
         status: Status.ERROR,
@@ -133,6 +137,7 @@ class taskAPIClass {
       const { tasks, currentPage, totalPages } = response.data;
       return { tasks, currentPage, totalPages, status: Status.SUCCESS };
     } catch (err: any) {
+      toast.error(err.response.data.message);
       return {
         message: err.response.data.message,
         status: Status.ERROR,
