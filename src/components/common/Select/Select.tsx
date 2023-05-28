@@ -1,6 +1,7 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 
 import styles from "./Select.module.scss";
+import { IsCompleted } from "../../../pages/Home/FiltersBar/Filters/Filters";
 
 export type Item<T> = {
   name: string;
@@ -12,6 +13,7 @@ interface SelectProps<T> extends React.ComponentPropsWithoutRef<"input"> {
   activeValue: string;
   callback: React.Dispatch<SetStateAction<T>>;
   width: string;
+  clearCompletingStatus?: React.Dispatch<React.SetStateAction<IsCompleted>>;
 }
 
 const Select = <T,>({
@@ -19,7 +21,7 @@ const Select = <T,>({
   activeValue,
   callback,
   width,
-  ...rest
+  clearCompletingStatus,
 }: React.PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(activeValue);
@@ -59,6 +61,7 @@ const Select = <T,>({
                 setActiveName(el.name);
                 callback(el.value);
                 setIsOpen(false);
+                if (clearCompletingStatus) clearCompletingStatus("all");
               }}
             >
               {el.name}

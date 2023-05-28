@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./FiltersBar.module.scss";
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
@@ -25,8 +25,6 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   taskFetchingParams,
   fetchTasks,
 }) => {
-  const [hasDeadline, setHasDeadline] = useState<boolean>(false);
-
   return (
     <aside className={styles.filtersWrapper}>
       <Categories
@@ -36,8 +34,6 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
         fetchTasks={fetchTasks}
       />
       <Filters
-        hasDeadline={hasDeadline}
-        setHasDeadline={setHasDeadline}
         date={date}
         setDate={setDate}
         isCompleted={isCompleted}
