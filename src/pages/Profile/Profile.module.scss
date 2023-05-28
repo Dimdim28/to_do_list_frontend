@@ -2,12 +2,15 @@
 
 @mixin style-button-icon-color($default, $hover, $active, $focus) {
   color: $default;
+
   &:hover {
     color: $hover;
   }
+
   &:focus {
     color: $focus;
   }
+
   &:active {
     color: $active;
   }
@@ -27,6 +30,7 @@
     flex-direction: column;
     width: 50%;
     position: relative;
+
     .row {
       display: flex;
       align-items: center;
@@ -52,12 +56,10 @@
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
-          @include style-button-icon-color(
-            $gray-600,
+          @include style-button-icon-color($gray-600,
             $error-200,
             $error-300,
-            $error-200
-          );
+            $error-200 );
         }
 
         .button {
@@ -66,6 +68,7 @@
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
+
           &:hover {
             color: $warning-200;
           }
@@ -76,12 +79,10 @@
           white-space: nowrap;
           cursor: pointer;
           transition: 0.3s;
-          @include style-button-icon-color(
-            $gray-600,
+          @include style-button-icon-color($gray-600,
             $error-200,
             $error-300,
-            $error-200
-          );
+            $error-200 );
         }
       }
 
@@ -93,6 +94,7 @@
         text-align: center;
         background-color: $background-dark-0;
         position: relative;
+
         input[type="file"] {
           display: none;
         }
@@ -101,6 +103,7 @@
           width: 100%;
           height: 100%;
           border-radius: 50%;
+          object-fit: cover;
         }
 
         .addPhoto {
@@ -117,10 +120,12 @@
           opacity: 0;
           transition: 0.5s;
           cursor: pointer;
+
           .camera {
             font-size: 80px;
             color: $gray-600;
           }
+
           &:hover {
             opacity: 0.5;
           }
@@ -207,12 +212,14 @@
             &:hover {
               color: $warning-200;
             }
+
             transition: 0.3s;
             position: absolute;
             top: calc(50% - 10px);
             right: 0;
             cursor: pointer;
           }
+
           &:hover {
             .icon {
               opacity: 1;
@@ -240,6 +247,7 @@
         border-radius: 15px;
       }
     }
+
     .error {
       width: 100%;
       position: absolute;
@@ -254,13 +262,16 @@
   .wrapper {
     .profile {
       width: 60%;
+
       .row {
         .avatar {
           width: 280px;
           height: 280px;
         }
+
         .info {
           .line {
+
             .text,
             .name,
             .inputName {
@@ -277,6 +288,7 @@
   .wrapper {
     .profile {
       width: 70%;
+
       .row {
         .avatar {
           width: 260px;
@@ -299,6 +311,7 @@
   .wrapper {
     .profile {
       width: 95%;
+
       .row {
         flex-direction: column;
       }
