@@ -21,6 +21,7 @@ import {
   changeAvatar,
   changeName,
   fetchUserProfile,
+  getStats,
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
@@ -71,9 +72,12 @@ const Profile: React.FC = () => {
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [name, setName] = useState(username);
 
-  React.useEffect(() => {
-    if (isAuth) dispatch(fetchUserProfile({ id }));
-  }, [dispatch, id, isAuth]);
+  useEffect(() => {
+    if (isAuth)
+      dispatch(fetchUserProfile({ id })).then(() => {
+        dispatch(getStats());
+      });
+  }, [id, isAuth]);
 
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
