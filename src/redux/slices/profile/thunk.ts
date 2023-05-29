@@ -11,6 +11,8 @@ import {
   ChangePassword,
   UpdateProfileResponse,
   ChangeName,
+  DailyStats,
+  StatsResponse,
 } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
@@ -24,8 +26,6 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
         `/user/${params.id}`
       );
       const response2: any = await instanse.get("/upload");
-      console.log(response2.data);
-
       return {
         ...response.data,
         avatarUrl: response2.data[0].image,
@@ -114,6 +114,19 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
         { username: params.username }
       );
       return result.data;
+    } catch (err: any) {
+      toast.error(err.response.data.message);
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const getStats = createAsyncThunk<DailyStats[]>(
+  "profile/getStats",
+  async (params, { rejectWithValue }) => {
+    try {
+      const recievedStats: StatsResponse = await instanse.get("/task/stats");
+      return recievedStats.data;
     } catch (err: any) {
       toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);

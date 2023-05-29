@@ -4,6 +4,7 @@ import {
   deleteAccount,
   fetchUserProfile,
   changeName,
+  getStats,
 } from "./thunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../types";
@@ -12,6 +13,7 @@ import { ProfileSliceState } from "./types";
 const initialState: ProfileSliceState = {
   data: null,
   status: Status.LOADING,
+  stats: [],
 };
 
 const profileSlice = createSlice({
@@ -96,6 +98,19 @@ const profileSlice = createSlice({
       state.message = "";
     });
     builder.addCase(changeName.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+    builder.addCase(getStats.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = "";
+    });
+    builder.addCase(getStats.fulfilled, (state, action) => {
+      state.status = Status.SUCCESS;
+      state.message = "";
+      state.stats = action.payload;
+    });
+    builder.addCase(getStats.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });

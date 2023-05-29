@@ -15,12 +15,14 @@ import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
+  selectStats,
   selectUserProfile,
 } from "../../redux/slices/profile/selectors";
 import {
   changeAvatar,
   changeName,
   fetchUserProfile,
+  getStats,
 } from "../../redux/slices/profile/thunk";
 import { ChangePass } from "./ChangePass/ChangePass";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
@@ -28,7 +30,11 @@ import Exit from "./Exit/Exit";
 import imageCompression from "browser-image-compression";
 import { toast } from "react-toastify";
 import styles from "./Profile.module.scss";
-
+import { useSelector } from "react-redux";
+import { Bar } from "react-chartjs-2";
+import { chartOptions, getChartData } from "../../helpers/stats";
+import { Chart as ChartJS, registerables } from "chart.js";
+ChartJS.register(...registerables);
 const convertToBase64 = (file: any) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -60,6 +66,8 @@ const Profile: React.FC = () => {
   };
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
+  const profileStats = useSelector(selectStats);
+
   const { email, username, avatarUrl, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
@@ -71,9 +79,12 @@ const Profile: React.FC = () => {
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [name, setName] = useState(username);
 
-  React.useEffect(() => {
-    if (isAuth) dispatch(fetchUserProfile({ id }));
-  }, [dispatch, id, isAuth]);
+  useEffect(() => {
+    if (isAuth)
+      dispatch(fetchUserProfile({ id })).then(() => {
+        dispatch(getStats());
+      });
+  }, [id, isAuth]);
 
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
@@ -242,6 +253,11 @@ const Profile: React.FC = () => {
         )}
         {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
+      {profileStats.length > 0 && (
+        <div className={styles.chartWrapper}>
+          <Bar data={getChartData(profileStats)} options={chartOptions} />
+        </div>
+      )}
     </main>
   );
 };
