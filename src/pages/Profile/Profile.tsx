@@ -15,6 +15,7 @@ import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
+  selectStats,
   selectUserProfile,
 } from "../../redux/slices/profile/selectors";
 import {
@@ -29,7 +30,11 @@ import Exit from "./Exit/Exit";
 import imageCompression from "browser-image-compression";
 import { toast } from "react-toastify";
 import styles from "./Profile.module.scss";
-
+import { useSelector } from "react-redux";
+import { Bar } from "react-chartjs-2";
+import { chartOptions, getChartData } from "../../helpers/stats";
+import { Chart as ChartJS, registerables } from "chart.js";
+ChartJS.register(...registerables);
 const convertToBase64 = (file: any) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -61,6 +66,8 @@ const Profile: React.FC = () => {
   };
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
+  const profileStats = useSelector(selectStats);
+
   const { email, username, avatarUrl, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
@@ -246,6 +253,11 @@ const Profile: React.FC = () => {
         )}
         {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
+      {profileStats.length > 0 && (
+        <div className={styles.chartWrapper}>
+          <Bar data={getChartData(profileStats)} options={chartOptions} />
+        </div>
+      )}
     </main>
   );
 };
