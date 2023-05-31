@@ -44,11 +44,9 @@ describe("Testing home slice reducers", () => {
   const clearCategoriesAction = { type: clearCategories.type };
 
   describe("clear reducer must works correctly", () => {
-    it("All slice must be cleared after this reducer calling", () => {
-      const firstResult = homeReducer(MOCK_OBJECT_ONE.home, clearAction);
-      const secondResult = homeReducer(MOCK_OBJECT_TWO.home, clearAction);
-      const thirdResult = homeReducer(MOCK_OBJECT_THREE.home, clearAction);
-      const initialState: HomeSliceState = {
+    it("All slice must be cleared after this reducer calling if we are at the last page", () => {
+      const result = homeReducer(initialState, clearAction);
+      const initialСlearlState: HomeSliceState = {
         category: {
           categories: [],
           totalPages: 0,
@@ -57,9 +55,25 @@ describe("Testing home slice reducers", () => {
         },
       };
 
-      expect(firstResult).toEqual(initialState);
-      expect(secondResult).toEqual(initialState);
-      expect(thirdResult).toEqual(initialState);
+      expect(result).toEqual(initialСlearlState);
+    });
+
+    it("All slice must be cleared after this reducer calling if we are not at the last page", () => {
+      const firstResult = homeReducer(MOCK_OBJECT_ONE.home, clearAction);
+      const secondResult = homeReducer(MOCK_OBJECT_TWO.home, clearAction);
+      const thirdResult = homeReducer(MOCK_OBJECT_THREE.home, clearAction);
+      const initialСlearlState: HomeSliceState = {
+        category: {
+          categories: [],
+          totalPages: 0,
+          currentPage: 1,
+          status: Status.LOADING,
+        },
+      };
+
+      expect(firstResult).toEqual(initialСlearlState);
+      expect(secondResult).toEqual(initialСlearlState);
+      expect(thirdResult).toEqual(initialСlearlState);
     });
   });
 
