@@ -1,5 +1,4 @@
 import React, { SetStateAction } from "react";
-import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
