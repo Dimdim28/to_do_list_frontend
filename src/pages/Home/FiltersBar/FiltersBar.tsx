@@ -26,7 +26,7 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   fetchTasks,
 }) => {
   return (
-    <aside className={styles.filtersWrapper}>
+    <aside className={styles.filtersWrapper} role="list">
       <Categories
         activeCategories={categories}
         setActiveCategories={setCategories}

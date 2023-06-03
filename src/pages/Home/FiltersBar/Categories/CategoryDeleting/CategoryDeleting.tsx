@@ -45,7 +45,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
   return (
     <div className={styles.wrapper}>
       {status === Status.LOADING ? (
-        <Preloader />
+        <Preloader data-testid="preloader" />
       ) : (
         <>
           <h3 className={styles.title}>
