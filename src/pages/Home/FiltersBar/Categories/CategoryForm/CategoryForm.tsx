@@ -70,6 +70,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         <>
           <h3 className={styles.title}>Category color</h3>
           <input
+            data-testid="color-input"
             className={styles.chooseColor}
             type="color"
             value={color}
