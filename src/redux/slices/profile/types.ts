@@ -22,6 +22,7 @@ export interface ProfileSliceState {
   status: Status;
   data: Profile | null;
   message?: string;
+  stats: DailyStats[];
 }
 
 export interface GetProfileParams {
@@ -65,3 +66,14 @@ export interface ChangeName {
   username: string;
   userId: string;
 }
+
+export type DailyStats = {
+  date: string;
+  counter: number;
+};
+
+export type StatsResponse = {
+  data: DailyStats[];
+  status: number;
+  statusText: string;
+};

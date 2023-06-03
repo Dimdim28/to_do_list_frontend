@@ -37,6 +37,7 @@ export const MOCK_OBJECT_ONE: RootState = {
     },
   },
   profile: {
+    stats: [],
     data: null,
     status: Status.LOADING,
     message: "",
@@ -59,6 +60,11 @@ export const MOCK_OBJECT_TWO: RootState = {
     },
   },
   profile: {
+    stats: [
+      { counter: 6, date: "16" },
+      { counter: 4, date: "2" },
+      { counter: 8, date: "100" },
+    ],
     data: {
       _id: "6460e2e3832ea98269aa3777",
       username: "dench",
@@ -87,6 +93,7 @@ export const MOCK_OBJECT_THREE: RootState = {
     },
   },
   profile: {
+    stats: [],
     data: null,
     status: Status.ERROR,
     message: "Error",
