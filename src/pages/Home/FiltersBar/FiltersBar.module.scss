@@ -18,4 +18,10 @@
   position: absolute;
   right: 20px;
   top: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: $error-200
+  }
 }
