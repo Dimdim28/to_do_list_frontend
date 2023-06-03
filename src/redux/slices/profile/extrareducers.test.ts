@@ -7,6 +7,7 @@ import {
   deleteAccount,
   changePass,
   changeName,
+  getStats,
 } from "./thunk";
 
 describe("Testing profile slice extra reducers", () => {
@@ -219,6 +220,48 @@ describe("Testing profile slice extra reducers", () => {
     it("should return null profile when changeName is rejected", () => {
       const action = {
         type: changeName.rejected.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "undefined",
+        status: Status.ERROR,
+        stats: [],
+      });
+    });
+  });
+
+  describe("getStats extra reducers:", () => {
+    it("should return null profile when getStats fulfilled", () => {
+      const action = {
+        type: getStats.fulfilled.type,
+        payload: [{ count: 6, date: "666" }],
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.SUCCESS,
+        stats: [{ count: 6, date: "666" }],
+      });
+    });
+
+    it("should return null profile when getStats is loading", () => {
+      const action = {
+        type: getStats.pending.type,
+      };
+      const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
+      expect(result).toEqual({
+        data: null,
+        message: "",
+        status: Status.LOADING,
+        stats: [],
+      });
+    });
+
+    it("should return null profile when getStats is rejected", () => {
+      const action = {
+        type: getStats.rejected.type,
       };
       const result = profileReducer(MOCK_OBJECT_ONE.profile, action);
       expect(result).toEqual({
