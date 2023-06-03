@@ -6,11 +6,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .preloader {
     width: 100px;
     height: 100px;
     position: relative;
-    z-index: 99999;
+    z-index: 10;
+
     .loader {
       border: 10px solid $background-dark-35;
       border-top: 10px solid $error-200;
@@ -27,6 +29,7 @@
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }

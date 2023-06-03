@@ -88,3 +88,19 @@
   padding: 5px 10px;
   width: fit-content;
 }
+
+@media screen and (max-width: 1120px) {
+  .category {
+    .icons {
+      opacity: 100%;
+      right: -15px;
+    }
+  }
+
+  .tasksFormCategory {
+    .icons {
+      opacity: 100%;
+      right: -15px;
+    }
+  }
+}

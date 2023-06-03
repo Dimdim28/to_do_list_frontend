@@ -46,6 +46,7 @@
       .buttons {
         position: absolute;
         bottom: 0;
+        width: 100%;
         left: 0;
         right: 0;
         display: flex;
@@ -327,6 +328,23 @@
 
       .row {
         flex-direction: column;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    .profile {
+      width: 95%;
+
+      .row {
+        .buttons {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          gap: 30px;
+        }
       }
     }
   }
