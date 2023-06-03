@@ -7,7 +7,8 @@ import {
 import {
   selectProfileStatus,
   selectUserProfile,
-  selectProfileMessage
+  selectProfileMessage,
+  selectStats,
 } from "./selectors";
 
 import { Status } from "../../../types";
@@ -40,5 +41,19 @@ describe("Testing profile slice selectors", () => {
     expect(selectProfileMessage(MOCK_OBJECT_ONE)).toBe("");
     expect(selectProfileMessage(MOCK_OBJECT_TWO)).toBe("");
     expect(selectProfileMessage(MOCK_OBJECT_THREE)).toBe("Error");
+  });
+
+  it("selectStats must work correctly", () => {
+    const result1 = selectStats(MOCK_OBJECT_ONE);
+    const result2 = selectStats(MOCK_OBJECT_TWO);
+    const result3 = selectStats(MOCK_OBJECT_THREE);
+
+    expect(result1).toEqual([]);
+    expect(result2).toEqual([
+      { counter: 6, date: "16" },
+      { counter: 4, date: "2" },
+      { counter: 8, date: "100" },
+    ]);
+    expect(result3).toEqual([]);
   });
 });
