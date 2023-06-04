@@ -22,7 +22,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const userId = useAppSelector(selectProfile)?._id || "";
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
-
   const {
     _id,
     title: prevTitle,
@@ -96,7 +95,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             <input
               type="date"
               className={styles.inputDate}
-              value={deadline}
+              value={deadline.slice(0, 10)}
               onChange={(e) => setDeadline(e.target.value)}
             />
           )}
