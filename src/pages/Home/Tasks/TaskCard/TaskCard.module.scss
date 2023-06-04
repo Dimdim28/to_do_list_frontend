@@ -54,6 +54,20 @@
                 color: $error-200;
             }
         }
+
+        .share {
+            color: $white;
+
+            &:hover {
+                color: $warning-200;
+            }
+
+            z-index: 1;
+            position: absolute;
+            top: 40px;
+            right: 0;
+        }
+
     }
 
     &:hover {

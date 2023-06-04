@@ -7,7 +7,7 @@ import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import styles from "./TaskCard.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faTrash, faShare } from "@fortawesome/free-solid-svg-icons";
 
 interface taskProps {
   task: Task;
@@ -22,6 +22,7 @@ interface taskProps {
     >
   >;
   setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskSharing: React.Dispatch<React.SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
 }
@@ -31,6 +32,7 @@ const TaskCard = ({
   setTaskEditing,
   setTaskProps,
   setTaskDeleting,
+  setTaskSharing,
   fetchTasks,
   taskFetchingParams,
 }: taskProps) => {
@@ -89,6 +91,17 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskDeleting(true);
+            e.stopPropagation();
+          }}
+        />
+        <FontAwesomeIcon
+          color="black"
+          fontSize="15px"
+          icon={faShare}
+          className={`${styles.icon} ${styles.share}`}
+          onClick={(e) => {
+            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskSharing(true);
             e.stopPropagation();
           }}
         />

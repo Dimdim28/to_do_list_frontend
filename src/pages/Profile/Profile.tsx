@@ -78,6 +78,7 @@ const Profile: React.FC = () => {
   const [isExiting, setIsExiting] = useState(false);
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [name, setName] = useState(username);
+  const [isIdShown, setIsIdShown] = useState(false);
 
   useEffect(() => {
     if (isAuth)
@@ -85,6 +86,18 @@ const Profile: React.FC = () => {
         dispatch(getStats());
       });
   }, [id, isAuth]);
+
+  function showIdHandler() {
+    if (!isIdShown) {
+      setIsIdShown(true);
+    } else {
+      navigator.clipboard.writeText(id);
+      toast.success("Copied to Clipboard");
+      setTimeout(() => {
+        setIsIdShown(false);
+      }, 5000);
+    }
+  }
 
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
@@ -140,6 +153,9 @@ const Profile: React.FC = () => {
             </div>
           </div>
 
+          <div className={styles.idWrapper} onClick={showIdHandler}>
+            {isIdShown ? id : "show my id"}
+          </div>
           <div className={styles.info}>
             <div className={styles.line}>
               <p className={styles.name}>name:</p>

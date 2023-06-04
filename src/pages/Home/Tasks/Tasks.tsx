@@ -8,6 +8,7 @@ import TaskEditing from "./TaskEditing/TaskForm";
 import TaskCard from "./TaskCard/TaskCard";
 import Pagination from "./Pagination/Pagination";
 import Preloader from "../../../components/Preloader/Preloader";
+import TaskSharing from "./TaskSharing/TaskSharing";
 
 interface TaskProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -33,6 +34,7 @@ const Tasks: React.FC<TaskProps> = ({
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
+  const [taskSharing, setTaskSharing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
   useEffect(() => {
@@ -71,6 +73,12 @@ const Tasks: React.FC<TaskProps> = ({
         ChildComponent={TaskEditing}
         childProps={taskProps}
       />
+      <Modal
+        active={taskSharing}
+        setActive={setTaskSharing}
+        ChildComponent={TaskSharing}
+        childProps={taskProps}
+      />
       {isLoading ? (
         <Preloader />
       ) : (
@@ -85,6 +93,7 @@ const Tasks: React.FC<TaskProps> = ({
                     setTaskEditing={setTaskEditing}
                     setTaskProps={setTaskProps}
                     setTaskDeleting={setTaskDeleting}
+                    setTaskSharing={setTaskSharing}
                     task={el}
                     key={el._id}
                     fetchTasks={fetchTasks}

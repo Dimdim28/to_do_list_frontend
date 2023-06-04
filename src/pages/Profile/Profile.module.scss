@@ -43,6 +43,19 @@
       padding: 30px;
       position: relative;
 
+      .idWrapper {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          color: $warning-200;
+        }
+      }
+
       .buttons {
         position: absolute;
         bottom: 0;
