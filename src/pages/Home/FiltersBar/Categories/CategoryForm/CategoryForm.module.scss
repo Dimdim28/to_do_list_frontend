@@ -7,10 +7,12 @@
   min-height: 260px;
   width: 300px;
   justify-content: space-around;
+
   .title {
     text-align: center;
     width: 100%;
   }
+
   .chooseColor {
     width: 100%;
     outline: none;
@@ -20,6 +22,7 @@
     height: 34px;
     margin-top: 20px;
     outline-width: 0;
+
     &::-moz-color-swatch {
       border: none;
     }
@@ -33,13 +36,21 @@
       border: none;
     }
   }
+
   .buttons {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-top: 20px;
   }
+
   .error {
     color: $error-200;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .wrapper {
+    width: 100%;
   }
 }

@@ -3,6 +3,8 @@ import styles from "./FiltersBar.module.scss";
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
 import { Category, getTask } from "../../../api/taskAPI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface FiltersBarProps {
   date: Date;
@@ -13,6 +15,8 @@ interface FiltersBarProps {
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
+  isMobile?: boolean;
+  setIsNavberOpened?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FiltersBar: React.FC<FiltersBarProps> = ({
@@ -24,9 +28,23 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   setCategories,
   taskFetchingParams,
   fetchTasks,
+  isMobile,
+  setIsNavberOpened,
 }) => {
   return (
-    <aside className={styles.filtersWrapper} role="list">
+    <aside
+      className={isMobile ? styles.mobileFiltersWrapper : styles.filtersWrapper}
+      role="list"
+    >
+      {isMobile && (
+        <FontAwesomeIcon
+          icon={faCircleXmark}
+          className={styles.close}
+          onClick={() => {
+            if (setIsNavberOpened) setIsNavberOpened(false);
+          }}
+        />
+      )}
       <Categories
         activeCategories={categories}
         setActiveCategories={setCategories}

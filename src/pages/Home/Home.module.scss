@@ -1,6 +1,23 @@
+@import "src/styles/partials/theme";
+
 .row {
   display: flex;
   flex-direction: row;
   height: calc(100% - 80px);
   width: 100%;
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: $warning-200
+  }
 }
