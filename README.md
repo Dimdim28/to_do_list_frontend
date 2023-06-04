@@ -1,11 +1,11 @@
 # Installation required
 
-To get the project up and running correctly, you need to install Node.js, npm, and react-scripts (if you've never worked with React).
+To get the project up and running correctly, you need to install Node.js, npm and react-scripts (if you've never worked with React).
 
 [Node.js download link](https://nodejs.org/en/download/current) (Win32/64/ARM64, mac64/ARM64, Linux64)
 [npm download link](https://www.npmjs.com/package/download) (Win32/64/ARM64, mac64/ARM64, Linux64)
 
-In both cloned repositories, install the dependencies:
+Іnstall the dependencies:
 
 ### `$ npm i`
 
@@ -13,7 +13,7 @@ In both cloned repositories, install the dependencies:
 
 If you have not configured some dependencies correctly, then you can install them manually.
 
-Install react-scripts
+Install react-scripts (in VSC folder terminal):
 
 ### `$ npm install react-scripts`
 
