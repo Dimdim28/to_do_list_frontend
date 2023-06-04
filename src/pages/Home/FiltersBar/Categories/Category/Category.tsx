@@ -39,6 +39,7 @@ const Category: React.FC<CategoryProps> = ({
 
   return (
     <div
+      data-testid="category-element"
       onClick={() => {
         if (isActive) {
           setActiveCategories((prev) =>
@@ -61,23 +62,27 @@ const Category: React.FC<CategoryProps> = ({
       </span>
       <div className={styles.icons}>
         <FontAwesomeIcon
+          data-testid="pencil-icon"
           className={`${styles.icon} ${styles.pencil}`}
-          onClick={() => {
+          onClick={(e) => {
             setCategoryInfo(props);
             setCategoryEditing(true);
+            e.stopPropagation();
           }}
           color="black"
           fontSize="15px"
           icon={faPencil}
         />
         <FontAwesomeIcon
+          data-testid="trash-icon"
           color="black"
           fontSize="15px"
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
-          onClick={() => {
+          onClick={(e) => {
             setCategoryInfo(props);
             setCategoryDeleting(true);
+            e.stopPropagation();
           }}
         />
       </div>

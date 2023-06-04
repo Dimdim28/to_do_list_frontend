@@ -11,9 +11,12 @@ import {
   ChangePassword,
   UpdateProfileResponse,
   ChangeName,
+  DailyStats,
+  StatsResponse,
 } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
+import { toast } from "react-toastify";
 
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   "profile/fetchUserProfile",
@@ -22,15 +25,13 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
       const response: ProfileResponse = await instanse.get(
         `/user/${params.id}`
       );
-      const response2: any = await instanse.get('/upload');
-      console.log(response2.data);
-
+      const response2: any = await instanse.get("/upload");
       return {
-              ...response.data, 
-              avatarUrl: response2.data[0].image
-            };
+        ...response.data,
+        avatarUrl: response2.data[0].image,
+      };
     } catch (err: any) {
-      console.log(err);
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -40,19 +41,18 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
   "profile/changeAvatar",
   async (params, { rejectWithValue }) => {
     try {
-      const response: AvatarResponse = await instanse.post(
+      const response: AvatarResponse = await instanse.post(`/upload`, {
+        image: params.image,
+      });
+
+      const updatingAvatarUrlResult: UpdateProfileResponse = await instanse.get(
         `/upload`,
         {
-          image: params.image
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
         }
       );
-
-      const updatingAvatarUrlResult: UpdateProfileResponse =
-        await instanse.get(`/upload`, {
-          headers: {
-            authorization: localStorage.getItem("token")
-          }
-        });
 
       if (updatingAvatarUrlResult.status !== 200) {
         return rejectWithValue(updatingAvatarUrlResult.data.message);
@@ -61,7 +61,7 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
       console.log(response.data);
       return response.data;
     } catch (err: any) {
-      console.log(err);
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -76,7 +76,7 @@ export const deleteAccount = createAsyncThunk<Message, DeleteAccountParams>(
       );
       return response.data;
     } catch (err: any) {
-      console.log(err);
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -99,7 +99,7 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
       );
       return updatingPassResult.data;
     } catch (err: any) {
-      console.log(err);
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }
@@ -115,7 +115,20 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
       );
       return result.data;
     } catch (err: any) {
-      console.log(err);
+      toast.error(err.response.data.message);
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const getStats = createAsyncThunk<DailyStats[]>(
+  "profile/getStats",
+  async (params, { rejectWithValue }) => {
+    try {
+      const recievedStats: StatsResponse = await instanse.get("/task/stats");
+      return recievedStats.data;
+    } catch (err: any) {
+      toast.error(err.response.data.message);
       return rejectWithValue(err.response.data.message);
     }
   }

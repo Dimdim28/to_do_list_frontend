@@ -17,6 +17,7 @@ interface TaskProps {
   error: string;
   Tasks: Task[];
   totalPages: number;
+  isMobile?: boolean;
 }
 
 const Tasks: React.FC<TaskProps> = ({
@@ -27,6 +28,7 @@ const Tasks: React.FC<TaskProps> = ({
   error,
   Tasks,
   totalPages,
+  isMobile,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
   const [taskDeleting, setTaskDeleting] = useState(false);
@@ -39,9 +41,9 @@ const Tasks: React.FC<TaskProps> = ({
 
   return (
     <main
-      className={
+      className={`${
         Tasks && Tasks.length > 0 ? styles.wrapperWithTasks : styles.wrapper
-      }
+      } ${isMobile && styles.mobileWrapper}`}
     >
       <div className={styles.line}>
         <span

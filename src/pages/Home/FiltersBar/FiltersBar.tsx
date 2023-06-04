@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./FiltersBar.module.scss";
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
 import { Category, getTask } from "../../../api/taskAPI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface FiltersBarProps {
   date: Date;
@@ -13,6 +15,8 @@ interface FiltersBarProps {
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
+  isMobile?: boolean;
+  setIsNavberOpened?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FiltersBar: React.FC<FiltersBarProps> = ({
@@ -24,11 +28,23 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   setCategories,
   taskFetchingParams,
   fetchTasks,
+  isMobile,
+  setIsNavberOpened,
 }) => {
-  const [hasDeadline, setHasDeadline] = useState<boolean>(false);
-
   return (
-    <aside className={styles.filtersWrapper}>
+    <aside
+      className={isMobile ? styles.mobileFiltersWrapper : styles.filtersWrapper}
+      role="list"
+    >
+      {isMobile && (
+        <FontAwesomeIcon
+          icon={faCircleXmark}
+          className={styles.close}
+          onClick={() => {
+            if (setIsNavberOpened) setIsNavberOpened(false);
+          }}
+        />
+      )}
       <Categories
         activeCategories={categories}
         setActiveCategories={setCategories}
@@ -36,8 +52,6 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
         fetchTasks={fetchTasks}
       />
       <Filters
-        hasDeadline={hasDeadline}
-        setHasDeadline={setHasDeadline}
         date={date}
         setDate={setDate}
         isCompleted={isCompleted}

@@ -1,3 +1,22 @@
+# Installation required
+
+To get the project up and running correctly, you need to install Node.js, npm and react-scripts (if you've never worked with React).
+
+[Node.js download link](https://nodejs.org/en/download/current) (Win32/64/ARM64, mac64/ARM64, Linux64)
+[npm download link](https://www.npmjs.com/package/download) (Win32/64/ARM64, mac64/ARM64, Linux64)
+
+Іnstall the dependencies (in VSC folder terminal):
+
+### `$ npm i`
+
+**WARNING!!!** Further text and actions in this paragraph should be performed only if you have problems with the correct launch.
+
+If you have not configured some dependencies correctly, then you can install them manually.
+
+Install react-scripts (in VSC folder terminal):
+
+### `$ npm install react-scripts`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -20,6 +39,8 @@ Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
+
+_(Don't forget to run the [BackEnd](https://github.com/crazysparrow69/ToDoList_BackEnd) part of the project before)_
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.

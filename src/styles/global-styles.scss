@@ -4,6 +4,7 @@ html,
 body {
   background-color: $background-dark-0;
   color: $gray-600;
+  overflow-x: hidden;
 }
 
 .App {
@@ -20,6 +21,7 @@ body {
 * {
   scrollbar-color: $white $background-dark-100;
   scrollbar-width: thin;
+
   &:hover,
   &:focus {
     scrollbar-color: $black $background-dark-200;
@@ -39,9 +41,11 @@ body {
 
   transition: all 0.2s ease-in-out;
   background-color: $background-dark-100;
+
   &:hover {
     background-color: $background-dark-200;
   }
+
   &:active {
     background-color: $gray-300;
   }

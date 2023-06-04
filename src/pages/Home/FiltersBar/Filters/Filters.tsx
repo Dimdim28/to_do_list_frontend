@@ -1,24 +1,19 @@
 import React, { SetStateAction } from "react";
-import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
-export type Date = "day" | "week" | "month" | "year" | "all";
+export type Date = "day" | "week" | "month" | "year" | "all" | "outdated";
 export type IsCompleted = "true" | "false" | "all";
 
 interface FiltersProps {
   date: Date;
   isCompleted: IsCompleted;
-  hasDeadline: boolean;
   setDate: React.Dispatch<SetStateAction<Date>>;
-  setHasDeadline: React.Dispatch<SetStateAction<boolean>>;
   setIsCompleted: React.Dispatch<SetStateAction<IsCompleted>>;
 }
 const Filters: React.FC<FiltersProps> = ({
   isCompleted,
   setIsCompleted,
-  hasDeadline,
-  setHasDeadline,
   date,
   setDate,
 }) => {
@@ -34,37 +29,38 @@ const Filters: React.FC<FiltersProps> = ({
     { name: "month", value: "month" },
     { name: "year", value: "year" },
     { name: "all", value: "all" },
+    { name: "outdated", value: "outdated" },
   ];
 
   return (
     <section className={styles.dateWrapper}>
       <h3>Date and status</h3>
-      <div className={styles.progressStatus}>
-        <Select<IsCompleted>
-          items={selectStatusOptions}
+
+      <h5>Deadline filters</h5>
+
+      <div className={styles.deadline}>
+        <Select<Date>
+          items={selectDateOptions}
+          activeValue={date}
           width="200px"
-          activeValue={isCompleted}
-          callback={setIsCompleted}
+          callback={setDate}
+          clearCompletingStatus={setIsCompleted}
         />
       </div>
-      <Checkbox
-        isChecked={hasDeadline}
-        setIsChecked={setHasDeadline}
-        label="With deadline"
-      />
-      {hasDeadline && (
-        <div className={styles.deadline}>
-          <Select<Date>
-            items={selectDateOptions}
-            activeValue={date}
-            width="200px"
-            callback={setDate}
-          />
-        </div>
+
+      {date !== "outdated" && (
+        <>
+          <h5>Completion status</h5>
+          <div className={styles.progressStatus}>
+            <Select<IsCompleted>
+              items={selectStatusOptions}
+              width="200px"
+              activeValue={isCompleted}
+              callback={setIsCompleted}
+            />
+          </div>
+        </>
       )}
-      date: {date}
-      <br />
-      isCompleted: {isCompleted}
     </section>
   );
 };

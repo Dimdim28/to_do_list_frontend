@@ -15,15 +15,20 @@
     justify-content: center;
     width: 100%;
     transition: 0.3s;
+
     &:hover {
       background-color: $error-100;
     }
   }
+
   .items {
+    max-height: 150px;
+    overflow-y: scroll;
     position: absolute;
-    width: 100%;
+    width: calc(100% + 8px);
     top: 36px;
     z-index: 2;
+
     .item,
     .activeItem {
       transition: 0.3s;
@@ -35,10 +40,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
       &:hover {
         background-color: $error-100;
       }
     }
+
     .activeItem {
       background-color: $error-100;
     }

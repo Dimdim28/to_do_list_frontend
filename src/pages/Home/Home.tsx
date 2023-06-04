@@ -9,6 +9,8 @@ import styles from "./Home.module.scss";
 import Tasks from "./Tasks/Tasks";
 import { IsCompleted, Date } from "./FiltersBar/Filters/Filters";
 import taskAPI, { Category, Task, getTask } from "../../api/taskAPI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +24,8 @@ const Home: React.FC = () => {
   const [totalTaskPages, setTotalTaskPages] = useState(2);
   const [isTasksLoading, setIsTasksLoading] = useState(false);
   const [tasksError, setTasksError] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const [isNavBarOpened, setIsNavberOpened] = useState(true);
 
   const fetchingParams: getTask = {
     page: currentPage,
@@ -36,12 +40,17 @@ const Home: React.FC = () => {
       fetchingParams.isCompleted = true;
     }
   }
+
   useEffect(() => {
     dispatch(fetchCategories(fetchingParams));
+    const { innerWidth } = window;
+    if (innerWidth < 680) {
+      setIsMobile(true);
+    }
     return () => {
       dispatch(clearCategories());
     };
-  }, [dispatch]);
+  }, []);
 
   async function fetchTasks(params?: getTask) {
     setIsTasksLoading(true);
@@ -63,17 +72,32 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.row}>
-      <Filters
-        date={date}
-        setDate={setDate}
-        isCompleted={isCompleted}
-        setIsCompleted={setIsCompleted}
-        categories={categories}
-        setCategories={setCategories}
-        fetchTasks={fetchTasks}
-        taskFetchingParams={fetchingParams}
-      />
+      {isMobile && (
+        <FontAwesomeIcon
+          icon={faBars}
+          className={styles.menu}
+          onClick={() => {
+            setIsNavberOpened(true);
+          }}
+        />
+      )}
+      {isNavBarOpened && (
+        <Filters
+          isMobile={isMobile}
+          date={date}
+          setDate={setDate}
+          isCompleted={isCompleted}
+          setIsCompleted={setIsCompleted}
+          categories={categories}
+          setCategories={setCategories}
+          fetchTasks={fetchTasks}
+          taskFetchingParams={fetchingParams}
+          setIsNavberOpened={setIsNavberOpened}
+        />
+      )}
+
       <Tasks
+        isMobile={isMobile}
         Tasks={TasksArray}
         totalPages={totalTaskPages}
         isLoading={isTasksLoading}

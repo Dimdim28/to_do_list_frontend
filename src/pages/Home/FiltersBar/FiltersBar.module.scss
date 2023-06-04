@@ -1,6 +1,27 @@
 @import "src/styles/partials/theme";
 
-.filtersWrapper {
+.filtersWrapper,
+.mobileFiltersWrapper {
   background-color: $background-dark-0;
   width: 300px;
+}
+
+.mobileFiltersWrapper {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+}
+
+.close {
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: $error-200
+  }
 }

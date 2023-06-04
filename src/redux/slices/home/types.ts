@@ -17,10 +17,6 @@ export type Categories = {
 
 export interface HomeSliceState {
   category: Categories;
-  task: {
-    tasks: [];
-    status: Status;
-  };
 }
 
 export interface CategoriesParams {

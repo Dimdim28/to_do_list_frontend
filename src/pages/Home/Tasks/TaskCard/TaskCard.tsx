@@ -72,9 +72,10 @@ const TaskCard = ({
       <div className={styles.icons}>
         <FontAwesomeIcon
           className={`${styles.icon} ${styles.pencil}`}
-          onClick={() => {
+          onClick={(e) => {
             setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskEditing(true);
+            e.stopPropagation();
           }}
           color="black"
           fontSize="15px"
@@ -85,9 +86,10 @@ const TaskCard = ({
           fontSize="15px"
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
-          onClick={() => {
+          onClick={(e) => {
             setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskDeleting(true);
+            e.stopPropagation();
           }}
         />
       </div>
