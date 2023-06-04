@@ -5,7 +5,7 @@ To get the project up and running correctly, you need to install Node.js, npm an
 [Node.js download link](https://nodejs.org/en/download/current) (Win32/64/ARM64, mac64/ARM64, Linux64)
 [npm download link](https://www.npmjs.com/package/download) (Win32/64/ARM64, mac64/ARM64, Linux64)
 
-Іnstall the dependencies:
+Іnstall the dependencies (in VSC folder terminal):
 
 ### `$ npm i`
 
