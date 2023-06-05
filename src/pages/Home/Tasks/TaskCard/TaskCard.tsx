@@ -46,6 +46,7 @@ const TaskCard = ({
           isForChangeCompletedStatus
           isChecked={completed}
           label=""
+          data-testid="checkbox"
           setIsChecked={setIsCompleted}
           isRounded
           id={_id}
@@ -71,6 +72,7 @@ const TaskCard = ({
       )}
       <div className={styles.icons}>
         <FontAwesomeIcon
+          data-testid="edit-icon"
           className={`${styles.icon} ${styles.pencil}`}
           onClick={() => {
             setTaskProps({ ...task, fetchTasks, taskFetchingParams });
@@ -82,6 +84,7 @@ const TaskCard = ({
         />
         <FontAwesomeIcon
           color="black"
+          data-testid="delete-icon"
           fontSize="15px"
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
