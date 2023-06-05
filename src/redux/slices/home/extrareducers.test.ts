@@ -57,4 +57,24 @@ describe("fetchCategories extra reducers:", () => {
     const result = homeReducer(initialState, action);
     expect(result).toEqual(expectedState);
   });
+
+  it("should update status and message when fetchCategories is rejected", () => {
+    const action = {
+      type: fetchCategories.rejected.type,
+      payload: "Error fetching categories",
+    };
+
+    const expectedState = {
+      category: {
+        categories: [],
+        totalPages: 0,
+        currentPage: 0,
+        status: Status.ERROR,
+        message: "Error fetching categories",
+      },
+    };
+
+    const result = homeReducer(initialState, action);
+    expect(result).toEqual(expectedState);
+  });
 });
