@@ -20,6 +20,7 @@ type PureTask = {
   categories?: Category[];
   deadline?: string | null;
   isCompleted?: boolean;
+  sharedWith?: string[] | { userId: string; username: string }[];
 };
 
 type User = {

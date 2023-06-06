@@ -8,6 +8,7 @@ import styles from "./TaskCard.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash, faShare } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 interface taskProps {
   task: Task;
@@ -36,7 +37,15 @@ const TaskCard = ({
   fetchTasks,
   taskFetchingParams,
 }: taskProps) => {
-  const { title, description, deadline, isCompleted, categories, _id } = task;
+  const {
+    title,
+    description,
+    deadline,
+    isCompleted,
+    categories,
+    _id,
+    sharedWith,
+  } = task;
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
@@ -71,6 +80,20 @@ const TaskCard = ({
       {deadline && (
         <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
       )}
+      {sharedWith &&
+        sharedWith[0] !== "already shared" &&
+        sharedWith.length > 0 && (
+          <>
+            <h5 className={styles.sharedTitle}>Shared with:</h5>
+            <div className={styles.sharedWrapper}>
+              {sharedWith.map((el, id) => (
+                <p className={styles.username} key={id}>
+                  {typeof el !== "string" && el.username}
+                </p>
+              ))}
+            </div>
+          </>
+        )}
       <div className={styles.icons}>
         <FontAwesomeIcon
           className={`${styles.icon} ${styles.pencil}`}
@@ -100,6 +123,12 @@ const TaskCard = ({
           icon={faShare}
           className={`${styles.icon} ${styles.share}`}
           onClick={(e) => {
+            if (sharedWith && sharedWith[0] === "already shared") {
+              toast.error(
+                "You are not the author of this task, you can not share this task!"
+              );
+              return;
+            }
             setTaskProps({ ...task, fetchTasks, taskFetchingParams });
             setTaskSharing(true);
             e.stopPropagation();
