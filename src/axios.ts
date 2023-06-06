@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const base = process.env.REACT_APP_API_BASE;
+
 console.log(base);
 
 const instanse = axios.create({
