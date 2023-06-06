@@ -20,6 +20,7 @@ type PureTask = {
   categories?: Category[];
   deadline?: string | null;
   isCompleted?: boolean;
+  sharedWith?: string[] | { userId: string; username: string }[];
 };
 
 type User = {
@@ -142,6 +143,26 @@ class taskAPIClass {
         message: err.response.data.message,
         status: Status.ERROR,
         tasks: [],
+      };
+    }
+  }
+
+  public async shareTask(
+    id: string,
+    name: string,
+    receiver: string
+  ): Promise<{ status: Status; message?: string }> {
+    try {
+      await instanse.post(`/task/share/${id}`, {
+        shareFrom: name,
+        shareTo: receiver,
+      });
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      toast.error(err.response.data.message);
+      return {
+        message: err.response.data.message,
+        status: Status.ERROR,
       };
     }
   }
