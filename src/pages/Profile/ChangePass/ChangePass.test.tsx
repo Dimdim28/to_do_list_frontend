@@ -9,7 +9,7 @@ import store from "../../../redux/store";
 
 
 describe("ChangePass", () => {
-  test("should render the form with inputs and submit button", () => {
+  test("should render form with inputs and submit button", () => {
     render(
       <Provider store={store}>
         <Router>
