@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Status } from "../../../../types";
 import Preloader from "../../../../components/Preloader/Preloader";
 import { Input } from "../../../../components/common/Input/Input";
+import { useSelector } from "react-redux";
+import { selectProfile } from "../../../../redux/slices/auth/selectors";
 
 interface TaskSharingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,9 +28,14 @@ const TaskSharing: React.FC<TaskSharingProps> = ({
   const [taskError, setTaskError] = useState("");
   const [userId, setUserId] = useState("");
 
+  const profile = useSelector(selectProfile);
   const submit = async () => {
     setStatus(Status.LOADING);
-    const result = await taskAPI.shareTask(_id, "name", userId);
+    const result = await taskAPI.shareTask(
+      _id,
+      profile?.username || "inkognito",
+      userId
+    );
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || "");
