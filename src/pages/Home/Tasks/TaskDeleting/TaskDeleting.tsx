@@ -50,7 +50,12 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
           </h3>
           <div className={styles.actions}>
             <Button text="cancel" callback={cancel} class="cancel" />
-            <Button text="submit" callback={submit} class="submit" />
+            <Button
+              text="submit"
+              callback={submit}
+              class="submit"
+              data-testid="submit-button"
+            />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}
         </>
