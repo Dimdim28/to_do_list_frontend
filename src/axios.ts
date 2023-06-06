@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const base = process.env.REACT_APP_API_BASE;
+// const base = process.env.REACT_APP_API_BASE;
 
-console.log(base);
+// console.log(base);
 
 const instanse = axios.create({
-  baseURL: "https://to-do-list-back.herokuapp.com",
+  baseURL: "http://localhost:5000",
 });
 // @ts-ignore
 instanse.interceptors.request.use(
