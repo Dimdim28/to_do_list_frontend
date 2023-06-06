@@ -5,7 +5,7 @@ const base = process.env.REACT_APP_API_BASE;
 console.log(base);
 
 const instanse = axios.create({
-  baseURL: base || "http://localhost:5000",
+  baseURL: "https://to-do-list-back.herokuapp.com",
 });
 // @ts-ignore
 instanse.interceptors.request.use(
