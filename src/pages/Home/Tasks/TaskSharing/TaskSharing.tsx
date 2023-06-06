@@ -28,14 +28,14 @@ const TaskSharing: React.FC<TaskSharingProps> = ({
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    // const result = await taskAPI.deleteTask(_id);
-    // const { message, status } = result;
-    // setStatus(status);
-    // setTaskError(message || "");
-    // if (status === Status.SUCCESS) {
-    //   toggleActive(false);
-    //   fetchTasks(taskFetchingParams);
-    // }
+    const result = await taskAPI.shareTask(_id, "name", userId);
+    const { message, status } = result;
+    setStatus(status);
+    setTaskError(message || "");
+    if (status === Status.SUCCESS) {
+      toggleActive(false);
+      fetchTasks(taskFetchingParams);
+    }
   };
 
   const cancel = () => {
