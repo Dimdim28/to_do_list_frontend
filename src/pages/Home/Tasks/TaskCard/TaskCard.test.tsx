@@ -21,6 +21,7 @@ describe("TaskCard", () => {
   const mockSetTaskEditing = jest.fn();
   const mockSetTaskProps = jest.fn();
   const mockSetTaskDeleting = jest.fn();
+  const mockSetTaskSharing = jest.fn();
   const mockFetchTasks = jest.fn();
   const mockTaskFetchingParams = {};
 
@@ -31,6 +32,7 @@ describe("TaskCard", () => {
         setTaskEditing={mockSetTaskEditing}
         setTaskProps={mockSetTaskProps}
         setTaskDeleting={mockSetTaskDeleting}
+        setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
       />
@@ -50,6 +52,7 @@ describe("TaskCard", () => {
         setTaskEditing={mockSetTaskEditing}
         setTaskProps={mockSetTaskProps}
         setTaskDeleting={mockSetTaskDeleting}
+        setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
       />
@@ -71,6 +74,7 @@ describe("TaskCard", () => {
         setTaskEditing={mockSetTaskEditing}
         setTaskProps={mockSetTaskProps}
         setTaskDeleting={mockSetTaskDeleting}
+        setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
       />
@@ -83,5 +87,27 @@ describe("TaskCard", () => {
       taskFetchingParams: mockTaskFetchingParams,
     });
     expect(mockSetTaskDeleting).toHaveBeenCalledWith(true);
+  });
+
+  test("calls setTaskSharing correctly on delete icon click", () => {
+    render(
+      <TaskCard
+        task={task}
+        setTaskEditing={mockSetTaskEditing}
+        setTaskProps={mockSetTaskProps}
+        setTaskDeleting={mockSetTaskDeleting}
+        setTaskSharing={mockSetTaskSharing}
+        fetchTasks={mockFetchTasks}
+        taskFetchingParams={mockTaskFetchingParams}
+      />
+    );
+
+    fireEvent.click(screen.getByTestId("share-icon"));
+    expect(mockSetTaskProps).toHaveBeenCalledWith({
+      ...task,
+      fetchTasks: mockFetchTasks,
+      taskFetchingParams: mockTaskFetchingParams,
+    });
+    expect(mockSetTaskSharing).toHaveBeenCalledWith(true);
   });
 });

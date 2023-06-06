@@ -122,6 +122,7 @@ const TaskCard = ({
         />
         <FontAwesomeIcon
           color="black"
+          data-testid="share-icon"
           fontSize="15px"
           icon={faShare}
           className={`${styles.icon} ${styles.share}`}
