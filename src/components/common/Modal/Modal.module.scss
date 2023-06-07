@@ -31,12 +31,15 @@
   border-radius: 12px;
   background-color: $background-dark-0;
   position: relative;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .close {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 15px;
+  top: 15px;
   height: 15px;
   width: 15px;
   transition: 0.3s;
