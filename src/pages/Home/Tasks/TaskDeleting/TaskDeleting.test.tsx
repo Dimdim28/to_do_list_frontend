@@ -12,6 +12,8 @@ describe("TaskDeleting", () => {
     title: "Task Title",
     fetchTasks: jest.fn(),
     taskFetchingParams: {},
+    setCurrentPage: () => {},
+    length: 10,
     user: "fgd",
     createdAt: "2021-03-20",
     updatedAt: "2021-03-20",

@@ -26,6 +26,8 @@ interface taskProps {
   setTaskSharing: React.Dispatch<React.SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  length?: number;
 }
 
 const TaskCard = ({
@@ -36,6 +38,8 @@ const TaskCard = ({
   setTaskSharing,
   fetchTasks,
   taskFetchingParams,
+  setCurrentPage,
+  length,
 }: taskProps) => {
   const {
     title,
@@ -115,7 +119,13 @@ const TaskCard = ({
           icon={faTrash}
           className={`${styles.icon} ${styles.trash}`}
           onClick={(e) => {
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskProps({
+              ...task,
+              fetchTasks,
+              taskFetchingParams,
+              setCurrentPage,
+              length,
+            });
             setTaskDeleting(true);
             e.stopPropagation();
           }}
@@ -133,7 +143,11 @@ const TaskCard = ({
               );
               return;
             }
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskProps({
+              ...task,
+              fetchTasks,
+              taskFetchingParams,
+            });
             setTaskSharing(true);
             e.stopPropagation();
           }}

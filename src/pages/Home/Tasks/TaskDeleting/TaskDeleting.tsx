@@ -10,6 +10,8 @@ interface TaskDeletingProps {
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    length: number;
   };
 }
 
@@ -17,7 +19,8 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { _id, title, fetchTasks, taskFetchingParams } = childProps;
+  const { _id, title, fetchTasks, taskFetchingParams, setCurrentPage, length } =
+    childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
@@ -29,9 +32,16 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
     setStatus(status);
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
+      if (length === 1) {
+        setCurrentPage((prev) => {
+          const params = { ...taskFetchingParams, page: prev - 1 };
+          fetchTasks(params);
+          return prev - 1;
+        });
+      } else {
+        fetchTasks(taskFetchingParams);
+      }
       toggleActive(false);
-      console.log(taskFetchingParams);
-      fetchTasks(taskFetchingParams);
     }
   };
 

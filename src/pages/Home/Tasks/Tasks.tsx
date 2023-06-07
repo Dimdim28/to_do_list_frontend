@@ -95,8 +95,10 @@ const Tasks: React.FC<TaskProps> = ({
                     setTaskSharing={setTaskSharing}
                     task={el}
                     key={el._id}
+                    length={Tasks.length}
                     fetchTasks={fetchTasks}
                     taskFetchingParams={taskFetchingParams}
+                    setCurrentPage={setCurrentPage}
                   />
                 ))
               ) : (
