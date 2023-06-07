@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instanse = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE || "http://localhost:5000",
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000",
 });
 // @ts-ignore
 instanse.interceptors.request.use(
