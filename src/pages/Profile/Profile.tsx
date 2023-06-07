@@ -122,6 +122,7 @@ const Profile: React.FC = () => {
     console.log(result);
     setIsNameEditing(false);
   };
+  
   useEffect(() => {
     setName(username);
   }, [username]);
