@@ -36,7 +36,6 @@ const Tasks: React.FC<TaskProps> = ({
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
-
   useEffect(() => {
     fetchTasks(taskFetchingParams);
   }, [page, isCompleted, deadline, categories]);
