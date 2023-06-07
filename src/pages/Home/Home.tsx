@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [TasksArray, setTasks] = useState<Task[]>([]);
-  const [totalTaskPages, setTotalTaskPages] = useState(2);
+  const [totalTaskPages, setTotalTaskPages] = useState(1);
   const [isTasksLoading, setIsTasksLoading] = useState(false);
   const [tasksError, setTasksError] = useState("");
   const [isMobile, setIsMobile] = useState(false);

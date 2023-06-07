@@ -36,7 +36,6 @@ const Tasks: React.FC<TaskProps> = ({
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
-
   useEffect(() => {
     fetchTasks(taskFetchingParams);
   }, [page, isCompleted, deadline, categories]);
@@ -55,6 +54,8 @@ const Tasks: React.FC<TaskProps> = ({
             setTaskProps({
               fetchTasks,
               taskFetchingParams,
+              setCurrentPage,
+              length: Tasks.length,
             });
           }}
         >
@@ -96,8 +97,10 @@ const Tasks: React.FC<TaskProps> = ({
                     setTaskSharing={setTaskSharing}
                     task={el}
                     key={el._id}
+                    length={Tasks.length}
                     fetchTasks={fetchTasks}
                     taskFetchingParams={taskFetchingParams}
+                    setCurrentPage={setCurrentPage}
                   />
                 ))
               ) : (

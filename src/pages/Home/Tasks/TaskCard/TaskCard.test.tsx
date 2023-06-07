@@ -24,6 +24,7 @@ describe("TaskCard", () => {
   const mockSetTaskSharing = jest.fn();
   const mockFetchTasks = jest.fn();
   const mockTaskFetchingParams = {};
+  const mockSetCurrentPage = jest.fn();
 
   test("renders task card correctly", () => {
     render(
@@ -35,6 +36,7 @@ describe("TaskCard", () => {
         setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
+        setCurrentPage={mockSetCurrentPage}
       />
     );
 
@@ -55,6 +57,7 @@ describe("TaskCard", () => {
         setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
+        setCurrentPage={mockSetCurrentPage}
       />
     );
 
@@ -77,6 +80,7 @@ describe("TaskCard", () => {
         setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
+        setCurrentPage={mockSetCurrentPage}
       />
     );
 
@@ -85,6 +89,7 @@ describe("TaskCard", () => {
       ...task,
       fetchTasks: mockFetchTasks,
       taskFetchingParams: mockTaskFetchingParams,
+      setCurrentPage: mockSetCurrentPage,
     });
     expect(mockSetTaskDeleting).toHaveBeenCalledWith(true);
   });
@@ -99,6 +104,7 @@ describe("TaskCard", () => {
         setTaskSharing={mockSetTaskSharing}
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
+        setCurrentPage={mockSetCurrentPage}
       />
     );
 

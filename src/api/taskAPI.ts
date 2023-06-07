@@ -95,7 +95,6 @@ class taskAPIClass {
     const { title, description, categories, user, deadline, isCompleted } =
       params;
     try {
-      console.log(params);
       const response: TaskResponse = await instanse.post("/task", {
         title,
         user,
