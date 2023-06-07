@@ -15,6 +15,8 @@ interface TaskFormProps {
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
+    length: number;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   };
 }
 
@@ -31,6 +33,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     isCompleted: prevIscompleted,
     fetchTasks,
     taskFetchingParams,
+    length,
+    setCurrentPage,
   } = childProps;
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
@@ -54,8 +58,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setStatus(status);
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
+      if (!_id && length === 10) {
+        setCurrentPage((prev) => {
+          const params = { ...taskFetchingParams, page: prev + 1 };
+          fetchTasks(params);
+          return prev + 1;
+        });
+      } else {
+        fetchTasks(taskFetchingParams);
+      }
       toggleActive(false);
-      fetchTasks(taskFetchingParams);
     }
   };
 

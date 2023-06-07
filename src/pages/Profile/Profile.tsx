@@ -118,11 +118,10 @@ const Profile: React.FC = () => {
   };
 
   const sumbitChangeName = async () => {
-    const result = await dispatch(changeName({ userId: id, username: name }));
-    console.log(result);
+    await dispatch(changeName({ userId: id, username: name }));
     setIsNameEditing(false);
   };
-  
+
   useEffect(() => {
     setName(username);
   }, [username]);

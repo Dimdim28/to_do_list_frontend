@@ -54,6 +54,8 @@ const Tasks: React.FC<TaskProps> = ({
             setTaskProps({
               fetchTasks,
               taskFetchingParams,
+              setCurrentPage,
+              length: Tasks.length,
             });
           }}
         >

@@ -23,7 +23,9 @@ describe("TaskForm", () => {
     deadline: "2023-01-01",
     isCompleted: false,
     fetchTasks: jest.fn(),
+    setCurrentPage: () => {},
     taskFetchingParams: {},
+    length: 10,
   };
 
   test("renders the form fields and buttons", () => {

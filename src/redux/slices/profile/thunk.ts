@@ -58,7 +58,6 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
         return rejectWithValue(updatingAvatarUrlResult.data.message);
       }
 
-      console.log(response.data);
       return response.data;
     } catch (err: any) {
       toast.error(err.response.data.message);
