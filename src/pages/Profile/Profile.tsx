@@ -106,9 +106,6 @@ const Profile: React.FC = () => {
     if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
       return toast.error("File type should be image, png, jpg or jpeg");
     }
-    if (file.size > 67153) {
-      return toast.error("Too large");
-    }
 
     const compressedFile = await imageCompression(file, compressionOptions);
     const base64: any = await convertToBase64(compressedFile);
@@ -125,6 +122,7 @@ const Profile: React.FC = () => {
     console.log(result);
     setIsNameEditing(false);
   };
+  
   useEffect(() => {
     setName(username);
   }, [username]);
