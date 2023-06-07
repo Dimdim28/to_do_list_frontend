@@ -49,7 +49,7 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
       ) : (
         <>
           <h3 className={styles.title}>
-            Do you really want to delete <i style={{ color }}>{title}</i>
+            Do you really want to delete <i style={{ color }}>{title}</i>{" "}
             category
           </h3>
           <div className={styles.buttons}>

@@ -1,11 +1,16 @@
-import styles from "./TaskDeleting.module.scss";
+import React from "react";
+
+import styles from "./TaskSharing.module.scss";
 import Button from "../../../../components/common/Button/Button";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 import { useState } from "react";
 import { Status } from "../../../../types";
 import Preloader from "../../../../components/Preloader/Preloader";
+import { Input } from "../../../../components/common/Input/Input";
+import { useSelector } from "react-redux";
+import { selectProfile } from "../../../../redux/slices/auth/selectors";
 
-interface TaskDeletingProps {
+interface TaskSharingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
@@ -13,7 +18,7 @@ interface TaskDeletingProps {
   };
 }
 
-const TaskDeleting: React.FC<TaskDeletingProps> = ({
+const TaskSharing: React.FC<TaskSharingProps> = ({
   childProps,
   toggleActive,
 }) => {
@@ -21,16 +26,21 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
+  const [userId, setUserId] = useState("");
 
+  const profile = useSelector(selectProfile);
   const submit = async () => {
     setStatus(Status.LOADING);
-    const result = await taskAPI.deleteTask(_id);
+    const result = await taskAPI.shareTask(
+      _id,
+      profile?.username || "inkognito",
+      userId
+    );
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || "");
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      console.log(taskFetchingParams);
       fetchTasks(taskFetchingParams);
     }
   };
@@ -46,16 +56,18 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
       ) : (
         <>
           <h3 className={styles.title}>
-            Do you really want to delete task {title}
+            Enter user Id to share with him{" "}
+            <p className={styles.name}>{title}</p> {" task"}
           </h3>
+          <Input
+            title="user ID"
+            type="text"
+            value={userId}
+            setValue={setUserId}
+          />
           <div className={styles.actions}>
             <Button text="cancel" callback={cancel} class="cancel" />
-            <Button
-              text="submit"
-              callback={submit}
-              class="submit"
-              data-testid="submit-button"
-            />
+            <Button text="submit" callback={submit} class="submit" />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}
         </>
@@ -64,4 +76,4 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
   );
 };
 
-export default TaskDeleting;
+export default TaskSharing;
