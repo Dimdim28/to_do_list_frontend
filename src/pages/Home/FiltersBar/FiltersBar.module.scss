@@ -4,6 +4,8 @@
 .mobileFiltersWrapper {
   background-color: $background-dark-0;
   width: 300px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
 .mobileFiltersWrapper {
