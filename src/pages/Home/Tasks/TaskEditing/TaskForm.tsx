@@ -9,6 +9,7 @@ import { Input } from "../../../../components/common/Input/Input";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Preloader from "../../../../components/Preloader/Preloader";
 import Categories from "../../FiltersBar/Categories/Categories";
+import { TextArea } from "../../../../components/common/TextArea/TextArea";
 
 interface TaskFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -89,11 +90,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             setActiveCategories={setCategories}
           />
           <Input title="title" value={title} setValue={setTittle} type="text" />
-          <Input
+          <TextArea
             title="description"
             value={description}
             setValue={setDescription}
-            type="text"
           />
           <div className={styles.checkBox}>
             <Checkbox
