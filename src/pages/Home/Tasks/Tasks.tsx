@@ -36,9 +36,15 @@ const Tasks: React.FC<TaskProps> = ({
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchTasks({ ...taskFetchingParams, page: 1 });
+  }, [isCompleted, deadline, categories]);
+
   useEffect(() => {
     fetchTasks(taskFetchingParams);
-  }, [page, isCompleted, deadline, categories]);
+  }, [page]);
 
   return (
     <main

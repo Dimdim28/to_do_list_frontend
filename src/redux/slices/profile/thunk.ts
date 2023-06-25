@@ -31,8 +31,8 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
         avatarUrl: response2.data[0].image,
       };
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -60,8 +60,8 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
 
       return response.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -75,8 +75,8 @@ export const deleteAccount = createAsyncThunk<Message, DeleteAccountParams>(
       );
       return response.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -98,8 +98,8 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
       );
       return updatingPassResult.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -114,8 +114,8 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
       );
       return result.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -127,8 +127,8 @@ export const getStats = createAsyncThunk<DailyStats[]>(
       const recievedStats: StatsResponse = await instanse.get("/task/stats");
       return recievedStats.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
