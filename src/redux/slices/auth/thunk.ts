@@ -10,8 +10,8 @@ export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
       const response: ProfileResponse = await instanse.post("/auth", params);
       return response.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );
@@ -23,8 +23,8 @@ export const registerUser = createAsyncThunk<Profile, RegisterParams>(
       const response: ProfileResponse = await instanse.post("/user", params);
       return response.data;
     } catch (err: any) {
-      toast.error(err.response.data.message);
-      return rejectWithValue(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
+      return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
 );

@@ -82,9 +82,9 @@ class taskAPIClass {
       const response: TaskResponse = await instanse.delete(`/task/${id}`);
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         task: null,
       };
@@ -105,9 +105,9 @@ class taskAPIClass {
       });
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         task: null,
       };
@@ -122,9 +122,9 @@ class taskAPIClass {
       );
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         task: null,
       };
@@ -137,9 +137,9 @@ class taskAPIClass {
       const { tasks, currentPage, totalPages } = response.data;
       return { tasks, currentPage, totalPages, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         tasks: [],
       };
@@ -158,9 +158,9 @@ class taskAPIClass {
       });
       return { status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
       };
     }

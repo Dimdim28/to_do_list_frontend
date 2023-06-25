@@ -39,9 +39,9 @@ class categoryAPIClass {
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         category: null,
       };
@@ -58,9 +58,9 @@ class categoryAPIClass {
       });
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         category: null,
       };
@@ -76,9 +76,9 @@ class categoryAPIClass {
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || "Error");
       return {
-        message: err.response.data.message,
+        message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
         category: null,
       };
