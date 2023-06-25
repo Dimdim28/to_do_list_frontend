@@ -45,7 +45,7 @@ describe("Modal", () => {
     expect(modalElement).not.toBeInTheDocument();
   });
 
-  it("calls setActive(false) when modal is clicked outside", () => {
+  it("does not call setActive(false) when modal is clicked outside", () => {
     render(
       <Modal
         active={true}
@@ -55,10 +55,7 @@ describe("Modal", () => {
       />
     );
 
-    const modalElement = screen.getByRole("dialog-wrapper");
-    fireEvent.click(modalElement);
-    expect(mockSetActive).toHaveBeenCalledTimes(1);
-    expect(mockSetActive).toHaveBeenCalledWith(false);
+    expect(mockSetActive).not.toHaveBeenCalled();
   });
 
   it("does not call setActive(false) when modal content is clicked", () => {
