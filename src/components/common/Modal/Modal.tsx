@@ -1,5 +1,5 @@
 import styles from "./Modal.module.scss";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { Category } from "../../../api/categoryAPI";
@@ -11,17 +11,35 @@ interface ModalProps {
   childProps: Category | {};
 }
 
+const KEY_NAME_ESC = "Escape";
+const KEY_EVENT_TYPE = "keyup";
+
 export const Modal: React.FC<ModalProps> = ({
   active,
   setActive,
   ChildComponent,
   childProps,
 }) => {
+  const handleEscKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === KEY_NAME_ESC) {
+        setActive(false);
+      }
+    },
+    [setActive]
+  );
+
+  useEffect(() => {
+    document.addEventListener(KEY_EVENT_TYPE, handleEscKey);
+    return () => {
+      document.removeEventListener(KEY_EVENT_TYPE, handleEscKey);
+    };
+  }, [handleEscKey]);
+
   return (
     <div
       role="dialog-wrapper"
       className={active ? styles.modalActive : styles.modal}
-      onClick={() => setActive(false)}
     >
       {active && (
         <div
