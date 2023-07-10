@@ -2,7 +2,14 @@ import React, { SetStateAction } from "react";
 import Select, { Item } from "../../../../components/common/Select/Select";
 import styles from "./Filters.module.scss";
 
-export type Date = "day" | "week" | "month" | "year" | "all" | "outdated";
+export type Date =
+  | "day"
+  | "week"
+  | "month"
+  | "year"
+  | "all"
+  | "outdated"
+  | "nodeadline";
 export type IsCompleted = "true" | "false" | "all";
 
 interface FiltersProps {
@@ -30,6 +37,7 @@ const Filters: React.FC<FiltersProps> = ({
     { name: "year", value: "year" },
     { name: "all", value: "all" },
     { name: "outdated", value: "outdated" },
+    { name: "no deadline", value: "nodeadline" },
   ];
 
   return (
