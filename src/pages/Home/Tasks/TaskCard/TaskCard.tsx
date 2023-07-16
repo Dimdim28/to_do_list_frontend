@@ -7,7 +7,12 @@ import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import styles from "./TaskCard.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faTrash, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencil,
+  faTrash,
+  faShare,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 interface taskProps {
@@ -24,6 +29,7 @@ interface taskProps {
   >;
   setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setTaskSharing: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskAddingLink: React.Dispatch<React.SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -36,6 +42,7 @@ const TaskCard = ({
   setTaskProps,
   setTaskDeleting,
   setTaskSharing,
+  setTaskAddingLink,
   fetchTasks,
   taskFetchingParams,
   setCurrentPage,
@@ -49,6 +56,7 @@ const TaskCard = ({
     categories,
     _id,
     sharedWith,
+    links,
   } = task;
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
@@ -82,6 +90,14 @@ const TaskCard = ({
         })}
       </div>
       <p className={styles.description}>{description}</p>
+      <div className={styles.links}>
+        {links?.map((link, id) => (
+          <a href={link} key={id} target="blank" className={styles.link}>
+            {link}
+          </a>
+        ))}
+      </div>
+
       {deadline && (
         <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
       )}
@@ -111,6 +127,18 @@ const TaskCard = ({
           color="black"
           fontSize="15px"
           icon={faPencil}
+        />
+        <FontAwesomeIcon
+          data-testid="attach-icon"
+          className={`${styles.icon} ${styles.attach}`}
+          onClick={(e) => {
+            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskAddingLink(true);
+            e.stopPropagation();
+          }}
+          color="black"
+          fontSize="15px"
+          icon={faPlus}
         />
         <FontAwesomeIcon
           color="black"

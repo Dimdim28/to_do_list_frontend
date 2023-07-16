@@ -9,6 +9,7 @@ import TaskCard from "./TaskCard/TaskCard";
 import Pagination from "./Pagination/Pagination";
 import Preloader from "../../../components/Preloader/Preloader";
 import TaskSharing from "./TaskSharing/TaskSharing";
+import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
 
 interface TaskProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -35,6 +36,7 @@ const Tasks: React.FC<TaskProps> = ({
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);
+  const [taskAddingLink, setTaskAddingLink] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
   useEffect(() => {
@@ -86,6 +88,12 @@ const Tasks: React.FC<TaskProps> = ({
         ChildComponent={TaskSharing}
         childProps={taskProps}
       />
+      <Modal
+        active={taskAddingLink}
+        setActive={setTaskAddingLink}
+        ChildComponent={TaskAddingLink}
+        childProps={taskProps}
+      />
       {isLoading ? (
         <Preloader />
       ) : (
@@ -101,6 +109,7 @@ const Tasks: React.FC<TaskProps> = ({
                     setTaskProps={setTaskProps}
                     setTaskDeleting={setTaskDeleting}
                     setTaskSharing={setTaskSharing}
+                    setTaskAddingLink={setTaskAddingLink}
                     task={el}
                     key={el._id}
                     length={Tasks.length}

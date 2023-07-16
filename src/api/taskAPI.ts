@@ -21,6 +21,7 @@ type PureTask = {
   deadline?: string | null;
   isCompleted?: boolean;
   sharedWith?: string[] | { userId: string; username: string }[];
+  links?: string[];
 };
 
 type User = {
@@ -162,6 +163,26 @@ class taskAPIClass {
       return {
         message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
+      };
+    }
+  }
+
+  public async addLinkToTask(
+    id: string,
+    prevLinks: string[],
+    url: string
+  ): Promise<Result> {
+    try {
+      const response: TaskResponse = await instanse.patch(`/task/${id}`, {
+        links: [...prevLinks, url],
+      });
+      return { task: response.data, status: Status.SUCCESS };
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Error");
+      return {
+        message: err?.response?.data?.message || "Error",
+        status: Status.ERROR,
+        task: null,
       };
     }
   }

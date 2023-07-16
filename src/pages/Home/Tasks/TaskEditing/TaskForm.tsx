@@ -32,6 +32,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     categories: prevCategories,
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
+    links: prevLinks,
     fetchTasks,
     taskFetchingParams,
     length,
@@ -46,9 +47,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description };
+    let payload = { title, description, links: prevLinks || [] };
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
-    if (categories.length > 0) payload = Object.assign(payload, { categories });
+    if (categories.length > 0)
+      payload = Object.assign(payload, {
+        categories: categories.map((c) => c._id),
+      });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
