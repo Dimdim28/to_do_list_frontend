@@ -16,6 +16,7 @@ export interface CategoryProps {
   setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
   isActive: boolean;
   taskFetchingParams: getTask;
+  fetchTasks: (params: getTask) => void;
 }
 
 const Category: React.FC<CategoryProps> = ({

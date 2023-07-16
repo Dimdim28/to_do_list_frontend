@@ -80,6 +80,7 @@ const Categories: React.FC<CategoryProps> = ({
                   !!activeCategories.find((category) => category._id === el._id)
                 }
                 taskFetchingParams={taskFetchingParams}
+                fetchTasks={fetchTasks}
               />
             ))
           )}

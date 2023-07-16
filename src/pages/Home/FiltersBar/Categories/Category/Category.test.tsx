@@ -16,6 +16,7 @@ describe("Category component", () => {
     setActiveCategories: jest.fn(),
     isActive: false,
     taskFetchingParams: {},
+    fetchTasks: () => {}
   };
 
   it("should render the category title", () => {
