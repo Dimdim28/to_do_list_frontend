@@ -19,6 +19,23 @@
     margin: 20px 0;
   }
 
+  .linkRow {
+    display: flex;
+    position: relative;
+  }
+
+  .removeLink {
+    position: absolute;
+    right: -15px;
+    bottom: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+
   .inputDate {
     padding: 0;
     margin: 0;

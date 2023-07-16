@@ -25,6 +25,7 @@ describe("TaskCard", () => {
   const mockFetchTasks = jest.fn();
   const mockTaskFetchingParams = {};
   const mockSetCurrentPage = jest.fn();
+  const mockSetTaskAddingLink = jest.fn();
 
   test("renders task card correctly", () => {
     render(
@@ -37,6 +38,7 @@ describe("TaskCard", () => {
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
         setCurrentPage={mockSetCurrentPage}
+        setTaskAddingLink={mockSetTaskAddingLink}
       />
     );
 
@@ -58,6 +60,7 @@ describe("TaskCard", () => {
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
         setCurrentPage={mockSetCurrentPage}
+        setTaskAddingLink={mockSetTaskAddingLink}
       />
     );
 
@@ -81,6 +84,7 @@ describe("TaskCard", () => {
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
         setCurrentPage={mockSetCurrentPage}
+        setTaskAddingLink={mockSetTaskAddingLink}
       />
     );
 
@@ -105,6 +109,7 @@ describe("TaskCard", () => {
         fetchTasks={mockFetchTasks}
         taskFetchingParams={mockTaskFetchingParams}
         setCurrentPage={mockSetCurrentPage}
+        setTaskAddingLink={mockSetTaskAddingLink}
       />
     );
 

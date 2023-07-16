@@ -55,6 +55,18 @@
             }
         }
 
+        .attach {
+            color: $white;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            z-index: 1;
+
+            &:hover {
+                color: $info-50;
+            }
+        }
+
         .share {
             color: $white;
 
@@ -64,7 +76,7 @@
 
             z-index: 1;
             position: absolute;
-            top: 40px;
+            top: 55px;
             right: 0;
         }
 
@@ -119,6 +131,23 @@
     color: $error-200;
     margin-top: 10px;
     text-align: end;
+}
+
+.links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.link {
+    color: $indigo-500;
+    word-break: break-all;
+    transition: 0.3s;
+
+    &:hover {
+        color: $info-200;
+    }
 }
 
 .description {

@@ -10,6 +10,8 @@ import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 import Preloader from "../../../../components/Preloader/Preloader";
 import Categories from "../../FiltersBar/Categories/Categories";
 import { TextArea } from "../../../../components/common/TextArea/TextArea";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 interface TaskFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +34,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     categories: prevCategories,
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
+    links: prevLinks,
     fetchTasks,
     taskFetchingParams,
     length,
@@ -43,12 +46,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [hasDeadline, setHasDeadline] = useState(!!prevDeadline);
   const [deadline, setDeadline] = useState(prevDeadline || "");
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
+  const [links, setLinks] = useState([...(prevLinks || [])]);
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description };
+    let payload = { title, description, links: links || [] };
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
-    if (categories.length > 0) payload = Object.assign(payload, { categories });
+    if (categories.length > 0)
+      payload = Object.assign(payload, {
+        categories: categories.map((c) => c._id),
+      });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
@@ -101,8 +108,30 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               setIsChecked={setHasDeadline}
               label="Task has deadline"
             />
+            {links.map((link, index) => (
+              <div className={styles.linkRow}>
+                <Input
+                  key={index}
+                  title="link"
+                  value={link}
+                  setValue={(newLink: any) => {
+                    setLinks((prev) =>
+                      prev.map((el, id) => (id === index ? newLink : el))
+                    );
+                  }}
+                  type="text"
+                />
+                <FontAwesomeIcon
+                  fontSize="15px"
+                  icon={faX}
+                  className={styles.removeLink}
+                  onClick={() => {
+                    setLinks((prev) => prev.filter((el, id) => id !== index));
+                  }}
+                />
+              </div>
+            ))}
           </div>
-
           {hasDeadline && (
             <input
               type="date"
