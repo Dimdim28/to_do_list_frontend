@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [date, setDate] = useState<Date>("all");
-  const [isCompleted, setIsCompleted] = useState<IsCompleted>("all");
+  const [isCompleted, setIsCompleted] = useState<IsCompleted>("false");
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [TasksArray, setTasks] = useState<Task[]>([]);
