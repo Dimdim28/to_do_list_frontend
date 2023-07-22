@@ -30,7 +30,7 @@ describe("Testing profile slice extra reducers", () => {
       expect(result).toEqual({
         message: "",
         data: PROFILE_META,
-        status: Status.SUCCESS,
+        status: Status.LOADING,
         stats: [],
       });
     });

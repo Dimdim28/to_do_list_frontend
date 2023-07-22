@@ -35,8 +35,6 @@ const profileSlice = createSlice({
     });
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.data = action.payload;
-      state.status = Status.SUCCESS;
-      state.message = "";
     });
     builder.addCase(fetchUserProfile.rejected, (state, action) => {
       state.status = Status.ERROR;
