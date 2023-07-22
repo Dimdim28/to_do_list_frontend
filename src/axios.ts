@@ -19,14 +19,13 @@ instanse.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (
-      error.response &&
-      error.response.status === 403 &&
-      !["/auth/login", "/auth/register"].includes(window.location.href)
-    ) {
+    if (error.response && error.response.status === 403) {
       localStorage.removeItem("token");
-      console.log("token removed");
-      return Promise.resolve();
+      if (
+        !["/auth/login", "/auth/register"].includes(window.location.pathname)
+      ) {
+        window.location.href = "/auth/login";
+      }
     }
     return Promise.reject(error);
   }
