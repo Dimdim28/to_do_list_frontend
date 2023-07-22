@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import instanse from "../axios";
 import { Status } from "../types";
 
@@ -39,7 +38,6 @@ class categoryAPIClass {
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Error");
       return {
         message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
@@ -58,7 +56,6 @@ class categoryAPIClass {
       });
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Error");
       return {
         message: err?.response?.data?.message || "Error",
         status: Status.ERROR,
@@ -76,7 +73,6 @@ class categoryAPIClass {
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Error");
       return {
         message: err?.response?.data?.message || "Error",
         status: Status.ERROR,

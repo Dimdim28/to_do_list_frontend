@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const instanse = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000",
@@ -26,7 +27,9 @@ instanse.interceptors.response.use(
       ) {
         window.location.href = "/auth/login";
       }
-      return Promise.resolve({});
+    }
+    if (error.response && error.response.status !== 403) {
+      toast.error(error?.response?.data?.message || "Error");
     }
     return Promise.reject(error);
   }
