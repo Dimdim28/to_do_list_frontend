@@ -10,6 +10,11 @@ instanse.interceptors.request.use(
     return config;
   },
   (error) => {
+    if (error.response && error.response.status === 403) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+      return;
+    }
     return Promise.reject(error);
   }
 );
