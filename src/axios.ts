@@ -26,6 +26,7 @@ instanse.interceptors.response.use(
       ) {
         window.location.href = "/auth/login";
       }
+      return Promise.resolve({});
     }
     return Promise.reject(error);
   }
