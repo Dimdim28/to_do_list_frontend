@@ -26,7 +26,7 @@ instanse.interceptors.response.use(
     ) {
       localStorage.removeItem("token");
       console.log("token removed");
-      return;
+      return Promise.resolve();
     }
     return Promise.reject(error);
   }
