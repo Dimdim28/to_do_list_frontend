@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
 import { Categories, CategoriesParams, CategoriesResponse } from "./types";
-import { toast } from "react-toastify";
 
 export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
   "task/fetchCategories",
@@ -21,7 +20,6 @@ export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
       const response: CategoriesResponse = await instanse.get(url);
       return response.data;
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Error");
       return rejectWithValue(err?.response?.data?.message || "Error");
     }
   }
