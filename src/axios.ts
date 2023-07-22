@@ -10,12 +10,26 @@ instanse.interceptors.request.use(
     return config;
   },
   (error) => {
-    if (error.response && error.response.status === 403) {
+    return Promise.reject(error);
+  }
+);
+
+instanse.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (
+      error.response &&
+      error.response.status === 403 &&
+      !["/auth/login", "/auth/register"].includes(window.location.href)
+    ) {
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      console.log("token removed");
       return;
     }
     return Promise.reject(error);
   }
 );
+
 export default instanse;
