@@ -16,7 +16,7 @@ const selectDateOptions: Item<Date>[] = [
   { name: "year", value: "year" },
   { name: "all", value: "all" },
   { name: "outdated", value: "outdated" },
-  { name: "nodeadline", value: "nodeadline" },
+  { name: "no deadline", value: "nodeadline" },
 ];
 
 describe("Filters", () => {
@@ -42,7 +42,7 @@ describe("Filters", () => {
 
   describe("It should pass correct props", () => {
     it("should render correctly completion status", () => {
-      for (const { value } of selectStatusOptions) {
+      for (const { name, value } of selectStatusOptions) {
         render(
           <Filters
             date={mockDate}
@@ -51,7 +51,7 @@ describe("Filters", () => {
             setIsCompleted={mockSetIsCompleted}
           />
         );
-        expect(screen.getByText(value)).toBeInTheDocument();
+        expect(screen.getByText(name)).toBeInTheDocument();
       }
     });
     it("should render correctly date option", () => {
