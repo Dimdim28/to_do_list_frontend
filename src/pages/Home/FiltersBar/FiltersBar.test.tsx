@@ -9,10 +9,7 @@ describe("FiltersBar", () => {
   const mockSetDate = jest.fn();
   const mockIsCompleted = "all";
   const mockSetIsCompleted = jest.fn();
-  const mockCategories = [
-    { _id: "1", title: "Category 1", color: "#ffffff" },
-    { _id: "2", title: "Category 2", color: "#ffffff" },
-  ];
+  const mockCategories = ["1", "2"];
   const mockSetCategories = jest.fn();
   const mockTaskFetchingParams = {};
   const mockFetchTasks = jest.fn();

@@ -8,7 +8,7 @@ import Filters from "./FiltersBar/FiltersBar";
 import styles from "./Home.module.scss";
 import Tasks from "./Tasks/Tasks";
 import { IsCompleted, Date } from "./FiltersBar/Filters/Filters";
-import taskAPI, { Category, Task, getTask } from "../../api/taskAPI";
+import taskAPI, { Task, getTask } from "../../api/taskAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [date, setDate] = useState<Date>("all");
   const [isCompleted, setIsCompleted] = useState<IsCompleted>("false");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
   const [TasksArray, setTasks] = useState<Task[]>([]);
   const [totalTaskPages, setTotalTaskPages] = useState(1);

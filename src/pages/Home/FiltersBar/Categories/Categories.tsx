@@ -13,14 +13,14 @@ import { fetchCategories } from "../../../../redux/slices/home/thunk";
 import CategoryForm from "./CategoryForm/CategoryForm";
 import Category from "./Category/Category";
 import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
-import { Category as TaskCategory, getTask } from "../../../../api/taskAPI";
+import { getTask } from "../../../../api/taskAPI";
 
 import styles from "./Categories.module.scss";
 
 interface CategoryProps {
   isForTask?: boolean;
-  activeCategories: TaskCategory[];
-  setActiveCategories: React.Dispatch<React.SetStateAction<TaskCategory[]>>;
+  activeCategories: string[];
+  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
 }
@@ -77,7 +77,7 @@ const Categories: React.FC<CategoryProps> = ({
                 isForTask={isForTask}
                 setActiveCategories={setActiveCategories}
                 isActive={
-                  !!activeCategories.find((category) => category._id === el._id)
+                  !!activeCategories.find((category) => category === el._id)
                 }
                 taskFetchingParams={taskFetchingParams}
                 fetchTasks={fetchTasks}

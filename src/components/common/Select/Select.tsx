@@ -24,7 +24,9 @@ const Select = <T,>({
   clearCompletingStatus,
 }: React.PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeName, setActiveName] = useState(activeValue);
+  const [activeName, setActiveName] = useState(
+    items.find((el) => el.value === activeValue)?.name
+  );
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
