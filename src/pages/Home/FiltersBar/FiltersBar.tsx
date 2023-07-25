@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./FiltersBar.module.scss";
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
-import { Category, getTask } from "../../../api/taskAPI";
+import { getTask } from "../../../api/taskAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,8 +11,8 @@ interface FiltersBarProps {
   setDate: React.Dispatch<React.SetStateAction<Date>>;
   isCompleted: IsCompleted;
   setIsCompleted: React.Dispatch<React.SetStateAction<IsCompleted>>;
-  categories: Category[];
-  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  categories: string[];
+  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
   isMobile?: boolean;

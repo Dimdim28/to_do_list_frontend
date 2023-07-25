@@ -42,7 +42,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   } = childProps;
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
-  const [categories, setCategories] = useState(prevCategories || []);
+  const [categories, setCategories] = useState(
+    prevCategories?.map((el) => el._id) || []
+  );
   const [hasDeadline, setHasDeadline] = useState(!!prevDeadline);
   const [deadline, setDeadline] = useState(prevDeadline || "");
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
@@ -54,7 +56,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
     if (categories.length > 0)
       payload = Object.assign(payload, {
-        categories: categories.map((c) => c._id),
+        categories,
       });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });

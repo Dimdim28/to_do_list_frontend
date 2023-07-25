@@ -47,7 +47,7 @@ export interface getTask {
   updatedAt?: string;
   title?: string;
   description?: string;
-  categories?: Category[];
+  categories?: string[];
   deadline?: string | null;
   isCompleted?: boolean;
 }
