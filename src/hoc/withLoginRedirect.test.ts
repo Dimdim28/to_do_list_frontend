@@ -4,7 +4,6 @@ import { render, screen } from "@testing-library/react";
 
 import { withLoginRedirect } from "./withLoginRedirect";
 import TestComponent from "./testComponent";
-
 import ROUTES from "../routes";
 
 jest.mock("react-redux", () => ({
