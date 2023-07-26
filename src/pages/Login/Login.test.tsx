@@ -1,10 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
 
 import Login from './Login';
 import store from '../../redux/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('Login', () => {
   test('renders the login form', () => {
