@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router";
+
 import { useAppSelector } from "../hooks";
 import { selectIsAuth, selectIsChecked } from "../redux/slices/auth/selectors";
 import ROUTES from "../routes";
