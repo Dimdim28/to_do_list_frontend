@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+
+import Tasks from "./Tasks/Tasks";
+import Filters from "./FiltersBar/FiltersBar";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import { useAppDispatch } from "../../hooks";
-
 import { clearCategories } from "../../redux/slices/home/home";
 import { fetchCategories } from "../../redux/slices/home/thunk";
-import Filters from "./FiltersBar/FiltersBar";
-import styles from "./Home.module.scss";
-import Tasks from "./Tasks/Tasks";
 import { IsCompleted, Date } from "./FiltersBar/Filters/Filters";
 import taskAPI, { Task, getTask } from "../../api/taskAPI";
+
+import styles from "./Home.module.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 

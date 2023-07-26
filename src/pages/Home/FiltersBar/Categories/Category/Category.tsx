@@ -1,8 +1,12 @@
+import React, { useState } from "react";
+
+import { getTask } from "../../../../../api/taskAPI";
+
+import styles from "./Category.module.scss";
+
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import styles from "./Category.module.scss";
-import { getTask } from "../../../../../api/taskAPI";
+
 export interface CategoryProps {
   _id: string;
   title: string;

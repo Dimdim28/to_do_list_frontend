@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
-import styles from "./Login.module.scss";
-import { useAppDispatch } from "../../hooks";
-import { fetchUserData } from "../../redux/slices/auth/thunk";
+
 import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
-import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../hooks";
+import { fetchUserData } from "../../redux/slices/auth/thunk";
 import ROUTES from "../../routes";
+
+import styles from "./Login.module.scss";
 
 interface Values {
   email?: string;

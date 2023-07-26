@@ -1,14 +1,16 @@
-import {
-  faCheck,
-  faCirclePlus,
-  faPencil,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/common/Modal/Modal";
+import { useSelector } from "react-redux";
+import imageCompression from "browser-image-compression";
+import { Bar } from "react-chartjs-2";
+
+
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
+import DeleteProfile from "./DeleteProfile/DeleteProfile";
+import Exit from "./Exit/Exit";
+import { Modal } from "../../components/common/Modal/Modal";
+import { ChangePass } from "./ChangePass/ChangePass";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
 import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
@@ -24,16 +26,19 @@ import {
   fetchUserProfile,
   getStats,
 } from "../../redux/slices/profile/thunk";
-import { ChangePass } from "./ChangePass/ChangePass";
-import DeleteProfile from "./DeleteProfile/DeleteProfile";
-import Exit from "./Exit/Exit";
-import imageCompression from "browser-image-compression";
-import { toast } from "react-toastify";
-import styles from "./Profile.module.scss";
-import { useSelector } from "react-redux";
-import { Bar } from "react-chartjs-2";
 import { chartOptions, getChartData } from "../../helpers/stats";
 import { Chart as ChartJS, registerables } from "chart.js";
+
+import styles from "./Profile.module.scss";
+
+import {
+  faCheck,
+  faCirclePlus,
+  faPencil,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 ChartJS.register(...registerables);
 const convertToBase64 = (file: any) => {
   return new Promise((resolve, reject) => {

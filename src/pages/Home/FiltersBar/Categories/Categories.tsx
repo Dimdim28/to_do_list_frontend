@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+
 import { Modal } from "../../../../components/common/Modal/Modal";
 import Preloader from "../../../../components/Preloader/Preloader";
+import CategoryForm from "./CategoryForm/CategoryForm";
+import Category from "./Category/Category";
+import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
+
 import { useAppDispatch, useAppSelector } from "../../../../hooks";
 import {
   selectCategories,
@@ -10,9 +15,6 @@ import {
   selectCategoryTotalPages,
 } from "../../../../redux/slices/home/selectors";
 import { fetchCategories } from "../../../../redux/slices/home/thunk";
-import CategoryForm from "./CategoryForm/CategoryForm";
-import Category from "./Category/Category";
-import { CategoryDeleting } from "./CategoryDeleting/CategoryDeleting";
 import { getTask } from "../../../../api/taskAPI";
 
 import styles from "./Categories.module.scss";

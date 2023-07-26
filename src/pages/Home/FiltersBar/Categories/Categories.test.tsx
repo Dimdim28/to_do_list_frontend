@@ -1,9 +1,8 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
+import { render, screen } from "@testing-library/react";
+
 import Categories from "./Categories";
-import { fetchCategories } from "../../../../redux/slices/home/thunk";
+import configureStore from "redux-mock-store";
 
 const mockStore = configureStore([]);
 

@@ -1,14 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-import styles from "./TaskSharing.module.scss";
 import Button from "../../../../components/common/Button/Button";
+import Preloader from "../../../../components/Preloader/Preloader";
+import { Input } from "../../../../components/common/Input/Input";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 import { useState } from "react";
 import { Status } from "../../../../types";
-import Preloader from "../../../../components/Preloader/Preloader";
-import { Input } from "../../../../components/common/Input/Input";
-import { useSelector } from "react-redux";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
+
+import styles from "./TaskSharing.module.scss";
 
 interface TaskSharingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,9 +1,9 @@
-import React from "react";
+import { Provider } from "react-redux";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+
 import TaskForm from "./TaskForm";
 import taskAPI from "../../../../api/taskAPI";
 import { Status } from "../../../../types";
-import { Provider } from "react-redux";
 import store from "../../../../redux/store";
 
 jest.mock("../../../../api/taskAPI");
