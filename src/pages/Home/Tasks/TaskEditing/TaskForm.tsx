@@ -1,15 +1,19 @@
-import styles from "./TaskForm.module.scss";
+import { useState } from "react";
+
 import Button from "../../../../components/common/Button/Button";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
-import { useState } from "react";
+
+import Preloader from "../../../../components/Preloader/Preloader";
+import Categories from "../../FiltersBar/Categories/Categories";
+import { Input } from "../../../../components/common/Input/Input";
+import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
+import { TextArea } from "../../../../components/common/TextArea/TextArea";
 import { useAppSelector } from "../../../../hooks";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
 import { Status } from "../../../../types";
-import { Input } from "../../../../components/common/Input/Input";
-import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
-import Preloader from "../../../../components/Preloader/Preloader";
-import Categories from "../../FiltersBar/Categories/Categories";
-import { TextArea } from "../../../../components/common/TextArea/TextArea";
+
+import styles from "./TaskForm.module.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 

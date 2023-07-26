@@ -1,9 +1,11 @@
-import styles from "./TaskDeleting.module.scss";
+import { useState } from "react";
+
+import Preloader from "../../../../components/Preloader/Preloader";
 import Button from "../../../../components/common/Button/Button";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
-import { useState } from "react";
 import { Status } from "../../../../types";
-import Preloader from "../../../../components/Preloader/Preloader";
+
+import styles from "./TaskDeleting.module.scss";
 
 interface TaskDeletingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;

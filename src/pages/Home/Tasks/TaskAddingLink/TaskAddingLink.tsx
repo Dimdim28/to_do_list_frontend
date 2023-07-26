@@ -1,12 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 
-import styles from "./TaskAddingLink.module.scss";
 import Button from "../../../../components/common/Button/Button";
-import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
-import { useState } from "react";
-import { Status } from "../../../../types";
 import Preloader from "../../../../components/Preloader/Preloader";
 import { Input } from "../../../../components/common/Input/Input";
+import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
+import { Status } from "../../../../types";
+
+import styles from "./TaskAddingLink.module.scss";
 
 interface TaskAddingLinkProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;

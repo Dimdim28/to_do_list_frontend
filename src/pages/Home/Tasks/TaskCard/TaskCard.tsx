@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Task, getTask } from "../../../../api/taskAPI";
 import { humaniseDate } from "../../../../helpers/string";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
+import { toast } from "react-toastify";
 
 import styles from "./TaskCard.module.scss";
 
@@ -13,7 +14,7 @@ import {
   faShare,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+
 
 interface taskProps {
   task: Task;

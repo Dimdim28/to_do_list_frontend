@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Task, getTask } from "../../../api/taskAPI";
 
-import styles from "./Tasks.module.scss";
 import TaskDeleting from "./TaskDeleting/TaskDeleting";
-import { Modal } from "../../../components/common/Modal/Modal";
 import TaskEditing from "./TaskEditing/TaskForm";
 import TaskCard from "./TaskCard/TaskCard";
 import Pagination from "./Pagination/Pagination";
 import Preloader from "../../../components/Preloader/Preloader";
 import TaskSharing from "./TaskSharing/TaskSharing";
 import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
+import { Modal } from "../../../components/common/Modal/Modal";
+import { Task, getTask } from "../../../api/taskAPI";
+
+import styles from "./Tasks.module.scss";
 
 interface TaskProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;

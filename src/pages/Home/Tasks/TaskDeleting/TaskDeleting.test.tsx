@@ -1,5 +1,5 @@
-import React from "react";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+
 import TaskDeleting from "./TaskDeleting";
 import taskAPI from "../../../../api/taskAPI";
 import { Status } from "../../../../types";
