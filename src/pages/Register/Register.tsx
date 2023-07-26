@@ -8,6 +8,8 @@ import { useAppDispatch } from "../../hooks";
 import { registerUser } from "../../redux/slices/auth/thunk";
 import ROUTES from "../../routes";
 
+import styles from './Register.module.scss'
+
 interface Values {
   email?: string;
   login?: string;
