@@ -1,7 +1,8 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 
-import styles from "./Select.module.scss";
 import { IsCompleted } from "../../../pages/Home/FiltersBar/Filters/Filters";
+
+import styles from "./Select.module.scss";
 
 export type Item<T> = {
   name: string;

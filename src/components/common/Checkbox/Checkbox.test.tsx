@@ -1,6 +1,7 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
+
 import { Checkbox } from "./Checkbox";
+
 import taskAPI from "../../../api/taskAPI";
 
 jest.mock("../../../api/taskAPI");
