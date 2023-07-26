@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
 import { Navigate } from "react-router";
 import { useSelector } from "react-redux";
+import { render, screen } from "@testing-library/react";
+
 import { withHomeRedirect } from "./withHomeRedirect";
 import TestComponent from "./testComponent";
 import ROUTES from "../routes";

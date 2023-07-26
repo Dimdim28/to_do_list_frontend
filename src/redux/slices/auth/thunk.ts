@@ -1,5 +1,6 @@
-import { LoginParams, Profile, ProfileResponse, RegisterParams } from "./types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+import { LoginParams, Profile, ProfileResponse, RegisterParams } from "./types";
 import instanse from "../../../axios";
 
 export const fetchUserData = createAsyncThunk<Profile, LoginParams>(

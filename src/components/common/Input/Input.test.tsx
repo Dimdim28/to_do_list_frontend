@@ -1,8 +1,6 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
+
 import { Input, FormikInput } from "./Input";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 describe("Input", () => {
   const mockSetValue = jest.fn();
