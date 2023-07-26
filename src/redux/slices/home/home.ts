@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { Status } from "../../../types";
 import { fetchCategories } from "./thunk";
 import { HomeSliceState } from "./types";
