@@ -1,12 +1,11 @@
-import React from "react";
+import { Provider } from "react-redux";
 import { render, fireEvent, screen, waitFor, act } from "@testing-library/react";
+
 import { CategoryDeleting } from "./CategoryDeleting";
 import categoryAPI from "../../../../../api/categoryAPI";
-import { removeCategoryFromList } from "../../../../../redux/slices/home/home";
 import { Status } from "../../../../../types";
-import { Provider } from "react-redux";
 import store from "../../../../../redux/store";
-import userEvent from "@testing-library/user-event";
+
 
 jest.mock("../../../../../api/categoryAPI", () => ({
     deleteCategory: jest.fn(),

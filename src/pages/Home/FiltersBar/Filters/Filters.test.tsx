@@ -1,5 +1,5 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import Filters, { Date, IsCompleted } from "./Filters";
 import { Item } from "../../../../components/common/Select/Select";
 
