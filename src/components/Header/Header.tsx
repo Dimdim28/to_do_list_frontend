@@ -1,8 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import styles from "./Header.module.scss";
-import logo from "../../assets/logo.png";
+
 import ROUTES from "../../routes";
+
+import styles from "./Header.module.scss";
+
+import logo from "../../assets/logo.png";
+
 const Header: React.FC = () => {
   return (
     <header>
