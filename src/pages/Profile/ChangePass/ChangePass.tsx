@@ -1,10 +1,12 @@
-import { useFormik } from "formik";
 import React from "react";
+import { useFormik } from "formik";
+
 import { FormikInput } from "../../../components/common/Input/Input";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectProfileStatus } from "../../../redux/slices/profile/selectors";
 import { changePass } from "../../../redux/slices/profile/thunk";
 import { Status } from "../../../types";
+
 import styles from "./ChangePass.module.scss";
 
 interface Values {

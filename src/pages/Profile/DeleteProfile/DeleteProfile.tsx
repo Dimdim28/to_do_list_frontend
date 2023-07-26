@@ -1,4 +1,5 @@
 import React from "react";
+
 import Button from "../../../components/common/Button/Button";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
@@ -11,6 +12,7 @@ import {
 } from "../../../redux/slices/profile/selectors";
 import { deleteAccount } from "../../../redux/slices/profile/thunk";
 import { Status } from "../../../types";
+
 import styles from "./DeleteProfile.module.scss";
 
 interface DeleteAccountProps {

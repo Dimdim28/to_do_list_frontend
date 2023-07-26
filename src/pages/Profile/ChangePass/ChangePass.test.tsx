@@ -1,12 +1,9 @@
-import React from 'react';
-import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ChangePass } from "./ChangePass";
 import store from "../../../redux/store";
-
-
 
 describe("ChangePass", () => {
   test("should render form with inputs and submit button", () => {

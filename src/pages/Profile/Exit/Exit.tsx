@@ -1,4 +1,5 @@
 import React from "react";
+
 import Button from "../../../components/common/Button/Button";
 import Preloader from "../../../components/Preloader/Preloader";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
@@ -10,6 +11,7 @@ import {
   selectProfileStatus,
 } from "../../../redux/slices/profile/selectors";
 import { Status } from "../../../types";
+
 import styles from "./Exit.module.scss";
 
 interface ExitFromAccountProps {
