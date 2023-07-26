@@ -1,5 +1,5 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import PageLayout from "./PageLayout";
 
 jest.mock("../components/Header/Header", () => () => (
