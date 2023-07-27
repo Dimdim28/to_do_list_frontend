@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { Bar } from "react-chartjs-2";
-
+import { toast } from "react-toastify";
 
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
@@ -10,7 +10,6 @@ import DeleteProfile from "./DeleteProfile/DeleteProfile";
 import Exit from "./Exit/Exit";
 import { Modal } from "../../components/common/Modal/Modal";
 import { ChangePass } from "./ChangePass/ChangePass";
-import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
 import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";

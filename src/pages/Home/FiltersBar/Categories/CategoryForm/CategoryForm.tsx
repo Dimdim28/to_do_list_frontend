@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
-
 import Button from "../../../../../components/common/Button/Button";
 import { Input } from "../../../../../components/common/Input/Input";
 import Preloader from "../../../../../components/Preloader/Preloader";
-
 import { useAppDispatch, useAppSelector } from "../../../../../hooks";
 import { selectProfile } from "../../../../../redux/slices/auth/selectors";
 import { addCategoryToList, updateCategoryInList,} from "../../../../../redux/slices/home/home";

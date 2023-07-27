@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
-import { ToastContainer } from "react-toastify";
 import { useAppDispatch } from "./hooks";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import ROUTES from "./routes";

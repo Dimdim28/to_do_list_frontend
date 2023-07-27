@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 import Button from "../../../../components/common/Button/Button";
-import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
-
 import Preloader from "../../../../components/Preloader/Preloader";
 import Categories from "../../FiltersBar/Categories/Categories";
 import { Input } from "../../../../components/common/Input/Input";
@@ -11,6 +9,7 @@ import { TextArea } from "../../../../components/common/TextArea/TextArea";
 import { useAppSelector } from "../../../../hooks";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
 import { Status } from "../../../../types";
+import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 
 import styles from "./TaskForm.module.scss";
 
