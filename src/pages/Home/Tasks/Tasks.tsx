@@ -10,6 +10,7 @@ import Pagination from "./Pagination/Pagination";
 import Preloader from "../../../components/Preloader/Preloader";
 import TaskSharing from "./TaskSharing/TaskSharing";
 import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
+import { usePrevious } from "../../../hooks";
 
 interface TaskProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -39,14 +40,22 @@ const Tasks: React.FC<TaskProps> = ({
   const [taskAddingLink, setTaskAddingLink] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
-  useEffect(() => {
-    setCurrentPage(1);
-    fetchTasks({ ...taskFetchingParams, page: 1 });
-  }, [isCompleted, deadline, categories]);
+  const prevIsCompleted = usePrevious(isCompleted);
+  const prevDeadline = usePrevious(deadline);
+  const prevCategories = usePrevious(categories);
 
   useEffect(() => {
-    fetchTasks(taskFetchingParams);
-  }, [page]);
+    if (
+      isCompleted === prevIsCompleted &&
+      deadline === prevDeadline &&
+      categories === prevCategories
+    ) {
+      fetchTasks(taskFetchingParams);
+      return;
+    }
+    setCurrentPage(1);
+    fetchTasks({ ...taskFetchingParams, page: 1 });
+  }, [isCompleted, deadline, categories, page]);
 
   return (
     <main
