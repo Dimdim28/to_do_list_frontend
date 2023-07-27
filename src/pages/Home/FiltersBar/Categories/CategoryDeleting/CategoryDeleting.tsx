@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import categoryAPI, { Category } from "../../../../../api/categoryAPI";
+
 import Button from "../../../../../components/common/Button/Button";
 import Preloader from "../../../../../components/Preloader/Preloader";
+
 import { useAppDispatch } from "../../../../../hooks";
 import { removeCategoryFromList } from "../../../../../redux/slices/home/home";
+import categoryAPI, { Category } from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
-import styles from "./CategoryDeleting.module.scss";
 import { getTask } from "../../../../../api/taskAPI";
+
+import styles from "./CategoryDeleting.module.scss";
 
 interface CategoryDeletingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;

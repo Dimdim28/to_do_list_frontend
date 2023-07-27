@@ -1,7 +1,7 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import FiltersBar from "./FiltersBar";
 import { Provider } from "react-redux";
+import { render, screen } from "@testing-library/react";
+
+import FiltersBar from "./FiltersBar";
 import store from "../../../redux/store";
 
 describe("FiltersBar", () => {

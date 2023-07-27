@@ -1,17 +1,17 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { useAppDispatch } from "./hooks";
+import { ToastContainer } from "react-toastify";
+
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
+import { useAppDispatch } from "./hooks";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
+import ROUTES from "./routes";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";
 import "./styles/global-styles.scss";
 import "react-toastify/dist/ReactToastify.css";
-
-import ROUTES from "./routes";
-import { ToastContainer } from "react-toastify";
 
 const Login = React.lazy(() => import("./pages/Login/Login"));
 const Register = React.lazy(() => import("./pages/Register/Register"));

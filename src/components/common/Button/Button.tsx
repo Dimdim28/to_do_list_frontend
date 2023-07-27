@@ -1,6 +1,6 @@
-import styles from "./Button.module.scss";
-
 import React from "react";
+
+import styles from "./Button.module.scss";
 
 interface Props extends React.ComponentPropsWithoutRef<"button"> {
   text: string;

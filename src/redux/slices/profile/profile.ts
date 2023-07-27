@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 import {
   changeAvatar,
   changePass,
@@ -6,7 +8,6 @@ import {
   changeName,
   getStats,
 } from "./thunk";
-import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../types";
 import { ProfileSliceState } from "./types";
 

@@ -1,17 +1,16 @@
 import React, { useState } from "react";
+
 import Button from "../../../../../components/common/Button/Button";
-import styles from "./CategoryForm.module.scss";
+import { Input } from "../../../../../components/common/Input/Input";
 import Preloader from "../../../../../components/Preloader/Preloader";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks";
 import { selectProfile } from "../../../../../redux/slices/auth/selectors";
-import {
-  addCategoryToList,
-  updateCategoryInList,
-} from "../../../../../redux/slices/home/home";
-import { Input } from "../../../../../components/common/Input/Input";
+import { addCategoryToList, updateCategoryInList,} from "../../../../../redux/slices/home/home";
 import categoryAPI, { Category } from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
 import { getTask } from "../../../../../api/taskAPI";
+
+import styles from "./CategoryForm.module.scss";
 
 interface CategoryFormProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;

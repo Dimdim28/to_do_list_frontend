@@ -1,8 +1,11 @@
-import styles from "./Modal.module.scss";
 import React, { useCallback, useEffect } from "react";
+
+import { Category } from "../../../api/categoryAPI";
+
+import styles from "./Modal.module.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { Category } from "../../../api/categoryAPI";
 
 interface ModalProps {
   active: boolean;

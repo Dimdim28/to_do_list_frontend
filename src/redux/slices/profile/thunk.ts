@@ -1,3 +1,5 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import {
   DeleteAccountParams,
   Avatar,
@@ -14,7 +16,6 @@ import {
   DailyStats,
   StatsResponse,
 } from "./types";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import instanse from "../../../axios";
 
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(

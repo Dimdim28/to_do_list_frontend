@@ -1,8 +1,11 @@
 import React from "react";
-import styles from "./FiltersBar.module.scss";
+
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
 import { getTask } from "../../../api/taskAPI";
+
+import styles from "./FiltersBar.module.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 

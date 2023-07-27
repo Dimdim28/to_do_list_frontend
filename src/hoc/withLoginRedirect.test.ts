@@ -1,7 +1,8 @@
-import { withLoginRedirect } from "./withLoginRedirect";
-import { render, screen } from "@testing-library/react";
 import { Navigate } from "react-router";
 import { useSelector } from "react-redux";
+import { render, screen } from "@testing-library/react";
+
+import { withLoginRedirect } from "./withLoginRedirect";
 import TestComponent from "./testComponent";
 import ROUTES from "../routes";
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import { Task, getTask } from "../../../../api/taskAPI";
 import { humaniseDate } from "../../../../helpers/string";
@@ -13,7 +14,6 @@ import {
   faShare,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
 
 interface taskProps {
   task: Task;

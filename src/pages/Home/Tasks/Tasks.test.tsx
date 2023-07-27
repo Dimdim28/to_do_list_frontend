@@ -1,8 +1,8 @@
-import React from "react";
+import { Provider } from "react-redux";
 import { render, fireEvent, screen } from "@testing-library/react";
+
 import Tasks from "./Tasks";
 import { getTask } from "../../../api/taskAPI";
-import { Provider } from "react-redux";
 import store from "../../../redux/store";
 
 describe("Tasks", () => {

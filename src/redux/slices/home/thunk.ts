@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import instanse from "../../../axios";
 import { Categories, CategoriesParams, CategoriesResponse } from "./types";
 
