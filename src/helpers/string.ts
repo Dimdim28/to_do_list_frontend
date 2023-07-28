@@ -7,3 +7,14 @@ export const humaniseDate = (date: string) => {
     if (month < 10) month = '0' + month;
     return [day, month, year].join('.');
 }
+
+
+
+
+export const truncate = (str: string | undefined, maxlength: number) => {
+    if (!str) return '';
+
+    return (str.length > maxlength) ?
+        str.slice(0, maxlength - 1) + '…' : str;
+
+}

@@ -2,6 +2,7 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
 import TaskDeleting from "./TaskDeleting";
 import taskAPI from "../../../../api/taskAPI";
+import { truncate } from "../../../../helpers/string";
 import { Status } from "../../../../types";
 
 jest.mock("../../../../api/taskAPI");
@@ -9,7 +10,7 @@ jest.mock("../../../../api/taskAPI");
 describe("TaskDeleting", () => {
   const childProps = {
     _id: "1",
-    title: "Task Title",
+    title: "abcd",
     fetchTasks: jest.fn(),
     taskFetchingParams: {},
     setCurrentPage: () => {},
@@ -23,8 +24,9 @@ describe("TaskDeleting", () => {
     render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
 
     expect(
-      screen.getByText("Do you really want to delete task Task Title")
+      screen.getByText("Do you really want to delete task:")
     ).toBeInTheDocument();
+    expect(screen.getByText("abcd")).toBeInTheDocument();
     expect(screen.getByText("cancel")).toBeInTheDocument();
     expect(screen.getByText("submit")).toBeInTheDocument();
   });

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Preloader from "../../../../components/Preloader/Preloader";
 import Button from "../../../../components/common/Button/Button";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
+import { truncate } from "../../../../helpers/string";
 import { Status } from "../../../../types";
 
 import styles from "./TaskDeleting.module.scss";
@@ -57,9 +58,10 @@ const TaskDeleting: React.FC<TaskDeletingProps> = ({
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title}>
-            Do you really want to delete task {title}
-          </h3>
+          <div className={styles.modalContent}>
+            <p>Do you really want to delete task:</p>
+             <h3>{truncate(title,12)}</h3> 
+          </div>
           <div className={styles.actions}>
             <Button text="cancel" callback={cancel} class="cancel" />
             <Button

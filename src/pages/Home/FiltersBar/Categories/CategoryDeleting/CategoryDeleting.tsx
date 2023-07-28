@@ -8,6 +8,7 @@ import { removeCategoryFromList } from "../../../../../redux/slices/home/home";
 import categoryAPI, { Category } from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
 import { getTask } from "../../../../../api/taskAPI";
+import { truncate } from "../../../../../helpers/string";
 
 import styles from "./CategoryDeleting.module.scss";
 
@@ -51,10 +52,13 @@ export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
         <Preloader data-testid="preloader" />
       ) : (
         <>
-          <h3 className={styles.title}>
-            Do you really want to delete <i style={{ color }}>{title}</i>{" "}
-            category
-          </h3>
+          <div className={styles.modalContent}>
+            <p>Do you really want to delete:</p>  
+            <h3 style={{ color }}>{
+              truncate(title,12)
+            }</h3>
+            <p>category </p>
+          </div>
           <div className={styles.buttons}>
             <Button text="cancel" callback={cancel} class="cancel" />
             <Button text="submit" callback={submit} class="submit" />
