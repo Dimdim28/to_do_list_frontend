@@ -8,9 +8,19 @@
   width: 300px;
   justify-content: space-around;
 
-  .title {
+  $warning-200: #f97316;
+  $warning-300: #fb923c;
+  $warning-400: #fdba74;
+  .modalContent {
     text-align: center;
     width: 100%;
+    p {
+      font-size: 24px;
+    }
+    h3 {
+      font-size: 32px;
+      color:$warning-200;
+    }
   }
 
   .actions {

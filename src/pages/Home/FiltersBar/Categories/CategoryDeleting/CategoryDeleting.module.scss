@@ -8,9 +8,15 @@
   width: 300px;
   justify-content: space-around;
 
-  .title {
+  .modalContent {
     text-align: center;
     width: 100%;
+    p {
+      font-size: 24px;
+    }
+    h3 {
+      font-size: 32px;
+    }
   }
 
   .buttons {
