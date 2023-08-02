@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, SetStateAction } from "react";
+import { InputHTMLAttributes, SetStateAction, Dispatch, FC} from "react";
 
 import taskAPI from "../../../api/taskAPI";
 
@@ -6,14 +6,14 @@ import styles from "./Checkbox.module.scss";
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   isChecked: boolean;
-  setIsChecked: React.Dispatch<SetStateAction<boolean>>;
+  setIsChecked: Dispatch<SetStateAction<boolean>>;
   label: string;
   isRounded?: boolean;
   isForChangeCompletedStatus?: boolean;
   id?: string;
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox: FC<CheckboxProps> = ({
   isChecked,
   setIsChecked,
   label,

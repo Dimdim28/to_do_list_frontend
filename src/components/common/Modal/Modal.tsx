@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect, Dispatch, SetStateAction, FC } from "react";
 
 import { Category } from "../../../api/categoryAPI";
 
@@ -9,7 +9,7 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface ModalProps {
   active: boolean;
-  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setActive: Dispatch<SetStateAction<boolean>>;
   ChildComponent: any;
   childProps: Category | {};
 }
@@ -17,7 +17,7 @@ interface ModalProps {
 const KEY_NAME_ESC = "Escape";
 const KEY_EVENT_TYPE = "keyup";
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: FC<ModalProps> = ({
   active,
   setActive,
   ChildComponent,

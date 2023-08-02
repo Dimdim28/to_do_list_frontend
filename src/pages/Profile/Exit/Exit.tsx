@@ -1,4 +1,4 @@
-import React from "react";
+import { Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../components/common/Button/Button";
 import Preloader from "../../../components/Preloader/Preloader";
@@ -15,10 +15,10 @@ import { Status } from "../../../types";
 import styles from "./Exit.module.scss";
 
 interface ExitFromAccountProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
 }
 
-const Exit: React.FC<ExitFromAccountProps> = ({ toggleActive }) => {
+const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectProfileStatus);
   const error = useAppSelector(selectProfileMessage);

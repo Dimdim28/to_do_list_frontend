@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../../../components/common/Button/Button";
 import { Input } from "../../../../../components/common/Input/Input";
@@ -13,14 +13,14 @@ import { getTask } from "../../../../../api/taskAPI";
 import styles from "./CategoryForm.module.scss";
 
 interface CategoryFormProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Category & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
   };
 }
 
-const CategoryForm: React.FC<CategoryFormProps> = ({
+const CategoryForm: FC<CategoryFormProps> = ({
   childProps,
   toggleActive,
 }) => {

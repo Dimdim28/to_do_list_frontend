@@ -1,14 +1,14 @@
-import React from "react";
+import {FC, ComponentPropsWithoutRef} from "react";
 
 import styles from "./Button.module.scss";
 
-interface Props extends React.ComponentPropsWithoutRef<"button"> {
+interface Props extends ComponentPropsWithoutRef<"button"> {
   text: string;
   class: string;
   callback: any;
 }
 
-const Button: React.FC<Props> = ({
+const Button: FC<Props> = ({
   callback,
   text,
   class: nameOfClass,

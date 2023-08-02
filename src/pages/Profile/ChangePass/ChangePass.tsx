@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { useFormik } from "formik";
 
 import { FormikInput } from "../../../components/common/Input/Input";
@@ -38,7 +38,7 @@ const validate = (values: Values) => {
 interface ChangePassProps {
   id: string;
 }
-export const ChangePass: React.FC<ChangePassProps> = ({ id }) => {
+export const ChangePass: FC<ChangePassProps> = ({ id }) => {
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectProfileStatus);
   const formik = useFormik({

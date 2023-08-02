@@ -1,4 +1,12 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import { 
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+  ComponentPropsWithoutRef,
+  Dispatch,
+  PropsWithChildren
+} from "react";
 
 import { IsCompleted } from "../../../pages/Home/FiltersBar/Filters/Filters";
 
@@ -9,12 +17,12 @@ export type Item<T> = {
   value: T;
 };
 
-interface SelectProps<T> extends React.ComponentPropsWithoutRef<"input"> {
+interface SelectProps<T> extends ComponentPropsWithoutRef<"input"> {
   items: Item<T>[];
   activeValue: string;
-  callback: React.Dispatch<SetStateAction<T>>;
+  callback: Dispatch<SetStateAction<T>>;
   width: string;
-  clearCompletingStatus?: React.Dispatch<React.SetStateAction<IsCompleted>>;
+  clearCompletingStatus?: Dispatch<SetStateAction<IsCompleted>>;
 }
 
 const Select = <T,>({
@@ -23,7 +31,7 @@ const Select = <T,>({
   callback,
   width,
   clearCompletingStatus,
-}: React.PropsWithChildren<SelectProps<T>>): JSX.Element => {
+}: PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(
     items.find((el) => el.value === activeValue)?.name

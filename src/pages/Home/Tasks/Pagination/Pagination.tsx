@@ -1,11 +1,11 @@
-import React from "react";
+import { Dispatch, SetStateAction}from "react";
 
 import styles from "./Pagination.module.scss";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 interface PageButtonProps {
@@ -13,7 +13,7 @@ interface PageButtonProps {
   num: number;
   disabled: boolean;
   active?: boolean;
-  callBack: React.Dispatch<React.SetStateAction<number>>;
+  callBack: Dispatch<SetStateAction<number>>;
 }
 
 const PageButton = ({

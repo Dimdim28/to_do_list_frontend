@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, FC, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { Bar } from "react-chartjs-2";
@@ -58,7 +58,7 @@ const compressionOptions = {
   useWebWorker: true,
 };
 
-const Profile: React.FC = () => {
+const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const id = useAppSelector(selectProfile)?._id || "";
   const isAuth = useAppSelector(selectIsAuth);
@@ -103,7 +103,7 @@ const Profile: React.FC = () => {
     }
   }
 
-  const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeFile = async (event: FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
