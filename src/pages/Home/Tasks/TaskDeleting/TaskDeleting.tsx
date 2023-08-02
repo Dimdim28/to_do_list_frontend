@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Preloader from "../../../../components/Preloader/Preloader";
 import Button from "../../../../components/common/Button/Button";
@@ -9,16 +9,16 @@ import { Status } from "../../../../types";
 import styles from "./TaskDeleting.module.scss";
 
 interface TaskDeletingProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPage: Dispatch<SetStateAction<number>>;
     length: number;
   };
 }
 
-const TaskDeleting: React.FC<TaskDeletingProps> = ({
+const TaskDeleting: FC<TaskDeletingProps> = ({
   childProps,
   toggleActive,
 }) => {

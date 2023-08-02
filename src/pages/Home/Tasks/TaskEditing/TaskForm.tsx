@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -17,16 +17,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 interface TaskFormProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
     length: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPage: Dispatch<SetStateAction<number>>;
   };
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
+const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const userId = useAppSelector(selectProfile)?._id || "";
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");

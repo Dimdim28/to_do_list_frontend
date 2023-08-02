@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
 
 import { Task, getTask } from "../../../../api/taskAPI";
@@ -17,9 +17,9 @@ import {
 
 interface taskProps {
   task: Task;
-  setTaskEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setTaskProps: React.Dispatch<
-    React.SetStateAction<
+  setTaskEditing: Dispatch<SetStateAction<boolean>>;
+  setTaskProps: Dispatch<
+    SetStateAction<
       | {}
       | (Task & {
           fetchTasks: (params: getTask) => void;
@@ -27,12 +27,12 @@ interface taskProps {
         })
     >
   >;
-  setTaskDeleting: React.Dispatch<React.SetStateAction<boolean>>;
-  setTaskSharing: React.Dispatch<React.SetStateAction<boolean>>;
-  setTaskAddingLink: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskDeleting: Dispatch<SetStateAction<boolean>>;
+  setTaskSharing: Dispatch<SetStateAction<boolean>>;
+  setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
   length?: number;
 }
 

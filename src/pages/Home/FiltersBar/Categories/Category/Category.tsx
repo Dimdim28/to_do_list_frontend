@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import { getTask } from "../../../../../api/taskAPI";
 
@@ -14,16 +14,16 @@ export interface CategoryProps {
   color: string;
   key: number;
   isForTask?: boolean;
-  setCategoryEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setCategoryDeleting: React.Dispatch<React.SetStateAction<boolean>>;
-  setCategoryInfo: React.Dispatch<React.SetStateAction<{}>>;
-  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  setCategoryEditing: Dispatch<SetStateAction<boolean>>;
+  setCategoryDeleting: Dispatch<SetStateAction<boolean>>;
+  setCategoryInfo: Dispatch<SetStateAction<{}>>;
+  setActiveCategories: Dispatch<SetStateAction<string[]>>;
   isActive: boolean;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
 }
 
-const Category: React.FC<CategoryProps> = ({
+const Category: FC<CategoryProps> = ({
   setCategoryInfo,
   setCategoryDeleting,
   setCategoryEditing,

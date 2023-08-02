@@ -1,4 +1,4 @@
-import React from "react";
+import {lazy, useEffect} from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -13,15 +13,15 @@ import "./styles/typography.scss";
 import "./styles/global-styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = React.lazy(() => import("./pages/Login/Login"));
-const Register = React.lazy(() => import("./pages/Register/Register"));
-const Profile = React.lazy(() => import("./pages/Profile/Profile"));
-const Home = React.lazy(() => import("./pages/Home/Home"));
-const Task = React.lazy(() => import("./pages/Task/Task"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Register = lazy(() => import("./pages/Register/Register"));
+const Profile = lazy(() => import("./pages/Profile/Profile"));
+const Home = lazy(() => import("./pages/Home/Home"));
+const Task = lazy(() => import("./pages/Task/Task"));
 
 function App() {
   const dispatch = useAppDispatch();
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(fetchAuthMe());
   }, [dispatch]);
 

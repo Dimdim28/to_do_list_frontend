@@ -1,4 +1,11 @@
-import React, { InputHTMLAttributes, useState } from "react";
+import { 
+  InputHTMLAttributes, 
+  useState, Dispatch,
+  SetStateAction,
+  ChangeEventHandler,
+  FocusEventHandler,
+  FC 
+} from "react";
 
 import styles from "./Input.module.scss";
 
@@ -8,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<string>>;
   type: string;
 }
 
@@ -16,12 +23,12 @@ interface FormikInputProps {
   name: string;
   type: string;
   title: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   value: string | number | readonly string[] | undefined;
-  onBlur: React.FocusEventHandler<HTMLInputElement> | undefined;
+  onBlur: FocusEventHandler<HTMLInputElement> | undefined;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   value,
   type,
   title,
@@ -41,7 +48,7 @@ export const Input: React.FC<InputProps> = ({
   );
 };
 
-export const FormikInput: React.FC<FormikInputProps> = ({
+export const FormikInput: FC<FormikInputProps> = ({
   type,
   value,
   name,

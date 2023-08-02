@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC, UIEvent } from "react";
 
 import { Modal } from "../../../../components/common/Modal/Modal";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -22,11 +22,11 @@ import styles from "./Categories.module.scss";
 interface CategoryProps {
   isForTask?: boolean;
   activeCategories: string[];
-  setActiveCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  setActiveCategories: Dispatch<SetStateAction<string[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
 }
-const Categories: React.FC<CategoryProps> = ({
+const Categories: FC<CategoryProps> = ({
   isForTask,
   activeCategories,
   setActiveCategories,
@@ -48,7 +48,7 @@ const Categories: React.FC<CategoryProps> = ({
     dispatch(fetchCategories({ page: newPage }));
   };
 
-  const handleCategoriesScroll = (e: React.UIEvent<HTMLElement>) => {
+  const handleCategoriesScroll = (e: UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
     const isScrolled = scrollHeight === scrollTop + clientHeight;
     if (status !== "loading" && currentPage < totalPages && isScrolled)

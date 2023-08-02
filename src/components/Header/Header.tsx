@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
 
 import ROUTES from "../../routes";
@@ -7,7 +7,7 @@ import styles from "./Header.module.scss";
 
 import logo from "../../assets/logo.png";
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   return (
     <header>
       <img className={styles.logo} alt="logo" src={logo} />

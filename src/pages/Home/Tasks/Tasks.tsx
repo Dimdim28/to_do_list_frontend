@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction, FC } from "react";
 
 import TaskDeleting from "./TaskDeleting/TaskDeleting";
 import TaskEditing from "./TaskEditing/TaskForm";
@@ -14,7 +14,7 @@ import { Task, getTask } from "../../../api/taskAPI";
 import styles from "./Tasks.module.scss";
 
 interface TaskProps {
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
   isLoading: boolean;
@@ -24,7 +24,7 @@ interface TaskProps {
   isMobile?: boolean;
 }
 
-const Tasks: React.FC<TaskProps> = ({
+const Tasks: FC<TaskProps> = ({
   setCurrentPage,
   taskFetchingParams,
   fetchTasks,

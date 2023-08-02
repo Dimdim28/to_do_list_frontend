@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import { SetStateAction, Dispatch, FC } from "react";
 
 import Select, { Item } from "../../../../components/common/Select/Select";
 
@@ -17,10 +17,10 @@ export type IsCompleted = "true" | "false" | "all";
 interface FiltersProps {
   date: Date;
   isCompleted: IsCompleted;
-  setDate: React.Dispatch<SetStateAction<Date>>;
-  setIsCompleted: React.Dispatch<SetStateAction<IsCompleted>>;
+  setDate: Dispatch<SetStateAction<Date>>;
+  setIsCompleted: Dispatch<SetStateAction<IsCompleted>>;
 }
-const Filters: React.FC<FiltersProps> = ({
+const Filters: FC<FiltersProps> = ({
   isCompleted,
   setIsCompleted,
   date,

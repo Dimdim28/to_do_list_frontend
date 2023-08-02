@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 
 import Tasks from "./Tasks/Tasks";
 import Filters from "./FiltersBar/FiltersBar";
@@ -14,7 +14,7 @@ import styles from "./Home.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
