@@ -20,6 +20,7 @@ interface ExitFromAccountProps {
 
 const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
+  
   const status = useAppSelector(selectProfileStatus);
   const error = useAppSelector(selectProfileMessage);
 

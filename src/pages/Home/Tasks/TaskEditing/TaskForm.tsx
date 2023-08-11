@@ -27,9 +27,6 @@ interface TaskFormProps {
 }
 
 const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
-  const userId = useAppSelector(selectProfile)?._id || "";
-  const [status, setStatus] = useState(Status.SUCCESS);
-  const [taskError, setTaskError] = useState("");
   const {
     _id,
     title: prevTitle,
@@ -43,6 +40,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     length,
     setCurrentPage,
   } = childProps;
+
+  const [status, setStatus] = useState(Status.SUCCESS);
+  const [taskError, setTaskError] = useState("");
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
   const [categories, setCategories] = useState(
@@ -52,6 +52,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || "");
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
+
+  const userId = useAppSelector(selectProfile)?._id || "";
 
   const submit = async () => {
     setStatus(Status.LOADING);

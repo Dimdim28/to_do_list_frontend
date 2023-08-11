@@ -25,7 +25,9 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
   childProps,
 }) => {
   const { _id, title, color, fetchTasks, taskFetchingParams } = childProps;
+
   const dispatch = useAppDispatch();
+  
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
 

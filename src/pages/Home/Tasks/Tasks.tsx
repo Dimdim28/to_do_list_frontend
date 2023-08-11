@@ -35,6 +35,7 @@ const Tasks: FC<TaskProps> = ({
   isMobile,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
+  
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);

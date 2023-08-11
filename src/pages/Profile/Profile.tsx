@@ -52,7 +52,7 @@ const convertToBase64 = (file: any) => {
   });
 };
 
-const compressionOptions = {
+const COMPRESSION_OPTIONS = {
   maxSizeMB: 0.067,
   maxWidthOrHeight: 1920,
   useWebWorker: true,
@@ -60,6 +60,7 @@ const compressionOptions = {
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
+
   const id = useAppSelector(selectProfile)?._id || "";
   const isAuth = useAppSelector(selectIsAuth);
   const profile = useAppSelector(selectUserProfile) || {
@@ -91,6 +92,14 @@ const Profile: FC = () => {
       });
   }, [id, isAuth]);
 
+  useEffect(() => {
+    setName(username);
+  }, [username]);
+
+  if (status === "loading") {
+    return <Preloader />;
+  }
+
   function showIdHandler() {
     if (!isIdShown) {
       setIsIdShown(true);
@@ -111,7 +120,7 @@ const Profile: FC = () => {
       return toast.error("File type should be image, png, jpg or jpeg");
     }
 
-    const compressedFile = await imageCompression(file, compressionOptions);
+    const compressedFile = await imageCompression(file, COMPRESSION_OPTIONS);
     const base64: any = await convertToBase64(compressedFile);
 
     try {
@@ -125,14 +134,6 @@ const Profile: FC = () => {
     await dispatch(changeName({ userId: id, username: name }));
     setIsNameEditing(false);
   };
-
-  useEffect(() => {
-    setName(username);
-  }, [username]);
-
-  if (status === "loading") {
-    return <Preloader />;
-  }
 
   const cancelChangeName = async () => {
     setIsNameEditing(false);

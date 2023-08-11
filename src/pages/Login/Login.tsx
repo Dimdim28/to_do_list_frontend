@@ -6,33 +6,10 @@ import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
 import { useAppDispatch } from "../../hooks";
 import { fetchUserData } from "../../redux/slices/auth/thunk";
+import { validate } from "./helpers";
 import ROUTES from "../../routes";
 
 import styles from "./Login.module.scss";
-
-interface Values {
-  email?: string;
-  password?: string;
-}
-
-const validate = (values: Values) => {
-  const errors: Values = {};
-  if (!values.email) {
-    errors.email = "Required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-
-  if (!values.password) {
-    errors.password = "Required";
-  } else if (values.password.length < 5) {
-    errors.password = "Must be 5 characters or more";
-  } else if (values.password.length > 15) {
-    errors.password = "Must be 15 characters or less";
-  }
-
-  return errors;
-};
 
 const Login: FC<{}> = () => {
   const [error, setError] = useState(null);
