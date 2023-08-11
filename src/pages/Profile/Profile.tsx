@@ -52,7 +52,7 @@ const convertToBase64 = (file: any) => {
   });
 };
 
-const compressionOptions = {
+const COMPRESSION_OPTIONS = {
   maxSizeMB: 0.067,
   maxWidthOrHeight: 1920,
   useWebWorker: true,
@@ -60,29 +60,30 @@ const compressionOptions = {
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
-  const id = useAppSelector(selectProfile)?._id || "";
-  const isAuth = useAppSelector(selectIsAuth);
+
+  const [isPassEditing, setIspassEditing] = useState(false);
+  const [isAccountDeleting, setIsAccountDeleting] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  const [isIdShown, setIsIdShown] = useState(false);
+
+  const inputFileRef = useRef<HTMLInputElement>(null);
+
   const profile = useAppSelector(selectUserProfile) || {
     username: "",
     avatarUrl: "",
     email: "",
     createdAt: "",
   };
+  const { email, username, avatarUrl, createdAt } = profile;
+  const date = new Date(createdAt).toLocaleDateString();
+  const [name, setName] = useState(username);
+
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-
-  const { email, username, avatarUrl, createdAt } = profile;
-  const date = new Date(createdAt).toLocaleDateString();
-
-  const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const [isPassEditing, setIspassEditing] = useState(false);
-  const [isAccountDeleting, setIsAccountDeleting] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
-  const [isNameEditing, setIsNameEditing] = useState(false);
-  const [name, setName] = useState(username);
-  const [isIdShown, setIsIdShown] = useState(false);
+  const id = useAppSelector(selectProfile)?._id || "";
+  const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
     if (isAuth)
@@ -90,6 +91,14 @@ const Profile: FC = () => {
         dispatch(getStats());
       });
   }, [id, isAuth]);
+
+  useEffect(() => {
+    setName(username);
+  }, [username]);
+
+  if (status === "loading") {
+    return <Preloader />;
+  }
 
   function showIdHandler() {
     if (!isIdShown) {
@@ -111,7 +120,7 @@ const Profile: FC = () => {
       return toast.error("File type should be image, png, jpg or jpeg");
     }
 
-    const compressedFile = await imageCompression(file, compressionOptions);
+    const compressedFile = await imageCompression(file, COMPRESSION_OPTIONS);
     const base64: any = await convertToBase64(compressedFile);
 
     try {
@@ -125,14 +134,6 @@ const Profile: FC = () => {
     await dispatch(changeName({ userId: id, username: name }));
     setIsNameEditing(false);
   };
-
-  useEffect(() => {
-    setName(username);
-  }, [username]);
-
-  if (status === "loading") {
-    return <Preloader />;
-  }
 
   const cancelChangeName = async () => {
     setIsNameEditing(false);

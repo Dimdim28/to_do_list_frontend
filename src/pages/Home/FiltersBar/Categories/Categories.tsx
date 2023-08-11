@@ -33,16 +33,18 @@ const Categories: FC<CategoryProps> = ({
   taskFetchingParams,
   fetchTasks,
 }) => {
-  const categories = useAppSelector(selectCategories);
-  const status = useAppSelector(selectCategoriesStatus);
-  const currentPage = useAppSelector(selectCategoryCurrentPage);
-  const totalPages = useAppSelector(selectCategoryTotalPages);
-  const message = useAppSelector(selectCategoriesrError);
   const dispatch = useAppDispatch();
 
   const [categoryEditing, setCategoryEditing] = useState(false);
   const [categoryProps, setCategoryProps] = useState({});
   const [categoryDeleting, setCategoryDeleting] = useState(false);
+
+  const categories = useAppSelector(selectCategories);
+  const status = useAppSelector(selectCategoriesStatus);
+  const currentPage = useAppSelector(selectCategoryCurrentPage);
+  const totalPages = useAppSelector(selectCategoryTotalPages);
+  const message = useAppSelector(selectCategoriesrError);
+
   const loadMore = () => {
     const newPage = 1 + currentPage;
     dispatch(fetchCategories({ page: newPage }));

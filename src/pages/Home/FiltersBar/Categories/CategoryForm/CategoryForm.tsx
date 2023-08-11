@@ -25,7 +25,7 @@ const CategoryForm: FC<CategoryFormProps> = ({
   toggleActive,
 }) => {
   const dispatch = useAppDispatch();
-  const userId = useAppSelector(selectProfile)?._id || "";
+
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
   const {
@@ -37,6 +37,8 @@ const CategoryForm: FC<CategoryFormProps> = ({
   } = childProps;
   const [color, setColor] = useState(prevColor || "#ffffff");
   const [title, setTittle] = useState(prevTitle || "");
+
+  const userId = useAppSelector(selectProfile)?._id || "";
 
   const submit = async () => {
     setStatus(Status.LOADING);

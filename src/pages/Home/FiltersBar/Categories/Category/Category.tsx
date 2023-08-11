@@ -33,6 +33,7 @@ const Category: FC<CategoryProps> = ({
   ...props
 }) => {
   const [hover, setHover] = useState(false);
+  
   const handleMouseEnter = () => {
     setHover(true);
   };

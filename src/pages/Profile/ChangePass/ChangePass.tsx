@@ -5,42 +5,19 @@ import { FormikInput } from "../../../components/common/Input/Input";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectProfileStatus } from "../../../redux/slices/profile/selectors";
 import { changePass } from "../../../redux/slices/profile/thunk";
+import { validate } from "./helpers";
 import { Status } from "../../../types";
 
 import styles from "./ChangePass.module.scss";
-
-interface Values {
-  firstpass?: string;
-  secondpass?: string;
-}
-
-const validate = (values: Values) => {
-  const errors: Values = {};
-
-  if (!values.firstpass) {
-    errors.firstpass = "Required";
-  } else if (values.firstpass.length < 5) {
-    errors.firstpass = "Must be 5 characters or more";
-  } else if (values.firstpass.length > 15) {
-    errors.firstpass = "Must be 15 characters or less";
-  }
-  if (!values.secondpass) {
-    errors.secondpass = "Required";
-  } else if (values.secondpass.length < 5) {
-    errors.secondpass = "Must be 5 characters or more";
-  } else if (values.secondpass.length > 15) {
-    errors.secondpass = "Must be 15 characters or less";
-  }
-
-  return errors;
-};
 
 interface ChangePassProps {
   id: string;
 }
 export const ChangePass: FC<ChangePassProps> = ({ id }) => {
   const dispatch = useAppDispatch();
+
   const status = useAppSelector(selectProfileStatus);
+  
   const formik = useFormik({
     initialValues: {
       firstpass: "",

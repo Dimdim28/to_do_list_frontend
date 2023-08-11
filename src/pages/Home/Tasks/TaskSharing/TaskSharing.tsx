@@ -29,6 +29,7 @@ const TaskSharing: FC<TaskSharingProps> = ({
   const [userId, setUserId] = useState("");
 
   const profile = useSelector(selectProfile);
+  
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = await taskAPI.shareTask(
