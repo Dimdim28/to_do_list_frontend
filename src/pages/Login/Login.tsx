@@ -12,8 +12,9 @@ import ROUTES from "../../routes";
 import styles from "./Login.module.scss";
 
 const Login: FC<{}> = () => {
-  const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
+
+  const [error, setError] = useState(null);
 
   const formik = useFormik({
     initialValues: {

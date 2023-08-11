@@ -15,7 +15,9 @@ interface ChangePassProps {
 }
 export const ChangePass: FC<ChangePassProps> = ({ id }) => {
   const dispatch = useAppDispatch();
+
   const status = useAppSelector(selectProfileStatus);
+  
   const formik = useFormik({
     initialValues: {
       firstpass: "",
