@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import { Task, getTask } from "../../../../api/taskAPI";
-import { humaniseDate, truncate } from "../../../../helpers/string";
+import { humaniseDate } from "../../../../helpers/string";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 
 import styles from "./TaskCard.module.scss";
@@ -89,11 +89,13 @@ const TaskCard = ({
           );
         })}
       </div>
-      <p className={styles.description}>{truncate(description, 80)}</p>
+      <p className={styles.description}>{description}</p>
       <div className={styles.links}>
-        {links && links.length > 0 && (
-          <p className={styles.link}>{links.length} links attached</p>
-        )}
+        {links?.map((link, id) => (
+          <a href={link} key={id} target="blank" className={styles.link}>
+            {link}
+          </a>
+        ))}
       </div>
 
       {deadline && (
@@ -102,9 +104,16 @@ const TaskCard = ({
       {sharedWith &&
         sharedWith[0] !== "already shared" &&
         sharedWith.length > 0 && (
-          <div className={styles.username}>
-            Shared with {sharedWith.length} people
-          </div>
+          <>
+            <h5 className={styles.sharedTitle}>Shared with:</h5>
+            <div className={styles.sharedWrapper}>
+              {sharedWith.map((el, id) => (
+                <p className={styles.username} key={id}>
+                  {typeof el !== "string" && el.username}
+                </p>
+              ))}
+            </div>
+          </>
         )}
       <div className={styles.icons}>
         <FontAwesomeIcon

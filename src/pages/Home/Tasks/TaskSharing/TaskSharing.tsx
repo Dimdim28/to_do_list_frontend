@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import Button from "../../../../components/common/Button/Button";
@@ -9,6 +9,7 @@ import { Status } from "../../../../types";
 import { selectProfile } from "../../../../redux/slices/auth/selectors";
 
 import styles from "./TaskSharing.module.scss";
+import { truncate } from "../../../../helpers/string";
 
 interface TaskSharingProps {
   toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,7 +58,7 @@ const TaskSharing: React.FC<TaskSharingProps> = ({
         <>
           <h3 className={styles.title}>
             Enter user Id to share with him{" "}
-            <p className={styles.name}>{title}</p> {" task"}
+            <p className={styles.name}>{truncate(title, 12)}</p> {" task"}
           </h3>
           <Input
             title="user ID"

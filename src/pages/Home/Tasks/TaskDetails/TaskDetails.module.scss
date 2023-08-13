@@ -143,6 +143,11 @@
 .link {
     color: $indigo-500;
     word-break: break-all;
+    transition: 0.3s;
+
+    &:hover {
+        color: $info-200;
+    }
 }
 
 .description {
