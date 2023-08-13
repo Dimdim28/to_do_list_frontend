@@ -12,6 +12,7 @@ import { Modal } from "../../../components/common/Modal/Modal";
 import { Task, getTask } from "../../../api/taskAPI";
 
 import styles from "./Tasks.module.scss";
+import TaskInfo from "./TaskInfo/TaskInfo";
 
 interface TaskProps {
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -35,11 +36,12 @@ const Tasks: FC<TaskProps> = ({
   isMobile,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
-  
+
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskAddingLink, setTaskAddingLink] = useState(false);
+  const [taskInfo, setTaskInfo] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
   const prevIsCompleted = usePrevious(isCompleted);
@@ -105,6 +107,13 @@ const Tasks: FC<TaskProps> = ({
         ChildComponent={TaskAddingLink}
         childProps={taskProps}
       />
+      <Modal
+        childProps={taskProps}
+        ChildComponent={TaskInfo}
+        active={taskInfo}
+        setActive={setTaskInfo}
+      />
+
       {isLoading ? (
         <Preloader />
       ) : (
@@ -121,6 +130,7 @@ const Tasks: FC<TaskProps> = ({
                     setTaskDeleting={setTaskDeleting}
                     setTaskSharing={setTaskSharing}
                     setTaskAddingLink={setTaskAddingLink}
+                    setTaskInfo={setTaskInfo}
                     task={el}
                     key={el._id}
                     length={Tasks.length}

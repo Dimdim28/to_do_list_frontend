@@ -9,6 +9,7 @@ import { selectProfile } from "../../../../redux/slices/auth/selectors";
 import { Status } from "../../../../types";
 
 import styles from "./TaskSharing.module.scss";
+import { truncate } from "../../../../helpers/string";
 
 interface TaskSharingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -18,10 +19,7 @@ interface TaskSharingProps {
   };
 }
 
-const TaskSharing: FC<TaskSharingProps> = ({
-  childProps,
-  toggleActive,
-}) => {
+const TaskSharing: FC<TaskSharingProps> = ({ childProps, toggleActive }) => {
   const { _id, title, fetchTasks, taskFetchingParams } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
@@ -29,7 +27,7 @@ const TaskSharing: FC<TaskSharingProps> = ({
   const [userId, setUserId] = useState("");
 
   const profile = useSelector(selectProfile);
-  
+
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = await taskAPI.shareTask(
@@ -58,7 +56,7 @@ const TaskSharing: FC<TaskSharingProps> = ({
         <>
           <h3 className={styles.title}>
             Enter user Id to share with him{" "}
-            <p className={styles.name}>{title}</p> {" task"}
+            <p className={styles.name}>{truncate(title, 12)}</p> {" task"}
           </h3>
           <Input
             title="user ID"

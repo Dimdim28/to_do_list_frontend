@@ -1,14 +1,12 @@
-import { 
+import {
   SetStateAction,
   useEffect,
   useRef,
   useState,
   ComponentPropsWithoutRef,
   Dispatch,
-  PropsWithChildren
+  PropsWithChildren,
 } from "react";
-
-import { IsCompleted } from "../../../pages/Home/FiltersBar/Filters/Filters";
 
 import styles from "./Select.module.scss";
 
@@ -22,7 +20,6 @@ interface SelectProps<T> extends ComponentPropsWithoutRef<"input"> {
   activeValue: string;
   callback: Dispatch<SetStateAction<T>>;
   width: string;
-  clearCompletingStatus?: Dispatch<SetStateAction<IsCompleted>>;
 }
 
 const Select = <T,>({
@@ -30,13 +27,12 @@ const Select = <T,>({
   activeValue,
   callback,
   width,
-  clearCompletingStatus,
 }: PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(
     items.find((el) => el.value === activeValue)?.name
   );
-  
+
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,7 +69,6 @@ const Select = <T,>({
                 setActiveName(el.name);
                 callback(el.value);
                 setIsOpen(false);
-                if (clearCompletingStatus) clearCompletingStatus("all");
               }}
             >
               {el.name}

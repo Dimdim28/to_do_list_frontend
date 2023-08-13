@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
 
 import { Task, getTask } from "../../../../api/taskAPI";
-import { humaniseDate } from "../../../../helpers/string";
+import { humaniseDate, truncate } from "../../../../helpers/string";
 import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
 
 import styles from "./TaskCard.module.scss";
@@ -30,6 +30,7 @@ interface taskProps {
   setTaskDeleting: Dispatch<SetStateAction<boolean>>;
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
+  setTaskInfo: Dispatch<SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -43,6 +44,7 @@ const TaskCard = ({
   setTaskDeleting,
   setTaskSharing,
   setTaskAddingLink,
+  setTaskInfo,
   fetchTasks,
   taskFetchingParams,
   setCurrentPage,
@@ -62,7 +64,13 @@ const TaskCard = ({
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
   return (
-    <div className={completed ? styles.completedWrapper : styles.wrapper}>
+    <div
+      className={completed ? styles.completedWrapper : styles.wrapper}
+      onClick={() => {
+        setTaskProps(task);
+        setTaskInfo(true);
+      }}
+    >
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
@@ -89,13 +97,11 @@ const TaskCard = ({
           );
         })}
       </div>
-      <p className={styles.description}>{description}</p>
+      <p className={styles.description}>{truncate(description, 80)}</p>
       <div className={styles.links}>
-        {links?.map((link, id) => (
-          <a href={link} key={id} target="blank" className={styles.link}>
-            {link}
-          </a>
-        ))}
+        {links && links.length > 0 && (
+          <p className={styles.link}>{links.length} links attached</p>
+        )}
       </div>
 
       {deadline && (
@@ -104,16 +110,9 @@ const TaskCard = ({
       {sharedWith &&
         sharedWith[0] !== "already shared" &&
         sharedWith.length > 0 && (
-          <>
-            <h5 className={styles.sharedTitle}>Shared with:</h5>
-            <div className={styles.sharedWrapper}>
-              {sharedWith.map((el, id) => (
-                <p className={styles.username} key={id}>
-                  {typeof el !== "string" && el.username}
-                </p>
-              ))}
-            </div>
-          </>
+          <div className={styles.username}>
+            Shared with {sharedWith.length} people
+          </div>
         )}
       <div className={styles.icons}>
         <FontAwesomeIcon

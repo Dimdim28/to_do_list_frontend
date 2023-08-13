@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, SetStateAction, Dispatch, FC} from "react";
+import { InputHTMLAttributes, SetStateAction, Dispatch, FC } from "react";
 
 import taskAPI from "../../../api/taskAPI";
 
@@ -22,7 +22,12 @@ export const Checkbox: FC<CheckboxProps> = ({
   id,
 }) => {
   return (
-    <label className={styles.checkboxContainer}>
+    <label
+      className={styles.checkboxContainer}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <input
         type="checkbox"
         checked={isChecked}

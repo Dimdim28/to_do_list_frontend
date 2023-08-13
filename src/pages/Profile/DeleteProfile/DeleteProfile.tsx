@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, FC} from "react";
+import { Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../components/common/Button/Button";
 import Preloader from "../../../components/Preloader/Preloader";
