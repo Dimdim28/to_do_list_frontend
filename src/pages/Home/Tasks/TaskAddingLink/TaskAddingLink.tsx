@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -10,14 +10,14 @@ import { truncate } from "../../../../helpers/string";
 import styles from "./TaskAddingLink.module.scss";
 
 interface TaskAddingLinkProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
   };
 }
 
-const TaskAddingLink: React.FC<TaskAddingLinkProps> = ({
+const TaskAddingLink: FC<TaskAddingLinkProps> = ({
   childProps,
   toggleActive,
 }) => {

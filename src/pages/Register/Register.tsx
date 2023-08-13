@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 
@@ -57,7 +57,7 @@ const validate = (values: Values) => {
   return errors;
 };
 
-const SignupForm: React.FC = () => {
+const SignupForm: FC = () => {
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 

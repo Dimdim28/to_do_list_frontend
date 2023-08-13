@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -17,19 +17,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 interface TaskFormProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
     length: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPage: Dispatch<SetStateAction<number>>;
   };
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
-  const userId = useAppSelector(selectProfile)?._id || "";
-  const [status, setStatus] = useState(Status.SUCCESS);
-  const [taskError, setTaskError] = useState("");
+const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const {
     _id,
     title: prevTitle,
@@ -43,6 +40,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     length,
     setCurrentPage,
   } = childProps;
+
+  const [status, setStatus] = useState(Status.SUCCESS);
+  const [taskError, setTaskError] = useState("");
   const [title, setTittle] = useState(prevTitle || "");
   const [description, setDescription] = useState(prevDescription || "");
   const [categories, setCategories] = useState(
@@ -52,6 +52,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || "");
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
+
+  const userId = useAppSelector(selectProfile)?._id || "";
 
   const submit = async () => {
     setStatus(Status.LOADING);

@@ -21,6 +21,7 @@ interface DeleteAccountProps {
 
 const DeleteProfile: FC<DeleteAccountProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
+
   const userId = useAppSelector(selectProfile)?._id || "";
   const status = useAppSelector(selectProfileStatus);
   const error = useAppSelector(selectProfileMessage);

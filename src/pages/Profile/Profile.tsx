@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, FC, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { Bar } from "react-chartjs-2";
@@ -52,37 +52,38 @@ const convertToBase64 = (file: any) => {
   });
 };
 
-const compressionOptions = {
+const COMPRESSION_OPTIONS = {
   maxSizeMB: 0.067,
   maxWidthOrHeight: 1920,
   useWebWorker: true,
 };
 
-const Profile: React.FC = () => {
+const Profile: FC = () => {
   const dispatch = useAppDispatch();
-  const id = useAppSelector(selectProfile)?._id || "";
-  const isAuth = useAppSelector(selectIsAuth);
+
+  const [isPassEditing, setIspassEditing] = useState(false);
+  const [isAccountDeleting, setIsAccountDeleting] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  const [isIdShown, setIsIdShown] = useState(false);
+
+  const inputFileRef = useRef<HTMLInputElement>(null);
+
   const profile = useAppSelector(selectUserProfile) || {
     username: "",
     avatarUrl: "",
     email: "",
     createdAt: "",
   };
+  const { email, username, avatarUrl, createdAt } = profile;
+  const date = new Date(createdAt).toLocaleDateString();
+  const [name, setName] = useState(username);
+
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-
-  const { email, username, avatarUrl, createdAt } = profile;
-  const date = new Date(createdAt).toLocaleDateString();
-
-  const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const [isPassEditing, setIspassEditing] = useState(false);
-  const [isAccountDeleting, setIsAccountDeleting] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
-  const [isNameEditing, setIsNameEditing] = useState(false);
-  const [name, setName] = useState(username);
-  const [isIdShown, setIsIdShown] = useState(false);
+  const id = useAppSelector(selectProfile)?._id || "";
+  const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
     if (isAuth)
@@ -90,6 +91,14 @@ const Profile: React.FC = () => {
         dispatch(getStats());
       });
   }, [id, isAuth]);
+
+  useEffect(() => {
+    setName(username);
+  }, [username]);
+
+  if (status === "loading") {
+    return <Preloader />;
+  }
 
   function showIdHandler() {
     if (!isIdShown) {
@@ -103,7 +112,7 @@ const Profile: React.FC = () => {
     }
   }
 
-  const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeFile = async (event: FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
@@ -111,7 +120,7 @@ const Profile: React.FC = () => {
       return toast.error("File type should be image, png, jpg or jpeg");
     }
 
-    const compressedFile = await imageCompression(file, compressionOptions);
+    const compressedFile = await imageCompression(file, COMPRESSION_OPTIONS);
     const base64: any = await convertToBase64(compressedFile);
 
     try {
@@ -125,14 +134,6 @@ const Profile: React.FC = () => {
     await dispatch(changeName({ userId: id, username: name }));
     setIsNameEditing(false);
   };
-
-  useEffect(() => {
-    setName(username);
-  }, [username]);
-
-  if (status === "loading") {
-    return <Preloader />;
-  }
 
   const cancelChangeName = async () => {
     setIsNameEditing(false);

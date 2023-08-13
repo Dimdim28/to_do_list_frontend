@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction, FC } from "react";
 
 import Button from "../../../../../components/common/Button/Button";
 import Preloader from "../../../../../components/Preloader/Preloader";
@@ -13,19 +13,21 @@ import { truncate } from "../../../../../helpers/string";
 import styles from "./CategoryDeleting.module.scss";
 
 interface CategoryDeletingProps {
-  toggleActive: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Category & {
     fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
   };
 }
 
-export const CategoryDeleting: React.FC<CategoryDeletingProps> = ({
+export const CategoryDeleting: FC<CategoryDeletingProps> = ({
   toggleActive,
   childProps,
 }) => {
   const { _id, title, color, fetchTasks, taskFetchingParams } = childProps;
+
   const dispatch = useAppDispatch();
+  
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
 

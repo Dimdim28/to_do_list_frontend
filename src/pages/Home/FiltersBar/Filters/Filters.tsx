@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import { SetStateAction, Dispatch, FC } from "react";
 
 import Select, { Item } from "../../../../components/common/Select/Select";
 
@@ -17,22 +17,22 @@ export type IsCompleted = "true" | "false" | "all";
 interface FiltersProps {
   date: Date;
   isCompleted: IsCompleted;
-  setDate: React.Dispatch<SetStateAction<Date>>;
-  setIsCompleted: React.Dispatch<SetStateAction<IsCompleted>>;
+  setDate: Dispatch<SetStateAction<Date>>;
+  setIsCompleted: Dispatch<SetStateAction<IsCompleted>>;
 }
-const Filters: React.FC<FiltersProps> = ({
+const Filters: FC<FiltersProps> = ({
   isCompleted,
   setIsCompleted,
   date,
   setDate,
 }) => {
-  const selectStatusOptions: Item<IsCompleted>[] = [
+  const SELECT_STATUS_OPTIONS: Item<IsCompleted>[] = [
     { name: "Completed", value: "true" },
     { name: "In process", value: "false" },
     { name: "all", value: "all" },
   ];
 
-  const selectDateOptions: Item<Date>[] = [
+  const SELECT_DATE_OPTIONS: Item<Date>[] = [
     { name: "day", value: "day" },
     { name: "week", value: "week" },
     { name: "month", value: "month" },
@@ -50,7 +50,7 @@ const Filters: React.FC<FiltersProps> = ({
 
       <div className={styles.deadline}>
         <Select<Date>
-          items={selectDateOptions}
+          items={SELECT_DATE_OPTIONS}
           activeValue={date}
           width="200px"
           callback={setDate}
@@ -63,7 +63,7 @@ const Filters: React.FC<FiltersProps> = ({
           <h5>Completion status</h5>
           <div className={styles.progressStatus}>
             <Select<IsCompleted>
-              items={selectStatusOptions}
+              items={SELECT_STATUS_OPTIONS}
               width="200px"
               activeValue={isCompleted}
               callback={setIsCompleted}

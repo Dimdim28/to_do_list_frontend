@@ -1,8 +1,8 @@
-import React from "react";
+import { FC } from "react";
 
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 
-const Task: React.FC = () => {
+const Task: FC = () => {
   return <div>Task</div>;
 };
 

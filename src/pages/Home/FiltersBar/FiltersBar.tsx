@@ -1,4 +1,4 @@
-import React from "react";
+import { Dispatch, SetStateAction, FC} from "react";
 
 import Filters, { Date, IsCompleted } from "./Filters/Filters";
 import Categories from "./Categories/Categories";
@@ -11,18 +11,18 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface FiltersBarProps {
   date: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  setDate: Dispatch<SetStateAction<Date>>;
   isCompleted: IsCompleted;
-  setIsCompleted: React.Dispatch<React.SetStateAction<IsCompleted>>;
+  setIsCompleted: Dispatch<SetStateAction<IsCompleted>>;
   categories: string[];
-  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  setCategories: Dispatch<SetStateAction<string[]>>;
   taskFetchingParams: getTask;
   fetchTasks: (params: getTask) => void;
   isMobile?: boolean;
-  setIsNavberOpened?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNavberOpened?: Dispatch<SetStateAction<boolean>>;
 }
 
-const FiltersBar: React.FC<FiltersBarProps> = ({
+const FiltersBar: FC<FiltersBarProps> = ({
   date,
   setDate,
   isCompleted,

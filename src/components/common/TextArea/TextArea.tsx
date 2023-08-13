@@ -1,14 +1,14 @@
-import React, { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, Dispatch, SetStateAction, FC,  } from "react";
 
 import styles from "./TextArea.module.scss";
 
 interface TextAreaProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<string>>;
 }
 
-export const TextArea: React.FC<TextAreaProps> = ({
+export const TextArea: FC<TextAreaProps> = ({
   value,
   title,
   setValue,
