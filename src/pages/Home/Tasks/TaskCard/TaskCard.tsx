@@ -30,6 +30,7 @@ interface taskProps {
   setTaskDeleting: Dispatch<SetStateAction<boolean>>;
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
+  setTaskInfo: Dispatch<SetStateAction<boolean>>;
   fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -43,6 +44,7 @@ const TaskCard = ({
   setTaskDeleting,
   setTaskSharing,
   setTaskAddingLink,
+  setTaskInfo,
   fetchTasks,
   taskFetchingParams,
   setCurrentPage,
@@ -62,7 +64,13 @@ const TaskCard = ({
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
   return (
-    <div className={completed ? styles.completedWrapper : styles.wrapper}>
+    <div
+      className={completed ? styles.completedWrapper : styles.wrapper}
+      onClick={() => {
+        setTaskProps(task);
+        setTaskInfo(true);
+      }}
+    >
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
