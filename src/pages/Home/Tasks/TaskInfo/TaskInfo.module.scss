@@ -7,10 +7,18 @@
     border-radius: 20px;
     position: relative;
     transition: 0.3s;
-    margin-right: 20px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+
+    @media screen and (max-width: 768px) {
+        width: 300px;
+    }
+
+    @media screen and (max-width: 425px) {
+        width: 100%;
+    }
 }
 
 .categoriesWrapper {
