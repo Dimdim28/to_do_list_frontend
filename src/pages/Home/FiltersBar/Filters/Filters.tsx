@@ -54,7 +54,6 @@ const Filters: FC<FiltersProps> = ({
           activeValue={date}
           width="200px"
           callback={setDate}
-          clearCompletingStatus={setIsCompleted}
         />
       </div>
 
