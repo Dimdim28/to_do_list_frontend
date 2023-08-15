@@ -101,7 +101,6 @@ const profileSlice = createSlice({
       state.message = String(action.payload);
     });
     builder.addCase(getStats.pending, (state) => {
-      state.status = Status.LOADING;
       state.message = "";
     });
     builder.addCase(getStats.fulfilled, (state, action) => {
