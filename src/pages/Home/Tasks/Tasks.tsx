@@ -68,7 +68,7 @@ const Tasks: FC<TaskProps> = ({
       } ${isMobile && styles.mobileWrapper}`}
     >
       <div className={styles.line}>
-        <span
+        <button
           className={styles.createTask}
           onClick={() => {
             setTaskEditing(true);
@@ -81,7 +81,7 @@ const Tasks: FC<TaskProps> = ({
           }}
         >
           Create task +
-        </span>
+        </button>
       </div>
       <Modal
         active={taskDeleting}

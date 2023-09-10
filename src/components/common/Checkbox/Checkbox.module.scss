@@ -62,8 +62,8 @@
 
   .roundedCheckMark {
     background-color: transparent;
-    transition: 0.3s;
-    border: 2px solid white;
+    transition: border $transition-delay, background-color $transition-delay;
+    border: 2px solid $white;
   }
 
   &:hover input~.checkmark {
@@ -72,6 +72,12 @@
 
   &:hover input~.roundedCheckMark {
     background-color: $error-50;
+  }
+}
+
+:global(.light_theme) {
+  .roundedCheckMark {
+    border: 2px solid $black;
   }
 }
 

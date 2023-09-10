@@ -19,15 +19,28 @@
     align-items: center;
     justify-content: center;
     user-select: none;
+    transition: background-color $transition-delay, color $transition-delay;
+}
+
+:global(.light_theme) {
+
+    .pageButton,
+    .disabledPageButton {
+        color: $black;
+
+    }
 }
 
 .pageButton {
     cursor: pointer;
-    transition: 0.3s;
 
     &:hover {
         background-color: $background-dark--10;
     }
+}
+
+:global(.light_theme) .pageButton {
+    background: $white;
 }
 
 .activePageButton {
@@ -36,4 +49,8 @@
 
 .disabledPageButton {
     opacity: 0.6;
+}
+
+:global(.light_theme) .disabledPageButton {
+    background: $white;
 }
