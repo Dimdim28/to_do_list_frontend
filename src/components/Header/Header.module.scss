@@ -7,30 +7,75 @@ header {
   align-items: center;
   height: 40px;
   width: 100%;
+  transition: background-color $transition-delay;
+}
 
-  .logo {
-    width: 30px;
-    height: 30px;
+:global(.light_theme) header {
+  background-color: $white;
+}
+
+
+.actionsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
+  gap: 10px;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}
+
+.themeIcon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-300;
   }
+}
 
-  nav {
-    display: flex;
-    width: calc(100% - 30px);
-    justify-content: flex-end;
-    padding-right: 10px;
-    font-weight: 600;
+:global(.light_theme) {
+  .themeIcon {
+    color: $black;
 
-    a {
-      text-decoration: none;
-      color: $gray-600;
-      transition: 0.3s;
-      &:hover {
-        color: $warning-200;
-      }
+    &:hover {
+      color: $gray-50;
     }
   }
+}
 
-  .isActive {
-    display: none;
+nav {
+  display: flex;
+  width: calc(100% - 30px);
+  justify-content: flex-end;
+  padding-right: 10px;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: $gray-600;
+  transition: color $transition-delay;
+
+
+  &:hover {
+    color: $warning-200;
   }
+}
+
+:global(.light_theme) {
+  a {
+    color: $black;
+  }
+
+}
+
+
+.isActive {
+  display: none;
 }

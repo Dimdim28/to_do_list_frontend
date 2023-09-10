@@ -3,12 +3,16 @@ import { MemoryRouter } from "react-router-dom";
 
 import Header from "./Header";
 import ROUTES from "../../routes";
+import { Provider } from "react-redux";
+import store from "../../redux/store";
 
 describe("Header", () => {
   it("renders logo correctly", () => {
     render(
       <MemoryRouter>
-        <Header />
+        <Provider store={store}>
+          <Header />
+        </Provider>
       </MemoryRouter>
     );
     const logoElement = screen.getByAltText("logo");
@@ -19,7 +23,9 @@ describe("Header", () => {
     it("they were rendered", () => {
       render(
         <MemoryRouter>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
       const profileLink = screen.getByText("Profile");
@@ -31,7 +37,9 @@ describe("Header", () => {
     it("they have correct href attributes", () => {
       render(
         <MemoryRouter>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
       const profileLink = screen.getByText("Profile");
@@ -45,7 +53,9 @@ describe("Header", () => {
     it("should make profile link isActive if we are on Profile page", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.PROFILE]}>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
 
@@ -59,7 +69,9 @@ describe("Header", () => {
     it("should make home link isActive if we are on Home page", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.HOME]}>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
 
