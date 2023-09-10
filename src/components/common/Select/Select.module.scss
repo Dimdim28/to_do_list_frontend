@@ -40,7 +40,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
+      color: $gray-600;
+      
       &:hover {
         background-color: $error-100;
       }

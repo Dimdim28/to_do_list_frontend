@@ -6,6 +6,7 @@
   width: 300px;
   height: calc(100vh - 80px);
   overflow-y: auto;
+  transition: background-color $transition-delay;
 }
 
 .mobileFiltersWrapper {
@@ -26,5 +27,15 @@
 
   &:hover {
     color: $error-200
+  }
+  transition: oclor $transition-delay;
+}
+
+:global(.light_theme) {
+
+  .filtersWrapper,
+  .mobileFiltersWrapper {
+    background-color: $gray-600;
+    color: $black;
   }
 }
