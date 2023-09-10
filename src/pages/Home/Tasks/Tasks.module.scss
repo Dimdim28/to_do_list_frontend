@@ -8,9 +8,12 @@
   justify-content: start;
   align-items: end;
   height: 100%;
+  transition: background-color $transition-delay;
 }
 
-
+:global(.light_theme) .wrapper {
+  background-color: $gray-500;
+}
 
 .wrapperWithTasks {
   background-color: $background-dark-35;
@@ -18,6 +21,11 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  transition: background-color $transition-delay;
+}
+
+:global(.light_theme) .wrapperWithTasks {
+  background-color: $gray-500;
 }
 
 .wrapper.mobileWrapper,

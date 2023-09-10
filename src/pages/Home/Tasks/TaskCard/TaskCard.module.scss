@@ -45,6 +45,7 @@
         height: 15px;
         z-index: 1;
         cursor: pointer;
+        transition: color $transition-delay;
     }
 
     .pencil {
