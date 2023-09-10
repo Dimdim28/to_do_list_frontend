@@ -1,4 +1,4 @@
-import { Status } from "../../../types";
+import { Status, Theme } from "../../../types";
 import { RootState } from "./../../store";
 import { Profile } from "./types";
 
@@ -11,3 +11,4 @@ export const selectProfile = (state: RootState): Profile | null =>
   state.auth.profile;
 export const selectMessage = (state: RootState): string | undefined =>
   state.auth.message;
+export const selectTheme = (state: RootState): Theme => state.auth.theme;

@@ -1,4 +1,4 @@
-import { Status } from "../../../types";
+import { Status, Theme } from "../../../types";
 
 export type Profile = {
   _id: string;
@@ -19,6 +19,7 @@ export interface AuthSliceState {
   status: Status;
   profile: Profile | null;
   message?: string;
+  theme: Theme;
 }
 
 export interface LoginParams {

@@ -1,12 +1,13 @@
-import {lazy, useEffect} from "react";
+import { lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
-import { useAppDispatch } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import ROUTES from "./routes";
+import { selectTheme } from "./redux/slices/auth/selectors";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";
@@ -21,13 +22,16 @@ const Task = lazy(() => import("./pages/Task/Task"));
 
 function App() {
   const dispatch = useAppDispatch();
+
+  const theme = useAppSelector(selectTheme);
+
   useEffect(() => {
     dispatch(fetchAuthMe());
   }, [dispatch]);
 
   return (
     <>
-      <div className="App">
+      <div className={`App ${theme}_theme`}>
         <Routes>
           <Route path={ROUTES.AUTH} element={<AuthLayout />}>
             <Route path={ROUTES.LOGIN} element={<Login />} />
