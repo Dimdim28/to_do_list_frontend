@@ -14,7 +14,6 @@ header {
   background-color: $white;
 }
 
-
 .actionsWrapper {
   display: flex;
   align-items: center;
@@ -62,7 +61,6 @@ a {
   color: $gray-600;
   transition: color $transition-delay;
 
-
   &:hover {
     color: $warning-200;
   }
@@ -71,10 +69,12 @@ a {
 :global(.light_theme) {
   a {
     color: $black;
+
+    &:hover {
+      color: $warning-200;
+    }
   }
-
 }
-
 
 .isActive {
   display: none;
