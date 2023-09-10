@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: space-around;
     cursor: pointer;
-    transition: background-color $transition-delay;
+    transition: background-color $transition-delay, opacity $transition-delay;
 
     &:hover {
         .icons {
