@@ -8,4 +8,10 @@
   align-items: center;
   justify-content: center;
   color: $gray-600;
+  transition: color $transition-delay, background-color $transition-delay;
+}
+
+:global(.light_theme) .footer {
+  background-color: $white;
+  color: $black;
 }

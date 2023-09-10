@@ -43,7 +43,7 @@ function App() {
             <Route path={ROUTES.HOME} element={<Home />} />
           </Route>
         </Routes>
-      </div>{" "}
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={5000}
