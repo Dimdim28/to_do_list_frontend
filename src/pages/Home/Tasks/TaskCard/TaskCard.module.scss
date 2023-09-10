@@ -151,6 +151,15 @@
     border-radius: 10px;
     word-break: break-all;
     text-align: center;
+    transition: border-color $transition-delay, color $transition-delay;
+}
+
+:global(.light_theme) {
+
+    .category {
+        border-color: $black;
+        color: $black;
+    }
 }
 
 .completedWrapper {
