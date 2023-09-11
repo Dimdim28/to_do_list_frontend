@@ -11,34 +11,43 @@
   $warning-200: #f97316;
   $warning-300: #fb923c;
   $warning-400: #fdba74;
-  .modalContent {
-    text-align: center;
-    width: 100%;
-    p {
-      font-size: 24px;
-    }
-    h3 {
-      font-size: 32px;
-      color:$warning-200;
-    }
-  }
+}
 
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
+.modalContent {
+  text-align: center;
+  width: 100%;
+  p {
+    font-size: 24px;
+    color: $white;
+    transition: color $transition-delay;
   }
+  h3 {
+    font-size: 32px;
+    color: $warning-200;
+  }
+}
 
-  .error {
-    color: $error-200;
-    text-align: center;
-    width: 100%;
-  }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
 }
 
 @media screen and (max-width: 400px) {
   .wrapper {
     width: 100%;
+  }
+}
+
+:global(.light_theme) .modalContent {
+  p {
+    color: $black;
   }
 }

@@ -24,266 +24,286 @@
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+  background-color: $background-dark-10;
+  transition: background-color $transition-delay;
+}
 
+.profile {
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  position: relative;
+}
 
-  .profile {
-    border-radius: 20px;
-    padding: 20px;
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 2px solid $warning-200;
+  border-radius: 15px;
+  padding: 30px;
+  position: relative;
+  background-color: $background-dark-0;
+  transition: background-color $transition-delay;
+}
+
+.idWrapper {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: $white;
+  transition: background-color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.buttons {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px;
+
+  .exit {
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    color: $white;
+    transition: background-color $transition-delay;
+    @include style-button-icon-color(
+      $gray-600,
+      $error-200,
+      $error-300,
+      $error-200
+    );
+  }
+
+  .button {
+    color: $gray-600;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    color: $white;
+    transition: background-color $transition-delay;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .delete {
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    color: $white;
+    transition: background-color $transition-delay;
+    @include style-button-icon-color(
+      $gray-600,
+      $error-200,
+      $error-300,
+      $error-200
+    );
+  }
+}
+
+.avatar {
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  border: 4px solid $warning-200;
+  text-align: center;
+  background-color: $background-dark-10;
+  position: relative;
+
+  input[type="file"] {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .addPhoto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    flex-direction: column;
-    width: 50%;
-    position: relative;
+    align-items: center;
+    justify-content: center;
+    background: $black;
+    border-radius: 50%;
+    opacity: 0;
+    transition: 0.5s;
+    cursor: pointer;
 
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      border: 2px solid $warning-200;
-      border-radius: 15px;
-      padding: 30px;
-      position: relative;
-
-      .idWrapper {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
-
-        &:hover {
-          color: $warning-200;
-        }
-      }
-
-      .buttons {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 7px;
-
-        .exit {
-          font-weight: 500;
-          white-space: nowrap;
-          cursor: pointer;
-          transition: 0.3s;
-          @include style-button-icon-color($gray-600,
-            $error-200,
-            $error-300,
-            $error-200 );
-        }
-
-        .button {
-          color: $gray-600;
-          font-weight: 500;
-          white-space: nowrap;
-          cursor: pointer;
-          transition: 0.3s;
-
-          &:hover {
-            color: $warning-200;
-          }
-        }
-
-        .delete {
-          font-weight: 500;
-          white-space: nowrap;
-          cursor: pointer;
-          transition: 0.3s;
-          @include style-button-icon-color($gray-600,
-            $error-200,
-            $error-300,
-            $error-200 );
-        }
-      }
-
-      .avatar {
-        height: 300px;
-        width: 300px;
-        border-radius: 50%;
-        border: 4px solid $warning-200;
-        text-align: center;
-        background-color: $background-dark-0;
-        position: relative;
-
-        input[type="file"] {
-          display: none;
-        }
-
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .addPhoto {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: $black;
-          border-radius: 50%;
-          opacity: 0;
-          transition: 0.5s;
-          cursor: pointer;
-
-          .camera {
-            font-size: 80px;
-            color: $gray-600;
-          }
-
-          &:hover {
-            opacity: 0.5;
-          }
-        }
-      }
-
-      .info {
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        max-width: 290px;
-
-        .line {
-          display: flex;
-          justify-content: start;
-          width: 100%;
-          align-items: center;
-          position: relative;
-
-          .name {
-            color: $warning-200;
-            font-weight: 600;
-            font-size: 20px;
-          }
-
-          .text {
-            color: $gray-600;
-            border-bottom: 2px solid $warning-200;
-            margin: 10px;
-            font-size: 20px;
-            width: 100%;
-            word-break: break-all;
-          }
-
-          .inputName {
-            outline: none;
-            color: $gray-600;
-            border: none;
-            border-bottom: 2px solid $warning-200;
-            margin: 10px;
-            font-size: 20px;
-            width: 100%;
-            padding: 0;
-            display: block;
-            background-color: transparent;
-          }
-
-          .check {
-            width: 15px;
-            height: 15px;
-            z-index: 3;
-            transition: 0.3s;
-            cursor: pointer;
-            position: absolute;
-            right: -5px;
-
-            &:hover {
-              color: $green-200;
-            }
-          }
-
-          .close {
-            width: 15px;
-            height: 15px;
-            z-index: 3;
-            transition: 0.3s;
-            cursor: pointer;
-            position: absolute;
-            right: -20px;
-
-            &:hover {
-              color: $error-200;
-            }
-          }
-
-          .icon {
-            opacity: 0;
-            width: 15px;
-            height: 15px;
-            z-index: 3;
-          }
-
-          .pencil {
-            &:hover {
-              color: $warning-200;
-            }
-
-            transition: 0.3s;
-            position: absolute;
-            top: calc(50% - 10px);
-            right: 0;
-            cursor: pointer;
-          }
-
-          &:hover {
-            .icon {
-              opacity: 1;
-            }
-          }
-        }
-      }
+    .camera {
+      font-size: 80px;
+      color: $gray-600;
     }
 
-    .passwordWrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
-      width: 100%;
-      border: 2px solid $warning-200;
-      border-radius: 15px;
-
-      .passEditing {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-around;
-        border-radius: 15px;
-      }
+    &:hover {
+      opacity: 0.5;
     }
+  }
+}
 
-    .error {
-      width: 100%;
-      position: absolute;
-      bottom: -5px;
-      text-align: center;
+.info {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 290px;
+}
+
+.line {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  align-items: center;
+  position: relative;
+
+  .name {
+    color: $warning-200;
+    font-weight: 600;
+    font-size: 20px;
+    color: $white;
+    transition: color $transition-delay;
+  }
+
+  .text {
+    color: $gray-600;
+    border-bottom: 2px solid $warning-200;
+    margin: 10px;
+    font-size: 20px;
+    width: 100%;
+    word-break: break-all;
+    color: $white;
+    transition: color $transition-delay;
+  }
+
+  .inputName {
+    outline: none;
+    color: $gray-600;
+    border: none;
+    border-bottom: 2px solid $warning-200;
+    margin: 10px;
+    font-size: 20px;
+    width: 100%;
+    padding: 0;
+    display: block;
+    background-color: transparent;
+    transition: color $transition-delay;
+  }
+
+  .check {
+    width: 15px;
+    height: 15px;
+    z-index: 3;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    right: -5px;
+    color: $white;
+    transition: color $transition-delay;
+
+    &:hover {
+      color: $green-200;
+    }
+  }
+
+  .close {
+    width: 15px;
+    height: 15px;
+    z-index: 3;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    right: -20px;
+    color: $white;
+    transition: color $transition-delay;
+
+    &:hover {
       color: $error-200;
     }
   }
 
-  .chartWrapper {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    max-width: 730px;
+  .icon {
+    opacity: 0;
+    width: 15px;
+    height: 15px;
+    z-index: 3;
   }
+
+  .pencil {
+    &:hover {
+      color: $warning-200;
+    }
+
+    transition: 0.3s;
+    position: absolute;
+    top: calc(50% - 10px);
+    right: 0;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .icon {
+      opacity: 1;
+    }
+  }
+}
+
+.passwordWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+  border: 2px solid $warning-200;
+  border-radius: 15px;
+
+  .passEditing {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+  }
+}
+
+.error {
+  width: 100%;
+  position: absolute;
+  bottom: -5px;
+  text-align: center;
+  color: $error-200;
+}
+
+.chartWrapper {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  max-width: 730px;
 }
 
 @media screen and (max-width: 1480px) {
@@ -299,7 +319,6 @@
 
         .info {
           .line {
-
             .text,
             .name,
             .inputName {
@@ -359,6 +378,54 @@
           position: relative;
           gap: 30px;
         }
+      }
+    }
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background-color: $gray-500;
+  }
+  .row {
+    background-color: $gray-600;
+  }
+  .idWrapper {
+    color: $black;
+  }
+  .buttons {
+    .exit {
+      color: $black;
+    }
+    .button {
+      color: $black;
+    }
+    .delete {
+      color: $black;
+    }
+  }
+  .line {
+    .name {
+      color: $black;
+    }
+    .text {
+      color: $black;
+    }
+    .inputName {
+      color: $background-dark-0;
+    }
+    .check {
+      color: $background-dark-0;
+
+      &:hover {
+        color: $green-200;
+      }
+    }
+    .close {
+      color: $background-dark-0;
+
+      &:hover {
+        color: $error-200;
       }
     }
   }

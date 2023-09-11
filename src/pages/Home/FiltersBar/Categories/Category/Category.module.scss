@@ -79,30 +79,14 @@
 
 .trash {
   color: $white;
-  position: absolute;
-  top: 15px;
-  right: 0;
 
   &:hover {
     color: $error-200;
   }
-}
 
-:global(.light_theme) {
-  .pencil {
-    color: $black;
-
-    &:hover {
-      color: $warning-200;
-    }
-  }
-  .trash {
-    color: $black;
-
-    &:hover {
-      color: $warning-200;
-    }
-  }
+  position: absolute;
+  top: 15px;
+  right: 0;
 }
 
 .tasksFormCategory {
@@ -123,6 +107,23 @@
     .icons {
       opacity: 100%;
       right: -15px;
+    }
+  }
+}
+
+:global(.light_theme) {
+  .pencil {
+    color: $black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
     }
   }
 }

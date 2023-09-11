@@ -1,38 +1,44 @@
 @import "src/styles/partials/theme";
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 160px;
-    width: 300px;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 160px;
+  width: 300px;
+  justify-content: space-around;
+}
 
-    .title {
-        text-align: center;
-        width: 100%;
+.title {
+  text-align: center;
+  width: 100%;
+  color: $white;
+  transition: color $transition-delay;
 
-        .name {
-            color: $warning-200;
-        }
-    }
+  .name {
+    color: $warning-200;
+  }
+}
 
-    .actions {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin-top: 20px;
-    }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
 
-    .error {
-        color: $error-200;
-        text-align: center;
-        width: 100%;
-    }
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
 }
 
 @media screen and (max-width: 400px) {
-    .wrapper {
-        width: 100%;
-    }
+  .wrapper {
+    width: 100%;
+  }
+}
+
+:global(.light_theme) .title {
+  color: $black;
 }
