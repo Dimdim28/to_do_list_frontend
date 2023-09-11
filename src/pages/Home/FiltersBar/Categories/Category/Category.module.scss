@@ -35,6 +35,13 @@
   overflow-wrap: break-word;
   width: 100%;
   text-align: center;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .title,
+.activeTitle {
+  color: $black;
 }
 
 .activeTitle {

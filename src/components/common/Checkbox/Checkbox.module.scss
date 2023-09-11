@@ -5,6 +5,8 @@
   position: relative;
   padding-left: 35px;
   font-size: 15px;
+  color: $white;
+  transition: color $transition-delay;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -18,7 +20,7 @@
     height: 0;
     width: 0;
 
-    &:checked~.checkmark {
+    &:checked ~ .checkmark {
       background-color: $error-50;
 
       &:after {
@@ -26,15 +28,13 @@
       }
     }
 
-    &:checked~.roundedCheckMark {
+    &:checked ~ .roundedCheckMark {
       background-color: $error-50;
 
       &:after {
         display: block;
       }
     }
-
-
   }
 
   .checkmark,
@@ -66,11 +66,11 @@
     border: 2px solid $white;
   }
 
-  &:hover input~.checkmark {
+  &:hover input ~ .checkmark {
     background-color: $error-100;
   }
 
-  &:hover input~.roundedCheckMark {
+  &:hover input ~ .roundedCheckMark {
     background-color: $error-50;
   }
 }
@@ -95,5 +95,11 @@
   &::after {
     left: 9px;
     top: 6px;
+  }
+}
+
+:global(.light_theme) {
+  .checkboxContainer {
+    color: $black;
   }
 }

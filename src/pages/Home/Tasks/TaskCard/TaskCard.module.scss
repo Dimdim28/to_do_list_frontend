@@ -2,278 +2,268 @@
 
 .wrapper,
 .completedWrapper {
-    background-color: $background-dark-0;
-    width: 350px;
-    padding: 0 20px 20px;
-    border-radius: 20px;
-    position: relative;
-    transition: 0.3s;
-    margin-right: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    cursor: pointer;
-    transition: background-color $transition-delay, opacity $transition-delay;
+  background-color: $background-dark-0;
+  width: 350px;
+  padding: 0 20px 20px;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+  transition: background-color $transition-delay, opacity $transition-delay;
 
-    &:hover {
-        .icons {
-            opacity: 100%;
-            right: -15px;
-        }
+  &:hover {
+    .icons {
+      opacity: 100%;
+      right: -15px;
     }
+  }
 }
 
 :global(.light_theme) {
-
-    .wrapper,
-    .completedWrapper {
-        background-color: $gray-600;
-    }
+  .wrapper,
+  .completedWrapper {
+    background-color: $gray-600;
+  }
 }
 
 .icons {
-    position: absolute;
-    right: -25px;
-    top: 0;
-    bottom: 0;
-    opacity: 0;
-    transition: $transition-delay;
-    z-index: 1;
+  position: absolute;
+  right: -25px;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: $transition-delay;
+  z-index: 1;
 
-    .icon {
-        width: 15px;
-        height: 15px;
-        z-index: 1;
-        cursor: pointer;
-        transition: color $transition-delay;
+  .icon {
+    width: 15px;
+    height: 15px;
+    z-index: 1;
+    cursor: pointer;
+    transition: color $transition-delay;
+  }
+
+  .pencil {
+    color: $white;
+
+    &:hover {
+      color: $warning-200;
     }
 
+    z-index: 1;
+    position: absolute;
+    top: 10px;
+    right: 0;
+  }
+
+  .trash {
+    color: $white;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    z-index: 1;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+
+  .attach {
+    color: $white;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 1;
+
+    &:hover {
+      color: $info-50;
+    }
+  }
+
+  .share {
+    color: $white;
+
+    &:hover {
+      color: $warning-200;
+    }
+
+    z-index: 1;
+    position: absolute;
+    top: 55px;
+    right: 0;
+  }
+}
+
+:global(.light_theme) {
+  .icons {
     .pencil {
-        color: $white;
+      color: $black;
 
-        &:hover {
-            color: $warning-200;
-        }
-
-        z-index: 1;
-        position: absolute;
-        top: 10px;
-        right: 0;
+      &:hover {
+        color: $warning-200;
+      }
     }
 
     .trash {
-        color: $white;
-        position: absolute;
-        top: 25px;
-        right: 0;
-        z-index: 1;
+      color: $black;
 
-        &:hover {
-            color: $error-200;
-        }
+      &:hover {
+        color: $error-200;
+      }
     }
 
     .attach {
-        color: $white;
-        position: absolute;
-        top: 40px;
-        right: 0;
-        z-index: 1;
+      color: $black;
 
-        &:hover {
-            color: $info-50;
-        }
+      &:hover {
+        color: $info-50;
+      }
     }
 
     .share {
-        color: $white;
+      color: $black;
 
-        &:hover {
-            color: $warning-200;
-        }
-
-        z-index: 1;
-        position: absolute;
-        top: 55px;
-        right: 0;
+      &:hover {
+        color: $warning-200;
+      }
     }
-
-}
-
-
-:global(.light_theme) {
-
-    .icons {
-        .pencil {
-            color: $black;
-
-            &:hover {
-                color: $warning-200;
-            }
-        }
-
-        .trash {
-            color: $black;
-
-            &:hover {
-                color: $error-200;
-            }
-        }
-
-        .attach {
-            color: $black;
-
-            &:hover {
-                color: $info-50;
-            }
-        }
-
-        .share {
-            color: $black;
-
-            &:hover {
-                color: $warning-200;
-            }
-        }
-    }
+  }
 }
 
 .categoriesWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .category {
-    padding: 5px 10px;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 10px;
-    word-break: break-all;
-    text-align: center;
-    transition: border-color $transition-delay, color $transition-delay;
+  padding: 5px 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  word-break: break-all;
+  text-align: center;
+  transition: border-color $transition-delay, color $transition-delay;
 }
 
 :global(.light_theme) {
-
-    .category {
-        border-color: $black;
-        color: $black;
-    }
+  .category {
+    border-color: $black;
+    color: $black;
+  }
 }
 
 .completedWrapper {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    margin: 0;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 20px;
 }
 
 .title {
-    font-size: 20px;
-    max-width: calc(100% - 50px);
-    margin-top: 20px;
-    word-break: break-word;
-    transition: color $transition-delay;
+  font-size: 20px;
+  max-width: calc(100% - 50px);
+  margin-top: 20px;
+  word-break: break-word;
+  transition: color $transition-delay;
 }
 
 :global(.light_theme) {
-    .title {
-        color: $black;
-    }
+  .title {
+    color: $black;
+  }
 }
 
 .deadline {
-    color: $error-200;
-    margin-top: 10px;
-    text-align: end;
+  color: $error-200;
+  margin-top: 10px;
+  text-align: end;
 }
 
 .links {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .link {
-    color: $indigo-500;
-    word-break: break-all;
+  color: $indigo-500;
+  word-break: break-all;
 }
 
 .description {
-    margin-top: 10px;
-    word-break: break-word;
-    transition: color $transition-delay;
+  margin-top: 10px;
+  word-break: break-word;
+  transition: color $transition-delay;
 }
 
 :global(.light_theme) {
-    .description {
-        color: $black;
-    }
+  .description {
+    color: $black;
+  }
 }
 
 .sharedTitle {
-    color: $success-200;
-    font-size: 20px;
-    margin-bottom: 10px;
-    margin-top: 20px;
+  color: $success-200;
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 .sharedWrapper {
-    max-height: 100px;
-    max-width: 100%;
-    overflow-y: auto;
+  max-height: 100px;
+  max-width: 100%;
+  overflow-y: auto;
 }
 
 .username {
-    color: $warning-200;
-    max-width: 100%;
-    word-break: break-all;
+  color: $warning-200;
+  max-width: 100%;
+  word-break: break-all;
 }
 
 @media screen and (max-width: 1420px) {
-
-    .wrapper,
-    .completedWrapper {
-        width: 300px;
-    }
+  .wrapper,
+  .completedWrapper {
+    width: 300px;
+  }
 }
 
 @media screen and (max-width: 1320px) {
-
-    .wrapper,
-    .completedWrapper {
-        width: 250px;
-    }
+  .wrapper,
+  .completedWrapper {
+    width: 250px;
+  }
 }
 
 @media screen and (max-width: 1120px) {
+  .wrapper,
+  .completedWrapper {
+    width: 200px;
 
-    .wrapper,
-    .completedWrapper {
-        width: 200px;
-
-
-        .icons {
-            opacity: 100%;
-            right: -15px;
-        }
+    .icons {
+      opacity: 100%;
+      right: -15px;
     }
+  }
 }
 
 @media screen and (max-width: 750px) {
-
-    .wrapper,
-    .completedWrapper {
-        width: 250px;
-    }
+  .wrapper,
+  .completedWrapper {
+    width: 250px;
+  }
 }

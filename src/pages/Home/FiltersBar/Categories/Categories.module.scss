@@ -44,14 +44,8 @@
   }
 
   &:active {
-    color: white;
+    color: $white;
     background-color: $warning-200;
-  }
-}
-
-:global(.light_theme) {
-  .addCategory {
-    border: 2px solid $black;
   }
 }
 
@@ -66,10 +60,21 @@
 
   .addCategory {
     margin-right: 10px;
+    color: $white;
+    transition: color $transition-delay;
   }
 }
 
 .noCategories {
   width: 100%;
   text-align: center;
+}
+
+:global(.light_theme) {
+  .addCategory {
+    border: 2px solid $black;
+  }
+  .categoriesWrapperForTask .addCategory {
+    color: $black;
+  }
 }
