@@ -48,6 +48,28 @@ header {
   }
 }
 
+.language {
+  font-weight: 900;
+  font-size: 20px;
+  color: $gray-600;
+  text-transform: uppercase;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-300;
+  }
+}
+
+:global(.light_theme) {
+  .language {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
+}
+
 nav {
   display: flex;
   width: calc(100% - 30px);

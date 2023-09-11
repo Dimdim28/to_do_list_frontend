@@ -1,13 +1,11 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import styles from "./Footer.module.scss";
 
 const Footer: FC = () => {
-  return (
-    <footer className={styles.footer}>
-      To do list will help you to manage your tasks
-    </footer>
-  );
+  const { t } = useTranslation();
+  return <footer className={styles.footer}>{t("footer")}</footer>;
 };
 
 export default Footer;

@@ -1,4 +1,5 @@
 import { SetStateAction, Dispatch, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Select, { Item } from "../../../../components/common/Select/Select";
 
@@ -42,11 +43,13 @@ const Filters: FC<FiltersProps> = ({
     { name: "no deadline", value: "nodeadline" },
   ];
 
+  const { t } = useTranslation();
+
   return (
     <section className={styles.dateWrapper}>
-      <h3>Date and status</h3>
+      <h3>{t("dateAndStatus")}</h3>
 
-      <h5>Deadline filters</h5>
+      <h5>{t("deadlineFilters")}</h5>
 
       <div className={styles.deadline}>
         <Select<Date>
@@ -59,7 +62,7 @@ const Filters: FC<FiltersProps> = ({
 
       {date !== "outdated" && (
         <>
-          <h5>Completion status</h5>
+          <h5>{t("completionStatus")}</h5>
           <div className={styles.progressStatus}>
             <Select<IsCompleted>
               items={SELECT_STATUS_OPTIONS}

@@ -2,6 +2,7 @@ import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectTheme } from "../../redux/slices/auth/selectors";
@@ -15,6 +16,7 @@ import { changeTheme } from "../../redux/slices/auth/auth";
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation();
 
   const theme = useAppSelector(selectTheme);
 
@@ -24,15 +26,29 @@ const Header: FC = () => {
     dispatch(changeTheme(newTheme));
   };
 
+  const changeLanguage = () => {
+    const language = i18n.language;
+    const getNewLanguage = () => {
+      if (language === "en") return "ua";
+      if (language === "ua") return "en";
+      return "en";
+    };
+    const newLanguage = getNewLanguage();
+    i18n.changeLanguage(newLanguage);
+  };
+
   return (
     <header>
       <div className={styles.actionsWrapper}>
         <img className={styles.logo} alt="logo" src={logo} />
         <FontAwesomeIcon
-          icon={theme === Theme.DARK ? faMoon : faSun}
+          icon={theme === Theme.DARK ? faSun : faMoon}
           className={styles.themeIcon}
           onClick={toggleTheme}
         />
+        <button className={styles.language} onClick={changeLanguage}>
+          {i18n.language}
+        </button>
       </div>
 
       <nav>
@@ -40,13 +56,13 @@ const Header: FC = () => {
           to={ROUTES.PROFILE}
           className={({ isActive }) => (isActive ? styles.isActive : "")}
         >
-          Profile
+          {t("profile")}
         </NavLink>
         <NavLink
           to={ROUTES.HOME}
           className={({ isActive }) => (isActive ? styles.isActive : "")}
         >
-          Home
+          {t("home")}
         </NavLink>
       </nav>
     </header>
