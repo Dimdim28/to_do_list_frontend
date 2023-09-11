@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC, UIEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Modal } from "../../../../components/common/Modal/Modal";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -34,6 +35,7 @@ const Categories: FC<CategoryProps> = ({
   fetchTasks,
 }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [categoryEditing, setCategoryEditing] = useState(false);
   const [categoryProps, setCategoryProps] = useState({});
@@ -63,13 +65,13 @@ const Categories: FC<CategoryProps> = ({
           isForTask ? styles.categoriesWrapperForTask : styles.categoriesWrapper
         }
       >
-        {!isForTask && <h3>Categories</h3>}
+        {!isForTask && <h3>{t("categories")}</h3>}
         <div
           className={isForTask ? styles.categoriesForTask : styles.categories}
           onScroll={handleCategoriesScroll}
         >
           {categories.length === 0 && status === "success" ? (
-            <p className={styles.noCategories}>you have no categories</p>
+            <p className={styles.noCategories}>{t("noCategories")}</p>
           ) : (
             categories.map((el, id) => (
               <Category
@@ -97,10 +99,10 @@ const Categories: FC<CategoryProps> = ({
             setCategoryEditing(true);
           }}
         >
-          Create Category +
+          {t("addCategory")}
         </p>
         {message === "undefined" ? (
-          <p className={styles.categoriesError}>Server error</p>
+          <p className={styles.categoriesError}> {t("serverError")}</p>
         ) : message ? (
           <p className={styles.categoriesError}>{message}</p>
         ) : null}

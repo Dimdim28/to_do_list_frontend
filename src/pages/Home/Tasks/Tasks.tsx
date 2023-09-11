@@ -1,4 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import TaskDeleting from "./TaskDeleting/TaskDeleting";
 import TaskEditing from "./TaskEditing/TaskForm";
@@ -36,6 +37,8 @@ const Tasks: FC<TaskProps> = ({
   isMobile,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
+
+  const { t } = useTranslation();
 
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
@@ -80,7 +83,7 @@ const Tasks: FC<TaskProps> = ({
             });
           }}
         >
-          Create task +
+          {t("addTask")}
         </button>
       </div>
       <Modal
