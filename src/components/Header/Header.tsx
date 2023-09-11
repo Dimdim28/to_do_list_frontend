@@ -42,7 +42,7 @@ const Header: FC = () => {
       <div className={styles.actionsWrapper}>
         <img className={styles.logo} alt="logo" src={logo} />
         <FontAwesomeIcon
-          icon={theme === Theme.DARK ? faMoon : faSun}
+          icon={theme === Theme.DARK ? faSun : faMoon}
           className={styles.themeIcon}
           onClick={toggleTheme}
         />
