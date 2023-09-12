@@ -4,9 +4,16 @@ import { useFormik } from "formik";
 
 import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { registerUser } from "../../redux/slices/auth/thunk";
 import ROUTES from "../../routes";
+
+import { selectTheme } from "../../redux/slices/auth/selectors";
+import { Theme } from "../../types";
+import { changeTheme } from "../../redux/slices/auth/auth";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import styles from './Register.module.scss'
 
@@ -61,6 +68,14 @@ const SignupForm: FC = () => {
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 
+  const theme = useAppSelector(selectTheme);
+
+  const toggleTheme = () => {
+    const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+    localStorage.setItem("theme", newTheme);
+    dispatch(changeTheme(newTheme));
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -83,6 +98,13 @@ const SignupForm: FC = () => {
   return (
     <main>
       <div className={styles.wrapper}>
+      <div className={styles.actionsWrapper}>
+        <FontAwesomeIcon
+          icon={theme === Theme.DARK ? faSun : faMoon}
+          className={styles.themeIcon}
+          onClick={toggleTheme}
+        />
+      </div>
         <h1>Sign up</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
