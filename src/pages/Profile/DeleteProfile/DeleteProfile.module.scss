@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .wrapper {
   height: 100px;
   width: 250px;
@@ -5,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  color: white;
+  color: $white;
   transition: color transition-delay;
 }
 .title {
@@ -22,5 +24,5 @@
 }
 
 :global(.light_theme) .wrapper {
-  color: black;
+  color: $black;
 }
