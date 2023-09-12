@@ -104,7 +104,7 @@ const TaskCard = ({
       <div className={styles.links}>
         {links && links.length > 0 && (
           <p className={styles.link}>
-            {links.length} {t("linksAttacked")}
+            {t("linksAttacked")}: {links.length}
           </p>
         )}
       </div>
@@ -116,7 +116,7 @@ const TaskCard = ({
         sharedWith[0] !== "already shared" &&
         sharedWith.length > 0 && (
           <div className={styles.username}>
-            {t("sharedWith")} {sharedWith.length} people
+            {t("sharedWith")}: {sharedWith.length}
           </div>
         )}
       <div className={styles.icons}>
