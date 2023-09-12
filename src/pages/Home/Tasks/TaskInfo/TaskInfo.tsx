@@ -59,7 +59,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
 
       {deadline && (
-        <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
+        <p className={styles.deadline}>{t("deadline")} {humaniseDate(deadline)}</p>
       )}
       {sharedWith &&
         sharedWith[0] !== "already shared" &&

@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../../components/common/Button/Button";
 import { Input } from "../../../../../components/common/Input/Input";
@@ -25,6 +26,7 @@ const CategoryForm: FC<CategoryFormProps> = ({
   toggleActive,
 }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
@@ -69,7 +71,7 @@ const CategoryForm: FC<CategoryFormProps> = ({
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title}>Category color</h3>
+          <h3 className={styles.title}>{t("categoryColor")}</h3>
           <input
             data-testid="color-input"
             className={styles.chooseColor}
@@ -77,12 +79,12 @@ const CategoryForm: FC<CategoryFormProps> = ({
             value={color}
             onChange={(e) => setColor(e.target.value)}
           />
-          <Input title="title" value={title} setValue={setTittle} type="text" />
+          <Input title={t("title")} value={title} setValue={setTittle} type="text" />
 
           <div className={styles.buttons}>
-            <Button text="cancel" callback={cancel} class="cancel" />
+            <Button text={t("cancel")} callback={cancel} class="cancel" />
             <Button
-              text="submit"
+              text={t("submit")}
               callback={submit}
               class="submit"
               disabled={title.length < 3}

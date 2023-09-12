@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -27,6 +28,8 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
   const [taskError, setTaskError] = useState("");
   const [url, setUrl] = useState("");
 
+  const { t } = useTranslation();
+
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = await taskAPI.addLinkToTask(_id, links || [], url);
@@ -50,13 +53,13 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
       ) : (
         <>
           <h3 className={styles.title}>
-            Enter link you want to attach to{" "}
-            <p className={styles.name}>{truncate(title, 12)}</p> {" task"}
+          {t("additingLink")}{" "}
+            <p className={styles.name}>{truncate(title, 12)}</p>
           </h3>
-          <Input title="url" type="text" value={url} setValue={setUrl} />
+          <Input title={t("link")} type="text" value={url} setValue={setUrl} />
           <div className={styles.actions}>
-            <Button text="cancel" callback={cancel} class="cancel" />
-            <Button text="submit" callback={submit} class="submit" />
+            <Button text={t("cancel")} callback={cancel} class="cancel" />
+            <Button text={t("submit")} callback={submit} class="submit" />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}
         </>

@@ -171,7 +171,7 @@ const TaskCard = ({
           onClick={(e) => {
             if (sharedWith && sharedWith[0] === "already shared") {
               toast.error(
-                "You are not the author of this task, you can not share this task!"
+                "ERROR! You are not the author of this task, you can not share this task!"
               );
               return;
             }

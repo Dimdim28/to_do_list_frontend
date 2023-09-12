@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Preloader from "../../../../components/Preloader/Preloader";
 import Button from "../../../../components/common/Button/Button";
@@ -27,6 +28,8 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
+
+  const { t } = useTranslation();
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -59,13 +62,13 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>Do you really want to delete task:</p>
+            <p>{t("reallyTask")}</p>
              <h3>{truncate(title,12)}</h3> 
           </div>
           <div className={styles.actions}>
-            <Button text="cancel" callback={cancel} class="cancel" />
+            <Button text={t("cancel")} callback={cancel} class="cancel" />
             <Button
-              text="submit"
+              text={t("submit")}
               callback={submit}
               class="submit"
               data-testid="submit-button"

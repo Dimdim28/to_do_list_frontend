@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -40,6 +41,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     length,
     setCurrentPage,
   } = childProps;
+
+  const { t } = useTranslation();
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
@@ -103,9 +106,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             activeCategories={categories}
             setActiveCategories={setCategories}
           />
-          <Input title="title" value={title} setValue={setTittle} type="text" />
+          <Input title={t("title")} value={title} setValue={setTittle} type="text" />
           <TextArea
-            title="description"
+            title={t("description")}
             value={description}
             setValue={setDescription}
           />
@@ -113,7 +116,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             <Checkbox
               isChecked={hasDeadline}
               setIsChecked={setHasDeadline}
-              label="Task has deadline"
+              label={t("taskHasDeadline")}
             />
             {links.map((link, index) => (
               <div className={styles.linkRow}>
@@ -151,14 +154,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             <Checkbox
               isChecked={isCompleted}
               setIsChecked={setIsCompleted}
-              label="Task completed"
+              label={t("taskCompleted")}
             />
           </div>
 
           <div className={styles.actions}>
-            <Button text="cancel" callback={cancel} class="cancel" />
+            <Button text={t("cancel")} callback={cancel} class="cancel" />
             <Button
-              text="submit"
+              text={t("submit")}
               callback={submit}
               class="submit"
               disabled={description.length < 3 || title.length < 3}
