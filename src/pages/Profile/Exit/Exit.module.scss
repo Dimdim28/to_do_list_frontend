@@ -17,6 +17,37 @@
   margin: 20px 0;
 }
 
+.themeIcon {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-50;
+  }
+}
+
+.language {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 45px;
+  top: 8px;
+  font-weight: 900;
+  font-size: 20px;
+  color: $gray-600;
+  text-transform: uppercase;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-50;
+  }
+}
+
 .buttons {
   display: flex;
   width: 100%;
@@ -24,6 +55,22 @@
   justify-content: space-between;
 }
 
-:global(.light_theme) .wrapper {
-  color: $black;
+:global(.light_theme) {
+  .wrapper {
+    color: $black;
+  }
+  .themeIcon {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
+  .language {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
 }

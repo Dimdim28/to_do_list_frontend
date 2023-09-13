@@ -6,6 +6,14 @@ import Button from "../../../../components/common/Button/Button";
 import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
 import { truncate } from "../../../../helpers/string";
 import { Status } from "../../../../types";
+import { useAppDispatch, useAppSelector } from "../../../../hooks";
+
+import { selectTheme } from "../../../../redux/slices/auth/selectors";
+import { Theme } from "../../../../types";
+import { changeTheme } from "../../../../redux/slices/auth/auth";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./TaskDeleting.module.scss";
 
@@ -29,7 +37,26 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState("");
 
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation();
+  const theme = useAppSelector(selectTheme);
+
+  const toggleTheme = () => {
+    const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+    localStorage.setItem("theme", newTheme);
+    dispatch(changeTheme(newTheme));
+  };
+
+  const changeLanguage = () => {
+    const language = i18n.language;
+    const getNewLanguage = () => {
+      if (language === "en") return "ua";
+      if (language === "ua") return "en";
+      return "en";
+    };
+    const newLanguage = getNewLanguage();
+    i18n.changeLanguage(newLanguage);
+  };
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -57,6 +84,16 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.actionsWrapper}>
+        <FontAwesomeIcon
+          icon={theme === Theme.DARK ? faSun : faMoon}
+          className={styles.themeIcon}
+          onClick={toggleTheme}
+        />
+        <button className={styles.language} onClick={changeLanguage}>
+          {i18n.language}
+        </button>
+      </div>
       {status === Status.LOADING ? (
         <Preloader />
       ) : (

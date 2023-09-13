@@ -11,6 +11,13 @@ import categoryAPI, { Category } from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
 import { getTask } from "../../../../../api/taskAPI";
 
+import { selectTheme } from "../../../../../redux/slices/auth/selectors";
+import { Theme } from "../../../../../types";
+import { changeTheme } from "../../../../../redux/slices/auth/auth";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "./CategoryForm.module.scss";
 
 interface CategoryFormProps {
@@ -26,7 +33,25 @@ const CategoryForm: FC<CategoryFormProps> = ({
   toggleActive,
 }) => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const theme = useAppSelector(selectTheme);
+
+  const toggleTheme = () => {
+    const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+    localStorage.setItem("theme", newTheme);
+    dispatch(changeTheme(newTheme));
+  };
+
+  const changeLanguage = () => {
+    const language = i18n.language;
+    const getNewLanguage = () => {
+      if (language === "en") return "ua";
+      if (language === "ua") return "en";
+      return "en";
+    };
+    const newLanguage = getNewLanguage();
+    i18n.changeLanguage(newLanguage);
+  };
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
@@ -67,6 +92,16 @@ const CategoryForm: FC<CategoryFormProps> = ({
 
   return (
     <div className={styles.wrapper}>
+    <div className={styles.actionsWrapper}>
+        <FontAwesomeIcon
+          icon={theme === Theme.DARK ? faSun : faMoon}
+          className={styles.themeIcon}
+          onClick={toggleTheme}
+        />
+        <button className={styles.language} onClick={changeLanguage}>
+          {i18n.language}
+        </button>
+      </div>
       {status === Status.LOADING ? (
         <Preloader />
       ) : (
