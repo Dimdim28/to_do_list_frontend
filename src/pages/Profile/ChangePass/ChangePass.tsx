@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 
 import { FormikInput } from "../../../components/common/Input/Input";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
@@ -15,6 +16,7 @@ interface ChangePassProps {
 }
 export const ChangePass: FC<ChangePassProps> = ({ id }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const status = useAppSelector(selectProfileStatus);
   
@@ -50,7 +52,7 @@ export const ChangePass: FC<ChangePassProps> = ({ id }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.firstpass}
-              title="password"
+              title={t("password")}
             />
             {formik.errors.firstpass && formik.touched.firstpass ? (
               <p>{formik.errors.firstpass}</p>
@@ -61,7 +63,7 @@ export const ChangePass: FC<ChangePassProps> = ({ id }) => {
             <FormikInput
               name="secondpass"
               type="password"
-              title="new password"
+              title={t("newPassword")}
               onChange={formik.handleChange}
               value={formik.values.secondpass}
               onBlur={formik.handleBlur}
@@ -79,7 +81,7 @@ export const ChangePass: FC<ChangePassProps> = ({ id }) => {
           }
           type="submit"
         >
-          submit
+          {t("submit")}
         </button>
       </form>
     </aside>

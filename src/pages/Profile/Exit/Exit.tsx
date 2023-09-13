@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../components/common/Button/Button";
 import Preloader from "../../../components/Preloader/Preloader";
@@ -20,6 +21,7 @@ interface ExitFromAccountProps {
 
 const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   
   const status = useAppSelector(selectProfileStatus);
   const error = useAppSelector(selectProfileMessage);
@@ -41,10 +43,10 @@ const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title}>Are you sure?</h3>
+          <h3 className={styles.title}>{t("areYouSure")}</h3>
           <div className={styles.buttons}>
-            <Button text="No" callback={cancel} class="cancel" />
-            <Button text="Yes" callback={submit} class="submit" />
+            <Button text={t("no")} callback={cancel} class="cancel" />
+            <Button text={t("yes")} callback={submit} class="submit" />
           </div>
 
           {status === Status.ERROR && <p className={styles.error}>{error}</p>}

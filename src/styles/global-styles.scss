@@ -40,7 +40,6 @@ body {
 ::-webkit-scrollbar-thumb {
   background-clip: padding-box;
 
-  transition: all 0.2s ease-in-out;
   background-color: $background-dark-100;
   transition: background-color $transition-delay;
 

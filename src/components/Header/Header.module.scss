@@ -10,10 +10,6 @@ header {
   transition: background-color $transition-delay;
 }
 
-:global(.light_theme) header {
-  background-color: $white;
-}
-
 .actionsWrapper {
   display: flex;
   align-items: center;
@@ -38,35 +34,15 @@ header {
   }
 }
 
-:global(.light_theme) {
-  .themeIcon {
-    color: $black;
-
-    &:hover {
-      color: $gray-50;
-    }
-  }
-}
-
 .language {
   font-weight: 900;
   font-size: 20px;
-  color: $gray-600;
+  color: $white;
   text-transform: uppercase;
   transition: color $transition-delay;
 
   &:hover {
     color: $gray-300;
-  }
-}
-
-:global(.light_theme) {
-  .language {
-    color: $black;
-
-    &:hover {
-      color: $gray-50;
-    }
   }
 }
 
@@ -89,11 +65,28 @@ a {
 }
 
 :global(.light_theme) {
+  header {
+    background-color: $white;
+  }
+  .themeIcon {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
   a {
     color: $black;
 
     &:hover {
       color: $warning-200;
+    }
+  }
+  .language {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
     }
   }
 }

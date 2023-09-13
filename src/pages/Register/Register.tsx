@@ -1,6 +1,7 @@
 import { useState, FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 
 import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
@@ -70,10 +71,23 @@ const SignupForm: FC = () => {
 
   const theme = useAppSelector(selectTheme);
 
+  const { t, i18n } = useTranslation();
+
   const toggleTheme = () => {
     const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
     localStorage.setItem("theme", newTheme);
     dispatch(changeTheme(newTheme));
+  };
+
+  const changeLanguage = () => {
+    const language = i18n.language;
+    const getNewLanguage = () => {
+      if (language === "en") return "ua";
+      if (language === "ua") return "en";
+      return "en";
+    };
+    const newLanguage = getNewLanguage();
+    i18n.changeLanguage(newLanguage);
   };
 
   const formik = useFormik({
@@ -104,14 +118,17 @@ const SignupForm: FC = () => {
           className={styles.themeIcon}
           onClick={toggleTheme}
         />
+        <button className={styles.language} onClick={changeLanguage}>
+          {i18n.language}
+        </button>
       </div>
-        <h1>Sign up</h1>
+        <h1>{t("signUpBolt")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput
               name="email"
               type="email"
-              title="email"
+              title={t("email")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -125,7 +142,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="login"
               type="text"
-              title="login"
+              title={t("login")}
               onChange={formik.handleChange}
               value={formik.values.login}
               onBlur={formik.handleBlur}
@@ -140,7 +157,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="firstPass"
               type="password"
-              title="enter password"
+              title={t("enterPassword")}
               onChange={formik.handleChange}
               value={formik.values.firstPass}
               onBlur={formik.handleBlur}
@@ -154,7 +171,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="secondPass"
               type="password"
-              title="confirm password"
+              title={t("confirmPassword")}
               onChange={formik.handleChange}
               value={formik.values.secondPass}
               onBlur={formik.handleBlur}
@@ -171,13 +188,13 @@ const SignupForm: FC = () => {
               }
               type="submit"
             >
-              Sign up
+              {t("signUp")}
             </button>
             <NavLink
               className={styles.link}
               to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`}
             >
-              Sign in
+              {t("signIn")}
             </NavLink>
           </div>
         </form>

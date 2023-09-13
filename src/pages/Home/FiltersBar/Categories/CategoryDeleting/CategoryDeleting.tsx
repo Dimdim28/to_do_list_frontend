@@ -63,8 +63,8 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
             }</h3>
           </div>
           <div className={styles.buttons}>
-            <Button text={t("cancel")} callback={cancel} class="cancel" />
-            <Button text={t("submit")} callback={submit} class="submit" />
+            <Button text={t("no")} callback={cancel} class="cancel" />
+            <Button text={t("yes")} callback={submit} class="submit" />
           </div>
           {categoryError && <p className={styles.error}>{categoryError}</p>}
         </>

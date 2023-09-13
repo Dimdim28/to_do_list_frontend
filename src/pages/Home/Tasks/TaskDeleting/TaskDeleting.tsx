@@ -66,9 +66,9 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
              <h3>{truncate(title,12)}</h3> 
           </div>
           <div className={styles.actions}>
-            <Button text={t("cancel")} callback={cancel} class="cancel" />
+            <Button text={t("no")} callback={cancel} class="cancel" />
             <Button
-              text={t("submit")}
+              text={t("yes")}
               callback={submit}
               class="submit"
               data-testid="submit-button"
