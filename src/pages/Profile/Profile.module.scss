@@ -125,6 +125,7 @@
   text-align: center;
   background-color: $background-dark-10;
   position: relative;
+  transition: background-color $transition-delay;
 
   input[type="file"] {
     display: none;
@@ -392,6 +393,9 @@
   }
   .idWrapper {
     color: $black;
+  }
+  .avatar {
+    background-color: $gray-500;
   }
   .buttons {
     .exit {

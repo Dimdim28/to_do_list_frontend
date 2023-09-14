@@ -1,7 +1,6 @@
 @import "src/styles/partials/theme";
 
 .preloaderContainer {
-  background-color: $background-dark-35;
   width: 100%;
   height: 100%;
   display: flex;
@@ -43,10 +42,10 @@
 
 :global(.light_theme) {
   .preloaderContainer {
-    background-color: $gray-500;
+    background-color: $gray-600;
   }
   .loader {
-    border: 10px solid $white;
+    border: 10px solid $gray-500;
     border-top: 10px solid $error-200;
   }
 }

@@ -122,7 +122,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               <div className={styles.linkRow}>
                 <Input
                   key={index}
-                  title="link"
+                  title={t("link")}
                   value={link}
                   setValue={(newLink: any) => {
                     setLinks((prev) =>

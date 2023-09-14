@@ -13,10 +13,10 @@ import { selectTheme } from "../../redux/slices/auth/selectors";
 import { Theme } from "../../types";
 import { changeTheme } from "../../redux/slices/auth/auth";
 
+import styles from './Register.module.scss'
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-
-import styles from './Register.module.scss'
 
 interface Values {
   email?: string;

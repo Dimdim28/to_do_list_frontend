@@ -6,33 +6,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color $transition-delay;
+}
 
-  .preloader {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.preloader {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .loader {
-      border: 10px solid $background-dark-35;
-      border-top: 10px solid $warning-200;
-      border-radius: 50%;
-      width: 50%;
-      height: 50%;
-      animation: spin 1s linear infinite;
-    }
+.loader {
+  border: 10px solid $background-dark-35;
+  border-top: 10px solid $warning-200;
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+  animation: spin 1s linear infinite;
+  transition: border 10px solid $transition-delay,
+    border-top 10px solid $transition-delay;
+}
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
 
-      100% {
-        transform: rotate(360deg);
-      }
-    }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:global(.light_theme) {
+  .preloaderContainer {
+    background-color: $gray-600;
+  }
+  .loader {
+    border: 10px solid $gray-500;
+    border-top: 10px solid $warning-200;
   }
 }

@@ -8,7 +8,6 @@ body {
 }
 
 :global(.light_theme) {
-
   html,
   body {
     background-color: $gray-600;
@@ -68,5 +67,9 @@ body {
 
   ::-webkit-scrollbar-thumb {
     background-color: $gray-400;
+
+    &:active {
+      background-color: $gray-300;
+    }
   }
 }
