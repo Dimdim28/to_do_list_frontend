@@ -123,10 +123,16 @@
 
 .noTasks {
   width: 100%;
+  color: $white;
+  transition: color transition-delay;
 }
 
 @media screen and (max-width: 964px) {
   .tasks {
     justify-content: space-around;
   }
+}
+
+:global(.light_theme) .noTasks {
+  color: $black;
 }

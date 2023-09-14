@@ -143,7 +143,7 @@ const Tasks: FC<TaskProps> = ({
                   />
                 ))
               ) : (
-                <p className={styles.noTasks}>You have no tasks</p>
+                <p className={styles.noTasks}>{t("noTask")}</p>
               )}
             </div>
           )}

@@ -67,6 +67,7 @@ const TRANSLATIONS = {
       statusCompleted: "Completed",
       statusInProcess: "In process",
       statusAll: "All",
+      noTask: "You have't tasks",
     },
   },
   ua: {
@@ -138,6 +139,7 @@ const TRANSLATIONS = {
       statusCompleted: "Завершені",
       statusInProcess: "В процесі",
       statusAll: "Всі",
+      noTask: "У вас нема задач",
     },
   },
 };
