@@ -11,9 +11,9 @@ import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
 import { usePrevious } from "../../../hooks";
 import { Modal } from "../../../components/common/Modal/Modal";
 import { Task, getTask } from "../../../api/taskAPI";
+import TaskInfo from "./TaskInfo/TaskInfo";
 
 import styles from "./Tasks.module.scss";
-import TaskInfo from "./TaskInfo/TaskInfo";
 
 interface TaskProps {
   setCurrentPage: Dispatch<SetStateAction<number>>;

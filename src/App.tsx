@@ -2,6 +2,7 @@ import { lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
 
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
@@ -10,7 +11,6 @@ import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import ROUTES from "./routes";
 import { selectTheme } from "./redux/slices/auth/selectors";
 import TRANSLATIONS from "./lang";
-import { initReactI18next } from "react-i18next";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";

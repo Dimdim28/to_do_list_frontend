@@ -1,5 +1,6 @@
 import { SetStateAction, Dispatch, FC } from "react";
 import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 import Select, { Item } from "../../../../components/common/Select/Select";
 
@@ -28,19 +29,19 @@ const Filters: FC<FiltersProps> = ({
   setDate,
 }) => {
   const SELECT_STATUS_OPTIONS: Item<IsCompleted>[] = [
-    { name: "Completed", value: "true" },
-    { name: "In process", value: "false" },
-    { name: "all", value: "all" },
+    { name: i18next.t("statusCompleted"), value: "true" },
+    { name: i18next.t("statusInProcess"), value: "false" },
+    { name: i18next.t("statusAll"), value: "all" },
   ];
 
   const SELECT_DATE_OPTIONS: Item<Date>[] = [
-    { name: "day", value: "day" },
-    { name: "week", value: "week" },
-    { name: "month", value: "month" },
-    { name: "year", value: "year" },
-    { name: "all", value: "all" },
-    { name: "outdated", value: "outdated" },
-    { name: "no deadline", value: "nodeadline" },
+    { name: i18next.t("deadlineDay"), value: "day" },
+    { name: i18next.t("deadlineWeek"), value: "week" },
+    { name: i18next.t("deadlineMonth"), value: "month" },
+    { name: i18next.t("deadlineYear"), value: "year" },
+    { name: i18next.t("deadlineAll"), value: "all" },
+    { name: i18next.t("deadlineOutdated"), value: "outdated" },
+    { name: i18next.t("deadlineNoDeadline"), value: "nodeadline" },
   ];
 
   const { t } = useTranslation();
