@@ -34,6 +34,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   const theme = useAppSelector(selectTheme);
+  document.documentElement.className = `${theme}_theme`;
 
   useEffect(() => {
     dispatch(fetchAuthMe());
@@ -41,7 +42,7 @@ function App() {
 
   return (
     <>
-      <div className={`App ${theme}_theme`}>
+      <div className="App">
         <Routes>
           <Route path={ROUTES.AUTH} element={<AuthLayout />}>
             <Route path={ROUTES.LOGIN} element={<Login />} />
