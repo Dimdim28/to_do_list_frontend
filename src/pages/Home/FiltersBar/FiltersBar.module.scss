@@ -5,7 +5,7 @@
   background-color: $background-dark-0;
   width: 300px;
   height: calc(100vh - 80px);
-  overflow-y: auto;
+  overflow-y: scroll;
   transition: background-color $transition-delay;
 }
 
@@ -28,6 +28,7 @@
   &:hover {
     color: $error-200
   }
+
   transition: oclor $transition-delay;
 }
 
