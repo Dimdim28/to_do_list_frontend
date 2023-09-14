@@ -45,12 +45,23 @@ const Home: FC = () => {
 
   useEffect(() => {
     dispatch(fetchCategories(fetchingParams));
-    const { innerWidth } = window;
-    if (innerWidth < 680) {
-      setIsMobile(true);
-    }
     return () => {
       dispatch(clearCategories());
+    };
+  }, []);
+
+  useEffect(() => {
+    let cb = function () {
+      if (window.innerWidth < 680) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    window.addEventListener("resize", cb);
+
+    return () => {
+      window.removeEventListener("resize", cb);
     };
   }, []);
 
