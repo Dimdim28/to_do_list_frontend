@@ -1,10 +1,21 @@
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
+import { useTranslation } from "react-i18next";
 
 import Categories from "./Categories";
 import configureStore from "redux-mock-store";
+import { TranslationKeys } from "../../../../types";
 
 const mockStore = configureStore([]);
+
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (str: any) => str,
+    i18n: {
+      changeLanguage: () => new Promise(() => {}),
+    },
+  }),
+}));
 
 describe("Categories", () => {
   let store: any;
@@ -78,7 +89,9 @@ describe("Categories", () => {
       </Provider>
     );
 
-    const noCategoriesMessage = screen.getByText("you have no categories");
+    const { t } = useTranslation();
+
+    const noCategoriesMessage = screen.getByText(t(TranslationKeys.NoCategories));
 
     expect(noCategoriesMessage).toBeInTheDocument();
   });
