@@ -24,9 +24,11 @@ const Home = lazy(() => import("./pages/Home/Home"));
 const Task = lazy(() => import("./pages/Task/Task"));
 
 i18next.use(initReactI18next).init({
-  lng: "ua",
+  lng: "en",
   debug: true,
   resources: TRANSLATIONS,
+  ns: ["translationsNS"],
+  defaultNS: "translationsNS",
   fallbackLng: "en",
 });
 
