@@ -27,8 +27,6 @@ i18next.use(initReactI18next).init({
   lng: "en",
   debug: true,
   resources: TRANSLATIONS,
-  ns: ["translationsNS"],
-  defaultNS: "translationsNS",
   fallbackLng: "en",
 });
 
