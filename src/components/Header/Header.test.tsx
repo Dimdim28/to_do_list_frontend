@@ -28,8 +28,8 @@ describe("Header", () => {
           </Provider>
         </MemoryRouter>
       );
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
       expect(profileLink).toBeInTheDocument();
       expect(homeLink).toBeInTheDocument();
     });
@@ -42,8 +42,8 @@ describe("Header", () => {
           </Provider>
         </MemoryRouter>
       );
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
       expect(profileLink).toHaveAttribute("href", ROUTES.PROFILE);
       expect(homeLink).toHaveAttribute("href", ROUTES.HOME);
     });
@@ -59,8 +59,8 @@ describe("Header", () => {
         </MemoryRouter>
       );
 
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
 
       expect(profileLink).toHaveClass("isActive");
       expect(homeLink).not.toHaveClass("isActive");
@@ -75,8 +75,8 @@ describe("Header", () => {
         </MemoryRouter>
       );
 
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
 
       expect(profileLink).not.toHaveClass("isActive");
       expect(homeLink).toHaveClass("isActive");

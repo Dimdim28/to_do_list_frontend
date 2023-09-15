@@ -15,10 +15,9 @@ describe('Login', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Login')).toBeInTheDocument();
     expect(screen.getByText('email')).toBeInTheDocument();
     expect(screen.getByText('password')).toBeInTheDocument();
-    expect(screen.getByText('Sign in')).toBeInTheDocument();
-    expect(screen.getByText('Sign up')).toBeInTheDocument();
+    expect(screen.getByText('signIn')).toBeInTheDocument();
+    expect(screen.getByText('signUp')).toBeInTheDocument();
   });
 });

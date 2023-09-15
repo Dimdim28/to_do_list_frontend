@@ -1,12 +1,10 @@
 import { Provider } from "react-redux";
 import { render, fireEvent, screen, waitFor, act } from "@testing-library/react";
-import { useTranslation } from "react-i18next";
 
 import { CategoryDeleting } from "./CategoryDeleting";
 import categoryAPI from "../../../../../api/categoryAPI";
 import { Status } from "../../../../../types";
 import store from "../../../../../redux/store";
-import { TranslationKeys } from "../../../../../types";
 
 
 jest.mock("../../../../../api/categoryAPI", () => ({
@@ -28,16 +26,6 @@ const mockChildProps = {
     taskFetchingParams: {},
 };
 
-jest.mock("react-i18next", () => ({
-    ...jest.requireActual("react-i18next"),
-    useTranslation: () => ({
-      t: (str) => str,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    }),
-  }));
-
   describe("CategoryDeleting", () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -50,8 +38,8 @@ jest.mock("react-i18next", () => ({
         </Provider>
       );
 
-      expect(screen.getByText(TranslationKeys.No)).toBeInTheDocument();
-      expect(screen.getByText(TranslationKeys.Yes)).toBeInTheDocument();
+      expect(screen.getByText("no")).toBeInTheDocument();
+      expect(screen.getByText("yes")).toBeInTheDocument();
       expect(screen.getByText("Category 1")).toBeInTheDocument();
     });
   
@@ -62,7 +50,7 @@ jest.mock("react-i18next", () => ({
         </Provider>
       );
   
-      const cancelButton = screen.getByText(TranslationKeys.No);
+      const cancelButton = screen.getByText("no");
       fireEvent.click(cancelButton);
   
       expect(mockToggleActive).toHaveBeenCalledWith(false);
@@ -81,7 +69,7 @@ jest.mock("react-i18next", () => ({
         </Provider>
       );
   
-      const submitButton = screen.getByText(TranslationKeys.Yes);
+      const submitButton = screen.getByText("yes");
       fireEvent.click(submitButton);
   
       await waitFor(() => {
