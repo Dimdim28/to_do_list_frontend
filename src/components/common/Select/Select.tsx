@@ -33,7 +33,13 @@ const Select = <T,>({
     items.find((el) => el.value === activeValue)?.name
   );
 
+  console.log(activeName, activeValue, items);
+
   const selectRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setActiveName(items.find((el) => el.value === activeValue)?.name);
+  }, [items, activeValue]);
 
   useEffect(() => {
     function handleClickOutside(event: any) {
