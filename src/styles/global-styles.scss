@@ -8,6 +8,7 @@ body {
 }
 
 :global(.light_theme) {
+
   html,
   body {
     background-color: $gray-600;
@@ -29,6 +30,8 @@ body {
 * {
   scrollbar-color: $white $background-dark-100;
   scrollbar-width: thin;
+  transition: scrollbar-color $transition-delay;
+
 
   &:hover,
   &:focus {
