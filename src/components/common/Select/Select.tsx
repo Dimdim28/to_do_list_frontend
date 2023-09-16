@@ -33,8 +33,6 @@ const Select = <T,>({
     items.find((el) => el.value === activeValue)?.name
   );
 
-  console.log(activeName, activeValue, items);
-
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
