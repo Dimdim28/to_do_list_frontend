@@ -7,50 +7,57 @@
   min-height: 260px;
   width: 300px;
   justify-content: space-around;
+}
 
-  .title {
-    text-align: center;
-    width: 100%;
-  }
+.title {
+  text-align: center;
+  width: 100%;
+  color: $white;
+  transition: color $transition-delay;
+}
 
-  .chooseColor {
-    width: 100%;
-    outline: none;
-    border-radius: 20px;
+.chooseColor {
+  width: 100%;
+  outline: none;
+  border: 2px solid $black;
+  background: none;
+  height: 34px;
+  margin-top: 20px;
+  outline-width: 0;
+
+  &::-moz-color-swatch {
     border: none;
-    background: none;
-    height: 34px;
-    margin-top: 20px;
-    outline-width: 0;
-
-    &::-moz-color-swatch {
-      border: none;
-    }
-
-    &::-webkit-color-swatch-wrapper {
-      padding: 0;
-      border-radius: 0;
-    }
-
-    &::-webkit-color-swatch {
-      border: none;
-    }
   }
 
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 0;
   }
 
-  .error {
-    color: $error-200;
+  &::-webkit-color-swatch {
+    border: none;
   }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.error {
+  color: $error-200;
 }
 
 @media screen and (max-width: 400px) {
   .wrapper {
     width: 100%;
+  }
+}
+
+:global(.light_theme) {
+  .title {
+    color: $black;
   }
 }

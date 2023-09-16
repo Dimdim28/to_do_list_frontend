@@ -8,9 +8,17 @@
   justify-content: start;
   align-items: end;
   height: 100%;
+  transition: background-color $transition-delay;
 }
 
-
+:global(.light_theme) {
+  .wrapper {
+    background-color: $gray-500;
+  }
+  .wrapperWithTasks {
+    background-color: $gray-500;
+  }
+}
 
 .wrapperWithTasks {
   background-color: $background-dark-35;
@@ -18,6 +26,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  transition: background-color $transition-delay;
 }
 
 .wrapper.mobileWrapper,
@@ -32,25 +41,42 @@
   padding: 10px;
   height: 63px;
   width: 100%;
+}
 
-  .createTask {
-    border: 2px solid $white;
-    border-radius: 15px;
-    padding: 5px;
-    margin-top: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+.createTask {
+  border: 2px solid $white;
+  border-radius: 15px;
+  padding: 5px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: color $transition-delay, border-color $transition-delay,
+    box-shadow $transition-delay;
 
-    &:hover {
-      color: $warning-200;
-      border-color: $warning-200;
-      box-shadow: 0 0 10px $warning-200;
-    }
+  &:hover {
+    color: $warning-200;
+    border-color: $warning-200;
+    box-shadow: 0 0 10px $warning-200;
+  }
 
-    &:active {
-      color: white;
-      background-color: $warning-200;
-    }
+  &:active {
+    color: white;
+    background-color: $warning-200;
+  }
+}
+
+:global(.light_theme) .createTask {
+  border-color: $black;
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+    border-color: $warning-200;
+    box-shadow: 0 0 10px $warning-200;
+  }
+
+  &:active {
+    color: white;
+    background-color: $warning-200;
   }
 }
 
@@ -97,11 +123,16 @@
 
 .noTasks {
   width: 100%;
+  color: $white;
+  transition: color transition-delay;
 }
 
 @media screen and (max-width: 964px) {
-
   .tasks {
     justify-content: space-around;
   }
+}
+
+:global(.light_theme) .noTasks {
+  color: $black;
 }

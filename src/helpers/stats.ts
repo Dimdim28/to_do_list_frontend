@@ -1,5 +1,6 @@
 import { DailyStats } from "../redux/slices/profile/types";
 import { humaniseDate } from "./string";
+import i18next from "i18next";
 
 export const getChartData = (data: DailyStats[]) => {
   const labels = data.map((item) => item.date);
@@ -9,7 +10,7 @@ export const getChartData = (data: DailyStats[]) => {
     labels: labels.map((label) => humaniseDate(label)),
     datasets: [
       {
-        label: "Completed tasks",
+        label: i18next.t("statsLabel"),
         data: values,
         backgroundColor: "#f97316",
         borderColor: "#f97316",

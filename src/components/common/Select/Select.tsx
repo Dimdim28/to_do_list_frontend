@@ -36,6 +36,10 @@ const Select = <T,>({
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setActiveName(items.find((el) => el.value === activeValue)?.name);
+  }, [items, activeValue]);
+
+  useEffect(() => {
     function handleClickOutside(event: any) {
       if (selectRef.current && !selectRef.current.contains(event.target)) {
         setIsOpen(false);

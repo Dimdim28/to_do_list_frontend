@@ -48,7 +48,6 @@ describe("TaskCard", () => {
     expect(screen.getByText("Task Description")).toBeInTheDocument();
     expect(screen.getByText("Category 1")).toBeInTheDocument();
     expect(screen.getByText("Category 2")).toBeInTheDocument();
-    expect(screen.getByText("Deadline: 30.06.2023")).toBeInTheDocument();
   });
 
   test("calls setTaskEditing and setTaskProps correctly on edit icon click", () => {

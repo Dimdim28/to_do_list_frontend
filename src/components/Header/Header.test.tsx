@@ -3,12 +3,16 @@ import { MemoryRouter } from "react-router-dom";
 
 import Header from "./Header";
 import ROUTES from "../../routes";
+import { Provider } from "react-redux";
+import store from "../../redux/store";
 
 describe("Header", () => {
   it("renders logo correctly", () => {
     render(
       <MemoryRouter>
-        <Header />
+        <Provider store={store}>
+          <Header />
+        </Provider>
       </MemoryRouter>
     );
     const logoElement = screen.getByAltText("logo");
@@ -19,11 +23,13 @@ describe("Header", () => {
     it("they were rendered", () => {
       render(
         <MemoryRouter>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
       expect(profileLink).toBeInTheDocument();
       expect(homeLink).toBeInTheDocument();
     });
@@ -31,11 +37,13 @@ describe("Header", () => {
     it("they have correct href attributes", () => {
       render(
         <MemoryRouter>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
       expect(profileLink).toHaveAttribute("href", ROUTES.PROFILE);
       expect(homeLink).toHaveAttribute("href", ROUTES.HOME);
     });
@@ -45,12 +53,14 @@ describe("Header", () => {
     it("should make profile link isActive if we are on Profile page", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.PROFILE]}>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
 
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
 
       expect(profileLink).toHaveClass("isActive");
       expect(homeLink).not.toHaveClass("isActive");
@@ -59,12 +69,14 @@ describe("Header", () => {
     it("should make home link isActive if we are on Home page", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.HOME]}>
-          <Header />
+          <Provider store={store}>
+            <Header />
+          </Provider>
         </MemoryRouter>
       );
 
-      const profileLink = screen.getByText("Profile");
-      const homeLink = screen.getByText("Home");
+      const profileLink = screen.getByText("profile");
+      const homeLink = screen.getByText("home");
 
       expect(profileLink).not.toHaveClass("isActive");
       expect(homeLink).toHaveClass("isActive");

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Task } from "../../../../api/taskAPI";
 import { humaniseDate } from "../../../../helpers/string";
@@ -19,6 +20,8 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     sharedWith,
     links,
   } = childProps;
+
+  const { t } = useTranslation();
 
   return (
     <div className={styles.wrapper}>
@@ -56,13 +59,13 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
 
       {deadline && (
-        <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
+        <p className={styles.deadline}>{t("deadline")} {humaniseDate(deadline)}</p>
       )}
       {sharedWith &&
         sharedWith[0] !== "already shared" &&
         sharedWith.length > 0 && (
           <>
-            <h5 className={styles.sharedTitle}>Shared with:</h5>
+            <h5 className={styles.sharedTitle}>{t("sharedWith")}:</h5>
             <div className={styles.sharedWrapper}>
               {sharedWith.map((el, id) => (
                 <p className={styles.username} key={id}>

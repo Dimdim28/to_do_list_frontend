@@ -22,65 +22,71 @@
   &:hover {
     color: $warning-200;
     box-shadow: 0 0 10px $warning-200;
-  }
-
-  .title,
-  .activeTitle {
-    max-width: 100%;
-    overflow-wrap: break-word;
-    width: 100%;
-    text-align: center;
-  }
-
-  .activeTitle {
-    color: $warning-200;
-  }
-
-  .icons {
-    position: absolute;
-    right: -25px;
-    top: 0;
-    bottom: 0;
-    opacity: 0;
-    transition: 0.3s;
-
-    .icon {
-      width: 15px;
-      height: 15px;
-      z-index: 3;
-      cursor: pointer;
-    }
-
-    .pencil {
-      color: $white;
-
-      &:hover {
-        color: $warning-200;
-      }
-
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    .trash {
-      color: $white;
-      position: absolute;
-      top: 15px;
-      right: 0;
-
-      &:hover {
-        color: $error-200;
-      }
-    }
-  }
-
-  &:hover {
     .icons {
       opacity: 100%;
       right: -15px;
     }
   }
+}
+
+.title,
+.activeTitle {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  width: 100%;
+  text-align: center;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .title,
+.activeTitle {
+  color: $black;
+}
+
+.activeTitle {
+  color: $warning-200;
+}
+
+.icons {
+  position: absolute;
+  right: -25px;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: $transition-delay;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+
+  position: absolute;
+  top: 15px;
+  right: 0;
 }
 
 .tasksFormCategory {
@@ -101,6 +107,23 @@
     .icons {
       opacity: 100%;
       right: -15px;
+    }
+  }
+}
+
+:global(.light_theme) {
+  .pencil {
+    color: $black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
     }
   }
 }

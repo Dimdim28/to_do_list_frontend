@@ -3,6 +3,17 @@ import { render, screen } from "@testing-library/react";
 
 import Home from "./Home";
 import store from "../../redux/store";
+import { TranslationKeys } from "../../types";
+
+jest.mock("react-i18next", () => ({
+  ...jest.requireActual("react-i18next"),
+  useTranslation: () => ({
+    t: (str: any) => str,
+    i18n: {
+      changeLanguage: () => new Promise(() => {}),
+    },
+  }),
+}));
 
 describe("Home", () => {
   test("renders without errors", () => {
@@ -12,10 +23,10 @@ describe("Home", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Categories")).toBeInTheDocument();
-    expect(screen.getByText("Create Category +")).toBeInTheDocument();
-    expect(screen.getByText("Date and status")).toBeInTheDocument();
-    expect(screen.getByText("Deadline filters")).toBeInTheDocument();
-    expect(screen.getByText("Completion status")).toBeInTheDocument();
+    expect(screen.getByText(TranslationKeys.Categories)).toBeInTheDocument();
+    expect(screen.getByText(TranslationKeys.AddCategory)).toBeInTheDocument();
+    expect(screen.getByText(TranslationKeys.DateAndStatus)).toBeInTheDocument();
+    expect(screen.getByText(TranslationKeys.DeadlineFilters)).toBeInTheDocument();
+    expect(screen.getByText(TranslationKeys.CompletionStatus)).toBeInTheDocument();
   });
 });

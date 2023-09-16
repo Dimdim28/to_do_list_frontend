@@ -1,11 +1,17 @@
 @import "src/styles/partials/theme";
 
 .footer {
-  background-color: $background-dark--10;
+  background-color: $black;
   width: 100%;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: $gray-600;
+  transition: color $transition-delay, background-color $transition-delay;
+}
+
+:global(.light_theme) .footer {
+  background-color: $white;
+  color: $black;
 }

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import imageCompression from "browser-image-compression";
 import { Bar } from "react-chartjs-2";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 import Preloader from "../../components/Preloader/Preloader";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
@@ -60,6 +61,7 @@ const COMPRESSION_OPTIONS = {
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
@@ -156,11 +158,11 @@ const Profile: FC = () => {
           </div>
 
           <div className={styles.idWrapper} onClick={showIdHandler}>
-            {isIdShown ? id : "show my id"}
+            {isIdShown ? id : t("showMyId")}
           </div>
           <div className={styles.info}>
             <div className={styles.line}>
-              <p className={styles.name}>name:</p>
+              <p className={styles.name}>{t("name")}:</p>
               {isNameEditing ? (
                 <>
                   <input
@@ -202,12 +204,12 @@ const Profile: FC = () => {
             </div>
 
             <div className={styles.line}>
-              <p className={styles.name}>email:</p>
+              <p className={styles.name}>{t("email")}:</p>
               <p className={styles.text}>{email}</p>
             </div>
 
             <div className={styles.line}>
-              <p className={styles.name}>registered:</p>
+              <p className={styles.name}>{t("registered")}:</p>
               <p className={styles.text}>{date}</p>
             </div>
           </div>
@@ -220,7 +222,7 @@ const Profile: FC = () => {
                 setIsExiting(true);
               }}
             >
-              log out
+              {t("logOut")}
             </p>
 
             <p
@@ -230,7 +232,7 @@ const Profile: FC = () => {
                 setIspassEditing((prev) => !prev);
               }}
             >
-              change password
+              {t("changePassword")}
             </p>
 
             <p
@@ -240,7 +242,7 @@ const Profile: FC = () => {
                 setIsAccountDeleting(true);
               }}
             >
-              delete account
+              {t("deleteAccount")}
             </p>
           </div>
 

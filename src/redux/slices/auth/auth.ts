@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
 import { AuthSliceState } from "./types";
-import { Status } from "../../../types";
+import { Status, Theme } from "../../../types";
 
 const initialState: AuthSliceState = {
   profile: null,
   status: Status.LOADING,
+  theme: (localStorage.getItem("theme") as Theme) || Theme.DARK,
 };
 
 const authSlice = createSlice({
@@ -16,6 +17,10 @@ const authSlice = createSlice({
     logout(state) {
       state.profile = null;
       window.localStorage.removeItem("token");
+    },
+    changeTheme(state, action) {
+      state.theme = action.payload;
+      window.localStorage.setItem("theme", action.payload);
     },
   },
 
@@ -70,4 +75,4 @@ const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 
-export const { logout } = authSlice.actions;
+export const { logout, changeTheme } = authSlice.actions;

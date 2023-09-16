@@ -1,5 +1,6 @@
 import { useState, SetStateAction, Dispatch, FC } from "react";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../components/common/Button/Button";
 import Preloader from "../../../../components/Preloader/Preloader";
@@ -27,6 +28,7 @@ const TaskSharing: FC<TaskSharingProps> = ({ childProps, toggleActive }) => {
   const [userId, setUserId] = useState("");
 
   const profile = useSelector(selectProfile);
+  const { t } = useTranslation();
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -55,18 +57,18 @@ const TaskSharing: FC<TaskSharingProps> = ({ childProps, toggleActive }) => {
       ) : (
         <>
           <h3 className={styles.title}>
-            Enter user Id to share with him{" "}
-            <p className={styles.name}>{truncate(title, 12)}</p> {" task"}
+          {t("enterID")}{" "}
+            <p className={styles.name}>{truncate(title, 12)}</p>
           </h3>
           <Input
-            title="user ID"
+            title={t("userID")}
             type="text"
             value={userId}
             setValue={setUserId}
           />
           <div className={styles.actions}>
-            <Button text="cancel" callback={cancel} class="cancel" />
-            <Button text="submit" callback={submit} class="submit" />
+            <Button text={t("cancel")} callback={cancel} class="cancel" />
+            <Button text={t("submit")} callback={submit} class="submit" />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}
         </>

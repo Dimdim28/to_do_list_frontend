@@ -37,8 +37,8 @@ describe("TaskForm", () => {
 
     expect(screen.getByText("title")).toBeInTheDocument();
     expect(screen.getByText("description")).toBeInTheDocument();
-    expect(screen.getByLabelText("Task has deadline")).toBeInTheDocument();
-    expect(screen.getByLabelText("Task completed")).toBeInTheDocument();
+    expect(screen.getByLabelText("taskHasDeadline")).toBeInTheDocument();
+    expect(screen.getByLabelText("taskCompleted")).toBeInTheDocument();
     expect(screen.getByText("cancel")).toBeInTheDocument();
     expect(screen.getByText("submit")).toBeInTheDocument();
   });

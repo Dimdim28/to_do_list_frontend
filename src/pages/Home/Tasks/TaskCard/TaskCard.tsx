@@ -1,5 +1,6 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 import { Task, getTask } from "../../../../api/taskAPI";
 import { humaniseDate, truncate } from "../../../../helpers/string";
@@ -61,6 +62,8 @@ const TaskCard = ({
     links,
   } = task;
 
+  const { t } = useTranslation();
+
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
   return (
@@ -100,18 +103,20 @@ const TaskCard = ({
       <p className={styles.description}>{truncate(description, 80)}</p>
       <div className={styles.links}>
         {links && links.length > 0 && (
-          <p className={styles.link}>{links.length} links attached</p>
+          <p className={styles.link}>
+            {t("linksAttacked")}: {links.length}
+          </p>
         )}
       </div>
 
       {deadline && (
-        <p className={styles.deadline}>Deadline: {humaniseDate(deadline)}</p>
+        <p className={styles.deadline}>{t("deadline")} {humaniseDate(deadline)}</p>
       )}
       {sharedWith &&
         sharedWith[0] !== "already shared" &&
         sharedWith.length > 0 && (
           <div className={styles.username}>
-            Shared with {sharedWith.length} people
+            {t("sharedWith")}: {sharedWith.length}
           </div>
         )}
       <div className={styles.icons}>
@@ -166,7 +171,7 @@ const TaskCard = ({
           onClick={(e) => {
             if (sharedWith && sharedWith[0] === "already shared") {
               toast.error(
-                "You are not the author of this task, you can not share this task!"
+                "ERROR! You are not the author of this task, you can not share this task!"
               );
               return;
             }

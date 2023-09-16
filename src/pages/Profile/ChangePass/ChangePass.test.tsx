@@ -16,6 +16,6 @@ describe("ChangePass", () => {
     );
 
     expect(screen.getByText("password")).toBeInTheDocument();
-    expect(screen.getByText("new password")).toBeInTheDocument();
+    expect(screen.getByText("newPassword")).toBeInTheDocument();
   });
 });

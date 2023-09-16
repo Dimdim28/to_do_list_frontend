@@ -1,3 +1,5 @@
+@import "src/styles/partials/theme";
+
 .wrapper {
   height: 100px;
   width: 250px;
@@ -5,16 +7,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  .title {
-    width: 100%;
-    text-align: center;
-    margin: 20px 0;
-  }
+  color: $white;
+  transition: color transition-delay;
+}
+.title {
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+}
 
-  .buttons {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-  }
+.buttons {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.light_theme) .wrapper {
+  color: $black;
 }

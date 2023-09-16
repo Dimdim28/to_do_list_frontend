@@ -28,7 +28,7 @@ describe("Tasks", () => {
       />
     );
 
-    expect(screen.getByText("Create task +")).toBeInTheDocument();
+    expect(screen.getByText("addTask")).toBeInTheDocument();
   });
 
   test("clicking on 'Create task +' opens the task editing modal", () => {
@@ -46,7 +46,7 @@ describe("Tasks", () => {
       </Provider>
     );
 
-    const createTaskButton = screen.getByText("Create task +");
+    const createTaskButton = screen.getByText("addTask");
     fireEvent.click(createTaskButton);
 
     expect(screen.getByText("cancel")).toBeInTheDocument();

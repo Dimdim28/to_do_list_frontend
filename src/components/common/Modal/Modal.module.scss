@@ -14,6 +14,7 @@
   justify-content: center;
   transition: 0.5s;
   z-index: 5;
+  transition: background-color $transition-delay;
 }
 
 .modal {
@@ -42,10 +43,29 @@
   top: 15px;
   height: 15px;
   width: 15px;
-  transition: 0.3s;
+  color: $white;
+  transition: color $transition-delay;
   cursor: pointer;
 
   &:hover {
     color: $error-200;
+  }
+}
+
+:global(.light_theme) {
+  .modalActive,
+  .modal {
+    background-color: $gray-500;
+  }
+  .modalContentActive,
+  .modalContent {
+    background-color: $gray-600;
+  }
+  .close {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import TaskDeleting from "./TaskDeleting/TaskDeleting";
 import TaskEditing from "./TaskEditing/TaskForm";
@@ -10,9 +11,9 @@ import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
 import { usePrevious } from "../../../hooks";
 import { Modal } from "../../../components/common/Modal/Modal";
 import { Task, getTask } from "../../../api/taskAPI";
+import TaskInfo from "./TaskInfo/TaskInfo";
 
 import styles from "./Tasks.module.scss";
-import TaskInfo from "./TaskInfo/TaskInfo";
 
 interface TaskProps {
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -36,6 +37,8 @@ const Tasks: FC<TaskProps> = ({
   isMobile,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
+
+  const { t } = useTranslation();
 
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
@@ -68,7 +71,7 @@ const Tasks: FC<TaskProps> = ({
       } ${isMobile && styles.mobileWrapper}`}
     >
       <div className={styles.line}>
-        <span
+        <button
           className={styles.createTask}
           onClick={() => {
             setTaskEditing(true);
@@ -80,8 +83,8 @@ const Tasks: FC<TaskProps> = ({
             });
           }}
         >
-          Create task +
-        </span>
+          {t("addTask")}
+        </button>
       </div>
       <Modal
         active={taskDeleting}
@@ -140,7 +143,7 @@ const Tasks: FC<TaskProps> = ({
                   />
                 ))
               ) : (
-                <p className={styles.noTasks}>You have no tasks</p>
+                <p className={styles.noTasks}>{t("noTask")}</p>
               )}
             </div>
           )}

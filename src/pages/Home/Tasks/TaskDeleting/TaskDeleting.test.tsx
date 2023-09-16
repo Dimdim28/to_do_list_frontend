@@ -2,7 +2,6 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
 import TaskDeleting from "./TaskDeleting";
 import taskAPI from "../../../../api/taskAPI";
-import { truncate } from "../../../../helpers/string";
 import { Status } from "../../../../types";
 
 jest.mock("../../../../api/taskAPI");
@@ -23,12 +22,10 @@ describe("TaskDeleting", () => {
   test("displays the confirmation message and buttons", () => {
     render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
 
-    expect(
-      screen.getByText("Do you really want to delete task:")
-    ).toBeInTheDocument();
+    expect(screen.getByText("reallyTask")).toBeInTheDocument();
     expect(screen.getByText("abcd")).toBeInTheDocument();
-    expect(screen.getByText("cancel")).toBeInTheDocument();
-    expect(screen.getByText("submit")).toBeInTheDocument();
+    expect(screen.getByText("no")).toBeInTheDocument();
+    expect(screen.getByText("yes")).toBeInTheDocument();
   });
 
   test("calls toggleActive with false on cancel button click", () => {
@@ -37,7 +34,7 @@ describe("TaskDeleting", () => {
       <TaskDeleting toggleActive={toggleActiveMock} childProps={childProps} />
     );
 
-    fireEvent.click(screen.getByText("cancel"));
+    fireEvent.click(screen.getByText("no"));
     expect(toggleActiveMock).toHaveBeenCalledWith(false);
   });
 
@@ -54,7 +51,7 @@ describe("TaskDeleting", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("submit"));
+    fireEvent.click(screen.getByText("yes"));
 
     expect(taskAPI.deleteTask).toHaveBeenCalledWith("1");
     await waitFor(() =>
@@ -70,7 +67,7 @@ describe("TaskDeleting", () => {
     });
     render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
 
-    fireEvent.click(screen.getByText("submit"));
+    fireEvent.click(screen.getByText("yes"));
     await screen.findByText(errorMessage);
   });
 

@@ -1,4 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../../components/common/Button/Button";
 import Preloader from "../../../../../components/Preloader/Preloader";
@@ -27,6 +28,7 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
   const { _id, title, color, fetchTasks, taskFetchingParams } = childProps;
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState("");
@@ -55,15 +57,14 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>Do you really want to delete:</p>  
+            <p>{t("reallyСategory")}</p>  
             <h3 style={{ color }}>{
               truncate(title,12)
             }</h3>
-            <p>category </p>
           </div>
           <div className={styles.buttons}>
-            <Button text="cancel" callback={cancel} class="cancel" />
-            <Button text="submit" callback={submit} class="submit" />
+            <Button text={t("no")} callback={cancel} class="cancel" />
+            <Button text={t("yes")} callback={submit} class="submit" />
           </div>
           {categoryError && <p className={styles.error}>{categoryError}</p>}
         </>

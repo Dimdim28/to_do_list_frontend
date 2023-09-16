@@ -1,9 +1,42 @@
+@import "src/styles/partials/theme";
+
 main {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.themeIcon {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-50;
+  }
+}
+
+.language {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 45px;
+  top: 8px;
+  font-weight: 900;
+  font-size: 20px;
+  color: $gray-600;
+  text-transform: uppercase;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $gray-50;
+  }
 }
 
 h1 {
@@ -72,4 +105,27 @@ form {
   color: red;
   text-align: center;
   margin-top: 20px;
+}
+
+:global(.light_theme) {
+  main {
+    background-color: $gray-600;
+  }
+  .themeIcon {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
+  .language {
+    color: $black;
+
+    &:hover {
+      color: $gray-50;
+    }
+  }
+  h1 {
+    color: $black;
+  }
 }

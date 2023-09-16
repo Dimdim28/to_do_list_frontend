@@ -18,11 +18,12 @@
 
     &:hover {
       background-color: $error-100;
+      color: $white;
     }
   }
 
   .items {
-    max-height: 150px;
+    max-height: 120px;
     overflow-y: scroll;
     position: absolute;
     width: calc(100% + 8px);
@@ -40,6 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: $gray-600;
 
       &:hover {
         background-color: $error-100;

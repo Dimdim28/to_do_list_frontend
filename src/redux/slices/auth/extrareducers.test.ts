@@ -1,5 +1,5 @@
 import { MOCK_OBJECT_ONE } from "../../../mocs/state";
-import { Status } from "../../../types";
+import { Status, Theme } from "../../../types";
 import { authReducer } from "./auth";
 import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
 
@@ -24,6 +24,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "",
         profile: PROFILE_META,
         status: "success",
+        theme: Theme.DARK,
       });
     });
 
@@ -36,6 +37,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "",
         profile: null,
         status: Status.LOADING,
+        theme: Theme.DARK,
       });
     });
 
@@ -49,6 +51,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "Error fetchAuthMe",
         profile: null,
         status: Status.ERROR,
+        theme: Theme.DARK,
       });
     });
   });
@@ -72,6 +75,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "",
         profile: USER_DATA,
         status: "success",
+        theme: Theme.DARK,
       });
     });
 
@@ -84,6 +88,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "",
         profile: null,
         status: Status.LOADING,
+        theme: Theme.DARK,
       });
     });
 
@@ -97,6 +102,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "Error fetchUserData",
         profile: null,
         status: Status.ERROR,
+        theme: Theme.DARK,
       });
     });
   });
@@ -119,7 +125,8 @@ describe("Testing auth slice extra reducers", () => {
       expect(result).toEqual({
         message: "",
         profile: USER_DATA,
-        status: "success",
+        status: Status.SUCCESS,
+        theme: Theme.DARK,
       });
     });
 
@@ -132,6 +139,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "",
         profile: null,
         status: Status.LOADING,
+        theme: Theme.DARK,
       });
     });
 
@@ -145,6 +153,7 @@ describe("Testing auth slice extra reducers", () => {
         message: "Error registerUser",
         profile: null,
         status: Status.ERROR,
+        theme: Theme.DARK,
       });
     });
   });

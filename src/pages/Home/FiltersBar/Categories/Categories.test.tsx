@@ -78,7 +78,7 @@ describe("Categories", () => {
       </Provider>
     );
 
-    const noCategoriesMessage = screen.getByText("you have no categories");
+    const noCategoriesMessage = screen.getByText("noCategories");
 
     expect(noCategoriesMessage).toBeInTheDocument();
   });
