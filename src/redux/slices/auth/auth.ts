@@ -7,7 +7,7 @@ import { Status, Theme } from "../../../types";
 const initialState: AuthSliceState = {
   profile: null,
   status: Status.LOADING,
-  theme: Theme.DARK,
+  theme: (localStorage.getItem("theme") as Theme) || Theme.DARK,
 };
 
 const authSlice = createSlice({
@@ -20,6 +20,7 @@ const authSlice = createSlice({
     },
     changeTheme(state, action) {
       state.theme = action.payload;
+      window.localStorage.setItem("theme", action.payload);
     },
   },
 
