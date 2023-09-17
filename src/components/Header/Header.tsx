@@ -5,20 +5,21 @@ import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectTheme } from "../../redux/slices/auth/selectors";
+import { selectLanguage, selectTheme } from "../../redux/slices/auth/selectors";
 import ROUTES from "../../routes";
-import { Theme } from "../../types";
+import { Language, Theme } from "../../types";
+import { changeLang, changeTheme } from "../../redux/slices/auth/auth";
 
 import styles from "./Header.module.scss";
 
 import logo from "../../assets/logo.png";
-import { changeTheme } from "../../redux/slices/auth/auth";
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
 
   const theme = useAppSelector(selectTheme);
+  const language = useAppSelector(selectLanguage);
 
   const toggleTheme = () => {
     const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
@@ -26,15 +27,15 @@ const Header: FC = () => {
     dispatch(changeTheme(newTheme));
   };
 
-  const changeLanguage = () => {
-    const language = i18n.language;
-    const getNewLanguage = () => {
-      if (language === "en") return "ua";
-      if (language === "ua") return "en";
-      return "en";
+  const togglelang = (language: Language) => {
+    const getNewLanguage = (): Language => {
+      if (language === Language.EN) return Language.UA;
+      if (language === Language.UA) return Language.EN;
+      return Language.EN;
     };
     const newLanguage = getNewLanguage();
     i18n.changeLanguage(newLanguage);
+    dispatch(changeLang(newLanguage));
   };
 
   return (
@@ -46,7 +47,12 @@ const Header: FC = () => {
           className={styles.themeIcon}
           onClick={toggleTheme}
         />
-        <button className={styles.language} onClick={changeLanguage}>
+        <button
+          className={styles.language}
+          onClick={() => {
+            togglelang(language);
+          }}
+        >
           {i18n.language}
         </button>
       </div>
