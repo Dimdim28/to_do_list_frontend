@@ -50,6 +50,7 @@ const EN = {
   required: "Required",
   login: "Login",
   signIn: "Sign in",
+  signInBolt: "Sign in",
   signUp: "Sign up",
   signUpBolt: "Sign up",
   enterPassword: "Enter password",
