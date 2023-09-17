@@ -1,5 +1,5 @@
 import { MOCK_OBJECT_ONE } from "../../../mocs/state";
-import { Status, Theme } from "../../../types";
+import { Language, Status, Theme } from "../../../types";
 import { authReducer } from "./auth";
 import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
 
@@ -25,6 +25,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: PROFILE_META,
         status: "success",
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -38,6 +39,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -52,6 +54,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
   });
@@ -76,6 +79,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: USER_DATA,
         status: "success",
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -89,6 +93,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -103,6 +108,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
   });
@@ -127,6 +133,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: USER_DATA,
         status: Status.SUCCESS,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -140,6 +147,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
 
@@ -154,6 +162,7 @@ describe("Testing auth slice extra reducers", () => {
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,
+        lang: Language.EN,
       });
     });
   });

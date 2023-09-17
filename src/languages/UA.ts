@@ -48,7 +48,6 @@ const UA = {
   password: "Пароль",
   newPassword: "Новий пароль",
   required: "Вимагається",
-  loginBolt: "Вхід",
   signIn: "Увійти",
   signUp: "Зареєструватися",
   login: "Логін",

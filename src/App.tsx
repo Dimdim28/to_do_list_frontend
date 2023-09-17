@@ -9,8 +9,9 @@ import PageLayout from "./layouts/PageLayout";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import ROUTES from "./routes";
-import { selectTheme } from "./redux/slices/auth/selectors";
 import TRANSLATIONS from "./lang";
+import { Language } from "./types";
+import { selectTheme } from "./redux/slices/auth/selectors";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";
@@ -24,7 +25,7 @@ const Home = lazy(() => import("./pages/Home/Home"));
 const Task = lazy(() => import("./pages/Task/Task"));
 
 i18next.use(initReactI18next).init({
-  lng: "en",
+  lng: localStorage.getItem("lang") || Language.EN,
   debug: true,
   resources: TRANSLATIONS,
   fallbackLng: "en",

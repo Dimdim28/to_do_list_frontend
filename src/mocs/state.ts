@@ -1,5 +1,5 @@
 import { RootState } from "../redux/store";
-import { Status, Theme } from "../types";
+import { Language, Status, Theme } from "../types";
 
 export const MOCK_OBJECT_ONE: RootState = {
   auth: {
@@ -13,6 +13,7 @@ export const MOCK_OBJECT_ONE: RootState = {
       username: "DimonTheBest",
     },
     theme: Theme.DARK,
+    lang: Language.EN,
     message: "",
   },
   home: {
@@ -51,6 +52,7 @@ export const MOCK_OBJECT_TWO: RootState = {
     profile: null,
     message: "this is an error",
     theme: Theme.LIGHT,
+    lang: Language.UA,
   },
   home: {
     category: {
@@ -85,6 +87,7 @@ export const MOCK_OBJECT_THREE: RootState = {
     status: Status.LOADING,
     profile: null,
     theme: Theme.DARK,
+    lang: Language.EN,
   },
   home: {
     category: {

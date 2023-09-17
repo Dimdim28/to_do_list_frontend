@@ -10,15 +10,14 @@ import { fetchUserData } from "../../redux/slices/auth/thunk";
 import { validate } from "./helpers";
 import ROUTES from "../../routes";
 
-import { selectTheme } from "../../redux/slices/auth/selectors";
-import { Theme } from "../../types";
-import { changeTheme } from "../../redux/slices/auth/auth";
+import { selectLanguage, selectTheme } from "../../redux/slices/auth/selectors";
+import { Language, Theme } from "../../types";
+import { changeLang, changeTheme } from "../../redux/slices/auth/auth";
 
 import styles from "./Login.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-
 
 const Login: FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +25,7 @@ const Login: FC<{}> = () => {
   const [error, setError] = useState(null);
 
   const theme = useAppSelector(selectTheme);
+  const language = useAppSelector(selectLanguage);
 
   const { t, i18n } = useTranslation();
 
@@ -34,16 +34,16 @@ const Login: FC<{}> = () => {
     localStorage.setItem("theme", newTheme);
     dispatch(changeTheme(newTheme));
   };
-  
-  const changeLanguage = () => {
-    const language = i18n.language;
-    const getNewLanguage = () => {
-      if (language === "en") return "ua";
-      if (language === "ua") return "en";
-      return "en";
+
+  const toggleLang = (language: Language) => {
+    const getNewLanguage = (): Language => {
+      if (language === Language.EN) return Language.UA;
+      if (language === Language.UA) return Language.EN;
+      return Language.EN;
     };
     const newLanguage = getNewLanguage();
     i18n.changeLanguage(newLanguage);
+    dispatch(changeLang(newLanguage));
   };
 
   const formik = useFormik({
@@ -66,17 +66,22 @@ const Login: FC<{}> = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-      <div className={styles.actionsWrapper}>
-        <FontAwesomeIcon
-          icon={theme === Theme.DARK ? faSun : faMoon}
-          className={styles.themeIcon}
-          onClick={toggleTheme}
-        />
-        <button className={styles.language} onClick={changeLanguage}>
-          {i18n.language}
-        </button>
-      </div>
-        <h1>{t("loginBolt")}</h1>
+        <div className={styles.actionsWrapper}>
+          <FontAwesomeIcon
+            icon={theme === Theme.DARK ? faSun : faMoon}
+            className={styles.themeIcon}
+            onClick={toggleTheme}
+          />
+          <button
+            className={styles.language}
+            onClick={() => {
+              toggleLang(language);
+            }}
+          >
+            {i18n.language}
+          </button>
+        </div>
+        <h1>{t("signIn")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput
