@@ -67,6 +67,7 @@ const UA = {
   statusInProcess: "В процесі",
   statusAll: "Всі",
   noTask: "У вас нема задач",
+  faq: "Часті питання",
 };
 
 export default UA;

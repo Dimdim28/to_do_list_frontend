@@ -5,6 +5,7 @@ enum ROUTES {
   LOGIN = "login",
   REGISTER = "register",
   TASK = "/task",
+  FAQ = "/FAQ",
 }
 
 export default ROUTES;

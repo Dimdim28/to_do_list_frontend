@@ -67,6 +67,7 @@ const EN = {
   statusInProcess: "In process",
   statusAll: "All",
   noTask: "You have no tasks",
+  faq: "FAQ",
 };
 
 export default EN;

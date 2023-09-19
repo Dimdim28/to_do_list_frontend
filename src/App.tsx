@@ -23,6 +23,7 @@ const Register = lazy(() => import("./pages/Register/Register"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Home = lazy(() => import("./pages/Home/Home"));
 const Task = lazy(() => import("./pages/Task/Task"));
+const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem("lang") || Language.EN,
@@ -53,6 +54,7 @@ function App() {
             <Route path={ROUTES.PROFILE} element={<Profile />} />
             <Route path={ROUTES.TASK} element={<Task />} />
             <Route path={ROUTES.HOME} element={<Home />} />
+            <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
         </Routes>
       </div>

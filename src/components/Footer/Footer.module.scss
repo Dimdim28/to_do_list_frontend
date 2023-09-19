@@ -7,8 +7,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $gray-600;
+  color: $white;
   transition: color $transition-delay, background-color $transition-delay;
+}
+
+.leftAlignedText {
+  text-align: left;
+  margin-left: 10px;
+}
+
+.centeredText {
+  flex: 1;
+  text-align: center;
+}
+
+.isActive {
+  display: none;
 }
 
 :global(.light_theme) .footer {
