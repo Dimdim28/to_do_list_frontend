@@ -9,7 +9,6 @@ import { useAppDispatch } from "../../hooks";
 import { fetchUserData } from "../../redux/slices/auth/thunk";
 import { validate } from "./helpers";
 import ROUTES from "../../routes";
-import LogRegHeader from "../../components/LogRegHeader/LogRegHeader";
 
 import styles from "./Login.module.scss";
 
@@ -40,9 +39,6 @@ const Login: FC<{}> = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <LogRegHeader />
-        </div>
         <h1>{t("signInBolt")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>

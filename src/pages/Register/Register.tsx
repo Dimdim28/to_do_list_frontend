@@ -8,7 +8,6 @@ import { FormikInput } from "../../components/common/Input/Input";
 import { useAppDispatch } from "../../hooks";
 import { registerUser } from "../../redux/slices/auth/thunk";
 import ROUTES from "../../routes";
-import LogRegHeader from "../../components/LogRegHeader/LogRegHeader";
 
 import styles from "./Register.module.scss";
 
@@ -87,9 +86,6 @@ const SignupForm: FC = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <LogRegHeader/>
-        </div>
         <h1>{t("signUpBolt")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
