@@ -1,42 +1,14 @@
 @import "src/styles/partials/theme";
 
 main {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 80px);
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.themeIcon {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  cursor: pointer;
-  transition: color $transition-delay;
-
-  &:hover {
-    color: $gray-50;
-  }
-}
-
-.language {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  left: 45px;
-  top: 8px;
-  font-weight: 900;
-  font-size: 20px;
-  color: $gray-600;
-  text-transform: uppercase;
-  transition: color $transition-delay;
-
-  &:hover {
-    color: $gray-50;
-  }
 }
 
 h1 {

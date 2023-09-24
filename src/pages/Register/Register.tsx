@@ -5,18 +5,11 @@ import { useTranslation } from "react-i18next";
 
 import withHomeRedirect from "../../hoc/withHomeRedirect";
 import { FormikInput } from "../../components/common/Input/Input";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch } from "../../hooks";
 import { registerUser } from "../../redux/slices/auth/thunk";
 import ROUTES from "../../routes";
 
-import { selectLanguage, selectTheme } from "../../redux/slices/auth/selectors";
-import { Language, Theme } from "../../types";
-import { changeLang, changeTheme } from "../../redux/slices/auth/auth";
-
 import styles from "./Register.module.scss";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 interface Values {
   email?: string;
@@ -69,27 +62,7 @@ const SignupForm: FC = () => {
   const [error, setError] = useState(null);
   const dispatch = useAppDispatch();
 
-  const theme = useAppSelector(selectTheme);
-  const language = useAppSelector(selectLanguage);
-
-  const { t, i18n } = useTranslation();
-
-  const toggleTheme = () => {
-    const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
-    localStorage.setItem("theme", newTheme);
-    dispatch(changeTheme(newTheme));
-  };
-
-  const toggleLang = (language: Language) => {
-    const getNewLanguage = (): Language => {
-      if (language === Language.EN) return Language.UA;
-      if (language === Language.UA) return Language.EN;
-      return Language.EN;
-    };
-    const newLanguage = getNewLanguage();
-    i18n.changeLanguage(newLanguage);
-    dispatch(changeLang(newLanguage));
-  };
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -113,21 +86,6 @@ const SignupForm: FC = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <div className={styles.actionsWrapper}>
-          <FontAwesomeIcon
-            icon={theme === Theme.DARK ? faSun : faMoon}
-            className={styles.themeIcon}
-            onClick={toggleTheme}
-          />
-          <button
-            className={styles.language}
-            onClick={() => {
-              toggleLang(language);
-            }}
-          >
-            {i18n.language}
-          </button>
-        </div>
         <h1>{t("signUpBolt")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
