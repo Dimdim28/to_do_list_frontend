@@ -49,10 +49,10 @@ const UA = {
   newPassword: "Новий пароль",
   required: "Вимагається",
   signIn: "Увійти",
-  signInBolt: "Вхід",
+  signInBold: "Вхід",
   signUp: "Зареєструватися",
   login: "Логін",
-  signUpBolt: "Реєстрація",
+  signUpBold: "Реєстрація",
   enterPassword: "Ввести пароль",
   confirmPassword: "Підтвердити пароль",
   statsLabel: "Завершені задачі",
@@ -67,7 +67,9 @@ const UA = {
   statusInProcess: "В процесі",
   statusAll: "Всі",
   noTask: "У вас нема задач",
-  faq: "Часті питання",
+  faq: "ЧаПи",
+  back: "<Назад",
+  faqBold: "Часті питання",
 };
 
 export default UA;

@@ -50,9 +50,9 @@ const EN = {
   required: "Required",
   login: "Login",
   signIn: "Sign in",
-  signInBolt: "Sign in",
+  signInBold: "Sign in",
   signUp: "Sign up",
-  signUpBolt: "Sign up",
+  signUpBold: "Sign up",
   enterPassword: "Enter password",
   confirmPassword: "Confirm password",
   statsLabel: "Completed Tasks",
@@ -68,6 +68,8 @@ const EN = {
   statusAll: "All",
   noTask: "You have no tasks",
   faq: "FAQ",
+  back: "<Back",
+  faqBold: "Frequently asked questions",
 };
 
 export default EN;

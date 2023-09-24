@@ -86,7 +86,7 @@ const SignupForm: FC = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h1>{t("signUpBolt")}</h1>
+        <h1>{t("signUpBold")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput

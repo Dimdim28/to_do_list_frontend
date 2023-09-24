@@ -8,7 +8,7 @@ import { selectLanguage, selectTheme } from "../../redux/slices/auth/selectors";
 import { Language, Theme } from "../../types";
 import { changeLang, changeTheme } from "../../redux/slices/auth/auth";
 
-import styles from "./LogRegHeader.module.scss";
+import styles from "./SecondHeader.module.scss";
 
 import logo from "../../assets/logo.png";
 

@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { useTranslation } from "react-i18next";
 
-import Footer from "./Footer";
+import Footer from "./FAQFooter";
 import { TranslationKeys } from "../../types";
 
 jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
 }));
 
-describe("Footer", () => {
+describe("FAQFooter", () => {
   beforeEach(() => {
     const useTranslationSpy = useTranslation as jest.Mock;
     const tSpy = jest.fn((str) => str);

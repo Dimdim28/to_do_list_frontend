@@ -6,6 +6,8 @@ import { initReactI18next } from "react-i18next";
 
 import AuthLayout from "./layouts/AuthLayout";
 import PageLayout from "./layouts/PageLayout";
+import HomeLayout from "./layouts/HomeLayout";
+import FAQLayout from "./layouts/FAQLayout";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { fetchAuthMe } from "./redux/slices/auth/thunk";
 import ROUTES from "./routes";
@@ -50,10 +52,15 @@ function App() {
             <Route path={ROUTES.LOGIN} element={<Login />} />
             <Route path={ROUTES.REGISTER} element={<Register />} />
           </Route>
-          <Route path={ROUTES.HOME} element={<PageLayout />}>
-            <Route path={ROUTES.PROFILE} element={<Profile />} />
-            <Route path={ROUTES.TASK} element={<Task />} />
+          <Route path={ROUTES.HOME} element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
+            <Route path={ROUTES.FAQ} element={<FAQ />} />
+            <Route path={ROUTES.TASK} element={<Task />} />
+          </Route>
+          <Route path={ROUTES.PROFILE} element={<PageLayout />}>
+            <Route path={ROUTES.PROFILE} element={<Profile />} />
+          </Route>
+          <Route path={ROUTES.FAQ} element={<FAQLayout />}>
             <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
         </Routes>
