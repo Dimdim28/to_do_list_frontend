@@ -1,56 +1,53 @@
 @import "src/styles/partials/theme";
 
 .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .pageButton,
 .disabledPageButton,
 .activePageButton {
-    background-color: $background-dark-0;
-    border-radius: 100%;
-    width: 40px;
-    height: 40px;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    transition: background-color $transition-delay, color $transition-delay;
+  background-color: $background-dark-0;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background-color $transition-delay, color $transition-delay;
 }
 
-:global(.light_theme) {
-
-    .pageButton,
-    .disabledPageButton {
-        color: $black;
-
-    }
+:global(.light_theme) .pageButton,
+.disabledPageButton,
+.activePageButton {
+  color: $black;
 }
 
 .pageButton {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        background-color: $background-dark--10;
-    }
+  &:hover {
+    background-color: $background-dark--10;
+  }
 }
 
 :global(.light_theme) .pageButton {
-    background: $white;
+  background: $white;
 }
 
 .activePageButton {
-    background-color: $error-200;
+  background-color: $error-200;
 }
 
 .disabledPageButton {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 :global(.light_theme) .disabledPageButton {
-    background: $white;
+  background: $white;
 }

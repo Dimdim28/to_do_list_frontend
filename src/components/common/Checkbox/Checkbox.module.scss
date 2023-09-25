@@ -75,7 +75,10 @@
   }
 }
 
-:global(.light_theme) {
+:global(.light_theme) .checkboxContainer {
+  color: $black;
+
+  .checkmark,
   .roundedCheckMark {
     border: 2px solid $black;
   }
@@ -95,11 +98,5 @@
   &::after {
     left: 9px;
     top: 6px;
-  }
-}
-
-:global(.light_theme) {
-  .checkboxContainer {
-    color: $black;
   }
 }

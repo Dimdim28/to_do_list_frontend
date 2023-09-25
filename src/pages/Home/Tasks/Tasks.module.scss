@@ -11,13 +11,8 @@
   transition: background-color $transition-delay;
 }
 
-:global(.light_theme) {
-  .wrapper {
-    background-color: $gray-500;
-  }
-  .wrapperWithTasks {
-    background-color: $gray-500;
-  }
+:global(.light_theme) .wrapper {
+  background-color: $gray-500;
 }
 
 .wrapperWithTasks {
@@ -27,6 +22,10 @@
   display: flex;
   flex-direction: column;
   transition: background-color $transition-delay;
+}
+
+:global(.light_theme) .wrapperWithTasks {
+  background-color: $gray-500;
 }
 
 .wrapper.mobileWrapper,

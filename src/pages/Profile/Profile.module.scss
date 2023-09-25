@@ -55,7 +55,7 @@
 }
 
 :global(.light_theme) .row {
-  background-color: $gray-500;
+  background-color: $gray-600;
 }
 
 .idWrapper {
@@ -245,32 +245,6 @@
     }
   }
 
-  :global(.light_theme) .line {
-    .name {
-      color: $black;
-    }
-    .text {
-      color: $black;
-    }
-    .inputName {
-      color: $background-dark-0;
-    }
-    .check {
-      color: $background-dark-0;
-
-      &:hover {
-        color: $green-200;
-      }
-    }
-    .close {
-      color: $background-dark-0;
-
-      &:hover {
-        color: $error-200;
-      }
-    }
-  }
-
   .close {
     width: 15px;
     height: 15px;
@@ -309,6 +283,32 @@
   &:hover {
     .icon {
       opacity: 1;
+    }
+  }
+}
+
+:global(.light_theme) .line {
+  .name {
+    color: $black;
+  }
+  .text {
+    color: $black;
+  }
+  .inputName {
+    color: $background-dark-0;
+  }
+  .check {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $green-200;
+    }
+  }
+  .close {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $error-200;
     }
   }
 }

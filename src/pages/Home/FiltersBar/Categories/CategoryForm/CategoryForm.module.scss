@@ -16,10 +16,8 @@
   transition: color $transition-delay;
 }
 
-:global(.light_theme) {
-  .title {
-    color: $black;
-  }
+:global(.light_theme) .title {
+  color: $black;
 }
 
 .chooseColor {

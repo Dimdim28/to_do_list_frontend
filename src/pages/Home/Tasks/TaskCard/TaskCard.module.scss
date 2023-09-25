@@ -23,11 +23,9 @@
   }
 }
 
-:global(.light_theme) {
-  .wrapper,
-  .completedWrapper {
-    background-color: $gray-600;
-  }
+:global(.light_theme) .wrapper,
+.completedWrapper {
+  background-color: $gray-600;
 }
 
 .icons {
@@ -98,38 +96,36 @@
   }
 }
 
-:global(.light_theme) {
-  .icons {
-    .pencil {
-      color: $black;
+:global(.light_theme) .icons {
+  .pencil {
+    color: $black;
 
-      &:hover {
-        color: $warning-200;
-      }
+    &:hover {
+      color: $warning-200;
     }
+  }
 
-    .trash {
-      color: $black;
+  .trash {
+    color: $black;
 
-      &:hover {
-        color: $error-200;
-      }
+    &:hover {
+      color: $error-200;
     }
+  }
 
-    .attach {
-      color: $black;
+  .attach {
+    color: $black;
 
-      &:hover {
-        color: $info-50;
-      }
+    &:hover {
+      color: $info-50;
     }
+  }
 
-    .share {
-      color: $black;
+  .share {
+    color: $black;
 
-      &:hover {
-        color: $success-200;
-      }
+    &:hover {
+      color: $success-200;
     }
   }
 }
@@ -150,11 +146,9 @@
   transition: border-color $transition-delay, color $transition-delay;
 }
 
-:global(.light_theme) {
-  .category {
-    border-color: $black;
-    color: $black;
-  }
+:global(.light_theme) .category {
+  border-color: $black;
+  color: $black;
 }
 
 .completedWrapper {
@@ -180,10 +174,8 @@
   transition: color $transition-delay;
 }
 
-:global(.light_theme) {
-  .title {
-    color: $black;
-  }
+:global(.light_theme) .title {
+  color: $black;
 }
 
 .deadline {
@@ -210,10 +202,8 @@
   transition: color $transition-delay;
 }
 
-:global(.light_theme) {
-  .description {
-    color: $black;
-  }
+:global(.light_theme) .description {
+  color: $black;
 }
 
 .sharedTitle {
