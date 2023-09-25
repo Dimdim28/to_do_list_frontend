@@ -7,6 +7,10 @@
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) .aside {
+  background-color: $gray-600;
+}
+
 .form {
   display: flex;
   align-items: center;
@@ -72,11 +76,5 @@
         }
       }
     }
-  }
-}
-
-:global(.light_theme) {
-  .aside {
-    background-color: $gray-600;
   }
 }

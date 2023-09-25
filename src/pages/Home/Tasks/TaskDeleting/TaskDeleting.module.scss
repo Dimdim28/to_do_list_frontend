@@ -27,6 +27,12 @@
   }
 }
 
+:global(.light_theme) .modalContent {
+  p {
+    color: $black;
+  }
+}
+
 .actions {
   display: flex;
   justify-content: space-between;
@@ -43,11 +49,5 @@
 @media screen and (max-width: 400px) {
   .wrapper {
     width: 100%;
-  }
-}
-
-:global(.light_theme) .modalContent {
-  p {
-    color: $black;
   }
 }

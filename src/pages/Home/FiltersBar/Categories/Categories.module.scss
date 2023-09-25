@@ -34,7 +34,8 @@
   margin-top: 5px;
   cursor: pointer;
   margin-top: 20px;
-  transition: border $transition-delay, color $transition-delay, box-shadow $transition-delay;
+  transition: border $transition-delay, color $transition-delay,
+    box-shadow $transition-delay;
 
   &:hover {
     color: $warning-200;
@@ -48,25 +49,19 @@
   }
 }
 
-:global(.light_theme) {
-  .addCategory {
-    border-color: $black;
-    color: $black;
+:global(.light_theme) .addCategory {
+  border-color: $black;
+  color: $black;
 
-    &:hover {
-      color: $warning-200;
-      border-color: $warning-200;
-      box-shadow: 0 0 10px $warning-200;
-    }
-
-    &:active {
-      color: white;
-      background-color: $warning-200;
-    }
+  &:hover {
+    color: $warning-200;
+    border-color: $warning-200;
+    box-shadow: 0 0 10px $warning-200;
   }
 
-  .categoriesWrapperForTask .addCategory {
-    color: $black;
+  &:active {
+    color: white;
+    background-color: $warning-200;
   }
 }
 
@@ -83,6 +78,11 @@
     margin-right: 10px;
     color: $white;
     transition: color $transition-delay;
+  }
+}
+:global(.light_theme) .categoriesWrapperForTask {
+  .addCategory {
+    color: $black;
   }
 }
 
