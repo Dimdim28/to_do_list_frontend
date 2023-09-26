@@ -1,31 +1,32 @@
 import { FC, useState } from "react";
-
 import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 import styles from "./FAQ.module.scss";
+
 
 const FAQ: FC = () => {
   const faqData = [
     {
-      question: "?",
-      answer: ".",
+      question: i18next.t("question1"),
+      answer: i18next.t("answer1"),
     },
     {
-      question: "?",
-      answer: ".",
+      question: i18next.t("question2"),
+      answer: i18next.t("answer2"),
     },
     {
-      question: "?",
-      answer: ".",
+      question: i18next.t("question3"),
+      answer: i18next.t("answer3"),
     },
     {
-      question: "?",
-      answer: ".",
+      question: i18next.t("question4"),
+      answer: i18next.t("answer4"),
     },
   ];
 
   const { t } = useTranslation();
-
+  
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const toggleAccordion = (index: number) => {

@@ -10,6 +10,10 @@ header {
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) header {
+  background-color: $white;
+}
+
 .actionsWrapper {
   display: flex;
   align-items: center;
@@ -34,6 +38,14 @@ header {
   }
 }
 
+:global(light_theme) .themeIcon {
+  color: $black;
+
+  &:hover {
+    color: $gray-50;
+  }
+}
+
 .language {
   font-weight: 900;
   font-size: 20px;
@@ -43,6 +55,14 @@ header {
 
   &:hover {
     color: $gray-300;
+  }
+}
+
+:global(.light_theme) .language {
+  color: $black;
+
+  &:hover {
+    color: $gray-50;
   }
 }
 
@@ -64,30 +84,11 @@ a {
   }
 }
 
-:global(.light_theme) {
-  header {
-    background-color: $white;
-  }
-  .themeIcon {
-    color: $black;
+:global(.light_theme) a {
+  color: $black;
 
-    &:hover {
-      color: $gray-50;
-    }
-  }
-  a {
-    color: $black;
-
-    &:hover {
-      color: $warning-200;
-    }
-  }
-  .language {
-    color: $black;
-
-    &:hover {
-      color: $gray-50;
-    }
+  &:hover {
+    color: $warning-200;
   }
 }
 

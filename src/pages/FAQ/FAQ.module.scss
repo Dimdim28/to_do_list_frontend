@@ -7,6 +7,12 @@
   width: 100%;
   align-items: center;
   justify-content: center;
+  background-color: $background-dark-35;
+  transition: background-color $transition-delay;
+}
+
+:global(.light_theme) .wrapper {
+  background-color: $gray-500;
 }
 
 h1 {

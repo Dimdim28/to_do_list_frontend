@@ -70,6 +70,14 @@ const UA = {
   faq: "ЧаПи",
   back: "<Назад",
   faqBold: "Часті питання",
+  question1: "Питання 1?",
+  question2: "Питання 2?",
+  question3: "Питання 3?",
+  question4: "Питання 4?",
+  answer1: "Відповідь 1",
+  answer2: "Відповідь 2",
+  answer3: "Відповідь 3",
+  answer4: "Відповідь 4",
 };
 
 export default UA;

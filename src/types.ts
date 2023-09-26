@@ -85,4 +85,12 @@ export enum TranslationKeys {
   StatusAll = "statusAll",
   Back = "<Back",
   FAQBold = "Frequently asked questions",
+  Question1 = "Question 1 ?",
+  Question2 = "Question 2 ?",
+  Question3 = "Question 3 ?",
+  Question4 = "Question 4 ?",
+  Answer1 = "Answer 1",
+  Answer2 = "Answer 2",
+  Answer3 = "Answer 3",
+  Answer4 = "Answer 4",
 }

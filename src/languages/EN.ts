@@ -70,6 +70,14 @@ const EN = {
   faq: "FAQ",
   back: "<Back",
   faqBold: "Frequently asked questions",
+  question1: "Question 1?",
+  question2: "Question 2?",
+  question3: "Question 3?",
+  question4: "Question 4?",
+  answer1: "Answer 1",
+  answer2: "Answer 2",
+  answer3: "Answer 3",
+  answer4: "Answer 4",
 };
 
 export default EN;
