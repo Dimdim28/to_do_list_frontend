@@ -31,6 +31,7 @@ header {
   width: 25px;
   height: 25px;
   cursor: pointer;
+  color: $white;
   transition: color $transition-delay;
 
   &:hover {
@@ -38,7 +39,7 @@ header {
   }
 }
 
-:global(light_theme) .themeIcon {
+:global(.light_theme) .themeIcon {
   color: $black;
 
   &:hover {

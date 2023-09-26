@@ -23,6 +23,30 @@ const FAQ: FC = () => {
       question: i18next.t("question4"),
       answer: i18next.t("answer4"),
     },
+    {
+      question: i18next.t("question5"),
+      answer: i18next.t("answer5"),
+    },
+    {
+      question: i18next.t("question6"),
+      answer: i18next.t("answer6"),
+    },
+    {
+      question: i18next.t("question7"),
+      answer: i18next.t("answer7"),
+    },
+    {
+      question: i18next.t("question8"),
+      answer: i18next.t("answer8"),
+    },
+    {
+      question: i18next.t("question9"),
+      answer: i18next.t("answer9"),
+    },
+    {
+      question: i18next.t("question10"),
+      answer: i18next.t("answer10"),
+    },
   ];
 
   const { t } = useTranslation();
