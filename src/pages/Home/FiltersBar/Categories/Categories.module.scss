@@ -80,6 +80,7 @@
     transition: color $transition-delay;
   }
 }
+
 :global(.light_theme) .categoriesWrapperForTask {
   .addCategory {
     color: $black;

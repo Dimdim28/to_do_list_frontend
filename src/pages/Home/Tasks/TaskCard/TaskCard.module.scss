@@ -23,9 +23,11 @@
   }
 }
 
-:global(.light_theme) .wrapper,
-.completedWrapper {
-  background-color: $gray-600;
+:global(.light_theme) {
+  .wrapper,
+  .completedWrapper {
+    background-color: $gray-600;
+  }
 }
 
 .icons {

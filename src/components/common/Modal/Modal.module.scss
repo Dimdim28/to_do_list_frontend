@@ -17,9 +17,11 @@
   transition: background-color $transition-delay;
 }
 
-:global(.light_theme) .modalActive,
-.modal {
-  background-color: $gray-500;
+:global(.light_theme) {
+  .modalActive,
+  .modal {
+    background-color: $gray-500;
+  }
 }
 
 .modal {

@@ -22,10 +22,12 @@
   transition: background-color $transition-delay, color $transition-delay;
 }
 
-:global(.light_theme) .pageButton,
-.disabledPageButton,
-.activePageButton {
-  color: $black;
+:global(.light_theme) {
+  .pageButton,
+  .disabledPageButton,
+  .activePageButton {
+    color: $black;
+  }
 }
 
 .pageButton {
