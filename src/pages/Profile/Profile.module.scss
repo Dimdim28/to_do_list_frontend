@@ -65,7 +65,7 @@
   font-weight: 600;
   cursor: pointer;
   color: $white;
-  transition: background-color $transition-delay;
+  transition: background-color $transition-delay, color $transition-delay;
 
   &:hover {
     color: $warning-200;
@@ -93,12 +93,10 @@
     cursor: pointer;
     color: $white;
     transition: background-color $transition-delay;
-    @include style-button-icon-color(
-      $gray-600,
+    @include style-button-icon-color($gray-600,
       $error-200,
       $error-300,
-      $error-200
-    );
+      $error-200 );
   }
 
   .button {
@@ -120,12 +118,10 @@
     cursor: pointer;
     color: $white;
     transition: background-color $transition-delay;
-    @include style-button-icon-color(
-      $gray-600,
+    @include style-button-icon-color($gray-600,
       $error-200,
       $error-300,
-      $error-200
-    );
+      $error-200 );
   }
 }
 
@@ -291,12 +287,15 @@
   .name {
     color: $black;
   }
+
   .text {
     color: $black;
   }
+
   .inputName {
     color: $background-dark-0;
   }
+
   .check {
     color: $background-dark-0;
 
@@ -304,6 +303,7 @@
       color: $green-200;
     }
   }
+
   .close {
     color: $background-dark-0;
 
@@ -317,9 +317,11 @@
   .exit {
     color: $black;
   }
+
   .button {
     color: $black;
   }
+
   .delete {
     color: $black;
   }
@@ -374,6 +376,7 @@
 
         .info {
           .line {
+
             .text,
             .name,
             .inputName {
