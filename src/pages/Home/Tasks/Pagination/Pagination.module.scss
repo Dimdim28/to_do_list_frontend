@@ -23,9 +23,9 @@
 }
 
 :global(.light_theme) {
+
   .pageButton,
-  .disabledPageButton,
-  .activePageButton {
+  .disabledPageButton {
     color: $black;
   }
 }
@@ -40,6 +40,10 @@
 
 :global(.light_theme) .pageButton {
   background: $white;
+
+  &:hover {
+    background-color: $gray-600;
+  }
 }
 
 .activePageButton {
