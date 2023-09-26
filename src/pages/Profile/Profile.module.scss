@@ -28,6 +28,10 @@
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) .wrapper {
+  background-color: $gray-500;
+}
+
 .profile {
   border-radius: 20px;
   padding: 20px;
@@ -50,6 +54,10 @@
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) .row {
+  background-color: $gray-600;
+}
+
 .idWrapper {
   position: absolute;
   top: 15px;
@@ -62,6 +70,10 @@
   &:hover {
     color: $warning-200;
   }
+}
+
+:global(.light_theme) .idWrapper {
+  color: $black;
 }
 
 .buttons {
@@ -162,6 +174,10 @@
       opacity: 0.5;
     }
   }
+}
+
+:global(.light_theme) .avatar {
+  background-color: $gray-500;
 }
 
 .info {
@@ -268,6 +284,44 @@
     .icon {
       opacity: 1;
     }
+  }
+}
+
+:global(.light_theme) .line {
+  .name {
+    color: $black;
+  }
+  .text {
+    color: $black;
+  }
+  .inputName {
+    color: $background-dark-0;
+  }
+  .check {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $green-200;
+    }
+  }
+  .close {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+}
+
+:global(.light_theme) .buttons {
+  .exit {
+    color: $black;
+  }
+  .button {
+    color: $black;
+  }
+  .delete {
+    color: $black;
   }
 }
 
@@ -379,57 +433,6 @@
           position: relative;
           gap: 30px;
         }
-      }
-    }
-  }
-}
-
-:global(.light_theme) {
-  .wrapper {
-    background-color: $gray-500;
-  }
-  .row {
-    background-color: $gray-600;
-  }
-  .idWrapper {
-    color: $black;
-  }
-  .avatar {
-    background-color: $gray-500;
-  }
-  .buttons {
-    .exit {
-      color: $black;
-    }
-    .button {
-      color: $black;
-    }
-    .delete {
-      color: $black;
-    }
-  }
-  .line {
-    .name {
-      color: $black;
-    }
-    .text {
-      color: $black;
-    }
-    .inputName {
-      color: $background-dark-0;
-    }
-    .check {
-      color: $background-dark-0;
-
-      &:hover {
-        color: $green-200;
-      }
-    }
-    .close {
-      color: $background-dark-0;
-
-      &:hover {
-        color: $error-200;
       }
     }
   }

@@ -10,6 +10,11 @@
   color: $white;
   transition: color transition-delay;
 }
+
+:global(.light_theme) .wrapper {
+  color: $black;
+}
+
 .title {
   width: 100%;
   text-align: center;
@@ -21,8 +26,4 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-}
-
-:global(.light_theme) .wrapper {
-  color: $black;
 }

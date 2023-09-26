@@ -16,6 +16,10 @@
   transition: color $transition-delay;
 }
 
+:global(.light_theme) .title {
+  color: $black;
+}
+
 .chooseColor {
   width: 100%;
   outline: none;
@@ -53,11 +57,5 @@
 @media screen and (max-width: 400px) {
   .wrapper {
     width: 100%;
-  }
-}
-
-:global(.light_theme) {
-  .title {
-    color: $black;
   }
 }

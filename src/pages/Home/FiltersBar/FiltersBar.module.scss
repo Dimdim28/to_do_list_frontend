@@ -9,6 +9,14 @@
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) {
+  .filtersWrapper,
+  .mobileFiltersWrapper {
+    background-color: $gray-600;
+    color: $black;
+  }
+}
+
 .mobileFiltersWrapper {
   width: 100%;
   position: absolute;
@@ -26,17 +34,8 @@
   transition: 0.2s;
 
   &:hover {
-    color: $error-200
+    color: $error-200;
   }
 
   transition: oclor $transition-delay;
-}
-
-:global(.light_theme) {
-
-  .filtersWrapper,
-  .mobileFiltersWrapper {
-    background-color: $gray-600;
-    color: $black;
-  }
 }

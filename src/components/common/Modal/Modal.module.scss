@@ -17,6 +17,13 @@
   transition: background-color $transition-delay;
 }
 
+:global(.light_theme) {
+  .modalActive,
+  .modal {
+    background-color: $gray-500;
+  }
+}
+
 .modal {
   opacity: 0;
   pointer-events: none;
@@ -52,20 +59,14 @@
   }
 }
 
-:global(.light_theme) {
-  .modalActive,
-  .modal {
-    background-color: $gray-500;
-  }
-  .modalContentActive,
-  .modalContent {
-    background-color: $gray-600;
-  }
-  .close {
-    color: $black;
+:global(.light_theme) .modalContentActive,
+.modalContent {
+  background-color: $gray-600;
+}
+.close {
+  color: $black;
 
-    &:hover {
-      color: $error-200;
-    }
+  &:hover {
+    color: $error-200;
   }
 }

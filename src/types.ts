@@ -1,6 +1,3 @@
-import EN from "./languages/EN";
-import UA from "./languages/UA";
-
 export enum Status {
   LOADING = "loading",
   SUCCESS = "success",

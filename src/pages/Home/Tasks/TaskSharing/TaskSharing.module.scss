@@ -20,6 +20,10 @@
   }
 }
 
+:global(.light_theme) .title {
+  color: $black;
+}
+
 .actions {
   display: flex;
   justify-content: space-between;
@@ -37,8 +41,4 @@
   .wrapper {
     width: 100%;
   }
-}
-
-:global(.light_theme) .title {
-  color: $black;
 }
