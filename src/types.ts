@@ -94,7 +94,7 @@ export enum TranslationKeys {
   Question7 = "How can I share a task with other users?",
   Question8 = "What filtering options are available for tasks?",
   Question9 = "How will the project develop in the future?",
-  Question10 = "What are the moral values of the development team?",
+  Question10 = "What are the moral values of the developers?",
   Answer1 = "Answer 1",
   Answer2 = "Answer 2",
   Answer3 = "Answer 3",

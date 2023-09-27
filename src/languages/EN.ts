@@ -79,7 +79,7 @@ const EN = {
   question7: "How can I share a task with other users?",
   question8: "What filtering options are available for tasks?",
   question9: "How will the project develop in the future?",
-  question10: "What are the moral values of the development team?",
+  question10: "What are the moral values of the developers?",
   answer1: "Answer 1",
   answer2: "Answer 2",
   answer3: "Answer 3",
