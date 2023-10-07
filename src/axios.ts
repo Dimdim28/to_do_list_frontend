@@ -7,7 +7,9 @@ const instanse = axios.create({
 // @ts-ignore
 instanse.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = window.localStorage.getItem("token");
+    config.headers["Authorization"] = `Bearer ${window.localStorage.getItem(
+      "token"
+    )}`;
     return config;
   },
   (error) => {

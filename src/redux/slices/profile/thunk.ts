@@ -22,10 +22,8 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   "profile/fetchUserProfile",
   async (params, { rejectWithValue }) => {
     try {
-      const response: ProfileResponse = await instanse.get(
-        `/user/${params.id}`
-      );
-      const response2: any = await instanse.get("/upload");
+      const response: ProfileResponse = await instanse.get(`/user/me`);
+      const response2: any = await instanse.get("/image/avatar");
       return {
         ...response.data,
         avatarUrl: response2.data[0].image,

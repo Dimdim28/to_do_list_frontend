@@ -110,7 +110,9 @@ const TaskCard = ({
       </div>
 
       {deadline && (
-        <p className={styles.deadline}>{t("deadline")} {humaniseDate(deadline)}</p>
+        <p className={styles.deadline}>
+          {t("deadline")} {humaniseDate(deadline)}
+        </p>
       )}
       {sharedWith &&
         sharedWith[0] !== "already shared" &&
@@ -162,7 +164,7 @@ const TaskCard = ({
             e.stopPropagation();
           }}
         />
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           color="black"
           data-testid="share-icon"
           fontSize="15px"
@@ -183,7 +185,7 @@ const TaskCard = ({
             setTaskSharing(true);
             e.stopPropagation();
           }}
-        />
+        /> */}
       </div>
     </div>
   );

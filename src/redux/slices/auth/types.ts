@@ -30,6 +30,7 @@ export interface LoginParams {
 
 export interface RegisterParams {
   email: string;
-  login: string;
+  username: string;
   firstPass: string;
+  secondPass: string;
 }
