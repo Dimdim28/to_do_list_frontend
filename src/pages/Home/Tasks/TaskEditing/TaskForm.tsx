@@ -61,7 +61,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const submit = async () => {
     setStatus(Status.LOADING);
     let payload = { title, description, links: links || [] };
-    if (hasDeadline && deadline) payload = Object.assign(payload, { deadline });
+    payload = Object.assign(payload, {
+      deadline: hasDeadline ? deadline : null,
+    });
     if (categories.length > 0)
       payload = Object.assign(payload, {
         categories,
