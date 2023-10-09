@@ -13,7 +13,7 @@ import styles from "./Register.module.scss";
 
 interface Values {
   email?: string;
-  login?: string;
+  username?: string;
   firstPass?: string;
   secondPass?: string;
 }
@@ -26,12 +26,12 @@ const validate = (values: Values) => {
     errors.email = "Invalid email address";
   }
 
-  if (!values.login) {
-    errors.login = "Required";
-  } else if (values.login.length < 3) {
-    errors.login = "Must be 3 characters or more";
-  } else if (values.login.length > 15) {
-    errors.login = "Must be 15 characters or less";
+  if (!values.username) {
+    errors.username = "Required";
+  } else if (values.username.length < 3) {
+    errors.username = "Must be 3 characters or more";
+  } else if (values.username.length > 15) {
+    errors.username = "Must be 15 characters or less";
   }
 
   if (!values.firstPass) {
@@ -67,7 +67,7 @@ const SignupForm: FC = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      login: "",
+      username: "",
       firstPass: "",
       secondPass: "",
     },
@@ -104,16 +104,16 @@ const SignupForm: FC = () => {
 
           <div className={styles.fieldsWrapper}>
             <FormikInput
-              name="login"
+              name="username"
               type="text"
               title={t("login")}
               onChange={formik.handleChange}
-              value={formik.values.login}
+              value={formik.values.username}
               onBlur={formik.handleBlur}
             />
 
-            {formik.errors.login && formik.touched.login ? (
-              <p>{formik.errors.login}</p>
+            {formik.errors.username && formik.touched.username ? (
+              <p>{formik.errors.username}</p>
             ) : null}
           </div>
 

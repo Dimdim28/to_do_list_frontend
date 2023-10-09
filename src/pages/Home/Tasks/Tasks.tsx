@@ -1,19 +1,19 @@
-import { useEffect, useState, Dispatch, SetStateAction, FC } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState, Dispatch, SetStateAction, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import TaskDeleting from "./TaskDeleting/TaskDeleting";
-import TaskEditing from "./TaskEditing/TaskForm";
-import TaskCard from "./TaskCard/TaskCard";
-import Pagination from "./Pagination/Pagination";
-import Preloader from "../../../components/Preloader/Preloader";
-import TaskSharing from "./TaskSharing/TaskSharing";
-import TaskAddingLink from "./TaskAddingLink/TaskAddingLink";
-import { usePrevious } from "../../../hooks";
-import { Modal } from "../../../components/common/Modal/Modal";
-import { Task, getTask } from "../../../api/taskAPI";
-import TaskInfo from "./TaskInfo/TaskInfo";
+import TaskDeleting from './TaskDeleting/TaskDeleting';
+import TaskEditing from './TaskEditing/TaskForm';
+import TaskCard from './TaskCard/TaskCard';
+import Pagination from './Pagination/Pagination';
+import Preloader from '../../../components/Preloader/Preloader';
+import TaskSharing from './TaskSharing/TaskSharing';
+import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
+import { usePrevious } from '../../../hooks';
+import { Modal } from '../../../components/common/Modal/Modal';
+import { Task, getTask } from '../../../api/taskAPI';
+import TaskInfo from './TaskInfo/TaskInfo';
 
-import styles from "./Tasks.module.scss";
+import styles from './Tasks.module.scss';
 
 interface TaskProps {
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -24,6 +24,7 @@ interface TaskProps {
   Tasks: Task[];
   totalPages: number;
   isMobile?: boolean;
+  setTasks: Dispatch<SetStateAction<Task[]>>;
 }
 
 const Tasks: FC<TaskProps> = ({
@@ -35,6 +36,7 @@ const Tasks: FC<TaskProps> = ({
   Tasks,
   totalPages,
   isMobile,
+  setTasks,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
@@ -50,6 +52,13 @@ const Tasks: FC<TaskProps> = ({
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
   const prevCategories = usePrevious(categories);
+
+  const updateTaskStatus = (id: string, isCompleted: boolean) => {
+    const updatedTasks = Tasks.map((el) =>
+      el._id === id ? { ...el, isCompleted } : el
+    );
+    setTasks(updatedTasks);
+  };
 
   useEffect(() => {
     if (
@@ -83,7 +92,7 @@ const Tasks: FC<TaskProps> = ({
             });
           }}
         >
-          {t("addTask")}
+          {t('addTask')}
         </button>
       </div>
       <Modal
@@ -140,10 +149,11 @@ const Tasks: FC<TaskProps> = ({
                     fetchTasks={fetchTasks}
                     taskFetchingParams={taskFetchingParams}
                     setCurrentPage={setCurrentPage}
+                    updateTaskStatus={updateTaskStatus}
                   />
                 ))
               ) : (
-                <p className={styles.noTasks}>{t("noTask")}</p>
+                <p className={styles.noTasks}>{t('noTask')}</p>
               )}
             </div>
           )}

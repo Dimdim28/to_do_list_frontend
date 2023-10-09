@@ -20,7 +20,6 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     sharedWith,
     links,
   } = childProps;
-
   const { t } = useTranslation();
 
   return (
@@ -59,7 +58,9 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
 
       {deadline && (
-        <p className={styles.deadline}>{t("deadline")} {humaniseDate(deadline)}</p>
+        <p className={styles.deadline}>
+          {t("deadline")} {humaniseDate(deadline)}
+        </p>
       )}
       {sharedWith &&
         sharedWith[0] !== "already shared" &&

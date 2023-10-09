@@ -66,7 +66,7 @@ const homeSlice = createSlice({
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [
         ...state.category.categories,
-        ...action.payload.categories,
+        ...(action.payload?.categories || []),
       ];
       state.category.message = "";
       state.category.status = Status.SUCCESS;
