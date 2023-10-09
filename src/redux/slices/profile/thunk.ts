@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
-  DeleteAccountParams,
   Avatar,
   AvatarResponse,
   ChangeAvatarParams,
@@ -49,16 +48,15 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
   }
 );
 
-export const deleteAccount = createAsyncThunk<Message, DeleteAccountParams>(
+export const deleteAccount = createAsyncThunk<void>(
   'profile/deleteAccount',
   async (params, { rejectWithValue }) => {
     try {
-      const response: DeleteAccountResponse = await instanse.delete(
-        `/user/${params.id}`
-      );
-      return response.data;
+      const response: DeleteAccountResponse = await instanse.delete(`/user`);
+
+      return;
     } catch (err: any) {
-      return rejectWithValue(err?.response?.data?.message || 'Error');
+      return rejectWithValue(err?.response?.message || 'Error');
     }
   }
 );
@@ -73,7 +71,7 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
       );
 
       if (passCheckingResult.status !== 200) {
-        return rejectWithValue(passCheckingResult.data.message);
+        return rejectWithValue(passCheckingResult.data.status);
       }
 
       return passCheckingResult.data;
