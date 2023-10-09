@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .wrapper {
   display: flex;
@@ -23,7 +23,7 @@
 .chooseColor {
   width: 100%;
   outline: none;
-  border: 2px solid $black;
+  border: 2px solid $warning-200;
   background: none;
   height: 34px;
   margin-top: 20px;
