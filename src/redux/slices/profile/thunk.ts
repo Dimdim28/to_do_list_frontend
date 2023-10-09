@@ -68,17 +68,15 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
   async (params, { rejectWithValue }) => {
     try {
       const passCheckingResult: DeleteAccountResponse = await instanse.post(
-        '/password',
-        { password: params.previous }
+        '/user/password',
+        { oldPassword: params.oldPassword, newPassword: params.newPassword }
       );
+
       if (passCheckingResult.status !== 200) {
         return rejectWithValue(passCheckingResult.data.message);
       }
-      const updatingPassResult: UpdateProfileResponse = await instanse.patch(
-        `/user/${params.userId}`,
-        { password: params.new }
-      );
-      return updatingPassResult.data;
+
+      return passCheckingResult.data;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
@@ -89,10 +87,9 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
   'profile/changeName',
   async (params, { rejectWithValue }) => {
     try {
-      const result: UpdateProfileResponse = await instanse.patch(
-        `/user/${params.userId}`,
-        { username: params.username }
-      );
+      const result: UpdateProfileResponse = await instanse.patch(`/user`, {
+        username: params.username,
+      });
       return result.data;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
