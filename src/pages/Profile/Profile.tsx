@@ -126,7 +126,7 @@ const Profile: FC = () => {
     const base64: any = await convertToBase64(compressedFile);
 
     try {
-      await dispatch(changeAvatar({ image: base64, userId: id }));
+      await dispatch(changeAvatar({ image: base64 }));
     } catch (e) {
       toast.error(`${e}`);
     }
