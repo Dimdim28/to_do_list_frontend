@@ -24,6 +24,7 @@ interface TaskProps {
   Tasks: Task[];
   totalPages: number;
   isMobile?: boolean;
+  setTasks: Dispatch<SetStateAction<Task[]>>;
 }
 
 const Tasks: FC<TaskProps> = ({
@@ -35,6 +36,7 @@ const Tasks: FC<TaskProps> = ({
   Tasks,
   totalPages,
   isMobile,
+  setTasks,
 }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
@@ -50,6 +52,15 @@ const Tasks: FC<TaskProps> = ({
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
   const prevCategories = usePrevious(categories);
+
+  console.log(Tasks);
+
+  const updateTaskStatus = (id: string, isCompleted: boolean) => {
+    const updatedTasks = Tasks.map((el) =>
+      el._id === id ? { ...el, isCompleted } : el
+    );
+    setTasks(updatedTasks);
+  };
 
   useEffect(() => {
     if (
@@ -140,6 +151,7 @@ const Tasks: FC<TaskProps> = ({
                     fetchTasks={fetchTasks}
                     taskFetchingParams={taskFetchingParams}
                     setCurrentPage={setCurrentPage}
+                    updateTaskStatus={updateTaskStatus}
                   />
                 ))
               ) : (

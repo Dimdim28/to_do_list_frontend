@@ -106,7 +106,12 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             activeCategories={categories}
             setActiveCategories={setCategories}
           />
-          <Input title={t("title")} value={title} setValue={setTittle} type="text" />
+          <Input
+            title={t("title")}
+            value={title}
+            setValue={setTittle}
+            type="text"
+          />
           <TextArea
             title={t("description")}
             value={description}
@@ -119,9 +124,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               label={t("taskHasDeadline")}
             />
             {links.map((link, index) => (
-              <div className={styles.linkRow}>
+              <div className={styles.linkRow} key={index}>
                 <Input
-                  key={index}
                   title={t("link")}
                   value={link}
                   setValue={(newLink: any) => {
