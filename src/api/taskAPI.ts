@@ -114,9 +114,10 @@ class taskAPIClass {
 
   public async edittask(params: EditTask): Promise<Result> {
     try {
+      const { _id, ...body } = params;
       const response: TaskResponse = await instanse.patch(
         `/task/${params._id}`,
-        params
+        body
       );
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
@@ -130,7 +131,15 @@ class taskAPIClass {
 
   public async getTasks(params?: getTask): Promise<TasksResult> {
     try {
-      const response: TasksResponse = await instanse.get(`/task`, { params });
+      let newParams: any = params;
+      const categories = params?.categories?.map((el) => `"${el}"`).join(",");
+
+      if (categories) {
+        newParams = { ...params, categories: `[${categories}]` };
+      }
+      const response: TasksResponse = await instanse.get(`/task`, {
+        params: newParams,
+      });
       const { tasks, currentPage, totalPages } = response.data;
       return { tasks, currentPage, totalPages, status: Status.SUCCESS };
     } catch (err: any) {

@@ -29,9 +29,8 @@ export const ChangePass: FC<ChangePassProps> = ({ id }) => {
     onSubmit: async (values, { setSubmitting }) => {
       await dispatch(
         changePass({
-          previous: values.firstpass,
-          new: values.secondpass,
-          userId: id,
+          oldPassword: values.firstpass,
+          newPassword: values.secondpass,
         })
       );
       if (status === Status.SUCCESS) {

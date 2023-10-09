@@ -18,6 +18,7 @@
 }
 
 :global(.light_theme) {
+
   .modalActive,
   .modal {
     background-color: $gray-500;
@@ -62,11 +63,12 @@
 :global(.light_theme) .modalContentActive,
 .modalContent {
   background-color: $gray-600;
-}
-.close {
-  color: $black;
 
-  &:hover {
-    color: $error-200;
+  .close {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
   }
 }

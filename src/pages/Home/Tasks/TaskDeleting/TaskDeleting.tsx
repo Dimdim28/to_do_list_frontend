@@ -1,13 +1,13 @@
-import { useState, Dispatch, SetStateAction, FC } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import Preloader from "../../../../components/Preloader/Preloader";
-import Button from "../../../../components/common/Button/Button";
-import taskAPI, { Task, getTask } from "../../../../api/taskAPI";
-import { truncate } from "../../../../helpers/string";
-import { Status } from "../../../../types";
+import Preloader from '../../../../components/Preloader/Preloader';
+import Button from '../../../../components/common/Button/Button';
+import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import { truncate } from '../../../../helpers/string';
+import { Status } from '../../../../types';
 
-import styles from "./TaskDeleting.module.scss";
+import styles from './TaskDeleting.module.scss';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -19,15 +19,12 @@ interface TaskDeletingProps {
   };
 }
 
-const TaskDeleting: FC<TaskDeletingProps> = ({
-  childProps,
-  toggleActive,
-}) => {
+const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
   const { _id, title, fetchTasks, taskFetchingParams, setCurrentPage, length } =
     childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
-  const [taskError, setTaskError] = useState("");
+  const [taskError, setTaskError] = useState('');
 
   const { t } = useTranslation();
 
@@ -36,13 +33,16 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
     const result = await taskAPI.deleteTask(_id);
     const { message, status } = result;
     setStatus(status);
-    setTaskError(message || "");
+    setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (length === 1) {
         setCurrentPage((prev) => {
-          const params = { ...taskFetchingParams, page: prev - 1 };
+          const params = {
+            ...taskFetchingParams,
+            page: prev >= 2 ? prev - 1 : 1,
+          };
           fetchTasks(params);
-          return prev - 1;
+          return prev >= 2 ? prev - 1 : 1;
         });
       } else {
         fetchTasks(taskFetchingParams);
@@ -62,13 +62,13 @@ const TaskDeleting: FC<TaskDeletingProps> = ({
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>{t("reallyTask")}</p>
-             <h3>{truncate(title,12)}</h3> 
+            <p>{t('reallyTask')}</p>
+            <h3>{truncate(title, 12)}</h3>
           </div>
           <div className={styles.actions}>
-            <Button text={t("no")} callback={cancel} class="cancel" />
+            <Button text={t('no')} callback={cancel} class="cancel" />
             <Button
-              text={t("yes")}
+              text={t('yes')}
               callback={submit}
               class="submit"
               data-testid="submit-button"

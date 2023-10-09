@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 import {
   changeAvatar,
@@ -7,9 +7,9 @@ import {
   fetchUserProfile,
   changeName,
   getStats,
-} from "./thunk";
-import { Status } from "../../../types";
-import { ProfileSliceState } from "./types";
+} from './thunk';
+import { Status } from '../../../types';
+import { ProfileSliceState } from './types';
 
 const initialState: ProfileSliceState = {
   data: null,
@@ -18,21 +18,21 @@ const initialState: ProfileSliceState = {
 };
 
 const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     exit(state) {
       state.data = null;
     },
     clearProfileErrorMessage(state) {
-      state.message = "";
+      state.message = '';
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.status = Status.LOADING;
       state.data = null;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -45,15 +45,15 @@ const profileSlice = createSlice({
 
     builder.addCase(changeAvatar.pending, (state) => {
       state.status = Status.LOADING;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(changeAvatar.fulfilled, (state, action) => {
       if (state.data)
         state.data = {
           ...state.data,
-          avatarUrl: action.payload.url,
+          avatarUrl: action.payload.image,
         };
-      state.message = "";
+      state.message = '';
       state.status = Status.SUCCESS;
     });
     builder.addCase(changeAvatar.rejected, (state, action) => {
@@ -63,12 +63,12 @@ const profileSlice = createSlice({
 
     builder.addCase(deleteAccount.pending, (state) => {
       state.status = Status.LOADING;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(deleteAccount.fulfilled, (state) => {
       state.data = null;
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(deleteAccount.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -77,11 +77,11 @@ const profileSlice = createSlice({
 
     builder.addCase(changePass.pending, (state) => {
       state.status = Status.LOADING;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(changePass.fulfilled, (state) => {
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(changePass.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -90,22 +90,22 @@ const profileSlice = createSlice({
 
     builder.addCase(changeName.pending, (state) => {
       state.status = Status.LOADING;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(changeName.fulfilled, (state) => {
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(changeName.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });
     builder.addCase(getStats.pending, (state) => {
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(getStats.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
       state.stats = action.payload;
     });
     builder.addCase(getStats.rejected, (state, action) => {
