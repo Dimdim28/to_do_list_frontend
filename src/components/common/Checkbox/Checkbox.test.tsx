@@ -7,6 +7,7 @@ jest.mock("../../../api/taskAPI");
 
 describe("Checkbox", () => {
   const mockSetIsChecked = jest.fn();
+  const updateTaskStatus = jest.fn();
 
   beforeEach(() => {
     taskAPI.edittask = jest.fn().mockImplementation(async () => {
@@ -28,6 +29,7 @@ describe("Checkbox", () => {
         isChecked={false}
         setIsChecked={mockSetIsChecked}
         label="Check me"
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const checkboxElement = screen.getByLabelText("Check me");
@@ -40,6 +42,7 @@ describe("Checkbox", () => {
         isChecked={false}
         setIsChecked={mockSetIsChecked}
         label="Check me"
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const checkboxElement = screen.getByLabelText("Check me");
@@ -56,6 +59,7 @@ describe("Checkbox", () => {
         label="Check me"
         isForChangeCompletedStatus
         id={taskId}
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const checkboxElement = screen.getByLabelText("Check me");
@@ -79,6 +83,7 @@ describe("Checkbox", () => {
         setIsChecked={mockSetIsChecked}
         label="Check me"
         isForChangeCompletedStatus={false}
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const checkboxElement = screen.getByLabelText("Check me");
@@ -96,6 +101,7 @@ describe("Checkbox", () => {
         label="Check me"
         isRounded
         isForChangeCompletedStatus={false}
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const spanElement = screen.getByTestId("checkbox-span");
@@ -109,6 +115,7 @@ describe("Checkbox", () => {
         setIsChecked={mockSetIsChecked}
         label="Check me"
         isForChangeCompletedStatus={false}
+        updateTaskStatus={updateTaskStatus}
       />
     );
     const spanElement = screen.getByTestId("checkbox-span");

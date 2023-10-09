@@ -14,6 +14,7 @@ describe("Tasks", () => {
   };
   const fetchTasksMock = jest.fn();
   const setCurrentPageMock = jest.fn();
+  const setTasks = jest.fn();
 
   test("renders without errors", () => {
     render(
@@ -25,6 +26,7 @@ describe("Tasks", () => {
         error=""
         Tasks={[]}
         totalPages={0}
+        setTasks={setTasks}
       />
     );
 
@@ -42,6 +44,7 @@ describe("Tasks", () => {
           error=""
           Tasks={[]}
           totalPages={0}
+          setTasks={setTasks}
         />
       </Provider>
     );

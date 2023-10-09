@@ -112,6 +112,7 @@ const Home: FC = () => {
       <Tasks
         isMobile={isMobile}
         Tasks={TasksArray}
+        setTasks={setTasks}
         totalPages={totalTaskPages}
         isLoading={isTasksLoading}
         error={tasksError}

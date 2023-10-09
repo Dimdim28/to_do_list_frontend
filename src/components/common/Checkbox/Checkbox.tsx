@@ -11,6 +11,7 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   isRounded?: boolean;
   isForChangeCompletedStatus?: boolean;
   id?: string;
+  updateTaskStatus?: (id: string, isCompleted: boolean) => void;
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -20,6 +21,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   isRounded,
   isForChangeCompletedStatus,
   id,
+  updateTaskStatus,
 }) => {
   return (
     <label
@@ -40,6 +42,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                   isCompleted: !isChecked,
                 });
                 if (result.status === "success") setIsChecked((prev) => !prev);
+                if (updateTaskStatus) updateTaskStatus(id || "", !isChecked);
               } catch (e) {
                 console.log(e);
               }
