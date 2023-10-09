@@ -50,9 +50,8 @@ export type DeleteAccountResponse = {
 };
 
 export interface ChangePassword {
-  previous: string;
-  new: string;
-  userId: string;
+  oldPassword: string;
+  newPassword: string;
 }
 
 export type UpdateProfileResponse = {
