@@ -1,4 +1,4 @@
-import { Status } from "../../../types";
+import { Status } from '../../../types';
 
 export type Profile = {
   email: string;
@@ -9,7 +9,7 @@ export type Profile = {
   updatedAt: string;
 };
 
-export type Avatar = { url: string };
+export type Avatar = { id: string; image: string; userId: string };
 export type Message = { message: string };
 
 export type ProfileResponse = {
@@ -31,7 +31,6 @@ export interface GetProfileParams {
 
 export interface ChangeAvatarParams {
   image: FormData;
-  userId: string;
 }
 
 export type AvatarResponse = {
