@@ -1,0 +1,32 @@
+@import "src/styles/partials/theme";
+
+.footer {
+  background-color: $black;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  transition: color $transition-delay, background-color $transition-delay;
+}
+
+.leftAlignedText {
+  text-align: left;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.centeredText {
+  flex: 1;
+  text-align: center;
+}
+
+.isActive {
+  display: none;
+}
+
+:global(.light_theme) .footer {
+  background-color: $white;
+  color: $black;
+}

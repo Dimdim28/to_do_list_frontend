@@ -39,7 +39,7 @@ const Login: FC<{}> = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h1>{t("signInBolt")}</h1>
+        <h1>{t("signInBold")}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput

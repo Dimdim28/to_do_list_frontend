@@ -1,14 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { useTranslation } from "react-i18next";
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
 
-import Footer from "./Footer";
+import Footer from "./FAQFooter";
 import { TranslationKeys } from "../../types";
+import store from "../../redux/store";
 
 jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
 }));
 
-describe("Footer", () => {
+describe("FAQFooter", () => {
   beforeEach(() => {
     const useTranslationSpy = useTranslation as jest.Mock;
     const tSpy = jest.fn((str) => str);
@@ -21,13 +24,25 @@ describe("Footer", () => {
   });
 
   it("renders correctly", () => {
-    render(<Footer />);
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Footer />
+        </Provider>
+      </MemoryRouter>
+    );
     const footerElement = screen.getByText(TranslationKeys.Footer);
     expect(footerElement).toBeInTheDocument();
   });
 
   it("has the correct class name", () => {
-    render(<Footer />);
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Footer />
+        </Provider>
+      </MemoryRouter>
+    );
     const footerElement = screen.getByRole("contentinfo");
     expect(footerElement).toHaveClass("footer");
   });

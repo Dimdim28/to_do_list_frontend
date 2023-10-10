@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 
-import AuthLayout from "./AuthLayout";
+import HomeLayout from "./HomeLayout";
 
-jest.mock("../components/SecondHeader/SecondHeader", () => () => (
-  <div data-testid="secondHeader">Header component</div>
+jest.mock("../components/Header/Header", () => () => (
+  <div data-testid="header">Header component</div>
 ));
 
-jest.mock("../components/Footer/Footer", () => () => (
+jest.mock("../components/FAQFooter/FAQFooter", () => () => (
   <div data-testid="footer">Footer component</div>
 ));
 
@@ -18,15 +18,15 @@ jest.mock("react-router", () => ({
   Outlet: () => <div data-testid="outlet">Outlet component</div>,
 }));
 
-describe("AuthLayout", () => {
+describe("HomeLayout", () => {
   it("renders Header, Preloader, Outlet, and Footer components", () => {
     render(
-      <AuthLayout>
+      <HomeLayout>
         <div>Test Outlet</div>
-      </AuthLayout>
+      </HomeLayout>
     );
 
-    expect(screen.getByTestId("secondHeader")).toBeInTheDocument();
+    expect(screen.getByTestId("header")).toBeInTheDocument();
     expect(screen.getByTestId("outlet")).toBeInTheDocument();
     expect(screen.getByTestId("footer")).toBeInTheDocument();
   });

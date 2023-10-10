@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import Header from "./LogRegHeader";
+import Header from "./SecondHeader";
 import { Provider } from "react-redux";
 import store from "../../redux/store";
 
