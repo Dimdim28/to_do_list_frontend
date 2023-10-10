@@ -38,6 +38,7 @@ h1 {
   margin-bottom: 20px;
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .question {
@@ -45,11 +46,19 @@ h1 {
   background-color: $background-dark-0;
   color: $white;
   transition: background-color $transition-delay color $transition-delay;
+
+  &:hover {
+    background-color: $background-dark-10;
+  }
 }
 
 :global(.light_theme) .question {
   background-color: $gray-600;
   color: $black;
+
+  &:hover {
+    background-color: $gray-400;
+  }
 }
 
 .answer {
@@ -70,6 +79,7 @@ h1 {
     background-color: $background-dark-10;
     transition: background-color $transition-delay;
   }
+
   .answer {
     display: block;
     background-color: $background-dark-0;
@@ -81,6 +91,7 @@ h1 {
   .question {
     background-color: $gray-400;
   }
+
   .answer {
     background-color: $gray-600;
   }
