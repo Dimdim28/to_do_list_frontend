@@ -11,10 +11,18 @@ main {
   justify-content: center;
 }
 
+:global(.light_theme) main {
+  background-color: $gray-600;
+}
+
 h1 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 60px;
+}
+
+:global(.light_theme) h1 {
+  color: $black;
 }
 
 form {
@@ -77,27 +85,4 @@ form {
   color: red;
   text-align: center;
   margin-top: 20px;
-}
-
-:global(.light_theme) {
-  main {
-    background-color: $gray-600;
-  }
-  .themeIcon {
-    color: $black;
-
-    &:hover {
-      color: $gray-50;
-    }
-  }
-  .language {
-    color: $black;
-
-    &:hover {
-      color: $gray-50;
-    }
-  }
-  h1 {
-    color: $black;
-  }
 }

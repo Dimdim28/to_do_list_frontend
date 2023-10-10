@@ -1,20 +1,20 @@
 import { Suspense, FC } from "react";
 import { Outlet } from "react-router";
 
-import Footer from "../components/Footer/Footer";
+import FAQFooter from "../components/FAQFooter/FAQFooter";
 import SecondHeader from "../components/SecondHeader/SecondHeader";
 import Preloader from "../components/FallBackPreloader/FallBackPreloader";
 
-const AuthLayout: FC = () => {
+const HomeLayout: FC = () => {
   return (
     <>
       <SecondHeader />
       <Suspense fallback={<Preloader />}>
         <Outlet />
       </Suspense>
-      <Footer />
+      <FAQFooter />
     </>
   );
 };
 
-export default AuthLayout;
+export default HomeLayout;
