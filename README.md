@@ -1,8 +1,8 @@
 # Our production and development links
 
-[Prod link](https://to-do-list-frontend-five.vercel.app)
+[Prod link](https://my-tododo.vercel.app/)
 
-[Dev link](https://to-do-list-frontend-dev.vercel.app/)
+[Dev link](https://my-tododo-dev.vercel.app/)
 
 # Installation required
 
