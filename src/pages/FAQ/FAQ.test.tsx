@@ -57,18 +57,18 @@ describe("FAQ", () => {
 
     expect(screen.getByText("FAQ")).toBeInTheDocument();
 
-    expect(screen.queryByText("Answer1")).toBeNull();
-    expect(screen.queryByText("Answer2")).toBeNull();
-    expect(screen.queryByText("Answer3")).toBeNull();
-    expect(screen.queryByText("Answer4")).toBeNull();
-    
-    fireEvent.click(screen.getByText("Question1"));
+    const question1 = screen.getByText("Question1");
+    const question2 = screen.getByText("Question2");
+
+    fireEvent.click(question1);
+    const item1 = screen.getByText("Question1").closest(".item"); // Получаем элемент с классом item для Question1
     expect(screen.getByText("Answer1")).toBeInTheDocument();
-    fireEvent.click(screen.getByText("Question2"));
+    expect(item1).toHaveClass("active");
+
+    fireEvent.click(question2);
+    const item2 = screen.getByText("Question2").closest(".item"); // Получаем элемент с классом item для Question2
     expect(screen.getByText("Answer2")).toBeInTheDocument();
-    fireEvent.click(screen.getByText("Question3"));
-    expect(screen.getByText("Answer3")).toBeInTheDocument();
-    fireEvent.click(screen.getByText("Question4"));
-    expect(screen.getByText("Answer4")).toBeInTheDocument();
+    expect(item1).not.toHaveClass("active");
+    expect(item2).toHaveClass("active");
   });
 });

@@ -38,11 +38,11 @@ const FAQ: FC = () => {
             >
               {item.question}
             </div>
-            {activeIndex === index && (
+            {
               <div className={styles.answer}>
                 <div className={styles.answerBackground}>{item.answer}</div>
               </div>
-            )}
+            }
           </div>
         ))}
       </div>
