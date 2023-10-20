@@ -26,6 +26,7 @@
   overflow-y: auto;
   background-color: $background-dark-10;
   transition: background-color $transition-delay;
+  padding-top: 20px;
 }
 
 :global(.light_theme) .wrapper {
@@ -34,17 +35,20 @@
 
 .profile {
   border-radius: 20px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 95%;
+  max-width: 1400px;
   position: relative;
+  width: 100%;
+  flex-grow: 1;
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 30px;
   width: 100%;
   border: 2px solid $warning-200;
   border-radius: 15px;
@@ -134,6 +138,7 @@
   background-color: $background-dark-10;
   position: relative;
   transition: background-color $transition-delay;
+  flex-shrink: 0;
 
   input[type="file"] {
     display: none;
@@ -182,7 +187,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  max-width: 290px;
 }
 
 .line {
@@ -232,7 +236,8 @@
     transition: 0.3s;
     cursor: pointer;
     position: absolute;
-    right: -5px;
+    right: -7.5px;
+    bottom: calc(50% - 7.5px);
     color: $white;
     transition: color $transition-delay;
 
@@ -248,7 +253,8 @@
     transition: 0.3s;
     cursor: pointer;
     position: absolute;
-    right: -20px;
+    right: -27px;
+    bottom: calc(50% - 7.5px);
     color: $white;
     transition: color $transition-delay;
 
@@ -271,8 +277,8 @@
 
     transition: 0.3s;
     position: absolute;
-    top: calc(50% - 10px);
-    right: 0;
+    bottom: calc(50% - 7.5px);
+    right: -15px;
     cursor: pointer;
   }
 
@@ -355,19 +361,17 @@
 }
 
 .chartWrapper {
-  width: 90%;
+  width: 95%;
+  max-width: 1400px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  max-width: 730px;
 }
 
 @media screen and (max-width: 1480px) {
   .wrapper {
     .profile {
-      width: 60%;
-
       .row {
         .avatar {
           width: 280px;
@@ -389,36 +393,18 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
-  .wrapper {
-    .profile {
-      width: 70%;
-
-      .row {
-        .avatar {
-          width: 260px;
-          height: 260px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .wrapper {
-    .profile {
-      width: 90%;
-    }
-  }
-}
 
 @media screen and (max-width: 768px) {
   .wrapper {
     .profile {
-      width: 95%;
-
       .row {
         flex-direction: column;
+
+        .avatar {
+          margin-top: 20px;
+          width: 160px;
+          height: 160px;
+        }
       }
     }
   }
@@ -427,7 +413,7 @@
 @media screen and (max-width: 480px) {
   .wrapper {
     .profile {
-      width: 95%;
+      max-width: none;
 
       .row {
         .buttons {
@@ -435,6 +421,25 @@
           flex-direction: column;
           position: relative;
           gap: 30px;
+        }
+
+        .info {
+          .line {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .text {
+              margin-left: 0;
+            }
+
+            .pencil {
+              bottom: calc(50% - 15px);
+            }
+
+            .inputName {
+              margin-left: 0;
+            }
+          }
         }
       }
     }

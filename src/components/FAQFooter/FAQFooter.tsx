@@ -10,8 +10,8 @@ const FAQFooter: FC = () => {
   const { t } = useTranslation();
   return (
     <footer className={styles.footer}>
-  <div className={styles.leftAlignedText}>
-  <NavLink
+      <div className={styles.leftAlignedText}>
+        <NavLink
           to={ROUTES.FAQ}
           className={({ isActive }) => (isActive ? styles.isActive : "")}
         >
@@ -23,11 +23,9 @@ const FAQFooter: FC = () => {
         >
           {t("back")}
         </NavLink>
-  </div>
-  <div className={styles.centeredText}>
-    {t("footer")}
-  </div>
-</footer>
+      </div>
+      <div className={styles.centeredText}>{t("footer")}</div>
+    </footer>
   );
 };
 
