@@ -23,9 +23,13 @@
   align-items: center;
   justify-content: space-around;
   width: 100%;
+  gap: 30px;
+  padding-right: 30px;
+
   .fieldsWrapper {
-    max-width: 250px;
     position: relative;
+    flex-grow: 1;
+
     p {
       color: $error-200;
       position: absolute;
@@ -48,6 +52,7 @@
     background-color: $warning-200;
     color: $white;
   }
+
   &:disabled {
     color: $warning-200;
     background-color: inherit;
@@ -70,9 +75,11 @@
         flex-direction: column;
         width: 100%;
         align-items: flex-start;
+        padding-right: 0;
+
         .fieldsWrapper {
-          max-width: 100%;
-          width: calc(100% - 30px);
+          width: 100%;
+          padding-right: 10px;
         }
       }
     }

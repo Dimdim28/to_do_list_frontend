@@ -9,6 +9,7 @@
   justify-content: center;
   color: $gray-600;
   transition: color $transition-delay, background-color $transition-delay;
+  text-align: center;
 }
 
 :global(.light_theme) .footer {
