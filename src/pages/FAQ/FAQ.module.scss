@@ -62,11 +62,11 @@ h1 {
 }
 
 .answer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: $background-dark-0;
-  transition: background-color $transition-delay;
+  transition: background-color $transition-delay, max-height $transition-delay;
+  max-height: 0px;
+  height: auto;
+  overflow: hidden;
 }
 
 :global(.light_theme) .answer {
@@ -81,9 +81,9 @@ h1 {
   }
 
   .answer {
-    display: block;
+    max-height: 300px;
     background-color: $background-dark-0;
-    transition: background-color $transition-delay;
+    transition: background-color $transition-delay, max-height $transition-delay;
   }
 }
 
