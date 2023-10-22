@@ -1,5 +1,5 @@
 import { lazy, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -63,6 +63,7 @@ function App() {
           <Route path={ROUTES.FAQ} element={<FAQLayout />}>
             <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
+          <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
         </Routes>
       </div>
       <ToastContainer
