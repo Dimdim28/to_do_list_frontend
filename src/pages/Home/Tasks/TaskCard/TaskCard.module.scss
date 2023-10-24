@@ -24,6 +24,7 @@
 }
 
 :global(.light_theme) {
+
   .wrapper,
   .completedWrapper {
     background-color: $gray-600;
@@ -174,6 +175,7 @@
   margin-top: 20px;
   word-break: break-word;
   transition: color $transition-delay;
+  text-align: start;
 }
 
 :global(.light_theme) .title {
@@ -228,6 +230,7 @@
 }
 
 @media screen and (max-width: 1420px) {
+
   .wrapper,
   .completedWrapper {
     width: 300px;
@@ -235,6 +238,7 @@
 }
 
 @media screen and (max-width: 1320px) {
+
   .wrapper,
   .completedWrapper {
     width: 250px;
@@ -242,6 +246,7 @@
 }
 
 @media screen and (max-width: 1120px) {
+
   .wrapper,
   .completedWrapper {
     width: 200px;
@@ -254,6 +259,7 @@
 }
 
 @media screen and (max-width: 750px) {
+
   .wrapper,
   .completedWrapper {
     width: 250px;
