@@ -51,7 +51,7 @@ const profileSlice = createSlice({
       if (state.data)
         state.data = {
           ...state.data,
-          avatarUrl: action.payload.image,
+          avatar: action.payload,
         };
       state.message = '';
       state.status = Status.SUCCESS;

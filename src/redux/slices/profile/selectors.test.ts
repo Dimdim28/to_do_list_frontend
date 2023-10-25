@@ -32,7 +32,10 @@ describe("Testing profile slice selectors", () => {
       email: "dench@gmail.com",
       createdAt: "2023",
       updatedAt: "2024",
-      avatarUrl: "link",
+      avatar: {
+        public_id: "id",
+        url: "link",
+      },
     });
     expect(recievedThirdState).toBe(null);
   });
