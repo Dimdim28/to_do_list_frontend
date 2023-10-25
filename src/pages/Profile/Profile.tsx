@@ -1,63 +1,45 @@
-import { useEffect, useRef, useState, FC, FormEvent } from "react";
-import { useSelector } from "react-redux";
-import imageCompression from "browser-image-compression";
-import { Bar } from "react-chartjs-2";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import { useEffect, useRef, useState, FC, FormEvent } from 'react';
+import { useSelector } from 'react-redux';
+import imageCompression from 'browser-image-compression';
+import { Bar } from 'react-chartjs-2';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
-import Preloader from "../../components/Preloader/Preloader";
-import withLoginRedirect from "../../hoc/withLoginRedirect";
-import DeleteProfile from "./DeleteProfile/DeleteProfile";
-import Exit from "./Exit/Exit";
-import { Modal } from "../../components/common/Modal/Modal";
-import { ChangePass } from "./ChangePass/ChangePass";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
-import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
+import Preloader from '../../components/Preloader/Preloader';
+import withLoginRedirect from '../../hoc/withLoginRedirect';
+import DeleteProfile from './DeleteProfile/DeleteProfile';
+import Exit from './Exit/Exit';
+import { Modal } from '../../components/common/Modal/Modal';
+import { ChangePass } from './ChangePass/ChangePass';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectProfile, selectIsAuth } from '../../redux/slices/auth/selectors';
+import { clearProfileErrorMessage } from '../../redux/slices/profile/profile';
 import {
   selectProfileMessage,
   selectProfileStatus,
   selectStats,
   selectUserProfile,
-} from "../../redux/slices/profile/selectors";
+} from '../../redux/slices/profile/selectors';
 import {
   changeAvatar,
   changeName,
   fetchUserProfile,
   getStats,
-} from "../../redux/slices/profile/thunk";
-import { chartOptions, getChartData } from "../../helpers/stats";
-import { Chart as ChartJS, registerables } from "chart.js";
+} from '../../redux/slices/profile/thunk';
+import { chartOptions, getChartData } from '../../helpers/stats';
+import { Chart as ChartJS, registerables } from 'chart.js';
 
-import styles from "./Profile.module.scss";
+import styles from './Profile.module.scss';
 
 import {
   faCheck,
   faCirclePlus,
   faPencil,
   faX,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 ChartJS.register(...registerables);
-const convertToBase64 = (file: any) => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (err) => {
-      reject(err);
-    };
-  });
-};
-
-const COMPRESSION_OPTIONS = {
-  maxSizeMB: 0.067,
-  maxWidthOrHeight: 1920,
-  useWebWorker: true,
-};
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
@@ -72,19 +54,19 @@ const Profile: FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const profile = useAppSelector(selectUserProfile) || {
-    username: "",
-    avatarUrl: "",
-    email: "",
-    createdAt: "",
+    username: '',
+    avatar: null,
+    email: '',
+    createdAt: '',
   };
-  const { email, username, avatarUrl, createdAt } = profile;
+  const { email, username, avatar, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
   const [name, setName] = useState(username);
 
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-  const id = useAppSelector(selectProfile)?._id || "";
+  const id = useAppSelector(selectProfile)?._id || '';
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
@@ -98,7 +80,7 @@ const Profile: FC = () => {
     setName(username);
   }, [username]);
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return <Preloader />;
   }
 
@@ -107,7 +89,7 @@ const Profile: FC = () => {
       setIsIdShown(true);
     } else {
       navigator.clipboard.writeText(id);
-      toast.success("Copied to Clipboard");
+      toast.success('Copied to Clipboard');
       setTimeout(() => {
         setIsIdShown(false);
       }, 5000);
@@ -118,15 +100,15 @@ const Profile: FC = () => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-      return toast.error("File type should be image, png, jpg or jpeg");
+    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      return toast.error('File type should be image, png, jpg or jpeg');
     }
 
-    const compressedFile = await imageCompression(file, COMPRESSION_OPTIONS);
-    const base64: any = await convertToBase64(compressedFile);
+    const formData = new FormData();
+    formData.append('image', file);
 
     try {
-      await dispatch(changeAvatar({ image: base64 }));
+      await dispatch(changeAvatar({ image: formData }));
     } catch (e) {
       toast.error(`${e}`);
     }
@@ -148,7 +130,7 @@ const Profile: FC = () => {
         <div className={styles.row}>
           <div className={styles.avatar}>
             <input type="file" ref={inputFileRef} onChange={handleChangeFile} />
-            {avatarUrl && <img src={avatarUrl} alt="logo" />}
+            {avatar && <img src={avatar.url} alt="logo" />}
             <div
               className={styles.addPhoto}
               onClick={() => inputFileRef.current?.click()}
@@ -158,11 +140,11 @@ const Profile: FC = () => {
           </div>
 
           <div className={styles.idWrapper} onClick={showIdHandler}>
-            {isIdShown ? id : t("showMyId")}
+            {isIdShown ? id : t('showMyId')}
           </div>
           <div className={styles.info}>
             <div className={styles.line}>
-              <p className={styles.name}>{t("name")}:</p>
+              <p className={styles.name}>{t('name')}:</p>
               {isNameEditing ? (
                 <>
                   <input
@@ -204,12 +186,12 @@ const Profile: FC = () => {
             </div>
 
             <div className={styles.line}>
-              <p className={styles.name}>{t("email")}:</p>
+              <p className={styles.name}>{t('email')}:</p>
               <p className={styles.text}>{email}</p>
             </div>
 
             <div className={styles.line}>
-              <p className={styles.name}>{t("registered")}:</p>
+              <p className={styles.name}>{t('registered')}:</p>
               <p className={styles.text}>{date}</p>
             </div>
           </div>
@@ -222,7 +204,7 @@ const Profile: FC = () => {
                 setIsExiting(true);
               }}
             >
-              {t("logOut")}
+              {t('logOut')}
             </p>
 
             <p
@@ -232,7 +214,7 @@ const Profile: FC = () => {
                 setIspassEditing((prev) => !prev);
               }}
             >
-              {t("changePassword")}
+              {t('changePassword')}
             </p>
 
             <p
@@ -242,7 +224,7 @@ const Profile: FC = () => {
                 setIsAccountDeleting(true);
               }}
             >
-              {t("deleteAccount")}
+              {t('deleteAccount')}
             </p>
           </div>
 
@@ -271,7 +253,7 @@ const Profile: FC = () => {
             </div>
           </div>
         )}
-        {status === "error" && <p className={styles.error}>{message}</p>}
+        {status === 'error' && <p className={styles.error}>{message}</p>}
       </div>
       {profileStats.length > 0 && (
         <div className={styles.chartWrapper}>

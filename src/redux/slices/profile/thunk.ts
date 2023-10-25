@@ -22,10 +22,9 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   async (params, { rejectWithValue }) => {
     try {
       const response: ProfileResponse = await instanse.get(`/user/me`);
-      const response2: any = await instanse.get('/image/avatar');
       return {
         ...response.data,
-        avatarUrl: response2.data.image,
+        avatarUrl: response.data.avatar,
       };
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
@@ -37,9 +36,10 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
   'profile/changeAvatar',
   async (params, { rejectWithValue }) => {
     try {
-      const response: AvatarResponse = await instanse.post(`/image/avatar`, {
-        image: params.image,
-      });
+      const response: AvatarResponse = await instanse.post(
+        `/image/avatar`,
+        params.image
+      );
 
       return response.data;
     } catch (err: any) {
