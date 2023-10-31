@@ -1,10 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 
 import Header from "./Header";
 import ROUTES from "../../routes";
-import { Provider } from "react-redux";
 import store from "../../redux/store";
+import { Theme } from "../../types";
+import { mockLocalStorage } from "../../mocs/localstorage";
+
+const { getItemMock, setItemMock } = mockLocalStorage();
 
 describe("Header", () => {
   it("renders logo correctly", () => {
@@ -80,6 +84,50 @@ describe("Header", () => {
 
       expect(profileLink).not.toHaveClass("isActive");
       expect(homeLink).toHaveClass("isActive");
+
+      fireEvent.click(profileLink);
+
+      const profileLinkAfterClick = screen.getByText("profile");
+      const homeLinkAfterClick = screen.getByText("home");
+
+      expect(profileLinkAfterClick).toHaveClass("isActive");
+      expect(homeLinkAfterClick).not.toHaveClass("isActive");
     });
+  });
+});
+
+describe("Theme icon", () => {
+  it("should render initial state correctly", () => {
+    getItemMock.mockReturnValue(Theme.DARK);
+
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Header />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    const themeIcon = screen.getByTestId("theme-icon");
+
+    expect(themeIcon.getAttribute("data-icon")).toBe("sun");
+    expect(setItemMock).not.toBeCalled();
+  });
+
+  it("should change theme icon on click", () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Header />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    const themeIcon = screen.getByTestId("theme-icon");
+
+    fireEvent.click(themeIcon);
+
+    expect(setItemMock).toHaveBeenCalledWith("theme", Theme.LIGHT);
+    expect(themeIcon.getAttribute("data-icon")).toBe("moon");
   });
 });

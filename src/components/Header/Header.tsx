@@ -46,9 +46,11 @@ const Header: FC = () => {
           icon={theme === Theme.DARK ? faSun : faMoon}
           className={styles.themeIcon}
           onClick={toggleTheme}
+          data-testid="theme-icon"
         />
         <button
           className={styles.language}
+          data-testid="lang-icon"
           onClick={() => {
             togglelang(language);
           }}
