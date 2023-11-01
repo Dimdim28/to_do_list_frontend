@@ -14,6 +14,22 @@ import styles from "./Header.module.scss";
 
 import logo from "../../assets/logo.png";
 
+interface Link {
+  path: ROUTES;
+  name: string;
+}
+
+const HEADER_LINKS: Link[] = [
+  {
+    path: ROUTES.PROFILE,
+    name: "profile",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "home",
+  },
+];
+
 const Header: FC = () => {
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
@@ -42,36 +58,36 @@ const Header: FC = () => {
     <header>
       <div className={styles.actionsWrapper}>
         <img className={styles.logo} alt="logo" src={logo} />
+
         <FontAwesomeIcon
-          icon={theme === Theme.DARK ? faSun : faMoon}
-          className={styles.themeIcon}
           onClick={toggleTheme}
           data-testid="theme-icon"
+          icon={theme === Theme.DARK ? faSun : faMoon}
+          className={styles.themeIcon}
         />
         <button
           className={styles.language}
-          data-testid="lang-icon"
           onClick={() => {
             togglelang(language);
           }}
+          data-testid="lang-icon"
         >
           {i18n.language}
         </button>
       </div>
 
       <nav>
-        <NavLink
-          to={ROUTES.PROFILE}
-          className={({ isActive }) => (isActive ? styles.isActive : "")}
-        >
-          {t("profile")}
-        </NavLink>
-        <NavLink
-          to={ROUTES.HOME}
-          className={({ isActive }) => (isActive ? styles.isActive : "")}
-        >
-          {t("home")}
-        </NavLink>
+        {HEADER_LINKS.map(({ path, name }) => (
+          <NavLink
+            key={name}
+            to={path}
+            className={({ isActive }) =>
+              isActive ? styles.isActive : undefined
+            }
+          >
+            {t(name)}
+          </NavLink>
+        ))}
       </nav>
     </header>
   );
