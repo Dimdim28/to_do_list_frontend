@@ -129,6 +129,7 @@ describe("Header", () => {
 
       expect(themeIcon.getAttribute("data-icon")).toBe("sun");
       expect(setItemMock).not.toBeCalled();
+      expect(store.getState().auth.theme).toBe(Theme.DARK);
     });
 
     it("should change theme icon on click", () => {
@@ -146,6 +147,7 @@ describe("Header", () => {
 
       expect(setItemMock).toHaveBeenCalledWith("theme", Theme.LIGHT);
       expect(themeIcon.getAttribute("data-icon")).toBe("moon");
+      expect(store.getState().auth.theme).toBe(Theme.LIGHT);
     });
   });
 
@@ -160,9 +162,11 @@ describe("Header", () => {
       );
 
       const langIcon = screen.getByTestId("lang-icon");
+
       expect(langIcon.textContent).toBe("en");
       expect(setItemMock).not.toBeCalled();
       expect(i18nChangeLanguage).not.toBeCalled();
+      expect(store.getState().auth.lang).toBe("en");
     });
 
     it("should change language icon on click", () => {
@@ -179,8 +183,8 @@ describe("Header", () => {
       fireEvent.click(langIcon);
 
       expect(setItemMock).toHaveBeenCalledWith("lang", "ua");
-
       expect(i18nChangeLanguage).toHaveBeenCalledWith("ua");
+      expect(store.getState().auth.lang).toBe("ua");
     });
   });
 });
