@@ -20,6 +20,85 @@ export const HEADER_LINKS = [
   },
 ];
 
+const MOCK_FOR_AMOUNT_OF_LINKS = [
+  {
+    active: ROUTES.HOME,
+    links: [
+      {
+        path: ROUTES.HOME,
+        name: "home",
+      },
+    ],
+  },
+  {
+    active: ROUTES.PROFILE,
+    links: [
+      {
+        path: ROUTES.PROFILE,
+        name: "profile",
+      },
+      {
+        path: ROUTES.HOME,
+        name: "home",
+      },
+      {
+        path: ROUTES.FAQ,
+        name: "faq",
+      },
+    ],
+  },
+  {
+    active: ROUTES.FULLREGISTER,
+    links: [
+      {
+        path: ROUTES.FULLLOGIN,
+        name: "login",
+      },
+      {
+        path: ROUTES.FULLREGISTER,
+        name: "register",
+      },
+    ],
+  },
+  {
+    active: ROUTES.FULLREGISTER,
+    links: [
+      {
+        path: ROUTES.FULLLOGIN,
+        name: "login",
+      },
+      {
+        path: ROUTES.FULLREGISTER,
+        name: "register",
+      },
+    ],
+  },
+  {
+    active: ROUTES.HOME,
+    links: [
+      {
+        path: ROUTES.FULLLOGIN,
+        name: "login",
+      },
+      {
+        path: ROUTES.FULLREGISTER,
+        name: "register",
+      },
+      {
+        path: ROUTES.FAQ,
+        name: "faq",
+      },
+      {
+        path: ROUTES.HOME,
+        name: "home",
+      },
+      {
+        path: ROUTES.PROFILE,
+        name: "profile",
+      },
+    ],
+  },
+];
 const { getItemMock, setItemMock } = mockLocalStorage();
 
 jest.mock("react-i18next", () => ({
@@ -82,6 +161,59 @@ describe("Header", () => {
       const homeLink = screen.getByText(TranslationKeys.Home);
       expect(profileLink).toHaveAttribute("href", ROUTES.PROFILE);
       expect(homeLink).toHaveAttribute("href", ROUTES.HOME);
+    });
+
+    describe("there are correct amount of links", () => {
+      MOCK_FOR_AMOUNT_OF_LINKS.forEach(({ active, links }) => {
+        it(`should render ${links.length} links if we are pass array of ${links.length} links`, () => {
+          render(
+            <MemoryRouter initialEntries={[active]}>
+              <Provider store={store}>
+                <Header links={links} />
+              </Provider>
+            </MemoryRouter>
+          );
+
+          const linksElements = screen.getAllByRole("link");
+
+          expect(linksElements.length).toBe(links.length);
+        });
+
+        it(`active link to "${active}" should have active class and other links shouldn't`, () => {
+          render(
+            <MemoryRouter initialEntries={[active]}>
+              <Provider store={store}>
+                <Header links={links} />
+              </Provider>
+            </MemoryRouter>
+          );
+
+          const linksElements = screen.getAllByRole("link");
+          const activeLink = linksElements.find((link) =>
+            link.classList.contains("isActive")
+          );
+          const inActiveLinks = linksElements.filter(
+            (link) => !link.classList.contains("isActive")
+          );
+
+          expect(activeLink).toHaveAttribute("href", active);
+          expect(inActiveLinks.length).toBe(links.length - 1);
+        });
+      });
+
+      it("renders no links if we pass an empty array", () => {
+        render(
+          <MemoryRouter>
+            <Provider store={store}>
+              <Header links={[]} />
+            </Provider>
+          </MemoryRouter>
+        );
+
+        const linksElements = screen.queryAllByRole("link");
+
+        expect(linksElements.length).toBe(0);
+      });
     });
   });
 
