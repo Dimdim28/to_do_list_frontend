@@ -14,23 +14,16 @@ import styles from "./Header.module.scss";
 
 import logo from "../../assets/logo.png";
 
-interface Link {
+export interface Link {
   path: ROUTES;
   name: string;
 }
 
-const HEADER_LINKS: Link[] = [
-  {
-    path: ROUTES.PROFILE,
-    name: "profile",
-  },
-  {
-    path: ROUTES.HOME,
-    name: "home",
-  },
-];
+interface HeaderProps {
+  links: Link[];
+}
 
-const Header: FC = () => {
+const Header: FC<HeaderProps> = ({ links }) => {
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
 
@@ -77,7 +70,7 @@ const Header: FC = () => {
       </div>
 
       <nav>
-        {HEADER_LINKS.map(({ path, name }) => (
+        {links.map(({ path, name }) => (
           <NavLink
             key={name}
             to={path}
