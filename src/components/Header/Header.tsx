@@ -14,10 +14,10 @@ import styles from "./Header.module.scss";
 
 import logo from "../../assets/logo.png";
 
-export interface Link {
+export type Link = {
   path: ROUTES;
   name: string;
-}
+};
 
 interface HeaderProps {
   links: Link[];
