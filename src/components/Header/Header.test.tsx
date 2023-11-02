@@ -9,6 +9,17 @@ import store from "../../redux/store";
 import { Theme, TranslationKeys } from "../../types";
 import { mockLocalStorage } from "../../mocs/localstorage";
 
+export const HEADER_LINKS = [
+  {
+    path: ROUTES.PROFILE,
+    name: "profile",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "home",
+  },
+];
+
 const { getItemMock, setItemMock } = mockLocalStorage();
 
 jest.mock("react-i18next", () => ({
@@ -36,7 +47,7 @@ describe("Header", () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <Header />
+          <Header links={HEADER_LINKS} />
         </Provider>
       </MemoryRouter>
     );
@@ -49,7 +60,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -63,7 +74,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -79,7 +90,7 @@ describe("Header", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.PROFILE]}>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -95,7 +106,7 @@ describe("Header", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.HOME]}>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -120,7 +131,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -136,7 +147,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -156,7 +167,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -173,7 +184,7 @@ describe("Header", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Header />
+            <Header links={HEADER_LINKS} />
           </Provider>
         </MemoryRouter>
       );

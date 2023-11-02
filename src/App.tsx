@@ -14,6 +14,7 @@ import ROUTES from "./routes";
 import TRANSLATIONS from "./lang";
 import { Language } from "./types";
 import { selectTheme } from "./redux/slices/auth/selectors";
+import { Link } from "./components/Header/Header";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";
@@ -33,6 +34,17 @@ i18next.use(initReactI18next).init({
   resources: TRANSLATIONS,
   fallbackLng: "en",
 });
+
+export const HEADER_LINKS: Link[] = [
+  {
+    path: ROUTES.PROFILE,
+    name: "profile",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "home",
+  },
+];
 
 function App() {
   const dispatch = useAppDispatch();
