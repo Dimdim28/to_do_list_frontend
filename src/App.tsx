@@ -14,6 +14,7 @@ import ROUTES from "./routes";
 import TRANSLATIONS from "./lang";
 import { Language } from "./types";
 import { selectTheme } from "./redux/slices/auth/selectors";
+import { Link } from "./components/Header/Header";
 
 import "./styles/reset.scss";
 import "./styles/typography.scss";
@@ -24,7 +25,6 @@ const Login = lazy(() => import("./pages/Login/Login"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Home = lazy(() => import("./pages/Home/Home"));
-const Task = lazy(() => import("./pages/Task/Task"));
 const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
 
 i18next.use(initReactI18next).init({
@@ -33,6 +33,28 @@ i18next.use(initReactI18next).init({
   resources: TRANSLATIONS,
   fallbackLng: "en",
 });
+
+export const HEADER_LINKS: Link[] = [
+  {
+    path: ROUTES.PROFILE,
+    name: "profile",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "home",
+  },
+];
+
+export const FOOTER_LINKS: Link[] = [
+  {
+    path: ROUTES.FAQ,
+    name: "faq",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "back",
+  },
+];
 
 function App() {
   const dispatch = useAppDispatch();
@@ -55,7 +77,6 @@ function App() {
           <Route path={ROUTES.HOME} element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
-            <Route path={ROUTES.TASK} element={<Task />} />
           </Route>
           <Route path={ROUTES.PROFILE} element={<PageLayout />}>
             <Route path={ROUTES.PROFILE} element={<Profile />} />

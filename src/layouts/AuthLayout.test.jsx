@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 
 import AuthLayout from "./AuthLayout";
 
-jest.mock("../components/SecondHeader/SecondHeader", () => () => (
-  <div data-testid="secondHeader">Header component</div>
+jest.mock("../components/Header/Header", () => () => (
+  <div data-testid="header">Header component</div>
 ));
 
 jest.mock("../components/Footer/Footer", () => () => (
@@ -26,7 +26,7 @@ describe("AuthLayout", () => {
       </AuthLayout>
     );
 
-    expect(screen.getByTestId("secondHeader")).toBeInTheDocument();
+    expect(screen.getByTestId("header")).toBeInTheDocument();
     expect(screen.getByTestId("outlet")).toBeInTheDocument();
     expect(screen.getByTestId("footer")).toBeInTheDocument();
   });
