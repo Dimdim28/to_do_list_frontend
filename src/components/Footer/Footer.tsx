@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import ROUTES from "../../routes";
 
-import styles from "./FAQFooter.module.scss";
+import styles from "./Footer.module.scss";
 
 export type Link = {
   path: ROUTES;
@@ -15,7 +15,7 @@ interface FooterProps {
   links: Link[];
 }
 
-const FAQFooter: FC<FooterProps> = ({ links }) => {
+const Footer: FC<FooterProps> = ({ links }) => {
   const { t } = useTranslation();
   return (
     <footer className={styles.footer}>
@@ -37,4 +37,4 @@ const FAQFooter: FC<FooterProps> = ({ links }) => {
   );
 };
 
-export default FAQFooter;
+export default Footer;
