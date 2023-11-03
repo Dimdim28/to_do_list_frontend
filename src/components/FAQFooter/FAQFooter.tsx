@@ -6,23 +6,21 @@ import ROUTES from "../../routes";
 
 import styles from "./FAQFooter.module.scss";
 
-const LINKS = [
-  {
-    path: ROUTES.FAQ,
-    name: "faq",
-  },
-  {
-    path: ROUTES.HOME,
-    name: "back",
-  },
-];
+export type Link = {
+  path: ROUTES;
+  name: string;
+};
 
-const FAQFooter: FC = () => {
+interface FooterProps {
+  links: Link[];
+}
+
+const FAQFooter: FC<FooterProps> = ({ links }) => {
   const { t } = useTranslation();
   return (
     <footer className={styles.footer}>
       <nav className={styles.leftAlignedText}>
-        {LINKS.map(({ path, name }) => (
+        {links.map(({ path, name }) => (
           <NavLink
             key={name}
             to={path}

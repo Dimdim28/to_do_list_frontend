@@ -12,6 +12,17 @@ jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
 }));
 
+const FOOTER_LINKS = [
+  {
+    path: ROUTES.FAQ,
+    name: "faq",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "back",
+  },
+];
+
 describe("FAQFooter", () => {
   beforeEach(() => {
     const useTranslationSpy = useTranslation as jest.Mock;
@@ -29,7 +40,7 @@ describe("FAQFooter", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Footer />
+            <Footer links={FOOTER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -41,7 +52,7 @@ describe("FAQFooter", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Footer />
+            <Footer links={FOOTER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -55,7 +66,7 @@ describe("FAQFooter", () => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <Footer />
+            <Footer links={FOOTER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -70,7 +81,7 @@ describe("FAQFooter", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.FAQ]}>
           <Provider store={store}>
-            <Footer />
+            <Footer links={FOOTER_LINKS} />
           </Provider>
         </MemoryRouter>
       );
@@ -85,7 +96,7 @@ describe("FAQFooter", () => {
       render(
         <MemoryRouter initialEntries={[ROUTES.HOME]}>
           <Provider store={store}>
-            <Footer />
+            <Footer links={FOOTER_LINKS} />
           </Provider>
         </MemoryRouter>
       );

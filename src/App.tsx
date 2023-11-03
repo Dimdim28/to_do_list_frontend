@@ -45,6 +45,17 @@ export const HEADER_LINKS: Link[] = [
   },
 ];
 
+export const FOOTER_LINKS: Link[] = [
+  {
+    path: ROUTES.FAQ,
+    name: "faq",
+  },
+  {
+    path: ROUTES.HOME,
+    name: "back",
+  },
+];
+
 function App() {
   const dispatch = useAppDispatch();
 
