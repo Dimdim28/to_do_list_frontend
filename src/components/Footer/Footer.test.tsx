@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { MemoryRouter } from "react-router";
 import { Provider } from "react-redux";
 
-import Footer from "./FAQFooter";
+import Footer from "./Footer";
 import { TranslationKeys } from "../../types";
 import store from "../../redux/store";
 import ROUTES from "../../routes";
@@ -23,7 +23,7 @@ const FOOTER_LINKS = [
   },
 ];
 
-describe("FAQFooter", () => {
+describe("Footer", () => {
   beforeEach(() => {
     const useTranslationSpy = useTranslation as jest.Mock;
     const tSpy = jest.fn((str) => str);
