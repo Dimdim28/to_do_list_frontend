@@ -6,7 +6,7 @@ jest.mock("../components/Header/Header", () => () => (
   <div data-testid="header">Header component</div>
 ));
 
-jest.mock("../components/Footer/Footer", () => () => (
+jest.mock("../components/FAQFooter/FAQFooter", () => () => (
   <div data-testid="footer">Footer component</div>
 ));
 
