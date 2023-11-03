@@ -8,8 +8,9 @@ import ROUTES from "../../routes";
 import store from "../../redux/store";
 import { Theme, TranslationKeys } from "../../types";
 import { mockLocalStorage } from "../../mocs/localstorage";
+import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from "../../mocs/links";
 
-export const HEADER_LINKS = [
+const HEADER_LINKS = [
   {
     path: ROUTES.PROFILE,
     name: "profile",
@@ -20,85 +21,6 @@ export const HEADER_LINKS = [
   },
 ];
 
-const MOCK_FOR_AMOUNT_OF_LINKS = [
-  {
-    active: ROUTES.HOME,
-    links: [
-      {
-        path: ROUTES.HOME,
-        name: "home",
-      },
-    ],
-  },
-  {
-    active: ROUTES.PROFILE,
-    links: [
-      {
-        path: ROUTES.PROFILE,
-        name: "profile",
-      },
-      {
-        path: ROUTES.HOME,
-        name: "home",
-      },
-      {
-        path: ROUTES.FAQ,
-        name: "faq",
-      },
-    ],
-  },
-  {
-    active: ROUTES.FULLREGISTER,
-    links: [
-      {
-        path: ROUTES.FULLLOGIN,
-        name: "login",
-      },
-      {
-        path: ROUTES.FULLREGISTER,
-        name: "register",
-      },
-    ],
-  },
-  {
-    active: ROUTES.FULLREGISTER,
-    links: [
-      {
-        path: ROUTES.FULLLOGIN,
-        name: "login",
-      },
-      {
-        path: ROUTES.FULLREGISTER,
-        name: "register",
-      },
-    ],
-  },
-  {
-    active: ROUTES.HOME,
-    links: [
-      {
-        path: ROUTES.FULLLOGIN,
-        name: "login",
-      },
-      {
-        path: ROUTES.FULLREGISTER,
-        name: "register",
-      },
-      {
-        path: ROUTES.FAQ,
-        name: "faq",
-      },
-      {
-        path: ROUTES.HOME,
-        name: "home",
-      },
-      {
-        path: ROUTES.PROFILE,
-        name: "profile",
-      },
-    ],
-  },
-];
 const { getItemMock, setItemMock } = mockLocalStorage();
 
 jest.mock("react-i18next", () => ({
@@ -164,7 +86,7 @@ describe("Header", () => {
     });
 
     describe("there are correct amount of links", () => {
-      MOCK_FOR_AMOUNT_OF_LINKS.forEach(({ active, links }) => {
+      MOCK_FOR_AMOUNT_OF_LINKS_CHECKING.forEach(({ active, links }) => {
         it(`should render ${links.length} links if we are pass array of ${links.length} links`, () => {
           render(
             <MemoryRouter initialEntries={[active]}>

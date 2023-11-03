@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import { TranslationKeys } from "../../types";
 import store from "../../redux/store";
 import ROUTES from "../../routes";
+import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from "../../mocs/links";
 
 jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
@@ -105,6 +106,59 @@ describe("Footer", () => {
 
       expect(faqLink).not.toHaveClass("isActive");
       expect(homeLink).toHaveClass("isActive");
+    });
+
+    describe("there are correct amount of links", () => {
+      MOCK_FOR_AMOUNT_OF_LINKS_CHECKING.forEach(({ active, links }) => {
+        it(`should render ${links.length} links if we are pass array of ${links.length} links`, () => {
+          render(
+            <MemoryRouter initialEntries={[active]}>
+              <Provider store={store}>
+                <Footer links={links} />
+              </Provider>
+            </MemoryRouter>
+          );
+
+          const linksElements = screen.getAllByRole("link");
+
+          expect(linksElements.length).toBe(links.length);
+        });
+
+        it(`active link to "${active}" should have active class and other links shouldn't`, () => {
+          render(
+            <MemoryRouter initialEntries={[active]}>
+              <Provider store={store}>
+                <Footer links={links} />
+              </Provider>
+            </MemoryRouter>
+          );
+
+          const linksElements = screen.getAllByRole("link");
+          const activeLink = linksElements.find((link) =>
+            link.classList.contains("isActive")
+          );
+          const inActiveLinks = linksElements.filter(
+            (link) => !link.classList.contains("isActive")
+          );
+
+          expect(activeLink).toHaveAttribute("href", active);
+          expect(inActiveLinks.length).toBe(links.length - 1);
+        });
+      });
+
+      it("renders no links if we pass an empty array", () => {
+        render(
+          <MemoryRouter>
+            <Provider store={store}>
+              <Footer links={[]} />
+            </Provider>
+          </MemoryRouter>
+        );
+
+        const linksElements = screen.queryAllByRole("link");
+
+        expect(linksElements.length).toBe(0);
+      });
     });
   });
 });
