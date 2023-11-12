@@ -1,7 +1,5 @@
 import { InputHTMLAttributes, SetStateAction, Dispatch, FC } from 'react';
 
-import taskAPI from '../../../api/taskAPI';
-
 import styles from './Checkbox.module.scss';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
