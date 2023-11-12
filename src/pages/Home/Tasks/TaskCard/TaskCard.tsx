@@ -1,20 +1,21 @@
-import { useState, Dispatch, SetStateAction } from "react";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import { useState, Dispatch, SetStateAction, useCallback } from 'react';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
-import { Task, getTask } from "../../../../api/taskAPI";
-import { humaniseDate, truncate } from "../../../../helpers/string";
-import { Checkbox } from "../../../../components/common/Checkbox/Checkbox";
+import { Task, getTask } from '../../../../api/taskAPI';
+import { humaniseDate, truncate } from '../../../../helpers/string';
+import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
+import taskAPI from '../../../../api/taskAPI';
 
-import styles from "./TaskCard.module.scss";
+import styles from './TaskCard.module.scss';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPencil,
   faTrash,
   faShare,
   faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 interface taskProps {
   task: Task;
@@ -68,6 +69,22 @@ const TaskCard = ({
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
+  const onChangeCheckBoxCallback = useCallback(() => {
+    const toggle = async () => {
+      try {
+        const result = await taskAPI.edittask({
+          _id: _id || '',
+          isCompleted: !completed,
+        });
+        if (result.status === 'success') setIsCompleted((prev) => !prev);
+        updateTaskStatus(_id || '', !completed);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    toggle();
+  }, []);
+
   return (
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
@@ -79,14 +96,11 @@ const TaskCard = ({
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
-          isForChangeCompletedStatus
           isChecked={completed}
           label=""
           data-testid="checkbox"
-          setIsChecked={setIsCompleted}
           isRounded
-          id={_id}
-          updateTaskStatus={updateTaskStatus}
+          callback={onChangeCheckBoxCallback}
         />
       </div>
       <div className={styles.categoriesWrapper}>
@@ -107,21 +121,21 @@ const TaskCard = ({
       <div className={styles.links}>
         {links && links.length > 0 && (
           <p className={styles.link}>
-            {t("linksAttacked")}: {links.length}
+            {t('linksAttacked')}: {links.length}
           </p>
         )}
       </div>
 
       {deadline && (
         <p className={styles.deadline}>
-          {t("deadline")} {humaniseDate(deadline)}
+          {t('deadline')} {humaniseDate(deadline)}
         </p>
       )}
       {sharedWith &&
-        sharedWith[0] !== "already shared" &&
+        sharedWith[0] !== 'already shared' &&
         sharedWith.length > 0 && (
           <div className={styles.username}>
-            {t("sharedWith")}: {sharedWith.length}
+            {t('sharedWith')}: {sharedWith.length}
           </div>
         )}
       <div className={styles.icons}>
