@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, FC, FormEvent } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useSelector } from 'react-redux';
-import imageCompression from 'browser-image-compression';
 import { Bar } from 'react-chartjs-2';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
 import Preloader from '../../components/Preloader/Preloader';
+import Avatar from './Avatar/Avatar';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import DeleteProfile from './DeleteProfile/DeleteProfile';
 import Exit from './Exit/Exit';
@@ -21,7 +21,6 @@ import {
   selectUserProfile,
 } from '../../redux/slices/profile/selectors';
 import {
-  changeAvatar,
   changeName,
   fetchUserProfile,
   getStats,
@@ -33,7 +32,6 @@ import styles from './Profile.module.scss';
 
 import {
   faCheck,
-  faCirclePlus,
   faPencil,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
@@ -45,13 +43,11 @@ const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const [isIdShown, setIsIdShown] = useState(false);
+  const [isNameEditing, setIsNameEditing] = useState(false);
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [isNameEditing, setIsNameEditing] = useState(false);
-  const [isIdShown, setIsIdShown] = useState(false);
-
-  const inputFileRef = useRef<HTMLInputElement>(null);
 
   const profile = useAppSelector(selectUserProfile) || {
     username: '',
@@ -84,7 +80,7 @@ const Profile: FC = () => {
     return <Preloader />;
   }
 
-  function showIdHandler() {
+  const showIdHandler = () => {
     if (!isIdShown) {
       setIsIdShown(true);
     } else {
@@ -95,24 +91,6 @@ const Profile: FC = () => {
       }, 5000);
     }
   }
-
-  const handleChangeFile = async (event: FormEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement;
-    const file: File = (target.files as FileList)[0];
-
-    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
-      return toast.error('File type should be image, png, jpg or jpeg');
-    }
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      await dispatch(changeAvatar({ image: formData }));
-    } catch (e) {
-      toast.error(`${e}`);
-    }
-  };
 
   const sumbitChangeName = async () => {
     await dispatch(changeName({ userId: id, username: name }));
@@ -128,16 +106,7 @@ const Profile: FC = () => {
     <main className={styles.wrapper}>
       <div className={styles.profile}>
         <div className={styles.row}>
-          <div className={styles.avatar}>
-            <input type="file" ref={inputFileRef} onChange={handleChangeFile} />
-            {avatar && <img src={avatar.url} alt="logo" />}
-            <div
-              className={styles.addPhoto}
-              onClick={() => inputFileRef.current?.click()}
-            >
-              <FontAwesomeIcon className={styles.camera} icon={faCirclePlus} />
-            </div>
-          </div>
+          <Avatar />
 
           <div className={styles.idWrapper} onClick={showIdHandler}>
             {isIdShown ? id : t('showMyId')}
@@ -197,7 +166,7 @@ const Profile: FC = () => {
           </div>
 
           <div className={styles.buttons}>
-            <p
+            <button
               className={styles.exit}
               onClick={() => {
                 dispatch(clearProfileErrorMessage());
@@ -205,9 +174,9 @@ const Profile: FC = () => {
               }}
             >
               {t('logOut')}
-            </p>
+            </button>
 
-            <p
+            <button
               className={styles.button}
               onClick={() => {
                 dispatch(clearProfileErrorMessage());
@@ -215,9 +184,9 @@ const Profile: FC = () => {
               }}
             >
               {t('changePassword')}
-            </p>
+            </button>
 
-            <p
+            <button
               className={styles.delete}
               onClick={() => {
                 dispatch(clearProfileErrorMessage());
@@ -225,7 +194,7 @@ const Profile: FC = () => {
               }}
             >
               {t('deleteAccount')}
-            </p>
+            </button>
           </div>
 
           {isAccountDeleting && (
