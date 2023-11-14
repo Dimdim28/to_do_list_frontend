@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Preloader from "../../components/Preloader/Preloader";
 import Avatar from "./Avatar/Avatar";
 import ProfileData from "./ProfileData/ProfileData";
+import Buttons from "./Buttons/Buttons";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
 import DeleteProfile from "./DeleteProfile/DeleteProfile";
 import Exit from "./Exit/Exit";
@@ -150,37 +151,11 @@ const Profile: FC = () => {
             <ProfileData />
           </div>
 
-          <div className={styles.buttons}>
-            <button
-              className={styles.exit}
-              onClick={() => {
-                dispatch(clearProfileErrorMessage());
-                setIsExiting(true);
-              }}
-            >
-              {t("logOut")}
-            </button>
-
-            <button
-              className={styles.button}
-              onClick={() => {
-                dispatch(clearProfileErrorMessage());
-                setIspassEditing((prev) => !prev);
-              }}
-            >
-              {t("changePassword")}
-            </button>
-
-            <button
-              className={styles.delete}
-              onClick={() => {
-                dispatch(clearProfileErrorMessage());
-                setIsAccountDeleting(true);
-              }}
-            >
-              {t("deleteAccount")}
-            </button>
-          </div>
+          <Buttons
+            setIsExiting={setIsExiting}
+            setIspassEditing={setIspassEditing}
+            setIsAccountDeleting={setIsAccountDeleting}
+          />
 
           {isAccountDeleting && (
             <Modal
