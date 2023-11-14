@@ -1,7 +1,6 @@
 import { useRef, FC, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 
-import withLoginRedirect from '../../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   selectUserProfile,
@@ -13,10 +12,7 @@ import {
 import styles from './Avatar.module.scss';
 
 import {
-  faCheck,
   faCirclePlus,
-  faPencil,
-  faX,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -62,4 +58,4 @@ const Avatar: FC = () => {
     );
 };
 
-export default withLoginRedirect(Avatar);
+export default Avatar;

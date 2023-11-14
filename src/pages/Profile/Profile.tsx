@@ -1,41 +1,38 @@
-import { useEffect, useState, FC } from 'react';
-import { useSelector } from 'react-redux';
-import { Bar } from 'react-chartjs-2';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState, FC } from "react";
+import { useSelector } from "react-redux";
+import { Bar } from "react-chartjs-2";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
-import Preloader from '../../components/Preloader/Preloader';
-import Avatar from './Avatar/Avatar';
-import withLoginRedirect from '../../hoc/withLoginRedirect';
-import DeleteProfile from './DeleteProfile/DeleteProfile';
-import Exit from './Exit/Exit';
-import { Modal } from '../../components/common/Modal/Modal';
-import { ChangePass } from './ChangePass/ChangePass';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfile, selectIsAuth } from '../../redux/slices/auth/selectors';
-import { clearProfileErrorMessage } from '../../redux/slices/profile/profile';
+import Preloader from "../../components/Preloader/Preloader";
+import Avatar from "./Avatar/Avatar";
+import ProfileData from "./ProfileData/ProfileData";
+import withLoginRedirect from "../../hoc/withLoginRedirect";
+import DeleteProfile from "./DeleteProfile/DeleteProfile";
+import Exit from "./Exit/Exit";
+import { Modal } from "../../components/common/Modal/Modal";
+import { ChangePass } from "./ChangePass/ChangePass";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
+import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
   selectStats,
   selectUserProfile,
-} from '../../redux/slices/profile/selectors';
+} from "../../redux/slices/profile/selectors";
 import {
   changeName,
   fetchUserProfile,
   getStats,
-} from '../../redux/slices/profile/thunk';
-import { chartOptions, getChartData } from '../../helpers/stats';
-import { Chart as ChartJS, registerables } from 'chart.js';
+} from "../../redux/slices/profile/thunk";
+import { chartOptions, getChartData } from "../../helpers/stats";
+import { Chart as ChartJS, registerables } from "chart.js";
 
-import styles from './Profile.module.scss';
+import styles from "./Profile.module.scss";
 
-import {
-  faCheck,
-  faPencil,
-  faX,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faPencil, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 ChartJS.register(...registerables);
 
@@ -50,19 +47,15 @@ const Profile: FC = () => {
   const [isExiting, setIsExiting] = useState(false);
 
   const profile = useAppSelector(selectUserProfile) || {
-    username: '',
-    avatar: null,
-    email: '',
-    createdAt: '',
+    username: "",
   };
-  const { email, username, avatar, createdAt } = profile;
-  const date = new Date(createdAt).toLocaleDateString();
+  const { username } = profile;
   const [name, setName] = useState(username);
 
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-  const id = useAppSelector(selectProfile)?._id || '';
+  const id = useAppSelector(selectProfile)?._id || "";
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
@@ -76,7 +69,7 @@ const Profile: FC = () => {
     setName(username);
   }, [username]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <Preloader />;
   }
 
@@ -85,12 +78,12 @@ const Profile: FC = () => {
       setIsIdShown(true);
     } else {
       navigator.clipboard.writeText(id);
-      toast.success('Copied to Clipboard');
+      toast.success("Copied to Clipboard");
       setTimeout(() => {
         setIsIdShown(false);
       }, 5000);
     }
-  }
+  };
 
   const sumbitChangeName = async () => {
     await dispatch(changeName({ userId: id, username: name }));
@@ -109,11 +102,11 @@ const Profile: FC = () => {
           <Avatar />
 
           <div className={styles.idWrapper} onClick={showIdHandler}>
-            {isIdShown ? id : t('showMyId')}
+            {isIdShown ? id : t("showMyId")}
           </div>
           <div className={styles.info}>
             <div className={styles.line}>
-              <p className={styles.name}>{t('name')}:</p>
+              <p className={styles.name}>{t("name")}:</p>
               {isNameEditing ? (
                 <>
                   <input
@@ -154,15 +147,7 @@ const Profile: FC = () => {
               )}
             </div>
 
-            <div className={styles.line}>
-              <p className={styles.name}>{t('email')}:</p>
-              <p className={styles.text}>{email}</p>
-            </div>
-
-            <div className={styles.line}>
-              <p className={styles.name}>{t('registered')}:</p>
-              <p className={styles.text}>{date}</p>
-            </div>
+            <ProfileData />
           </div>
 
           <div className={styles.buttons}>
@@ -173,7 +158,7 @@ const Profile: FC = () => {
                 setIsExiting(true);
               }}
             >
-              {t('logOut')}
+              {t("logOut")}
             </button>
 
             <button
@@ -183,7 +168,7 @@ const Profile: FC = () => {
                 setIspassEditing((prev) => !prev);
               }}
             >
-              {t('changePassword')}
+              {t("changePassword")}
             </button>
 
             <button
@@ -193,7 +178,7 @@ const Profile: FC = () => {
                 setIsAccountDeleting(true);
               }}
             >
-              {t('deleteAccount')}
+              {t("deleteAccount")}
             </button>
           </div>
 
@@ -222,7 +207,7 @@ const Profile: FC = () => {
             </div>
           </div>
         )}
-        {status === 'error' && <p className={styles.error}>{message}</p>}
+        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
       {profileStats.length > 0 && (
         <div className={styles.chartWrapper}>
