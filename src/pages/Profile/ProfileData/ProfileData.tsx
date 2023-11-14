@@ -13,20 +13,21 @@ const ProfileData: FC = () => {
     email: "",
     createdAt: "",
   };
+
   const { email, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
+  const renderLine = (label: string, value: string) => (
+    <div className={styles.line}>
+      <p className={styles.name}>{t(label)}:</p>
+      <p className={styles.text}>{value}</p>
+    </div>
+  );
+
   return (
     <div>
-      <div className={styles.line}>
-        <p className={styles.name}>{t("email")}:</p>
-        <p className={styles.text}>{email}</p>
-      </div>
-
-      <div className={styles.line}>
-        <p className={styles.name}>{t("registered")}:</p>
-        <p className={styles.text}>{date}</p>
-      </div>
+      {renderLine("email", email)}
+      {renderLine("registered", date)}
     </div>
   );
 };
