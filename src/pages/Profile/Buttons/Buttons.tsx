@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch } from "../../../hooks";
@@ -20,6 +20,8 @@ const Buttons: FC<ButtonsProps> = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const [isPassEditing] = useState(false);
+
   return (
     <div className={styles.buttons}>
       <button
@@ -38,8 +40,8 @@ const Buttons: FC<ButtonsProps> = ({
           dispatch(clearProfileErrorMessage());
           setIspassEditing((prev) => !prev);
         }}
-      >
-        {t("changePassword")}
+>
+        {isPassEditing ? t("closePasswordChange") : t("changePassword")}
       </button>
 
       <button
