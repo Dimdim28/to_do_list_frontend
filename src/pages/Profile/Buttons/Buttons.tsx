@@ -22,34 +22,32 @@ const Buttons: FC<ButtonsProps> = ({
 
   const [isPassEditing] = useState(false);
 
+  const handleButtonClick = (action: () => void) => {
+    dispatch(clearProfileErrorMessage());
+    action();
+  };
+
   return (
     <div className={styles.buttons}>
       <button
         className={styles.exit}
-        onClick={() => {
-          dispatch(clearProfileErrorMessage());
-          setIsExiting(true);
-        }}
+        onClick={() => handleButtonClick(() => setIsExiting(true))}
       >
         {t("logOut")}
       </button>
 
       <button
         className={styles.button}
-        onClick={() => {
-          dispatch(clearProfileErrorMessage());
-          setIspassEditing((prev) => !prev);
-        }}
->
-        {isPassEditing ? t("closePasswordChange") : t("changePassword")}
+        onClick={() =>
+          handleButtonClick(() => setIspassEditing((prev) => !prev))
+        }
+      >
+        {t(isPassEditing ? "closePasswordChange" : "changePassword")}
       </button>
 
       <button
         className={styles.delete}
-        onClick={() => {
-          dispatch(clearProfileErrorMessage());
-          setIsAccountDeleting(true);
-        }}
+        onClick={() => handleButtonClick(() => setIsAccountDeleting(true))}
       >
         {t("deleteAccount")}
       </button>
