@@ -1,8 +1,8 @@
 import React, { useState, FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppDispatch } from "../../../hooks";
-import { clearProfileErrorMessage } from "../../../redux/slices/profile/profile";
+import { useAppDispatch } from "../../../../hooks";
+import { clearProfileErrorMessage } from "../../../../redux/slices/profile/profile";
 
 import styles from "./Buttons.module.scss";
 

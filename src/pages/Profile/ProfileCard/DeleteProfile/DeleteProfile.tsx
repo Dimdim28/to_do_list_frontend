@@ -1,18 +1,18 @@
 import { Dispatch, SetStateAction, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../components/common/Button/Button';
-import Preloader from '../../../components/Preloader/Preloader';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { logout } from '../../../redux/slices/auth/auth';
-import { selectProfile } from '../../../redux/slices/auth/selectors';
-import { clear } from '../../../redux/slices/home/home';
+import Button from '../../../../components/common/Button/Button';
+import Preloader from '../../../../components/Preloader/Preloader';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { logout } from '../../../../redux/slices/auth/auth';
+import { selectProfile } from '../../../../redux/slices/auth/selectors';
+import { clear } from '../../../../redux/slices/home/home';
 import {
   selectProfileMessage,
   selectProfileStatus,
-} from '../../../redux/slices/profile/selectors';
-import { deleteAccount } from '../../../redux/slices/profile/thunk';
-import { Status } from '../../../types';
+} from '../../../../redux/slices/profile/selectors';
+import { deleteAccount } from '../../../../redux/slices/profile/thunk';
+import { Status } from '../../../../types';
 
 import styles from './DeleteProfile.module.scss';
 

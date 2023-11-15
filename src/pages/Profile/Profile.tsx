@@ -1,18 +1,10 @@
 import { useEffect, useState, FC } from "react";
 import { useSelector } from "react-redux";
 import { Bar } from "react-chartjs-2";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
 
 import Preloader from "../../components/Preloader/Preloader";
-import Avatar from "./Avatar/Avatar";
-import Name from "./Name/Name";
-import ProfileData from "./ProfileData/ProfileData";
-import Buttons from "./Buttons/Buttons";
+import ProfileCard from "./ProfileCard/ProfileCard";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
-import DeleteProfile from "./DeleteProfile/DeleteProfile";
-import Exit from "./Exit/Exit";
-import { Modal } from "../../components/common/Modal/Modal";
 import { ChangePass } from "./ChangePass/ChangePass";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
@@ -35,9 +27,7 @@ ChartJS.register(...registerables);
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
 
-  const [isIdShown, setIsIdShown] = useState(false);
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
@@ -70,62 +60,23 @@ const Profile: FC = () => {
     return <Preloader />;
   }
 
-  const showIdHandler = () => {
-    if (!isIdShown) {
-      setIsIdShown(true);
-    } else {
-      navigator.clipboard.writeText(id);
-      toast.success("Copied to Clipboard");
-      setTimeout(() => {
-        setIsIdShown(false);
-      }, 5000);
-    }
-  };
-
   return (
     <main className={styles.wrapper}>
       <div className={styles.profile}>
-        <div className={styles.row}>
-          <Avatar />
+        <ProfileCard
+          isNameEditing={isNameEditing}
+          setIsNameEditing={setIsNameEditing}
+          name={name}
+          setName={setName}
 
-          <div className={styles.idWrapper} onClick={showIdHandler}>
-            {isIdShown ? id : t("showMyId")}
-          </div>
-          <div className={styles.info}>
-            <Name
-              isNameEditing={isNameEditing}
-              setIsNameEditing={setIsNameEditing}
-              name={name}
-              setName={setName}
-              id={id}
-            />
+          id={id}
+          setIsExiting={setIsExiting}
+          setIspassEditing={setIspassEditing}
+          setIsAccountDeleting={setIsAccountDeleting}
 
-            <ProfileData />
-          </div>
-
-          <Buttons
-            setIsExiting={setIsExiting}
-            setIspassEditing={setIspassEditing}
-            setIsAccountDeleting={setIsAccountDeleting}
-          />
-
-          {isAccountDeleting && (
-            <Modal
-              active={isAccountDeleting}
-              setActive={setIsAccountDeleting}
-              ChildComponent={DeleteProfile}
-              childProps={{ toggleActive: setIsAccountDeleting }}
-            />
-          )}
-          {isExiting && (
-            <Modal
-              active={isExiting}
-              setActive={setIsExiting}
-              ChildComponent={Exit}
-              childProps={{ toggleActive: setIsExiting }}
-            />
-          )}
-        </div>
+          isAccountDeleting={isAccountDeleting}
+          isExiting={isExiting}
+        />
 
         {isPassEditing && (
           <div className={styles.passwordWrapper}>

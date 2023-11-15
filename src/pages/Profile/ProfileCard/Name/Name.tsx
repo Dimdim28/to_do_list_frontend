@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppDispatch } from "../../../hooks";
-import { clearProfileErrorMessage } from "../../../redux/slices/profile/profile";
-import { changeName } from "../../../redux/slices/profile/thunk";
+import { useAppDispatch } from "../../../../hooks";
+import { clearProfileErrorMessage } from "../../../../redux/slices/profile/profile";
+import { changeName } from "../../../../redux/slices/profile/thunk";
 
 import styles from "./Name.module.scss";
 

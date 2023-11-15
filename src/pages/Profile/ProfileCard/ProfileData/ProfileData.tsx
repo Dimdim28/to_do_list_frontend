@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../../hooks";
-import { selectUserProfile } from "../../../redux/slices/profile/selectors";
+import { useAppSelector } from "../../../../hooks";
+import { selectUserProfile } from "../../../../redux/slices/profile/selectors";
 
 import styles from "./ProfileData.module.scss";
 

@@ -72,14 +72,30 @@
 :global(.light_theme) .buttons {
   .exit {
     color: $black;
+    @include style-button-icon-color(
+      $background-dark-10,
+      $error-200,
+      $error-300,
+      $error-200
+    );
   }
 
   .button {
     color: $black;
+
+    &:hover {
+      color: $warning-200;
+    }
   }
 
   .delete {
     color: $black;
+    @include style-button-icon-color(
+      $background-dark-10,
+      $error-200,
+      $error-300,
+      $error-200
+    );
   }
 }
 

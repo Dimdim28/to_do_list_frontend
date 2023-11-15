@@ -1,13 +1,13 @@
 import { useRef, FC, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   selectUserProfile,
-} from '../../../redux/slices/profile/selectors';
+} from '../../../../redux/slices/profile/selectors';
 import {
   changeAvatar,
-} from '../../../redux/slices/profile/thunk';
+} from '../../../../redux/slices/profile/thunk';
 
 import styles from './Avatar.module.scss';
 
