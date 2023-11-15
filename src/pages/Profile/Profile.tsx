@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import Preloader from "../../components/Preloader/Preloader";
 import Avatar from "./Avatar/Avatar";
+import Name from "./Name/Name";
 import ProfileData from "./ProfileData/ProfileData";
 import Buttons from "./Buttons/Buttons";
 import withLoginRedirect from "../../hoc/withLoginRedirect";
@@ -15,7 +16,6 @@ import { Modal } from "../../components/common/Modal/Modal";
 import { ChangePass } from "./ChangePass/ChangePass";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
-import { clearProfileErrorMessage } from "../../redux/slices/profile/profile";
 import {
   selectProfileMessage,
   selectProfileStatus,
@@ -23,7 +23,6 @@ import {
   selectUserProfile,
 } from "../../redux/slices/profile/selectors";
 import {
-  changeName,
   fetchUserProfile,
   getStats,
 } from "../../redux/slices/profile/thunk";
@@ -31,9 +30,6 @@ import { chartOptions, getChartData } from "../../helpers/stats";
 import { Chart as ChartJS, registerables } from "chart.js";
 
 import styles from "./Profile.module.scss";
-
-import { faCheck, faPencil, faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 ChartJS.register(...registerables);
 
@@ -86,16 +82,6 @@ const Profile: FC = () => {
     }
   };
 
-  const sumbitChangeName = async () => {
-    await dispatch(changeName({ userId: id, username: name }));
-    setIsNameEditing(false);
-  };
-
-  const cancelChangeName = async () => {
-    setIsNameEditing(false);
-    setName(username);
-  };
-
   return (
     <main className={styles.wrapper}>
       <div className={styles.profile}>
@@ -106,47 +92,13 @@ const Profile: FC = () => {
             {isIdShown ? id : t("showMyId")}
           </div>
           <div className={styles.info}>
-            <div className={styles.line}>
-              <p className={styles.name}>{t("name")}:</p>
-              {isNameEditing ? (
-                <>
-                  <input
-                    className={styles.inputName}
-                    value={name}
-                    onChange={(e) => setName(e.currentTarget.value)}
-                  />
-                  <FontAwesomeIcon
-                    onClick={sumbitChangeName}
-                    className={styles.check}
-                    icon={faCheck}
-                  />
-
-                  <FontAwesomeIcon
-                    onClick={cancelChangeName}
-                    className={styles.close}
-                    icon={faX}
-                  />
-                </>
-              ) : (
-                <>
-                  <p className={styles.text}>{name}</p>
-                  <div
-                    onClick={() => {
-                      dispatch(clearProfileErrorMessage());
-                      setIsNameEditing(true);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      className={`${styles.icon} ${styles.pencil}`}
-                      onClick={() => {}}
-                      color="rgb(163, 163, 163)"
-                      fontSize="15px"
-                      icon={faPencil}
-                    />
-                  </div>
-                </>
-              )}
-            </div>
+            <Name
+              isNameEditing={isNameEditing}
+              setIsNameEditing={setIsNameEditing}
+              name={name}
+              setName={setName}
+              id={id}
+            />
 
             <ProfileData />
           </div>
