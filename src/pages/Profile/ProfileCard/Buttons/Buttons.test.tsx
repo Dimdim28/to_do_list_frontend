@@ -26,18 +26,13 @@ describe("Buttons", () => {
 
   it("renders without crashing", () => {
     expect(screen.getByTestId("buttons-component")).toBeInTheDocument();
-  });
-
-  it("displays the exit button", () => {
     expect(screen.getByTestId("exit-button")).toBeInTheDocument();
-  });
-
-  it("displays the change password button", () => {
     expect(screen.getByTestId("change-password-button")).toBeInTheDocument();
+    expect(screen.getByTestId("delete-account-button")).toBeInTheDocument();
   });
 
-  it("displays the delete account button", () => {
-    expect(screen.getByTestId("delete-account-button")).toBeInTheDocument();
+  it("renders without errors", () => {
+    expect(screen.queryByTestId("error")).toBeNull();
   });
 
   it("triggers logOut action on exit button click", () => {

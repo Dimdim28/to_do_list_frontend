@@ -22,17 +22,12 @@ describe("Avatar", () => {
 
   it("renders without crashing", () => {
     expect(screen.getByTestId("avatar-component")).toBeInTheDocument();
-  });
-
-  it("displays the file input", () => {
     expect(screen.getByTestId("file-input")).toBeInTheDocument();
-  });
-
-  it("displays the add photo button", () => {
     expect(screen.getByTestId("add-photo")).toBeInTheDocument();
+    expect(screen.getByTestId("camera-icon")).toBeInTheDocument();
   });
 
-  it("displays the camera icon", () => {
-    expect(screen.getByTestId("camera-icon")).toBeInTheDocument();
+  it("renders without errors", () => {
+    expect(screen.queryByTestId("error")).toBeNull();
   });
 });
