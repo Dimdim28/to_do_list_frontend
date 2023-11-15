@@ -6,8 +6,26 @@ import { selectUserProfile } from "../../../redux/slices/profile/selectors";
 
 import styles from "./ProfileData.module.scss";
 
-const ProfileData: FC = () => {
+interface DataLineProps {
+  label: string;
+  value: string;
+}
+
+const DataLine: FC<DataLineProps> = ({
+  label,
+  value,
+}) => {
   const { t } = useTranslation();
+
+  return(
+  <div className={styles.line}>
+    <p className={styles.name}>{t(label)}:</p>
+    <p className={styles.text}>{value}</p>
+  </div>
+  );
+};
+
+const ProfileData: FC = () => {
 
   const profile = useAppSelector(selectUserProfile) || {
     email: "",
@@ -17,17 +35,10 @@ const ProfileData: FC = () => {
   const { email, createdAt } = profile;
   const date = new Date(createdAt).toLocaleDateString();
 
-  const renderLine = (label: string, value: string) => (
-    <div className={styles.line}>
-      <p className={styles.name}>{t(label)}:</p>
-      <p className={styles.text}>{value}</p>
-    </div>
-  );
-
   return (
-    <div>
-      {renderLine("email", email)}
-      {renderLine("registered", date)}
+    <div className={styles.profileData}>
+      <DataLine label="email" value={email} />
+      <DataLine label="registrationDate" value={date} />
     </div>
   );
 };
