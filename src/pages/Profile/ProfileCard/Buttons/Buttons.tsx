@@ -28,10 +28,11 @@ const Buttons: FC<ButtonsProps> = ({
   };
 
   return (
-    <div className={styles.buttons}>
+    <div className={styles.buttons} data-testid="buttons-component">
       <button
         className={styles.exit}
         onClick={() => handleButtonClick(() => setIsExiting(true))}
+        data-testid="exit-button"
       >
         {t("logOut")}
       </button>
@@ -41,6 +42,7 @@ const Buttons: FC<ButtonsProps> = ({
         onClick={() =>
           handleButtonClick(() => setIspassEditing((prev) => !prev))
         }
+        data-testid="change-password-button"
       >
         {t(isPassEditing ? "closePasswordChange" : "changePassword")}
       </button>
@@ -48,6 +50,7 @@ const Buttons: FC<ButtonsProps> = ({
       <button
         className={styles.delete}
         onClick={() => handleButtonClick(() => setIsAccountDeleting(true))}
+        data-testid="delete-account-button"
       >
         {t("deleteAccount")}
       </button>

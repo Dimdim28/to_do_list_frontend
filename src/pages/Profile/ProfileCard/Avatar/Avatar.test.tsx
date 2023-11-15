@@ -20,19 +20,19 @@ describe("Avatar", () => {
     renderAvatar();
   });
 
-  test("renders without crashing", () => {
+  it("renders without crashing", () => {
     expect(screen.getByTestId("avatar-component")).toBeInTheDocument();
   });
 
-  test("displays the file input", () => {
+  it("displays the file input", () => {
     expect(screen.getByTestId("file-input")).toBeInTheDocument();
   });
 
-  test("displays the add photo button", () => {
+  it("displays the add photo button", () => {
     expect(screen.getByTestId("add-photo")).toBeInTheDocument();
   });
 
-  test("displays the camera icon", () => {
+  it("displays the camera icon", () => {
     expect(screen.getByTestId("camera-icon")).toBeInTheDocument();
   });
 });
