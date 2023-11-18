@@ -38,15 +38,15 @@ const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid='exit-container'>
       {status === Status.LOADING ? (
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title}>{t("areYouSure")}</h3>
+          <h3 className={styles.title} data-testid='areYouSure'>{t("areYouSure")}</h3>
           <div className={styles.buttons}>
-            <Button text={t("no")} callback={cancel} class="cancel" />
-            <Button text={t("yes")} callback={submit} class="submit" />
+            <Button text={t("no")} callback={cancel} class="cancel" data-testid='cancel' />
+            <Button text={t("yes")} callback={submit} class="submit" data-testid='submit' />
           </div>
 
           {status === Status.ERROR && <p className={styles.error}>{error}</p>}
