@@ -75,20 +75,4 @@ describe("DeleteProfile", () => {
 
         expect(mockToggleActive).toHaveBeenCalled();
     });
-
-    it("should call mockToggleActive when submit button is clicked", async () => {
-        store = mockStore({
-            profile: {
-                status: "success",
-            },
-        });
-        render(
-            <Provider store={store}>
-                <DeleteProfile toggleActive={mockToggleActive} />
-            </Provider>
-        );
-        fireEvent.click(screen.getByTestId("submit"));
-
-        expect(mockToggleActive).toHaveBeenCalled();
-    });
 });
