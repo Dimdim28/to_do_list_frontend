@@ -23,10 +23,6 @@ const renderButtons = () => {
   );
 };
 
-const exitButton = screen.getByTestId("exit-button-component");
-const changePasswordButton = screen.getByTestId("change-password-button-component");
-const deleteAccountButton = screen.getByTestId("delete-account-button-component");
-
 describe("Buttons", () => {
   beforeEach(() => {
     renderButtons();
@@ -34,12 +30,12 @@ describe("Buttons", () => {
 
   it("renders without crashing", () => {
     expect(screen.getByTestId("buttons-container")).toBeInTheDocument();
-    expect(exitButton).toBeInTheDocument();
+    expect(screen.getByTestId("exit-button-component")).toBeInTheDocument();
     expect(
-      changePasswordButton
+      screen.getByTestId("change-password-button-component")
     ).toBeInTheDocument();
     expect(
-      deleteAccountButton
+      screen.getByTestId("delete-account-button-component")
     ).toBeInTheDocument();
   });
 
@@ -48,56 +44,56 @@ describe("Buttons", () => {
   });
 
   it("triggers logOut action on exit button click", () => {
-    fireEvent.click(exitButton);
-    expect(exitButton).toHaveTextContent(
+    fireEvent.click(screen.getByTestId("exit-button-component"));
+    expect(screen.getByTestId("exit-button-component")).toHaveTextContent(
       "logOut"
     );
   });
 
   it("triggers setIsAccountDeleting action on delete account button click", () => {
-    fireEvent.click(deleteAccountButton);
+    fireEvent.click(screen.getByTestId("delete-account-button-component"));
     expect(
-      deleteAccountButton
+      screen.getByTestId("delete-account-button-component")
     ).toHaveTextContent("deleteAccount");
   });
 
   it("changes the text of the change password button when clicked once", () => {
-    fireEvent.click(changePasswordButton);
+    fireEvent.click(screen.getByTestId("change-password-button-component"));
     expect(
-      changePasswordButton
+      screen.getByTestId("change-password-button-component")
     ).toHaveTextContent("changePassword");
   });
 
   it("changes the text of the change password button when clicked twice", () => {
-    fireEvent.click(changePasswordButton);
-    fireEvent.click(changePasswordButton);
+    fireEvent.click(screen.getByTestId("change-password-button-component"));
+    fireEvent.click(screen.getByTestId("change-password-button-component"));
     expect(
-      changePasswordButton
+      screen.getByTestId("change-password-button-component")
     ).toHaveTextContent("changePassword");
   });
 
   it("triggers setIsExitingMock action on exit button click", () => {
-    fireEvent.click(exitButton);
+    fireEvent.click(screen.getByTestId("exit-button-component"));
     expect(setIsExitingMock).toHaveBeenCalled();
   });
 
   it("triggers setIsAccountDeletingMock action on delete account button click", () => {
-    fireEvent.click(deleteAccountButton);
+    fireEvent.click(screen.getByTestId("delete-account-button-component"));
     expect(setIsAccountDeletingMock).toHaveBeenCalled();
   });
 
   it("triggers setIspassEditingMock action on change password button click", () => {
-    fireEvent.click(changePasswordButton);
+    fireEvent.click(screen.getByTestId("change-password-button-component"));
     expect(setIspassEditingMock).toHaveBeenCalled();
   });
 
   it("triggers setIsExitingMock action with true on exit button click", () => {
-    fireEvent.click(exitButton);
+    fireEvent.click(screen.getByTestId("exit-button-component"));
     expect(setIsExitingMock).toHaveBeenCalledWith(true);
   });
 
   it("triggers setIsAccountDeletingMock action with true on delete account button click", () => {
-    fireEvent.click(deleteAccountButton);
+    fireEvent.click(screen.getByTestId("delete-account-button-component"));
     expect(setIsAccountDeletingMock).toHaveBeenCalledWith(true);
   });
 });
