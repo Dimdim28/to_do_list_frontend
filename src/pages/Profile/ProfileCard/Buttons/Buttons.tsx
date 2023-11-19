@@ -38,7 +38,7 @@ const Buttons: FC<ButtonsProps> = ({
       </button>
 
       <button
-        className={styles.button}
+        className={styles.changePass}
         onClick={() =>
           handleButtonClick(() => setIspassEditing((prev) => !prev))
         }

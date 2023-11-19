@@ -58,7 +58,7 @@ describe("ProfileCard Component", () => {
         expect(screen.getByTestId("id")).toBeInTheDocument();
         expect(screen.getByTestId("info")).toBeInTheDocument();
         expect(screen.getByTestId("name")).toBeInTheDocument();
-        expect(screen.getByTestId("buttons-component")).toBeInTheDocument();
+        expect(screen.getByTestId("buttons-container")).toBeInTheDocument();
     });
 
     it("should show id when clicked", () => {
