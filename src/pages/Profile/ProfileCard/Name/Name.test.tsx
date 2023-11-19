@@ -31,10 +31,10 @@ describe("Name", () => {
     );
 
     expect(screen.getByTestId("name-container")).toBeInTheDocument();
-    expect(screen.getByTestId("name")).toBeInTheDocument();
-    expect(screen.getByTestId("text")).toBeInTheDocument();
-    expect(screen.getByTestId("edit")).toBeInTheDocument();
-    expect(screen.getByTestId("pencil")).toBeInTheDocument();
+    expect(screen.getByTestId("name-component")).toBeInTheDocument();
+    expect(screen.getByTestId("text-component")).toBeInTheDocument();
+    expect(screen.getByTestId("edit-component")).toBeInTheDocument();
+    expect(screen.getByTestId("pencil-component")).toBeInTheDocument();
   });
 
   it("should render input when isNameEditing is true", () => {
@@ -51,10 +51,10 @@ describe("Name", () => {
     );
 
     expect(screen.getByTestId("name-container")).toBeInTheDocument();
-    expect(screen.getByTestId("name")).toBeInTheDocument();
-    expect(screen.getByTestId("inputName")).toBeInTheDocument();
-    expect(screen.getByTestId("check")).toBeInTheDocument();
-    expect(screen.getByTestId("close")).toBeInTheDocument();
+    expect(screen.getByTestId("name-component")).toBeInTheDocument();
+    expect(screen.getByTestId("input-name-component")).toBeInTheDocument();
+    expect(screen.getByTestId("check-component")).toBeInTheDocument();
+    expect(screen.getByTestId("close-component")).toBeInTheDocument();
   });
 
   it("should render error message when status is error", () => {
@@ -89,7 +89,7 @@ describe("Name", () => {
         />
       </Provider>
     );
-    fireEvent.click(screen.getByTestId("edit"));
+    fireEvent.click(screen.getByTestId("edit-component"));
 
     expect(mockToggleActive).toHaveBeenCalled();
   });
@@ -106,7 +106,7 @@ describe("Name", () => {
         />
       </Provider>
     );
-    fireEvent.click(screen.getByTestId("close"));
+    fireEvent.click(screen.getByTestId("close-component"));
 
     expect(mockToggleActive).toHaveBeenCalled();
   });
