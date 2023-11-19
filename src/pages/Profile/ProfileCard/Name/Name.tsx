@@ -33,34 +33,38 @@ const Name: FC<NameProps> = ({ isNameEditing, setIsNameEditing, name, setName, i
   };
 
   return (
-    <div className={styles.line}>
-      <p className={styles.name}>{t("name")}:</p>
+    <div className={styles.line} data-testid="name-container">
+      <p className={styles.name} data-testid="name">{t("name")}:</p>
       {isNameEditing ? (
         <>
           <input
             className={styles.inputName}
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
+            data-testid="inputName"
           />
           <FontAwesomeIcon
             onClick={sumbitChangeName}
             className={styles.check}
             icon={faCheck}
+            data-testid="check"
           />
           <FontAwesomeIcon
             onClick={cancelChangeName}
             className={styles.close}
             icon={faX}
+            data-testid="close"
           />
         </>
       ) : (
         <>
-          <p className={styles.text}>{name}</p>
+          <p className={styles.text} data-testid='text'>{name}</p>
           <div
             onClick={() => {
               dispatch(clearProfileErrorMessage());
               setIsNameEditing(true);
             }}
+            data-testid='edit'
           >
             <FontAwesomeIcon
               className={`${styles.icon} ${styles.pencil}`}
@@ -68,6 +72,7 @@ const Name: FC<NameProps> = ({ isNameEditing, setIsNameEditing, name, setName, i
               color="rgb(163, 163, 163)"
               fontSize="15px"
               icon={faPencil}
+              data-testid="pencil"
             />
           </div>
         </>
