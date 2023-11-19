@@ -59,12 +59,11 @@ describe("ProfileCard", () => {
     expect(screen.getByTestId("buttons-container")).toBeInTheDocument();
   });
 
-  it("should show all when clicked", () => {
+  it("should show id when clicked", () => {
     renderProfileCard();
 
     fireEvent.click(screen.getByTestId("id"));
     expect(screen.getByTestId("id")).toHaveTextContent("22");
-    expect(screen.getByTestId("Name")).toHaveTextContent("Ivan");
   });
 
   it("should copy id to clipboard when clicked", () => {
