@@ -39,15 +39,24 @@ const Avatar: FC = () => {
   };
 
   return (
-    <div className={styles.avatar} data-testid="avatar-component">
-      <input type="file" ref={inputFileRef} onChange={handleChangeFile} data-testid="file-input" />
+    <div className={styles.avatar} data-testid="avatar-container">
+      <input
+        type="file"
+        ref={inputFileRef}
+        onChange={handleChangeFile}
+        data-testid="file-input-component"
+      />
       {avatar && <img src={avatar.url} alt="logo" />}
       <div
         className={styles.addPhoto}
         onClick={() => inputFileRef.current?.click()}
-        data-testid="add-photo"
+        data-testid="add-photo-component"
       >
-        <FontAwesomeIcon className={styles.camera} icon={faCirclePlus} data-testid="camera-icon"/>
+        <FontAwesomeIcon
+          className={styles.camera}
+          icon={faCirclePlus}
+          data-testid="camera-icon-component"
+        />
       </div>
     </div>
   );
