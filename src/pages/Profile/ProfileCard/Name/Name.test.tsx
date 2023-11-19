@@ -23,9 +23,9 @@ describe("Name", () => {
         <Name
           isNameEditing={false}
           setIsNameEditing={() => {}}
-          name={"Name"}
+          name={"Ivan"}
           setName={() => {}}
-          id={"1"}
+          id={"22"}
         />
       </Provider>
     );
@@ -43,9 +43,9 @@ describe("Name", () => {
         <Name
           isNameEditing={true}
           setIsNameEditing={() => {}}
-          name={"Name"}
+          name={"Ivan"}
           setName={() => {}}
-          id={"1"}
+          id={"22"}
         />
       </Provider>
     );
@@ -63,9 +63,9 @@ describe("Name", () => {
         <Name
           isNameEditing={false}
           setIsNameEditing={() => {}}
-          name={"Name"}
+          name={"Ivan"}
           setName={() => {}}
-          id={"1"}
+          id={"22"}
         />
       </Provider>
     );
@@ -85,7 +85,7 @@ describe("Name", () => {
           setIsNameEditing={mockToggleActive}
           name={"Name"}
           setName={() => {}}
-          id={"1"}
+          id={"22"}
         />
       </Provider>
     );
@@ -102,7 +102,7 @@ describe("Name", () => {
           setIsNameEditing={mockToggleActive}
           name={"Name"}
           setName={() => {}}
-          id={"1"}
+          id={"22"}
         />
       </Provider>
     );

@@ -11,22 +11,18 @@ interface DataLineProps {
   value: string;
 }
 
-const DataLine: FC<DataLineProps> = ({
-  label,
-  value,
-}) => {
+const DataLine: FC<DataLineProps> = ({ label, value }) => {
   const { t } = useTranslation();
 
-  return(
-  <div className={styles.line}>
-    <p className={styles.name}>{t(label)}:</p>
-    <p className={styles.text}>{value}</p>
-  </div>
+  return (
+    <div className={styles.line}>
+      <p className={styles.name}>{t(label)}:</p>
+      <p className={styles.text}>{value}</p>
+    </div>
   );
 };
 
 const ProfileData: FC = () => {
-
   const profile = useAppSelector(selectUserProfile) || {
     email: "",
     createdAt: "",
@@ -36,7 +32,7 @@ const ProfileData: FC = () => {
   const date = new Date(createdAt).toLocaleDateString();
 
   return (
-    <div className={styles.profileData} data-testid='profile-data-container'>
+    <div className={styles.profileData} data-testid="profile-data-container">
       <DataLine label="email" value={email} />
       <DataLine label="registrationDate" value={date} />
     </div>

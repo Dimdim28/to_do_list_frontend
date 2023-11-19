@@ -23,11 +23,11 @@ const renderButtons = () => {
   );
 };
 
-describe("Buttons", () => {
-  beforeEach(() => {
-    renderButtons();
-  });
+beforeEach(() => {
+  renderButtons();
+});
 
+describe("Buttons", () => {
   it("renders without crashing", () => {
     expect(screen.getByTestId("buttons-container")).toBeInTheDocument();
     expect(screen.getByTestId("exit-button-component")).toBeInTheDocument();

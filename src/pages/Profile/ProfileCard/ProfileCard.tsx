@@ -28,18 +28,18 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
-    isNameEditing,
-    setIsNameEditing,
-    name,
-    setName,
-    id,
+  isNameEditing,
+  setIsNameEditing,
+  name,
+  setName,
+  id,
 
-    setIsExiting,
-    setIspassEditing,
-    setIsAccountDeleting,
+  setIsExiting,
+  setIspassEditing,
+  setIsAccountDeleting,
 
-    isAccountDeleting,
-    isExiting,
+  isAccountDeleting,
+  isExiting,
 }) => {
   const { t } = useTranslation();
 
@@ -56,50 +56,54 @@ const ProfileCard: FC<ProfileCardProps> = ({
       }, 5000);
     }
   };
-    
+
   return (
-    <div className={styles.row} data-testid='profile-card-container'>
-          <Avatar />
+    <div className={styles.row} data-testid="profile-card-container">
+      <Avatar />
 
-          <div className={styles.idWrapper} onClick={showIdHandler} data-testid='id'>
-            {isIdShown ? id : t("showMyId")}
-          </div>
-          <div className={styles.info} data-testid='info'>
-            <Name
-              isNameEditing={isNameEditing}
-              setIsNameEditing={setIsNameEditing}
-              name={name}
-              setName={setName}
-              id={id}
-              data-testid='name'
-            />
+      <div
+        className={styles.idWrapper}
+        onClick={showIdHandler}
+        data-testid="id"
+      >
+        {isIdShown ? id : t("showMyId")}
+      </div>
+      <div className={styles.info} data-testid="info">
+        <Name
+          isNameEditing={isNameEditing}
+          setIsNameEditing={setIsNameEditing}
+          name={name}
+          setName={setName}
+          id={id}
+          data-testid="name"
+        />
 
-            <ProfileData />
-          </div>
+        <ProfileData />
+      </div>
 
-          <Buttons
-            setIsExiting={setIsExiting}
-            setIspassEditing={setIspassEditing}
-            setIsAccountDeleting={setIsAccountDeleting}
-          />
+      <Buttons
+        setIsExiting={setIsExiting}
+        setIspassEditing={setIspassEditing}
+        setIsAccountDeleting={setIsAccountDeleting}
+      />
 
-          {isAccountDeleting && (
-            <Modal
-              active={isAccountDeleting}
-              setActive={setIsAccountDeleting}
-              ChildComponent={DeleteProfile}
-              childProps={{ toggleActive: setIsAccountDeleting }}
-            />
-          )}
-          {isExiting && (
-            <Modal
-              active={isExiting}
-              setActive={setIsExiting}
-              ChildComponent={Exit}
-              childProps={{ toggleActive: setIsExiting }}
-            />
-          )}
-        </div>
+      {isAccountDeleting && (
+        <Modal
+          active={isAccountDeleting}
+          setActive={setIsAccountDeleting}
+          ChildComponent={DeleteProfile}
+          childProps={{ toggleActive: setIsAccountDeleting }}
+        />
+      )}
+      {isExiting && (
+        <Modal
+          active={isExiting}
+          setActive={setIsExiting}
+          ChildComponent={Exit}
+          childProps={{ toggleActive: setIsExiting }}
+        />
+      )}
+    </div>
   );
 };
 

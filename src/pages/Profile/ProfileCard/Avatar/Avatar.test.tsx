@@ -15,11 +15,11 @@ const renderAvatar = () => {
   );
 };
 
-describe("Avatar", () => {
-  beforeEach(() => {
-    renderAvatar();
-  });
+beforeEach(() => {
+  renderAvatar();
+});
 
+describe("Avatar", () => {
   it("renders without crashing", () => {
     expect(screen.getByTestId("avatar-container")).toBeInTheDocument();
     expect(screen.getByTestId("file-input-component")).toBeInTheDocument();

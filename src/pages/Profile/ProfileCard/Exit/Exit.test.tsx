@@ -4,6 +4,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Exit from "./Exit";
 import configureStore from "redux-mock-store";
 
+const mockToggleActive = jest.fn();
+const mockStore = configureStore([]);
+let store: any;
+
 const renderDeleteProfile = (store: any) => {
   render(
     <Provider store={store}>
@@ -11,9 +15,6 @@ const renderDeleteProfile = (store: any) => {
     </Provider>
   );
 };
-const mockToggleActive = jest.fn();
-const mockStore = configureStore([]);
-let store: any;
 
 describe("DeleteProfile", () => {
   it("should render delete profile container", () => {
