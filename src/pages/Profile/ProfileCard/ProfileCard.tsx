@@ -58,19 +58,20 @@ const ProfileCard: FC<ProfileCardProps> = ({
   };
     
   return (
-    <div className={styles.row}>
+    <div className={styles.row} data-testid='profile-card-container'>
           <Avatar />
 
-          <div className={styles.idWrapper} onClick={showIdHandler}>
+          <div className={styles.idWrapper} onClick={showIdHandler} data-testid='id'>
             {isIdShown ? id : t("showMyId")}
           </div>
-          <div className={styles.info}>
+          <div className={styles.info} data-testid='info'>
             <Name
               isNameEditing={isNameEditing}
               setIsNameEditing={setIsNameEditing}
               name={name}
               setName={setName}
               id={id}
+              data-testid='name'
             />
 
             <ProfileData />
