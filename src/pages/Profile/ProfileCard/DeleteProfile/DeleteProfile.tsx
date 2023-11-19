@@ -39,15 +39,15 @@ const DeleteProfile: FC<DeleteAccountProps> = ({ toggleActive }) => {
   };
 
   return (
-    <div className={styles.wrapper} data-testid='delete-container'>
+    <div className={styles.wrapper} data-testid='delete-profile-container'>
       {status === Status.LOADING ? (
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title} data-testid='areYouSure'>{t('areYouSure')}</h3>
+          <h3 className={styles.title} data-testid='are-you-sure-component'>{t('areYouSure')}</h3>
           <div className={styles.buttons}>
-            <Button text={t('no')} callback={cancel} class="cancel" data-testid='cancel'/>
-            <Button text={t('yes')} callback={submit} class="submit" data-testid='submit'/>
+            <Button text={t('no')} callback={cancel} class="cancel" data-testid='cancel-component'/>
+            <Button text={t('yes')} callback={submit} class="submit" data-testid='submit-component'/>
           </div>
 
           {status === Status.ERROR && <p className={styles.error}>{error}</p>}
