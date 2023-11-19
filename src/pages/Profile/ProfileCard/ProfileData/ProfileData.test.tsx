@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import ProfileData from "./ProfileData";
 import store from "../../../../redux/store";
