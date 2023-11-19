@@ -77,7 +77,7 @@ describe("Name", () => {
     expect(screen.queryByTestId("error")).toBeNull();
   });
 
-  it("should call mockToggleActive when cancel button is clicked", () => {
+  it("should call mockToggleActive when edit button is clicked", () => {
     render(
       <Provider store={store}>
         <Name

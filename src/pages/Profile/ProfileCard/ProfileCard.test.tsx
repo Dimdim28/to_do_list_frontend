@@ -57,7 +57,7 @@ describe("ProfileCard Component", () => {
         expect(screen.getByTestId("avatar-container")).toBeInTheDocument();
         expect(screen.getByTestId("id")).toBeInTheDocument();
         expect(screen.getByTestId("info")).toBeInTheDocument();
-        expect(screen.getByTestId("name")).toBeInTheDocument();
+        expect(screen.getByTestId("name-container")).toBeInTheDocument();
         expect(screen.getByTestId("buttons-container")).toBeInTheDocument();
     });
 
