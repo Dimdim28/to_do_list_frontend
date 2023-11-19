@@ -3,9 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "jest": {
+    "preset": "ts-jest/presets/js-with-ts",
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
     "moduleNameMapper": {
-      "axios": "axios/dist/node/axios.cjs"
-    }
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(s?css|less)$": "identity-obj-proxy",
+      "axios/": "axios/dist/node/axios.cjs"
+    },
+    "modulePaths": [
+      "<rootDir>/src"
+    ]
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -14,11 +24,10 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
-    "@vitejs/plugin-react": "^4.1.0",
+    "@vitejs/plugin-react": "^4.2.0",
     "axios": "^1.2.3",
     "browser-image-compression": "^2.0.1",
     "chart.js": "^4.3.0",
@@ -41,6 +50,7 @@
     "redux-mock-store": "^1.5.4",
     "typescript": "^4.9.4",
     "vite": "^4.5.0",
+    "vite-tsconfig-paths": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -48,7 +58,10 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage .",
+    "test:debug": "jest --inspect-brk --runInBand --no-cache"
   },
   "eslintConfig": {
     "extends": [
@@ -69,12 +82,16 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.11",
+    "@types/node": "^16.18.62",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/redux-mock-store": "^1.0.3",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
-    "sass": "^1.69.5"
+    "jest-environment-jsdom": "^29.7.0",
+    "sass": "^1.69.5",
+    "ts-jest": "^29.1.1"
   }
 }

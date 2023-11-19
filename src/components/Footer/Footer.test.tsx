@@ -1,14 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import { useTranslation } from "react-i18next";
+import { render, screen } from '@testing-library/react';
+import { useTranslation } from 'react-i18next';
 
-import Footer from "./Footer";
-import { TranslationKeys } from "../../types";
+import Footer from './Footer';
+import { TranslationKeys } from '../../types';
 
-jest.mock("react-i18next", () => ({
+jest.mock('react-i18next', () => ({
   useTranslation: jest.fn(),
 }));
 
-describe("Footer", () => {
+describe('Footer', () => {
   beforeEach(() => {
     const useTranslationSpy = useTranslation as jest.Mock;
     const tSpy = jest.fn((str) => str);
@@ -20,15 +20,15 @@ describe("Footer", () => {
     });
   });
 
-  it("renders correctly", () => {
+  it('renders correctly', () => {
     render(<Footer />);
     const footerElement = screen.getByText(TranslationKeys.Footer);
     expect(footerElement).toBeInTheDocument();
   });
 
-  it("has the correct class name", () => {
+  it('has the correct class name', () => {
     render(<Footer />);
-    const footerElement = screen.getByRole("contentinfo");
-    expect(footerElement).toHaveClass("footer");
+    const footerElement = screen.getByRole('contentinfo');
+    expect(footerElement).toHaveClass('footer');
   });
 });

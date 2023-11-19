@@ -1,17 +1,18 @@
-import { FC } from "react";
-import { Navigate } from "react-router";
+import { FC } from 'react'
+import { Navigate } from 'react-router'
 
-import { useAppSelector } from "../hooks";
-import { selectIsAuth, selectIsChecked } from "../redux/slices/auth/selectors";
-import ROUTES from "../routes";
+import { useAppSelector } from '../hooks'
+import { selectIsAuth, selectIsChecked } from '../redux/slices/auth/selectors'
+import ROUTES from '../routes'
 
 export const withLoginRedirect = (Component: FC<any>) => () => {
-  const isAuth = useAppSelector(selectIsAuth);
-  const isChecked = useAppSelector(selectIsChecked);
+  const isAuth = useAppSelector(selectIsAuth)
+  const isChecked = useAppSelector(selectIsChecked)
+  console.log(isAuth, isChecked)
   if (!isAuth && isChecked)
-    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
+    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />
 
-  return <Component />;
-};
+  return <Component />
+}
 
-export default withLoginRedirect;
+export default withLoginRedirect
