@@ -1,0 +1,161 @@
+@import "src/styles/partials/theme";
+
+.line {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  position: relative;
+
+  .name {
+    color: $warning-200;
+    font-weight: 600;
+    font-size: 20px;
+    color: $white;
+    transition: color $transition-delay;
+  }
+
+  .text {
+    color: $gray-600;
+    border-bottom: 2px solid $warning-200;
+    margin: 10px;
+    font-size: 20px;
+    width: 100%;
+    word-break: break-all;
+    color: $white;
+    transition: color $transition-delay;
+  }
+
+  .inputName {
+    outline: none;
+    color: $gray-600;
+    border: none;
+    border-bottom: 2px solid $warning-200;
+    margin: 10px;
+    font-size: 20px;
+    width: 100%;
+    padding: 0;
+    display: block;
+    background-color: transparent;
+    transition: color $transition-delay;
+  }
+
+  .check {
+    width: 15px;
+    height: 15px;
+    z-index: 3;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    right: -7.5px;
+    bottom: calc(50% - 7.5px);
+    color: $white;
+    transition: color $transition-delay;
+
+    &:hover {
+      color: $green-200;
+    }
+  }
+
+  .close {
+    width: 15px;
+    height: 15px;
+    z-index: 3;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    right: -27px;
+    bottom: calc(50% - 7.5px);
+    color: $white;
+    transition: color $transition-delay;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+
+  .icon {
+    opacity: 0;
+    width: 15px;
+    height: 15px;
+    z-index: 3;
+  }
+
+  .pencil {
+    &:hover {
+      color: $warning-200;
+    }
+
+    transition: 0.3s;
+    position: absolute;
+    bottom: calc(50% - 7.5px);
+    right: -15px;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .icon {
+      opacity: 1;
+    }
+  }
+}
+
+:global(.light_theme) .line {
+  .name {
+    color: $black;
+  }
+
+  .text {
+    color: $black;
+  }
+
+  .inputName {
+    color: $background-dark-0;
+  }
+
+  .check {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $green-200;
+    }
+  }
+
+  .close {
+    color: $background-dark-0;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+}
+
+@media screen and (max-width: 1480px) {
+  .line {
+    .text,
+    .name,
+    .inputName {
+      font-size: 18px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .line {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .text {
+      margin-left: 0;
+    }
+
+    .pencil {
+      bottom: calc(50% - 15px);
+    }
+
+    .inputName {
+      margin-left: 0;
+    }
+  }
+}
