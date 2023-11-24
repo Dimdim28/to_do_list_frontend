@@ -1,3 +1,4 @@
+
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -17,6 +18,7 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ links }) => {
   const { t } = useTranslation();
+
   return (
     <footer className={styles.footer}>
       <nav className={styles.leftAlignedText}>

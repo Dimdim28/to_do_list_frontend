@@ -49,7 +49,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [title, setTittle] = useState(prevTitle || '');
   const [description, setDescription] = useState(prevDescription || '');
   const [categories, setCategories] = useState(
-    prevCategories?.map((el) => el._id) || []
+    prevCategories?.map((el) => el._id) || [],
   );
   const [hasDeadline, setHasDeadline] = useState(!!prevDeadline);
   const [deadline, setDeadline] = useState(prevDeadline || '');
@@ -140,7 +140,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                   value={link}
                   setValue={(newLink: any) => {
                     setLinks((prev) =>
-                      prev.map((el, id) => (id === index ? newLink : el))
+                      prev.map((el, id) => (id === index ? newLink : el)),
                     );
                   }}
                   type="text"

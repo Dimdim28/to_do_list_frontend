@@ -1,35 +1,35 @@
-import { FC, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import styles from "./FAQ.module.scss";
+import styles from './FAQ.module.scss'
 
 const FAQ: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const FAQ_DATA = new Array(10).fill(1).map((_, i) => ({
     question: t(`question${i + 1}`),
     answer: t(`answer${i + 1}`),
-  }));
+  }))
 
   const toggleAccordion = (index: number) => {
     if (activeIndex === index) {
-      setActiveIndex(null);
+      setActiveIndex(null)
     } else {
-      setActiveIndex(index);
+      setActiveIndex(index)
     }
-  };
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.accordion}>
-        <h1>{t("faqBold")}</h1>
+        <h1>{t('faqBold')}</h1>
         {FAQ_DATA.map((item, index) => (
           <div
             key={index}
             className={`${styles.item} ${
-              activeIndex === index ? styles.active : ""
+              activeIndex === index ? styles.active : ''
             }`}
           >
             <div
@@ -47,7 +47,7 @@ const FAQ: FC = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FAQ;
+export default FAQ
