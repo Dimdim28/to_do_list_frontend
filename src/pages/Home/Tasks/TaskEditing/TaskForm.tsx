@@ -95,6 +95,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     toggleActive(false);
   };
 
+  const onChangeCheckBoxDeadline = () => {
+    setHasDeadline((prev) => !prev);
+  };
+
+  const onChangeCheckBoxIsCompleted = () => {
+    setIsCompleted((prev) => !prev);
+  };
+
   return (
     <div className={styles.wrapper}>
       {status === Status.LOADING ? (
@@ -122,7 +130,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           <div className={styles.checkBox}>
             <Checkbox
               isChecked={hasDeadline}
-              setIsChecked={setHasDeadline}
+              callback={onChangeCheckBoxDeadline}
               label={t('taskHasDeadline')}
             />
             {links.map((link, index) => (
@@ -159,7 +167,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           <div className={styles.checkBox}>
             <Checkbox
               isChecked={isCompleted}
-              setIsChecked={setIsCompleted}
+              callback={onChangeCheckBoxIsCompleted}
               label={t('taskCompleted')}
             />
           </div>
