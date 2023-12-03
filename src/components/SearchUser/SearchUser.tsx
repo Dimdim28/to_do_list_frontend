@@ -8,10 +8,10 @@ import styles from './SearchUser.module.scss';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface SearchUserProps {
-  callback: () => void;
+  handleUserClick: (user: User) => void;
 }
 
-const SearchUser: FC<SearchUserProps> = () => {
+const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState<User[]>([]);
 
@@ -19,7 +19,6 @@ const SearchUser: FC<SearchUserProps> = () => {
 
   async function fetchUsers(userName: string) {
     const response = await userAPI.getUsers(userName);
-    console.log(response);
     setUsers(response.users);
   }
 
@@ -33,6 +32,7 @@ const SearchUser: FC<SearchUserProps> = () => {
       <div className={styles.inputLine}>
         <input
           className={styles.input}
+          placeholder="input username"
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -49,10 +49,17 @@ const SearchUser: FC<SearchUserProps> = () => {
         <div className={styles.users}>
           {inputValue?.length > 0 &&
             users.map((user) => (
-              <div className={styles.user} key={user._id}>
+              <div
+                className={styles.user}
+                key={user._id}
+                onClick={() => handleUserClick(user)}
+              >
                 <img
                   className={styles.userAvatar}
-                  src={user.avatar?.url}
+                  src={
+                    user.avatar?.url ||
+                    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+                  }
                   alt="avatar"
                 />
                 <div className={styles.userName}>{user.username}</div>

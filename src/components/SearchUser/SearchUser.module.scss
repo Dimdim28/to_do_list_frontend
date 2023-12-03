@@ -55,6 +55,12 @@
     padding: 5px 10px;
     background: $gray-10;
     border-top: 1px solid white;
+    transition: background $transition-delay;
+    cursor: pointer;
+}
+
+.user:hover {
+    background: $gray-50;
 }
 
 .userAvatar {

@@ -11,12 +11,15 @@ import { useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import subTasksAPI from '../../../../api/subTaskAPI';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
+import ChosenUser from '../ChosenUser/ChosenUser';
+import { User } from '../../../../api/userAPI';
 
 import styles from './TaskForm.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import SearchUser from '../../../../components/SearchUser/SearchUser';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -58,8 +61,16 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
+  const [assigner, setAssigner] = useState<User | null>(null);
 
-  const userId = useAppSelector(selectProfile)?._id || '';
+  const profile = useAppSelector(selectProfile);
+
+  const userId = profile?._id || '';
+  const avatar = profile?.avatar || {
+    url: 'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg',
+    public_id: '',
+  };
+  const username = profile?.username || '';
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -74,14 +85,23 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    const result = _id
+    const result = isForSubtask
+      ? await subTasksAPI.createSubTask({
+          taskId: _id,
+          title,
+          description,
+          deadline: hasDeadline ? deadline : null,
+          isCompleted,
+          assigneeId: assigner?._id || '',
+        })
+      : _id
       ? await taskAPI.edittask({ _id, ...payload })
       : await taskAPI.addtask({ user: userId, ...payload });
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      if (!_id && length === 10) {
+      if (!_id && length === 10 && !isForSubtask) {
         setCurrentPage((prev) => {
           const params = { ...taskFetchingParams, page: prev + 1 };
           fetchTasks(params);
@@ -113,7 +133,34 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       ) : (
         <>
           {isForSubtask ? (
-            <SearchUser callback={() => {}} />
+            assigner ? (
+              <ChosenUser
+                user={assigner}
+                removeUser={() => {
+                  setAssigner(null);
+                }}
+              />
+            ) : (
+              <>
+                <SearchUser
+                  handleUserClick={(user: User) => {
+                    setAssigner(user);
+                  }}
+                />
+                <button
+                  className={styles.assignYourself}
+                  onClick={() => {
+                    setAssigner({
+                      _id: userId,
+                      avatar,
+                      username,
+                    });
+                  }}
+                >
+                  Assing yourself
+                </button>
+              </>
+            )
           ) : (
             <Categories
               isForTask
