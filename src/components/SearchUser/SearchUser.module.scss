@@ -1,0 +1,71 @@
+@import "src/styles/partials/theme";
+
+.content {
+    width: 100%;
+    position: relative;
+}
+
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.inputLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: $gray-10;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.searchIcon {
+    color: $warning-200;
+    margin-left: 20px;
+    font-size: 25px;
+}
+
+.users {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    max-height: 200px;
+    overflow-y: scroll;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    z-index: 5;
+    background: $gray-25;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: $gray-10;
+    border-top: 1px solid white;
+}
+
+.userAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.userName {
+    font-size: 18px;
+    font-weight: 400;
+}

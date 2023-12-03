@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPencil,
   faTrash,
-  faShare,
+  faListCheck,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -181,28 +181,29 @@ const TaskCard = ({
             e.stopPropagation();
           }}
         />
-        {/* <FontAwesomeIcon
+        <FontAwesomeIcon
           color="black"
           data-testid="share-icon"
           fontSize="15px"
-          icon={faShare}
+          icon={faListCheck}
           className={`${styles.icon} ${styles.share}`}
           onClick={(e) => {
-            if (sharedWith && sharedWith[0] === "already shared") {
+            if (sharedWith && sharedWith[0] === 'already shared') {
               toast.error(
-                "ERROR! You are not the author of this task, you can not share this task!"
+                'ERROR! You are not the author of this task, you can not share this task!',
               );
               return;
             }
             setTaskProps({
-              ...task,
+              _id: _id,
               fetchTasks,
               taskFetchingParams,
+              isForSubtask: true,
             });
             setTaskSharing(true);
             e.stopPropagation();
           }}
-        /> */}
+        />
       </div>
     </div>
   );

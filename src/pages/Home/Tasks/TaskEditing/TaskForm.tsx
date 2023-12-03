@@ -16,6 +16,7 @@ import styles from './TaskForm.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +25,7 @@ interface TaskFormProps {
     taskFetchingParams: getTask;
     length: number;
     setCurrentPage: Dispatch<SetStateAction<number>>;
+    isForSubtask?: boolean;
   };
 }
 
@@ -40,6 +42,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     taskFetchingParams,
     length,
     setCurrentPage,
+    isForSubtask,
   } = childProps;
 
   const { t } = useTranslation();
@@ -109,13 +112,17 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         <Preloader />
       ) : (
         <>
-          <Categories
-            isForTask
-            fetchTasks={fetchTasks}
-            taskFetchingParams={taskFetchingParams}
-            activeCategories={categories}
-            setActiveCategories={setCategories}
-          />
+          {isForSubtask ? (
+            <SearchUser callback={() => {}} />
+          ) : (
+            <Categories
+              isForTask
+              fetchTasks={fetchTasks}
+              taskFetchingParams={taskFetchingParams}
+              activeCategories={categories}
+              setActiveCategories={setCategories}
+            />
+          )}
           <Input
             title={t('title')}
             value={title}
