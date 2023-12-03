@@ -229,6 +229,17 @@
   word-break: break-all;
 }
 
+.subtasks {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subtask {
+  color: $success-200;
+}
+
 @media screen and (max-width: 1420px) {
 
   .wrapper,

@@ -1,5 +1,5 @@
-import instanse from "../axios";
-import { Status } from "../types";
+import instanse from '../axios';
+import { Status } from '../types';
 
 export type Category = {
   _id: string;
@@ -36,9 +36,23 @@ type Date = {
   updatedAt: string;
 };
 
+type SubTasks = {
+  subtasks: {
+    _id: string;
+    assigneeId: string;
+    taskId: string;
+    title: string;
+    description: string;
+    categories?: Category[];
+    deadline?: string | null;
+    isCompleted?: boolean;
+    links?: string[];
+  }[];
+};
+
 interface EditTask extends PureTask, Id {}
 interface AddTask extends PureTask, User {}
-export interface Task extends PureTask, Id, User, Date {}
+export interface Task extends PureTask, Id, User, Date, SubTasks {}
 
 export interface getTask {
   page?: number;
@@ -83,7 +97,7 @@ class taskAPIClass {
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         task: null,
       };
@@ -94,7 +108,7 @@ class taskAPIClass {
     const { title, description, categories, user, deadline, isCompleted } =
       params;
     try {
-      const response: TaskResponse = await instanse.post("/task", {
+      const response: TaskResponse = await instanse.post('/task', {
         title,
         user,
         description,
@@ -105,7 +119,7 @@ class taskAPIClass {
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         task: null,
       };
@@ -117,12 +131,12 @@ class taskAPIClass {
       const { _id, ...body } = params;
       const response: TaskResponse = await instanse.patch(
         `/task/${params._id}`,
-        body
+        body,
       );
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         task: null,
       };
@@ -132,7 +146,7 @@ class taskAPIClass {
   public async getTasks(params?: getTask): Promise<TasksResult> {
     try {
       let newParams: any = params;
-      const categories = params?.categories?.map((el) => `"${el}"`).join(",");
+      const categories = params?.categories?.map((el) => `"${el}"`).join(',');
 
       if (categories) {
         newParams = { ...params, categories: `[${categories}]` };
@@ -144,7 +158,7 @@ class taskAPIClass {
       return { tasks, currentPage, totalPages, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         tasks: [],
       };
@@ -154,7 +168,7 @@ class taskAPIClass {
   public async shareTask(
     id: string,
     name: string,
-    receiver: string
+    receiver: string,
   ): Promise<{ status: Status; message?: string }> {
     try {
       await instanse.post(`/task/share/${id}`, {
@@ -164,7 +178,7 @@ class taskAPIClass {
       return { status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
       };
     }
@@ -173,7 +187,7 @@ class taskAPIClass {
   public async addLinkToTask(
     id: string,
     prevLinks: string[],
-    url: string
+    url: string,
   ): Promise<Result> {
     try {
       const response: TaskResponse = await instanse.patch(`/task/${id}`, {
@@ -182,7 +196,7 @@ class taskAPIClass {
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         task: null,
       };

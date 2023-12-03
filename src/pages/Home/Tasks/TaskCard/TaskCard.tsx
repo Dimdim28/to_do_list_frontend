@@ -63,6 +63,7 @@ const TaskCard = ({
     _id,
     sharedWith,
     links,
+    subtasks,
   } = task;
 
   const { t } = useTranslation();
@@ -126,6 +127,13 @@ const TaskCard = ({
         )}
       </div>
 
+      <div className={styles.subtasks}>
+        {subtasks && subtasks.length > 0 && (
+          <p className={styles.subtask}>
+            {t('subTasksAmount')}: {subtasks.length}
+          </p>
+        )}
+      </div>
       {deadline && (
         <p className={styles.deadline}>
           {t('deadline')} {humaniseDate(deadline)}
