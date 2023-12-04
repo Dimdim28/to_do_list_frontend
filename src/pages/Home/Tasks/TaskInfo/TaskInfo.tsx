@@ -52,7 +52,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
       <p className={styles.description}>{description}</p>
 
-      {subtasks ? <SubTasks subTasks={subtasks} /> : null}
+      {subtasks?.length > 0 ? <SubTasks subTasks={subtasks} /> : null}
 
       <div className={styles.links}>
         {links?.map((link, id) => (
