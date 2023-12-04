@@ -105,6 +105,8 @@ const EN = {
   chosenUser: 'Chosen user',
   assignYourself: 'Assign yourself',
   remove: 'Remove',
+  subtasks: 'Subtasks',
+  inProgress: 'In progress',
 };
 
 export default EN;

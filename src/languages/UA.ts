@@ -106,6 +106,8 @@ const UA = {
   chosenUser: 'Обраний користувач',
   assignYourself: 'Призначте себе',
   remove: 'Видалити',
+  subtasks: 'Підзавдання',
+  inProgress: 'В процесі',
 };
 
 export default UA;

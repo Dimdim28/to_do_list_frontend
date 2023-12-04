@@ -31,7 +31,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
           isCompleted ? styles.statusCompleted : styles.statusInProgress
         }
       >
-        {isCompleted ? 'Completed' : 'In progress'}
+        {isCompleted ? t('completed') : t('inProgress')}
       </p>
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>

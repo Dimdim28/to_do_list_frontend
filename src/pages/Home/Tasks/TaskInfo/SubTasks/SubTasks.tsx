@@ -14,6 +14,8 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
   rejected,
   isCompleted,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       {rejected ? (
@@ -24,7 +26,7 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
             isCompleted ? styles.subTaskCompleted : styles.subtaskInProgress
           }
         >
-          {isCompleted ? 'Completed' : 'In progress'}
+          {isCompleted ? t('completed') : t('inProgress')}
         </p>
       )}
     </>
@@ -33,12 +35,11 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
 
 const SubTasks: FC<SubTasksProps> = ({ subTasks }) => {
   const { t } = useTranslation();
-
   const [activeSubTask, setActiveSubTask] = useState<string>('');
 
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>Subtasks</h3>
+      <h3 className={styles.title}>{t('subtasks')}</h3>
 
       <div className={styles.subtasks}>
         {subTasks.map((el) => {
