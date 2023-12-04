@@ -82,8 +82,7 @@
   color: $white;
   background: $gray-10;
   border-top: 1px solid $white;
-  transition: color $transition-delay background $transition-delay border
-    $transition-delay;
+  transition: color $transition-delay background $transition-delay border $transition-delay;
   cursor: pointer;
 }
 
@@ -114,4 +113,10 @@
 .userName {
   font-size: 18px;
   font-weight: 400;
+}
+
+.noUsers {
+  color: $error-200;
+  padding: 10px 20px;
+  text-align: center;
 }
