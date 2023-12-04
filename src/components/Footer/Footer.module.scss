@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .footer {
   background-color: $black;
@@ -8,7 +8,9 @@
   align-items: center;
   justify-content: center;
   color: $white;
-  transition: color $transition-delay, background-color $transition-delay;
+  transition:
+    color $transition-delay,
+    background-color $transition-delay;
 }
 
 .leftAlignedText {
@@ -20,6 +22,17 @@
 .centeredText {
   flex: 1;
   text-align: center;
+}
+
+.rightAlignedText {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.rightAlignedTextBolt {
+  text-align: right;
+  margin-right: 10px;
+  font-weight: 600;
 }
 
 .isActive {
