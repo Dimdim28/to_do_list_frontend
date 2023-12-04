@@ -56,7 +56,9 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks }) => {
               className={styles.subTask}
               key={el._id}
               onClick={() => {
-                setActiveSubTask(el._id);
+                setActiveSubTask((subtask) =>
+                  el._id === subtask ? '' : el._id,
+                );
               }}
             >
               <div className={styles.subTaskHeader}>
