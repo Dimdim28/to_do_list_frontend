@@ -1,5 +1,6 @@
 import instanse from '../axios';
 import { Status } from '../types';
+import { SubTask } from './subTaskAPI';
 
 export type Category = {
   _id: string;
@@ -37,17 +38,7 @@ type Date = {
 };
 
 type SubTasks = {
-  subtasks: {
-    _id: string;
-    assigneeId: string;
-    taskId: string;
-    title: string;
-    description: string;
-    categories?: Category[];
-    deadline?: string | null;
-    isCompleted?: boolean;
-    links?: string[];
-  }[];
+  subtasks: SubTask[];
 };
 
 interface EditTask extends PureTask, Id {}

@@ -1,10 +1,11 @@
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Task } from "../../../../api/taskAPI";
-import { humaniseDate } from "../../../../helpers/string";
+import SubTasks from './SubTasks/SubTasks';
+import { Task } from '../../../../api/taskAPI';
+import { humaniseDate } from '../../../../helpers/string';
 
-import styles from "./TaskInfo.module.scss";
+import styles from './TaskInfo.module.scss';
 
 interface TaskInfoProps {
   childProps: Task;
@@ -19,6 +20,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     isCompleted,
     sharedWith,
     links,
+    subtasks,
   } = childProps;
   const { t } = useTranslation();
 
@@ -29,7 +31,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
           isCompleted ? styles.statusCompleted : styles.statusInProgress
         }
       >
-        {isCompleted ? "Completed" : "In progress"}
+        {isCompleted ? 'Completed' : 'In progress'}
       </p>
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
@@ -49,6 +51,9 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
         })}
       </div>
       <p className={styles.description}>{description}</p>
+
+      {subtasks ? <SubTasks subTasks={subtasks} /> : null}
+
       <div className={styles.links}>
         {links?.map((link, id) => (
           <a href={link} key={id} target="blank" className={styles.link}>
@@ -59,18 +64,18 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
 
       {deadline && (
         <p className={styles.deadline}>
-          {t("deadline")} {humaniseDate(deadline)}
+          {t('deadline')} {humaniseDate(deadline)}
         </p>
       )}
       {sharedWith &&
-        sharedWith[0] !== "already shared" &&
+        sharedWith[0] !== 'already shared' &&
         sharedWith.length > 0 && (
           <>
-            <h5 className={styles.sharedTitle}>{t("sharedWith")}:</h5>
+            <h5 className={styles.sharedTitle}>{t('sharedWith')}:</h5>
             <div className={styles.sharedWrapper}>
               {sharedWith.map((el, id) => (
                 <p className={styles.username} key={id}>
-                  {typeof el !== "string" && el.username}
+                  {typeof el !== 'string' && el.username}
                 </p>
               ))}
             </div>

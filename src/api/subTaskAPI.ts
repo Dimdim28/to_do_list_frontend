@@ -15,6 +15,23 @@ interface CreateSubTaskParams {
   deadline?: string | null;
 }
 
+export type SubTask = {
+  _id: string;
+  title: string;
+  description: string;
+  isCompleted: boolean;
+  deadline: string;
+  rejected: boolean;
+  assigneeId: {
+    _id: string;
+    username: string;
+    avatar: {
+      url: string;
+      public_id: string;
+    };
+  };
+};
+
 class subTasksAPIClass {
   public async createSubTask({
     taskId,
