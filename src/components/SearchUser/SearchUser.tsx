@@ -1,5 +1,6 @@
 import { FC, useDeferredValue, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from "react-i18next";
 
 import userAPI, { User } from '../../api/userAPI';
 
@@ -12,6 +13,8 @@ interface SearchUserProps {
 }
 
 const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
+  const { t } = useTranslation();
+
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState<User[]>([]);
 
@@ -28,11 +31,11 @@ const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
 
   return (
     <div className={styles.content}>
-      <h3 className={styles.title}>Search User</h3>
+      <h3 className={styles.title}>{t('searchUser')}</h3>
       <div className={styles.inputLine}>
         <input
           className={styles.input}
-          placeholder="input username"
+          placeholder={t('inputUsername')}
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}

@@ -157,7 +157,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                     });
                   }}
                 >
-                  Assing yourself
+                  {t('assignYourself')}
                 </button>
               </>
             )

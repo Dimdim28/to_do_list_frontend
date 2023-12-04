@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { User } from '../../../../api/userAPI';
+import { useTranslation } from 'react-i18next';
 
 import styles from './ChosenUser.module.scss';
 
@@ -9,9 +10,11 @@ interface ChosenUserProps {
 }
 
 const ChosenUser: FC<ChosenUserProps> = ({ user, removeUser }) => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <h3 className={styles.title}>Chosen User</h3>
+      <h3 className={styles.title}>{t('chosenUser')}</h3>
       <div className={styles.user}>
         <img
           className={styles.userAvatar}
@@ -23,7 +26,7 @@ const ChosenUser: FC<ChosenUserProps> = ({ user, removeUser }) => {
         />
         <p className={styles.userName}>{user.username}</p>
         <button className={styles.removeUser} onClick={removeUser}>
-          remove
+          {t('remove')}
         </button>
       </div>
     </>

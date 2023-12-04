@@ -100,6 +100,11 @@ const EN = {
     "We will add the ability to create tasks with sub-items and share tasks with other users. for them to confirm acceptance or reject. Let's add notifications and the ability to correspond with users. The canban project management system, we will add registration confirmation and password recovery by mail, it will be possible to attach video, audio, files and images to tasks.",
   answer10:
     'Do it efficiently and quickly, while each of us has a job or university, so sometimes we don’t work as quickly as we would like, but you work =)',
+  searchUser: 'Search user',
+  inputUsername: 'Input username',
+  chosenUser: 'Chosen user',
+  assignYourself: 'Assign yourself',
+  remove: 'Remove',
 };
 
 export default EN;
