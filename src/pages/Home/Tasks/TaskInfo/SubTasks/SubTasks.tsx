@@ -118,6 +118,7 @@ const SubTasks: FC<SubTasksProps> = ({
                       onClick={(e) => {
                         setSubTaskProps({
                           subTaskId: el._id,
+                          title: el.title,
                           fetchTasks,
                           taskFetchingParams,
                           setSubTasksArray,
