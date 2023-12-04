@@ -189,29 +189,32 @@ const TaskCard = ({
             e.stopPropagation();
           }}
         />
-        <FontAwesomeIcon
-          color="black"
-          data-testid="share-icon"
-          fontSize="15px"
-          icon={faListCheck}
-          className={`${styles.icon} ${styles.share}`}
-          onClick={(e) => {
-            if (sharedWith && sharedWith[0] === 'already shared') {
-              toast.error(
-                'ERROR! You are not the author of this task, you can not share this task!',
-              );
-              return;
-            }
-            setTaskProps({
-              _id: _id,
-              fetchTasks,
-              taskFetchingParams,
-              isForSubtask: true,
-            });
-            setTaskSharing(true);
-            e.stopPropagation();
-          }}
-        />
+
+        {subtasks && subtasks.length < 10 && (
+          <FontAwesomeIcon
+            color="black"
+            data-testid="share-icon"
+            fontSize="15px"
+            icon={faListCheck}
+            className={`${styles.icon} ${styles.share}`}
+            onClick={(e) => {
+              if (sharedWith && sharedWith[0] === 'already shared') {
+                toast.error(
+                  'ERROR! You are not the author of this task, you can not share this task!',
+                );
+                return;
+              }
+              setTaskProps({
+                _id: _id,
+                fetchTasks,
+                taskFetchingParams,
+                isForSubtask: true,
+              });
+              setTaskSharing(true);
+              e.stopPropagation();
+            }}
+          />
+        )}
       </div>
     </div>
   );
