@@ -101,6 +101,7 @@ const EN = {
   answer10:
     'Do it efficiently and quickly, while each of us has a job or university, so sometimes we don’t work as quickly as we would like, but you work =)',
   searchUser: 'Search user',
+  noUsers: 'No users found',
   inputUsername: 'Input username',
   chosenUser: 'Chosen user',
   assignYourself: 'Assign yourself',

@@ -30,12 +30,19 @@ class userAPIClass {
           limit,
         },
       });
-      return { users: response.data.foundUsers, status: Status.SUCCESS };
+      return {
+        users: response.data.foundUsers,
+        page: response.data.page || 1,
+        totalPages: response.data.totalPages || 1,
+        status: Status.SUCCESS,
+      };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         users: [],
+        page: 1,
+        totalPages: 1,
       };
     }
   }
