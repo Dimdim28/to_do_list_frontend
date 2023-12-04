@@ -158,3 +158,12 @@
   font-weight: 400;
   color: $error-200;
 }
+
+.trash {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}

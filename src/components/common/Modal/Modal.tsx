@@ -1,27 +1,29 @@
-import { useCallback, useEffect, Dispatch, SetStateAction, FC } from "react";
+import { useCallback, useEffect, Dispatch, SetStateAction, FC } from 'react';
 
-import { Category } from "../../../api/categoryAPI";
+import { Category } from '../../../api/categoryAPI';
 
-import styles from "./Modal.module.scss";
+import styles from './Modal.module.scss';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface ModalProps {
   active: boolean;
   setActive: Dispatch<SetStateAction<boolean>>;
   ChildComponent: any;
   childProps: Category | {};
+  zIndex?: number;
 }
 
-const KEY_NAME_ESC = "Escape";
-const KEY_EVENT_TYPE = "keyup";
+const KEY_NAME_ESC = 'Escape';
+const KEY_EVENT_TYPE = 'keyup';
 
 export const Modal: FC<ModalProps> = ({
   active,
   setActive,
   ChildComponent,
   childProps,
+  zIndex,
 }) => {
   const handleEscKey = useCallback(
     (event: KeyboardEvent) => {
@@ -29,7 +31,7 @@ export const Modal: FC<ModalProps> = ({
         setActive(false);
       }
     },
-    [setActive]
+    [setActive],
   );
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <div
+      style={{ zIndex }}
       role="dialog-wrapper"
       className={active ? styles.modalActive : styles.modal}
     >

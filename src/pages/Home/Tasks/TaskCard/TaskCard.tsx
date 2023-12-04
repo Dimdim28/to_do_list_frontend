@@ -90,7 +90,7 @@ const TaskCard = ({
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps(task);
+        setTaskProps({ ...task, fetchTasks, taskFetchingParams });
         setTaskInfo(true);
       }}
     >

@@ -2,13 +2,18 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SubTasks from './SubTasks/SubTasks';
-import { Task } from '../../../../api/taskAPI';
+import { Task, getTask } from '../../../../api/taskAPI';
 import { humaniseDate } from '../../../../helpers/string';
+import { SubTask } from '../../../../api/subTaskAPI';
 
 import styles from './TaskInfo.module.scss';
 
 interface TaskInfoProps {
-  childProps: Task;
+  childProps: Task & {
+    fetchTasks: (params: getTask) => void;
+    taskFetchingParams: getTask;
+    setSubTasksArray?: SubTask[];
+  };
 }
 
 const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
@@ -21,9 +26,11 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     sharedWith,
     links,
     subtasks,
+    fetchTasks,
+    taskFetchingParams,
   } = childProps;
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
   return (
     <div className={styles.wrapper}>
       <p
@@ -52,7 +59,13 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
       <p className={styles.description}>{description}</p>
 
-      {subtasks?.length > 0 ? <SubTasks subTasks={subtasks} /> : null}
+      {subtasks?.length > 0 ? (
+        <SubTasks
+          subTasks={subtasks}
+          fetchTasks={fetchTasks}
+          taskFetchingParams={taskFetchingParams}
+        />
+      ) : null}
 
       <div className={styles.links}>
         {links?.map((link, id) => (

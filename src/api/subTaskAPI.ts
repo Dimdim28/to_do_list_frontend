@@ -58,6 +58,18 @@ class subTasksAPIClass {
       };
     }
   }
+
+  public async deleteSubTask(subTaskId: string) {
+    try {
+      await instanse.delete(`/task/subtask/${subTaskId}`);
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
 }
 
 const subTasksAPI = new subTasksAPIClass();
