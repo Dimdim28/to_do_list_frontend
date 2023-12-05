@@ -232,7 +232,11 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               text={t('submit')}
               callback={submit}
               class="submit"
-              disabled={description.length < 3 || title.length < 3}
+              disabled={
+                description.length < 3 ||
+                title.length < 3 ||
+                (isForSubtask && !assigner)
+              }
             />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}
