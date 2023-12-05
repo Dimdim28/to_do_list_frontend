@@ -182,18 +182,25 @@ const TaskCard = ({
           fontSize="15px"
           icon={faPencil}
         />
-        <FontAwesomeIcon
-          data-testid="attach-icon"
-          className={`${styles.icon} ${styles.attach}`}
-          onClick={(e) => {
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
-            setTaskAddingLink(true);
-            e.stopPropagation();
-          }}
-          color="black"
-          fontSize="15px"
-          icon={faPlus}
-        />
+        {links && links.length < 10 && (
+          <FontAwesomeIcon
+            data-testid="attach-icon"
+            className={`${styles.icon} ${styles.attach}`}
+            onClick={(e) => {
+              setTaskProps({
+                ...task,
+                fetchTasks,
+                taskFetchingParams,
+                isForSubTask: !!assigneeId,
+              });
+              setTaskAddingLink(true);
+              e.stopPropagation();
+            }}
+            color="black"
+            fontSize="15px"
+            icon={faPlus}
+          />
+        )}
         <FontAwesomeIcon
           color="black"
           data-testid="delete-icon"

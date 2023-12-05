@@ -109,6 +109,20 @@ class subTasksAPIClass {
       };
     }
   }
+
+  public async addLinkToSubTask(id: string, prevLinks: string[], url: string) {
+    try {
+      await instanse.patch(`/task/subtask/${id}`, {
+        links: [...prevLinks, url],
+      });
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
 }
 
 const subTasksAPI = new subTasksAPIClass();
