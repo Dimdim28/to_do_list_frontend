@@ -11,8 +11,16 @@
 }
 
 .title {
-  text-align: center;
+  font-size: 20px;
   width: 100%;
+  margin-top: 20px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+}
+
+:global(.light_theme) .title {
+  color: $black;
 }
 
 .checkBox {
@@ -84,4 +92,21 @@
   .wrapper {
     width: 100%;
   }
+}
+
+.deadline {
+  color: $error-200;
+  margin-top: 10px;
+  text-align: end;
+}
+
+.description {
+  margin-top: 10px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  width: 100%;
+}
+
+:global(.light_theme) .description {
+  color: $black;
 }

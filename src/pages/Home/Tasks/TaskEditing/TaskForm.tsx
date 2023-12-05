@@ -20,6 +20,7 @@ import styles from './TaskForm.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import { humaniseDate, truncate } from '../../../../helpers/string';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -31,6 +32,7 @@ interface TaskFormProps {
     isForSubtask?: boolean;
     assigneeId?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
+    isAssignedUser?: boolean;
   };
 }
 
@@ -50,9 +52,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     isForSubtask,
     assigneeId,
     setSubTasksArray,
+    isAssignedUser,
   } = childProps;
 
-  console.log('childProps', childProps);
   const { t } = useTranslation();
 
   const [status, setStatus] = useState(Status.SUCCESS);
@@ -90,7 +92,15 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    const result = isForSubtask
+    console.log('CATEGOIRES', categories);
+    const result = isAssignedUser
+      ? await subTasksAPI.editSubTask({
+          subTaskId: _id,
+          links,
+          categories,
+          isCompleted,
+        })
+      : isForSubtask
       ? assigneeId
         ? await subTasksAPI.editSubTask({
             subTaskId: _id,
@@ -209,23 +219,42 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               setActiveCategories={setCategories}
             />
           )}
-          <Input
-            title={t('title')}
-            value={title}
-            setValue={setTittle}
-            type="text"
-          />
-          <TextArea
-            title={t('description')}
-            value={description}
-            setValue={setDescription}
-          />
-          <div className={styles.checkBox}>
-            <Checkbox
-              isChecked={hasDeadline}
-              callback={onChangeCheckBoxDeadline}
-              label={t('taskHasDeadline')}
+          {isAssignedUser ? (
+            <h1 className={styles.title}>{title} </h1>
+          ) : (
+            <Input
+              title={t('title')}
+              value={title}
+              setValue={setTittle}
+              type="text"
             />
+          )}
+
+          {isAssignedUser ? (
+            <p className={styles.description}>{truncate(description, 80)}</p>
+          ) : (
+            <TextArea
+              title={t('description')}
+              value={description}
+              setValue={setDescription}
+            />
+          )}
+
+          <div className={styles.checkBox}>
+            {isAssignedUser ? (
+              deadline && (
+                <p className={styles.deadline}>
+                  {t('deadline')} {humaniseDate(deadline)}
+                </p>
+              )
+            ) : (
+              <Checkbox
+                isChecked={hasDeadline}
+                callback={onChangeCheckBoxDeadline}
+                label={t('taskHasDeadline')}
+              />
+            )}
+
             {links.map((link, index) => (
               <div className={styles.linkRow} key={index}>
                 <Input
@@ -249,7 +278,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               </div>
             ))}
           </div>
-          {hasDeadline && (
+          {hasDeadline && !isAssignedUser && (
             <input
               type="date"
               className={styles.inputDate}

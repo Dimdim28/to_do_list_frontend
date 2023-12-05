@@ -27,6 +27,7 @@ interface taskProps {
       | (Task & {
           fetchTasks: (params: getTask) => void;
           taskFetchingParams: getTask;
+          isAssignedUser?: boolean;
         })
     >
   >;
@@ -174,7 +175,12 @@ const TaskCard = ({
           data-testid="edit-icon"
           className={`${styles.icon} ${styles.pencil}`}
           onClick={(e) => {
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskProps({
+              ...task,
+              fetchTasks,
+              taskFetchingParams,
+              isAssignedUser: !!assigneeId,
+            });
             setTaskEditing(true);
             e.stopPropagation();
           }}

@@ -79,6 +79,7 @@ class subTasksAPIClass {
     isCompleted,
     deadline,
     rejected,
+    categories,
   }: EditSubTaskParams) {
     try {
       await instanse.patch(`/task/subtask/${subTaskId}`, {
@@ -88,6 +89,7 @@ class subTasksAPIClass {
         isCompleted,
         deadline,
         rejected,
+        categories,
       });
       return { status: Status.SUCCESS };
     } catch (err: any) {

@@ -153,7 +153,7 @@ const SubTasks: FC<SubTasksProps> = ({
                   {truncate(description, 30)}
                 </p>
                 <p className={styles.subTaskDeadline}>
-                  {deadline && `${t('deadline')} : ${humaniseDate(deadline)}`}
+                  {deadline && `${t('deadline')} ${humaniseDate(deadline)}`}
                 </p>
               </div>
             </div>
