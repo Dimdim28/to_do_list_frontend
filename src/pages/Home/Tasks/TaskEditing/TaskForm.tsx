@@ -92,7 +92,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    console.log('CATEGOIRES', categories);
     const result = isAssignedUser
       ? await subTasksAPI.editSubTask({
           subTaskId: _id,
