@@ -6,11 +6,12 @@ import { SubTask } from '../../../../../api/subTaskAPI';
 import { humaniseDate, truncate } from '../../../../../helpers/string';
 import { Modal } from '../../../../../components/common/Modal/Modal';
 import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
+import TaskForm from '../../TaskEditing/TaskForm';
 import { getTask } from '../../../../../api/taskAPI';
 
 import styles from './SubTasks.module.scss';
 
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export interface SubTasksProps {
   subTasks: SubTask[];
@@ -51,6 +52,7 @@ const SubTasks: FC<SubTasksProps> = ({
   const [subTasksArray, setSubTasksArray] = useState<SubTask[]>(subTasks);
   const [activeSubTask, setActiveSubTask] = useState<string>('');
   const [subTaskDeleting, setSubTaskDeleting] = useState<boolean>(false);
+  const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
   return (
     <div className={styles.wrapper}>
@@ -110,6 +112,24 @@ const SubTasks: FC<SubTasksProps> = ({
                   </div>
                   <div className={styles.icons}>
                     <FontAwesomeIcon
+                      data-testid="edit-icon"
+                      className={`${styles.icon} ${styles.pencil}`}
+                      onClick={(e) => {
+                        setSubTaskProps({
+                          ...el,
+                          isForSubtask: true,
+                          fetchTasks,
+                          taskFetchingParams,
+                          setSubTasksArray,
+                        });
+                        setSubTaskEditing(true);
+                        e.stopPropagation();
+                      }}
+                      color="black"
+                      fontSize="15px"
+                      icon={faPencil}
+                    />
+                    <FontAwesomeIcon
                       color="black"
                       data-testid="delete-icon"
                       fontSize="15px"
@@ -145,6 +165,12 @@ const SubTasks: FC<SubTasksProps> = ({
         ChildComponent={SubTaskDeleting}
         active={subTaskDeleting}
         setActive={setSubTaskDeleting}
+      />
+      <Modal
+        childProps={subTaskProps}
+        ChildComponent={TaskForm}
+        active={subTaskEditing}
+        setActive={setSubTaskEditing}
       />
     </div>
   );

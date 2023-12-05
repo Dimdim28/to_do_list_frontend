@@ -11,7 +11,7 @@ import { useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
-import subTasksAPI from '../../../../api/subTaskAPI';
+import subTasksAPI, { SubTask } from '../../../../api/subTaskAPI';
 import SearchUser from '../../../../components/SearchUser/SearchUser';
 import ChosenUser from '../ChosenUser/ChosenUser';
 import { User } from '../../../../api/userAPI';
@@ -29,6 +29,8 @@ interface TaskFormProps {
     length: number;
     setCurrentPage: Dispatch<SetStateAction<number>>;
     isForSubtask?: boolean;
+    assigneeId?: User | null;
+    setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
   };
 }
 
@@ -46,8 +48,11 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     length,
     setCurrentPage,
     isForSubtask,
+    assigneeId,
+    setSubTasksArray,
   } = childProps;
 
+  console.log('childProps', childProps);
   const { t } = useTranslation();
 
   const [status, setStatus] = useState(Status.SUCCESS);
@@ -61,7 +66,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
-  const [assigner, setAssigner] = useState<User | null>(null);
+  const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
 
   const profile = useAppSelector(selectProfile);
 
@@ -86,17 +91,51 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       payload = Object.assign(payload, { isCompleted });
 
     const result = isForSubtask
-      ? await subTasksAPI.createSubTask({
-          taskId: _id,
-          title,
-          description,
-          deadline: hasDeadline ? deadline : null,
-          isCompleted,
-          assigneeId: assigner?._id || '',
-        })
+      ? _id
+        ? await subTasksAPI.editSubTask({
+            subTaskId: _id,
+            title,
+            description,
+            deadline: hasDeadline ? deadline : null,
+            isCompleted,
+            assigneeId: assigner?._id || '',
+          })
+        : await subTasksAPI.createSubTask({
+            taskId: _id,
+            title,
+            description,
+            deadline: hasDeadline ? deadline : null,
+            isCompleted,
+            assigneeId: assigner?._id || '',
+          })
       : _id
       ? await taskAPI.edittask({ _id, ...payload })
       : await taskAPI.addtask({ user: userId, ...payload });
+
+    if (isForSubtask && _id && setSubTasksArray) {
+      const typedAssigner = assigner as User;
+      setSubTasksArray((prev) =>
+        prev.map((el) =>
+          el._id === _id
+            ? {
+                ...el,
+                title,
+                description,
+                deadline,
+                isCompleted,
+                assigneeId: {
+                  _id: typedAssigner._id,
+                  avatar: {
+                    url: typedAssigner.avatar?.url || '',
+                    public_id: typedAssigner.avatar?.public_id || '',
+                  },
+                  username: typedAssigner.username,
+                },
+              }
+            : el,
+        ),
+      );
+    }
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || '');

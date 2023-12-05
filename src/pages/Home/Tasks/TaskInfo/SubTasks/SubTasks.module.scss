@@ -161,6 +161,20 @@
   color: $error-200;
 }
 
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
 .trash {
   color: $white;
   transition: color $transition-delay;
@@ -170,10 +184,21 @@
   }
 }
 
-:global(.light_theme) .trash {
-  color: $black;
+:global(.light_theme) .icons {
+  .pencil {
+    color: $black;
 
-  &:hover {
-    color: $error-200;
+    &:hover {
+      color: $warning-200;
+    }
   }
+
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+
 }
