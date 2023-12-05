@@ -91,7 +91,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       payload = Object.assign(payload, { isCompleted });
 
     const result = isForSubtask
-      ? _id
+      ? assigneeId
         ? await subTasksAPI.editSubTask({
             subTaskId: _id,
             title,
