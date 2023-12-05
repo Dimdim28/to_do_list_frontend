@@ -39,6 +39,7 @@ const EN = {
   taskHasDeadline: 'Task has deadline?',
   taskCompleted: 'Task completed?',
   reallyTask: 'Do you really want to delete task?:',
+  reallyRejectSubTask: 'Do you really want to reject subtask?:',
   reallySubTask: 'Do you really want to delete subtask?:',
   additingLink: 'Enter link you want to attach to',
   link: 'Link',

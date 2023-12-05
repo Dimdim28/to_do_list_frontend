@@ -207,6 +207,7 @@ const TaskCard = ({
               taskFetchingParams,
               setCurrentPage,
               length,
+              isForSubTask: !!assigneeId,
             });
             setTaskDeleting(true);
             e.stopPropagation();
