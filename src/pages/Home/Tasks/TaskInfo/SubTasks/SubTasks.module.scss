@@ -73,7 +73,9 @@
   overflow-y: hidden;
   height: auto;
   color: $white;
-  transition: max-height $transition-delay, color $transition-delay;
+  transition:
+    max-height $transition-delay,
+    color $transition-delay;
 }
 
 :global(.light_theme) .subTaskInfo {
@@ -162,6 +164,14 @@
 .trash {
   color: $white;
   transition: color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .trash {
+  color: $black;
 
   &:hover {
     color: $error-200;

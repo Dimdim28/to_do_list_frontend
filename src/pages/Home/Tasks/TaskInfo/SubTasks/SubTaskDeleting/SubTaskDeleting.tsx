@@ -60,7 +60,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>{t('reallyTask')}</p>
+            <p>{t('reallySubTask')}</p>
             <h3>{truncate(title, 12)}</h3>
           </div>
           <div className={styles.actions}>
