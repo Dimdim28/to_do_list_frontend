@@ -16,6 +16,7 @@ import {
   faListCheck,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
+import subTasksAPI from '../../../../api/subTaskAPI';
 
 interface taskProps {
   task: Task;
@@ -75,11 +76,19 @@ const TaskCard = ({
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = await taskAPI.edittask({
-          _id: _id || '',
-          isCompleted: !completed,
-        });
+        const result = assigneeId
+          ? await subTasksAPI.editSubTask({
+              subTaskId: _id,
+              isCompleted: !completed,
+            })
+          : await taskAPI.edittask({
+              _id: _id || '',
+              isCompleted: !completed,
+            });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
+        if (assigneeId) {
+          fetchTasks(taskFetchingParams);
+        }
         updateTaskStatus(_id || '', !completed);
       } catch (e) {
         console.log(e);

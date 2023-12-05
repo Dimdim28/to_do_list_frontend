@@ -32,6 +32,18 @@ export type SubTask = {
   };
 };
 
+interface EditSubTaskParams {
+  subTaskId: string;
+  title?: string;
+  description?: string;
+  assigneeId?: string;
+  isCompleted?: boolean;
+  deadline?: string | null;
+  links?: string[];
+  rejected?: boolean;
+  categories?: string[];
+}
+
 class subTasksAPIClass {
   public async createSubTask({
     taskId,
@@ -55,6 +67,33 @@ class subTasksAPIClass {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         users: [],
+      };
+    }
+  }
+
+  public async editSubTask({
+    subTaskId,
+    title,
+    description,
+    assigneeId,
+    isCompleted,
+    deadline,
+    rejected,
+  }: EditSubTaskParams) {
+    try {
+      await instanse.patch(`/task/subtask/${subTaskId}`, {
+        title,
+        description,
+        assigneeId,
+        isCompleted,
+        deadline,
+        rejected,
+      });
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
       };
     }
   }
