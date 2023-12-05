@@ -64,6 +64,8 @@ const TaskCard = ({
     sharedWith,
     links,
     subtasks,
+    assigneeId,
+    userId,
   } = task;
 
   const { t } = useTranslation();
@@ -119,6 +121,18 @@ const TaskCard = ({
         })}
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
+
+      {assigneeId && (
+        <div className={styles.sharedWrapper}>
+          <h4 className={styles.sharedTitle}>Shared from: </h4>
+          <img
+            src={userId?.avatar.url}
+            alt="avatar"
+            className={styles.sharedAvatar}
+          />
+          <p className={styles.sharedUsername}>{userId?.username}</p>
+        </div>
+      )}
       <div className={styles.links}>
         {links && links.length > 0 && (
           <p className={styles.link}>

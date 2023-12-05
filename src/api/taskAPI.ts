@@ -22,6 +22,15 @@ type PureTask = {
   isCompleted?: boolean;
   sharedWith?: string[] | { userId: string; username: string }[];
   links?: string[];
+  assigneeId?: string;
+  userId?: {
+    _id: string;
+    username: string;
+    avatar: {
+      url: string;
+      public_id: string;
+    };
+  };
 };
 
 type User = {
