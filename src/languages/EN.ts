@@ -110,6 +110,7 @@ const EN = {
   remove: 'Remove',
   subtasks: 'Subtasks',
   inProgress: 'In progress',
+  sharedFrom: 'Shared from:',
 };
 
 export default EN;

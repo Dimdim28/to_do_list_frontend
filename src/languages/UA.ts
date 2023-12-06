@@ -111,6 +111,7 @@ const UA = {
   remove: 'Видалити',
   subtasks: 'Підзавдання',
   inProgress: 'В процесі',
+  sharedFrom: 'Отримано від:',
 };
 
 export default UA;

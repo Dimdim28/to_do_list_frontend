@@ -134,7 +134,7 @@ const TaskCard = ({
 
       {assigneeId && (
         <div className={styles.sharedWrapper}>
-          <h4 className={styles.sharedTitle}>Shared from: </h4>
+          <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
           <img
             src={userId?.avatar.url}
             alt="avatar"
