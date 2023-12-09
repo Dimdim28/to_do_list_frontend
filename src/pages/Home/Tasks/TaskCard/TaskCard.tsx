@@ -136,9 +136,12 @@ const TaskCard = ({
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
           <img
-            src={userId?.avatar.url}
-            alt="avatar"
             className={styles.sharedAvatar}
+            src={
+              userId?.avatar?.url ||
+              'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+            }
+            alt="avatar"
           />
           <p className={styles.sharedUsername}>{userId?.username}</p>
         </div>
