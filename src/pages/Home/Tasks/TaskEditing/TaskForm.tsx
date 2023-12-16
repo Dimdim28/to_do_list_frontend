@@ -11,11 +11,16 @@ import { useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import subTasksAPI, { SubTask } from '../../../../api/subTaskAPI';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
+import ChosenUser from '../ChosenUser/ChosenUser';
+import { User } from '../../../../api/userAPI';
 
 import styles from './TaskForm.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import { humaniseDate, truncate } from '../../../../helpers/string';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +29,10 @@ interface TaskFormProps {
     taskFetchingParams: getTask;
     length: number;
     setCurrentPage: Dispatch<SetStateAction<number>>;
+    isForSubtask?: boolean;
+    assigneeId?: User | null;
+    setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
+    isAssignedUser?: boolean;
   };
 }
 
@@ -40,6 +49,10 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     taskFetchingParams,
     length,
     setCurrentPage,
+    isForSubtask,
+    assigneeId,
+    setSubTasksArray,
+    isAssignedUser,
   } = childProps;
 
   const { t } = useTranslation();
@@ -55,8 +68,16 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
+  const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
 
-  const userId = useAppSelector(selectProfile)?._id || '';
+  const profile = useAppSelector(selectProfile);
+
+  const userId = profile?._id || '';
+  const avatar = profile?.avatar || {
+    url: 'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg',
+    public_id: '',
+  };
+  const username = profile?.username || '';
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -71,14 +92,64 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    const result = _id
+    const result = isAssignedUser
+      ? await subTasksAPI.editSubTask({
+          subTaskId: _id,
+          links,
+          categories,
+          isCompleted,
+        })
+      : isForSubtask
+      ? assigneeId
+        ? await subTasksAPI.editSubTask({
+            subTaskId: _id,
+            title,
+            description,
+            deadline: hasDeadline ? deadline : null,
+            isCompleted,
+            assigneeId: assigner?._id || '',
+          })
+        : await subTasksAPI.createSubTask({
+            taskId: _id,
+            title,
+            description,
+            deadline: hasDeadline ? deadline : null,
+            isCompleted,
+            assigneeId: assigner?._id || '',
+          })
+      : _id
       ? await taskAPI.edittask({ _id, ...payload })
       : await taskAPI.addtask({ user: userId, ...payload });
+
+    if (isForSubtask && _id && setSubTasksArray) {
+      const typedAssigner = assigner as User;
+      setSubTasksArray((prev) =>
+        prev.map((el) =>
+          el._id === _id
+            ? {
+                ...el,
+                title,
+                description,
+                deadline,
+                isCompleted,
+                assigneeId: {
+                  _id: typedAssigner._id,
+                  avatar: {
+                    url: typedAssigner.avatar?.url || '',
+                    public_id: typedAssigner.avatar?.public_id || '',
+                  },
+                  username: typedAssigner.username,
+                },
+              }
+            : el,
+        ),
+      );
+    }
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      if (!_id && length === 10) {
+      if (!_id && length === 10 && !isForSubtask) {
         setCurrentPage((prev) => {
           const params = { ...taskFetchingParams, page: prev + 1 };
           fetchTasks(params);
@@ -109,30 +180,80 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         <Preloader />
       ) : (
         <>
-          <Categories
-            isForTask
-            fetchTasks={fetchTasks}
-            taskFetchingParams={taskFetchingParams}
-            activeCategories={categories}
-            setActiveCategories={setCategories}
-          />
-          <Input
-            title={t('title')}
-            value={title}
-            setValue={setTittle}
-            type="text"
-          />
-          <TextArea
-            title={t('description')}
-            value={description}
-            setValue={setDescription}
-          />
-          <div className={styles.checkBox}>
-            <Checkbox
-              isChecked={hasDeadline}
-              callback={onChangeCheckBoxDeadline}
-              label={t('taskHasDeadline')}
+          {isForSubtask ? (
+            assigner ? (
+              <ChosenUser
+                user={assigner}
+                removeUser={() => {
+                  setAssigner(null);
+                }}
+              />
+            ) : (
+              <>
+                <SearchUser
+                  handleUserClick={(user: User) => {
+                    setAssigner(user);
+                  }}
+                />
+                <button
+                  className={styles.assignYourself}
+                  onClick={() => {
+                    setAssigner({
+                      _id: userId,
+                      avatar,
+                      username,
+                    });
+                  }}
+                >
+                  {t('assignYourself')}
+                </button>
+              </>
+            )
+          ) : (
+            <Categories
+              isForTask
+              fetchTasks={fetchTasks}
+              taskFetchingParams={taskFetchingParams}
+              activeCategories={categories}
+              setActiveCategories={setCategories}
             />
+          )}
+          {isAssignedUser ? (
+            <h1 className={styles.title}>{title} </h1>
+          ) : (
+            <Input
+              title={t('title')}
+              value={title}
+              setValue={setTittle}
+              type="text"
+            />
+          )}
+
+          {isAssignedUser ? (
+            <p className={styles.description}>{truncate(description, 80)}</p>
+          ) : (
+            <TextArea
+              title={t('description')}
+              value={description}
+              setValue={setDescription}
+            />
+          )}
+
+          <div className={styles.checkBox}>
+            {isAssignedUser ? (
+              deadline && (
+                <p className={styles.deadline}>
+                  {t('deadline')} {humaniseDate(deadline)}
+                </p>
+              )
+            ) : (
+              <Checkbox
+                isChecked={hasDeadline}
+                callback={onChangeCheckBoxDeadline}
+                label={t('taskHasDeadline')}
+              />
+            )}
+
             {links.map((link, index) => (
               <div className={styles.linkRow} key={index}>
                 <Input
@@ -156,7 +277,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               </div>
             ))}
           </div>
-          {hasDeadline && (
+          {hasDeadline && !isAssignedUser && (
             <input
               type="date"
               className={styles.inputDate}
@@ -178,7 +299,11 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               text={t('submit')}
               callback={submit}
               class="submit"
-              disabled={description.length < 3 || title.length < 3}
+              disabled={
+                description.length < 3 ||
+                title.length < 3 ||
+                (isForSubtask && !assigner)
+              }
             />
           </div>
           {taskError && <p className={styles.error}>{taskError}</p>}

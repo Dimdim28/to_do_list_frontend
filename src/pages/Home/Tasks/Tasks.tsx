@@ -55,7 +55,7 @@ const Tasks: FC<TaskProps> = ({
 
   const updateTaskStatus = (id: string, isCompleted: boolean) => {
     const updatedTasks = Tasks.map((el) =>
-      el._id === id ? { ...el, isCompleted } : el
+      el._id === id ? { ...el, isCompleted } : el,
     );
     setTasks(updatedTasks);
   };
@@ -110,7 +110,7 @@ const Tasks: FC<TaskProps> = ({
       <Modal
         active={taskSharing}
         setActive={setTaskSharing}
-        ChildComponent={TaskSharing}
+        ChildComponent={TaskEditing}
         childProps={taskProps}
       />
       <Modal

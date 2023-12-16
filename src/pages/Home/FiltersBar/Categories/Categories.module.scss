@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .categoriesWrapper,
 .categoriesWrapperForTask {
@@ -34,7 +34,9 @@
   margin-top: 5px;
   cursor: pointer;
   margin-top: 20px;
-  transition: border $transition-delay, color $transition-delay,
+  transition:
+    border $transition-delay,
+    color $transition-delay,
     box-shadow $transition-delay;
 
   &:hover {
@@ -90,4 +92,10 @@
 .noCategories {
   width: 100%;
   text-align: center;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .noCategories {
+  color: $black;
 }

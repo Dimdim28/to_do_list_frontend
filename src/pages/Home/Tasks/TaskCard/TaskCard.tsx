@@ -13,9 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPencil,
   faTrash,
-  faShare,
+  faListCheck,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
+import subTasksAPI from '../../../../api/subTaskAPI';
 
 interface taskProps {
   task: Task;
@@ -26,6 +27,7 @@ interface taskProps {
       | (Task & {
           fetchTasks: (params: getTask) => void;
           taskFetchingParams: getTask;
+          isAssignedUser?: boolean;
         })
     >
   >;
@@ -63,6 +65,9 @@ const TaskCard = ({
     _id,
     sharedWith,
     links,
+    subtasks,
+    assigneeId,
+    userId,
   } = task;
 
   const { t } = useTranslation();
@@ -72,11 +77,19 @@ const TaskCard = ({
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = await taskAPI.edittask({
-          _id: _id || '',
-          isCompleted: !completed,
-        });
+        const result = assigneeId
+          ? await subTasksAPI.editSubTask({
+              subTaskId: _id,
+              isCompleted: !completed,
+            })
+          : await taskAPI.edittask({
+              _id: _id || '',
+              isCompleted: !completed,
+            });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
+        if (assigneeId) {
+          fetchTasks(taskFetchingParams);
+        }
         updateTaskStatus(_id || '', !completed);
       } catch (e) {
         console.log(e);
@@ -89,7 +102,7 @@ const TaskCard = ({
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps(task);
+        setTaskProps({ ...task, fetchTasks, taskFetchingParams });
         setTaskInfo(true);
       }}
     >
@@ -118,6 +131,21 @@ const TaskCard = ({
         })}
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
+
+      {assigneeId && (
+        <div className={styles.sharedWrapper}>
+          <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
+          <img
+            className={styles.sharedAvatar}
+            src={
+              userId?.avatar?.url ||
+              'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+            }
+            alt="avatar"
+          />
+          <p className={styles.sharedUsername}>{userId?.username}</p>
+        </div>
+      )}
       <div className={styles.links}>
         {links && links.length > 0 && (
           <p className={styles.link}>
@@ -126,6 +154,13 @@ const TaskCard = ({
         )}
       </div>
 
+      <div className={styles.subtasks}>
+        {subtasks && subtasks.length > 0 && (
+          <p className={styles.subtask}>
+            {t('subTasksAmount')}: {subtasks.length}
+          </p>
+        )}
+      </div>
       {deadline && (
         <p className={styles.deadline}>
           {t('deadline')} {humaniseDate(deadline)}
@@ -143,7 +178,12 @@ const TaskCard = ({
           data-testid="edit-icon"
           className={`${styles.icon} ${styles.pencil}`}
           onClick={(e) => {
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+            setTaskProps({
+              ...task,
+              fetchTasks,
+              taskFetchingParams,
+              isAssignedUser: !!assigneeId,
+            });
             setTaskEditing(true);
             e.stopPropagation();
           }}
@@ -151,18 +191,25 @@ const TaskCard = ({
           fontSize="15px"
           icon={faPencil}
         />
-        <FontAwesomeIcon
-          data-testid="attach-icon"
-          className={`${styles.icon} ${styles.attach}`}
-          onClick={(e) => {
-            setTaskProps({ ...task, fetchTasks, taskFetchingParams });
-            setTaskAddingLink(true);
-            e.stopPropagation();
-          }}
-          color="black"
-          fontSize="15px"
-          icon={faPlus}
-        />
+        {links && links.length < 10 && (
+          <FontAwesomeIcon
+            data-testid="attach-icon"
+            className={`${styles.icon} ${styles.attach}`}
+            onClick={(e) => {
+              setTaskProps({
+                ...task,
+                fetchTasks,
+                taskFetchingParams,
+                isForSubTask: !!assigneeId,
+              });
+              setTaskAddingLink(true);
+              e.stopPropagation();
+            }}
+            color="black"
+            fontSize="15px"
+            icon={faPlus}
+          />
+        )}
         <FontAwesomeIcon
           color="black"
           data-testid="delete-icon"
@@ -176,33 +223,38 @@ const TaskCard = ({
               taskFetchingParams,
               setCurrentPage,
               length,
+              isForSubTask: !!assigneeId,
             });
             setTaskDeleting(true);
             e.stopPropagation();
           }}
         />
-        {/* <FontAwesomeIcon
-          color="black"
-          data-testid="share-icon"
-          fontSize="15px"
-          icon={faShare}
-          className={`${styles.icon} ${styles.share}`}
-          onClick={(e) => {
-            if (sharedWith && sharedWith[0] === "already shared") {
-              toast.error(
-                "ERROR! You are not the author of this task, you can not share this task!"
-              );
-              return;
-            }
-            setTaskProps({
-              ...task,
-              fetchTasks,
-              taskFetchingParams,
-            });
-            setTaskSharing(true);
-            e.stopPropagation();
-          }}
-        /> */}
+
+        {subtasks && subtasks.length < 10 && (
+          <FontAwesomeIcon
+            color="black"
+            data-testid="share-icon"
+            fontSize="15px"
+            icon={faListCheck}
+            className={`${styles.icon} ${styles.share}`}
+            onClick={(e) => {
+              if (sharedWith && sharedWith[0] === 'already shared') {
+                toast.error(
+                  'ERROR! You are not the author of this task, you can not share this task!',
+                );
+                return;
+              }
+              setTaskProps({
+                _id: _id,
+                fetchTasks,
+                taskFetchingParams,
+                isForSubtask: true,
+              });
+              setTaskSharing(true);
+              e.stopPropagation();
+            }}
+          />
+        )}
       </div>
     </div>
   );

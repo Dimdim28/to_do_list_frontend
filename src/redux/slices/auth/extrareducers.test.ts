@@ -1,18 +1,18 @@
-import { MOCK_OBJECT_ONE } from "../../../mocs/state";
-import { Language, Status, Theme } from "../../../types";
-import { authReducer } from "./auth";
-import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
+import { MOCK_OBJECT_ONE } from '../../../mocs/state';
+import { Language, Status, Theme } from '../../../types';
+import { authReducer } from './auth';
+import { fetchAuthMe, fetchUserData, registerUser } from './thunk';
 
-describe("Testing auth slice extra reducers", () => {
-  describe("fetchAuthMe extra reducers:", () => {
-    it("should return updated profile when fetchAuthMe fulfilled", () => {
+describe('Testing auth slice extra reducers', () => {
+  describe('fetchAuthMe extra reducers:', () => {
+    it('should return updated profile when fetchAuthMe fulfilled', () => {
       const PROFILE_META = {
-        _id: "161616",
-        createdAt: "2016",
-        email: "wwwthebest@gmail.com",
-        token: "qwerty",
-        updatedAt: "2023",
-        username: "testmegatest",
+        _id: '161616',
+        createdAt: '2016',
+        email: 'wwwthebest@gmail.com',
+        token: 'qwerty',
+        updatedAt: '2023',
+        username: 'testmegatest',
       };
 
       const action = {
@@ -21,21 +21,21 @@ describe("Testing auth slice extra reducers", () => {
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: PROFILE_META,
-        status: "success",
+        status: 'success',
         theme: Theme.DARK,
         lang: Language.EN,
       });
     });
 
-    it("should return null profile when fetchAuthMe is loading", () => {
+    it('should return null profile when fetchAuthMe is loading', () => {
       const action = {
         type: fetchAuthMe.pending.type,
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
@@ -43,14 +43,14 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
 
-    it("should return null profile when fetchAuthMe rejected", () => {
+    it('should return null profile when fetchAuthMe rejected', () => {
       const action = {
         type: fetchAuthMe.rejected.type,
-        payload: "Error fetchAuthMe",
+        payload: 'Error fetchAuthMe',
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "Error fetchAuthMe",
+        message: 'Error fetchAuthMe',
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,
@@ -58,15 +58,15 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
   });
-  describe("fetchUserData extra reducers:", () => {
-    it("should return updated profile when fetchUserData fulfilled", () => {
+  describe('fetchUserData extra reducers:', () => {
+    it('should return updated profile when fetchUserData fulfilled', () => {
       const USER_DATA = {
-        _id: "1111",
-        createdAt: "2023",
-        email: "lalala@gmail.com",
-        token: "theBestToken",
-        updatedAt: "2024",
-        username: "Dimdim28",
+        _id: '1111',
+        createdAt: '2023',
+        email: 'lalala@gmail.com',
+        token: 'theBestToken',
+        updatedAt: '2024',
+        username: 'Dimdim28',
       };
 
       const action = {
@@ -75,21 +75,21 @@ describe("Testing auth slice extra reducers", () => {
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: USER_DATA,
-        status: "success",
+        status: 'success',
         theme: Theme.DARK,
         lang: Language.EN,
       });
     });
 
-    it("should return null profile when fetchUserData is loading", () => {
+    it('should return null profile when fetchUserData is loading', () => {
       const action = {
         type: fetchUserData.pending.type,
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
@@ -97,14 +97,14 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
 
-    it("should return null profile when fetchUserData rejected", () => {
+    it('should return null profile when fetchUserData rejected', () => {
       const action = {
         type: fetchUserData.rejected.type,
-        payload: "Error fetchUserData",
+        payload: 'Error fetchUserData',
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "Error fetchUserData",
+        message: 'Error fetchUserData',
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,
@@ -112,15 +112,15 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
   });
-  describe("registerUser extra reducers:", () => {
-    it("should return updated profile when registerUser fulfilled", () => {
+  describe('registerUser extra reducers:', () => {
+    it('should return updated profile when registerUser fulfilled', () => {
       const USER_DATA = {
-        _id: "12345",
-        createdAt: "1999",
-        email: "valera@gmail.com",
-        token: "token1234",
-        updatedAt: "2007",
-        username: "povajas",
+        _id: '12345',
+        createdAt: '1999',
+        email: 'valera@gmail.com',
+        token: 'token1234',
+        updatedAt: '2007',
+        username: 'povajas',
       };
 
       const action = {
@@ -129,7 +129,7 @@ describe("Testing auth slice extra reducers", () => {
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: USER_DATA,
         status: Status.SUCCESS,
         theme: Theme.DARK,
@@ -137,13 +137,13 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
 
-    it("should return null profile when registerUser is loading", () => {
+    it('should return null profile when registerUser is loading', () => {
       const action = {
         type: registerUser.pending.type,
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "",
+        message: '',
         profile: null,
         status: Status.LOADING,
         theme: Theme.DARK,
@@ -151,14 +151,14 @@ describe("Testing auth slice extra reducers", () => {
       });
     });
 
-    it("should return null profile when registerUser rejected", () => {
+    it('should return null profile when registerUser rejected', () => {
       const action = {
         type: registerUser.rejected.type,
-        payload: "Error registerUser",
+        payload: 'Error registerUser',
       };
       const result = authReducer(MOCK_OBJECT_ONE.auth, action);
       expect(result).toEqual({
-        message: "Error registerUser",
+        message: 'Error registerUser',
         profile: null,
         status: Status.ERROR,
         theme: Theme.DARK,

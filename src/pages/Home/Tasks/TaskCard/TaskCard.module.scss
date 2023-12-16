@@ -215,18 +215,42 @@
   font-size: 20px;
   margin-bottom: 10px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .sharedWrapper {
-  max-height: 100px;
   max-width: 100%;
-  overflow-y: auto;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.username {
+.sharedAvatar {
+  border: 2px solid #f97316;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.sharedUsername {
   color: $warning-200;
   max-width: 100%;
   word-break: break-all;
+  font-size: 20px;
+}
+
+.subtasks {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subtask {
+  color: $success-200;
 }
 
 @media screen and (max-width: 1420px) {
