@@ -111,6 +111,8 @@ const EN = {
   subtasks: 'Subtasks',
   inProgress: 'In progress',
   sharedFrom: 'Shared from:',
+  v: 'v.',
+  dev: '(dev.)',
 };
 
 export default EN;

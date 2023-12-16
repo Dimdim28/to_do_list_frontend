@@ -112,6 +112,8 @@ const UA = {
   subtasks: 'Підзавдання',
   inProgress: 'В процесі',
   sharedFrom: 'Отримано від:',
+  v: 'в.',
+  dev: '(розр.)',
 };
 
 export default UA;

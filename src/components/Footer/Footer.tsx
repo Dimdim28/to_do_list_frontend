@@ -1,11 +1,10 @@
+import { FC } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { FC } from "react";
-import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import ROUTES from '../../routes';
 
-import ROUTES from "../../routes";
-
-import styles from "./Footer.module.scss";
+import styles from './Footer.module.scss';
 
 export type Link = {
   path: ROUTES;
@@ -34,7 +33,10 @@ const Footer: FC<FooterProps> = ({ links }) => {
           </NavLink>
         ))}
       </nav>
-      <div className={styles.centeredText}>{t("footer")}</div>
+      <div className={styles.centeredText}>{t('footer')}</div>
+      <div className={styles.rightAlignedText}>
+        {t('v')} 4.2.7 {t('dev')}
+      </div>
     </footer>
   );
 };
