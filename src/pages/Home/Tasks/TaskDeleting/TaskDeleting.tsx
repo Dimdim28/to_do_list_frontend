@@ -6,6 +6,7 @@ import Button from '../../../../components/common/Button/Button';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
 import { truncate } from '../../../../helpers/string';
 import { Status } from '../../../../types';
+import subTasksAPI from '../../../../api/subTaskAPI';
 
 import styles from './TaskDeleting.module.scss';
 
@@ -16,12 +17,20 @@ interface TaskDeletingProps {
     taskFetchingParams: getTask;
     setCurrentPage: Dispatch<SetStateAction<number>>;
     length: number;
+    isForSubTask?: boolean;
   };
 }
 
 const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
-  const { _id, title, fetchTasks, taskFetchingParams, setCurrentPage, length } =
-    childProps;
+  const {
+    _id,
+    title,
+    fetchTasks,
+    taskFetchingParams,
+    setCurrentPage,
+    length,
+    isForSubTask,
+  } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -30,7 +39,9 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    const result = await taskAPI.deleteTask(_id);
+    const result = isForSubTask
+      ? await subTasksAPI.editSubTask({ subTaskId: _id, rejected: true })
+      : await taskAPI.deleteTask(_id);
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || '');
@@ -62,7 +73,7 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>{t('reallyTask')}</p>
+            <p>{isForSubTask ? t('reallyRejectSubTask') : t('reallyTask')}</p>
             <h3>{truncate(title, 12)}</h3>
           </div>
           <div className={styles.actions}>

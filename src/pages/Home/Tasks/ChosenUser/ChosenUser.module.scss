@@ -1,0 +1,75 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  align-items: end;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .title {
+  color: $black;
+}
+
+.user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $gray-10;
+  padding: 10px;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .user {
+  background: $gray-500;
+}
+
+.userAvatar {
+  border: 2px solid $warning-200;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+.userName {
+  font-size: 20px;
+  font-weight: 500;
+  color: $white;
+}
+
+:global(.light_theme) .userName {
+  color: $black;
+}
+
+.removeUser {
+  color: white;
+  cursor: pointer;
+  transition:
+    color $transition-delay,
+    opacity $transition-delay;
+  opacity: 0;
+}
+
+:global(.light_theme) .removeUser {
+  color: $black;
+}
+
+.removeUser:hover {
+  color: $error-200;
+}
+
+.user:hover > .removeUser {
+  opacity: 1;
+  pointer-events: all;
+}

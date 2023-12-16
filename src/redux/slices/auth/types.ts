@@ -1,4 +1,4 @@
-import { Language, Status, Theme } from "../../../types";
+import { Language, Status, Theme } from '../../../types';
 
 export type Profile = {
   _id: string;
@@ -7,6 +7,10 @@ export type Profile = {
   token: string;
   updatedAt: string;
   username: string;
+  avatar: {
+    url: string;
+    public_id: string;
+  } | null;
 };
 
 export type ProfileResponse = {
