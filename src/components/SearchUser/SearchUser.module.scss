@@ -1,0 +1,122 @@
+@import 'src/styles/partials/theme';
+
+.content {
+  width: 100%;
+  position: relative;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .title {
+  color: $black;
+}
+
+.inputLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $gray-10;
+  padding: 5px 10px;
+  position: relative;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .inputLine {
+  background: $gray-500;
+}
+
+.input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: $white;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .input {
+  color: $black;
+}
+
+.searchIcon {
+  color: $gray-25;
+  margin-left: 20px;
+  font-size: 25px;
+  transition: color $transition-delay;
+}
+
+:global(.light_theme) .searchIcon {
+  color: $gray-400;
+}
+
+.users {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  z-index: 5;
+  color: $white;
+  background: $gray-25;
+  transition: color $transition-delay background $transition-delay;
+}
+
+:global(.light_theme) .users {
+  color: $white;
+  background: $gray-400;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  color: $white;
+  background: $gray-10;
+  border-top: 1px solid $white;
+  transition: color $transition-delay background $transition-delay border $transition-delay;
+  cursor: pointer;
+}
+
+:global(.light_theme) .user {
+  color: $black;
+  background: $gray-500;
+  border-top: 1px solid $black;
+}
+
+.user:hover {
+  background: $gray-25;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .user:hover {
+  background: $gray-400;
+}
+
+.userAvatar {
+  border: 2px solid $warning-200;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.noUsers {
+  color: $error-200;
+  padding: 10px 20px;
+  text-align: center;
+}

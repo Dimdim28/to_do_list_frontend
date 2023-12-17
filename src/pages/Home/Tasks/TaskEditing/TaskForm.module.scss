@@ -1,72 +1,118 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   min-height: 160px;
   width: 400px;
   justify-content: space-around;
+  margin-top: 10px;
+}
 
-  .title {
-    text-align: center;
-    width: 100%;
+.title {
+  font-size: 20px;
+  width: 100%;
+  margin-top: 20px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+}
+
+:global(.light_theme) .title {
+  color: $black;
+}
+
+.checkBox {
+  width: 100%;
+  align-self: flex-start;
+  margin: 20px 0;
+}
+
+.linkRow {
+  display: flex;
+  position: relative;
+}
+
+.removeLink {
+  position: absolute;
+  right: -15px;
+  bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $error-200;
   }
+}
 
-  .checkBox {
-    width: 100%;
-    align-self: flex-start;
-    margin: 20px 0;
-  }
+:global(.light_theme) .removeLink {
+  color: $black;
+}
 
-  .linkRow {
-    display: flex;
-    position: relative;
-  }
+.inputDate {
+  padding: 0;
+  margin: 0;
+  background-color: inherit;
+  border: 2px solid $warning-200;
+  color: $warning-200;
+  width: 100%;
 
-  .removeLink {
-    position: absolute;
-    right: -15px;
-    bottom: 15px;
+  &::-webkit-calendar-picker-indicator {
+    background-color: $warning-200;
     cursor: pointer;
-    transition: 0.3s;
-
-    &:hover {
-      color: $error-200;
-    }
+    padding: 3px 5px;
   }
+}
 
-  .inputDate {
-    padding: 0;
-    margin: 0;
-    background-color: inherit;
-    border: 2px solid $warning-200;
-    color: $warning-200;
-    width: 100%;
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
 
-    &::-webkit-calendar-picker-indicator {
-      background-color: $warning-200;
-      cursor: pointer;
-      padding: 3px 5px;
-    }
-  }
+.error {
+  color: red;
+  text-align: center;
+  width: 100%;
+}
 
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
-  }
+.assignYourself {
+  color: $white;
+  transition: color $transition-delay;
+  margin-top: 10px;
+}
 
-  .error {
-    color: red;
-    text-align: center;
-    width: 100%;
-  }
+:global(.light_theme) .assignYourself {
+  color: $black;
+}
+
+.assignYourself:hover {
+  color: $success-200;
 }
 
 @media screen and (max-width: 500px) {
   .wrapper {
     width: 100%;
   }
+}
+
+.deadline {
+  color: $error-200;
+  margin-top: 10px;
+  text-align: end;
+}
+
+.description {
+  margin-top: 10px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  width: 100%;
+}
+
+:global(.light_theme) .description {
+  color: $black;
 }
