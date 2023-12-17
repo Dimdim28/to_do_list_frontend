@@ -174,8 +174,13 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const onChangeCheckBoxDeadline = () => {
     setHasDeadline((prev) => {
-      if (prev) setDeadline('');
-      else setDeadline(new Date().toISOString());
+      if (prev) {
+        setDeadline('');
+      } else {
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+        setDeadline(today.toISOString());
+      }
       return !prev;
     });
   };
