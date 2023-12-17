@@ -8,6 +8,8 @@ import store from '../../../../redux/store';
 
 jest.mock('../../../../api/taskAPI');
 
+// TODO more test for the test god!
+
 describe('TaskForm', () => {
   const childProps = {
     _id: '1',

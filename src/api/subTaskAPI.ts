@@ -75,6 +75,7 @@ class subTasksAPIClass {
     subTaskId,
     title,
     description,
+    links,
     assigneeId,
     isCompleted,
     deadline,
@@ -88,6 +89,7 @@ class subTasksAPIClass {
         assigneeId,
         isCompleted,
         deadline,
+        links,
         rejected,
         categories,
       });

@@ -28,14 +28,16 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
   return (
     <>
       {rejected ? (
-        <p className={styles.subTaskRejected}>{rejected ? 'Rejected' : null}</p>
+        <p className={styles.subTaskRejected}>
+          {rejected ? t('rejected') : null}
+        </p>
       ) : (
         <p
           className={
             isCompleted ? styles.subTaskCompleted : styles.subtaskInProgress
           }
         >
-          {isCompleted ? t('completed') : t('inProgress')}
+          {isCompleted ? t('completedSub') : t('inProgress')}
         </p>
       )}
     </>
@@ -81,7 +83,10 @@ const SubTasks: FC<SubTasksProps> = ({
             >
               <div className={styles.subTaskHeader}>
                 <img
-                  src={assigneeId.avatar.url}
+                  src={
+                    assigneeId?.avatar?.url ||
+                    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+                  }
                   alt={assigneeId.username}
                   className={`${styles.subTaskUserAvatar} ${
                     styles.titleSubTaskAvatar
@@ -102,7 +107,10 @@ const SubTasks: FC<SubTasksProps> = ({
                 <div className={styles.line}>
                   <div className={styles.subTaskUser}>
                     <img
-                      src={assigneeId.avatar.url}
+                      src={
+                        assigneeId?.avatar?.url ||
+                        'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+                      }
                       alt={assigneeId.username}
                       className={styles.subTaskUserAvatar}
                     />

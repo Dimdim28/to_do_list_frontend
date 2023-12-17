@@ -113,6 +113,8 @@ const EN = {
   sharedFrom: 'Shared from:',
   v: 'v.',
   dev: '(dev.)',
+  rejected: 'Rejected',
+  completedSub: 'Completed',
 };
 
 export default EN;

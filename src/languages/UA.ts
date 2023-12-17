@@ -110,10 +110,12 @@ const UA = {
   assignYourself: 'Призначте себе',
   remove: 'Видалити',
   subtasks: 'Підзавдання',
-  inProgress: 'В процесі',
+  inProgress: 'У процесі',
   sharedFrom: 'Отримано від:',
   v: 'в.',
   dev: '(розр.)',
+  rejected: 'Відхилено',
+  completedSub: 'Завершено',
 };
 
 export default UA;

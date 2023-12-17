@@ -40,10 +40,16 @@
   bottom: 15px;
   cursor: pointer;
   transition: 0.3s;
+  color: $white;
+  transition: color $transition-delay;
 
   &:hover {
     color: $error-200;
   }
+}
+
+:global(.light_theme) .removeLink {
+  color: $black;
 }
 
 .inputDate {

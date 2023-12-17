@@ -85,41 +85,47 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     payload = Object.assign(payload, {
       deadline: hasDeadline ? deadline : null,
     });
-    if (categories.length > 0)
+    if (categories.length >= 0)
       payload = Object.assign(payload, {
         categories,
       });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    const result = isAssignedUser
-      ? await subTasksAPI.editSubTask({
+    let result;
+
+    if (isAssignedUser) {
+      result = await subTasksAPI.editSubTask({
+        subTaskId: _id,
+        links,
+        categories,
+        isCompleted,
+      });
+    } else if (isForSubtask) {
+      if (assigneeId) {
+        result = await subTasksAPI.editSubTask({
           subTaskId: _id,
-          links,
-          categories,
+          title,
+          description,
+          deadline: hasDeadline ? deadline : null,
           isCompleted,
-        })
-      : isForSubtask
-      ? assigneeId
-        ? await subTasksAPI.editSubTask({
-            subTaskId: _id,
-            title,
-            description,
-            deadline: hasDeadline ? deadline : null,
-            isCompleted,
-            assigneeId: assigner?._id || '',
-          })
-        : await subTasksAPI.createSubTask({
-            taskId: _id,
-            title,
-            description,
-            deadline: hasDeadline ? deadline : null,
-            isCompleted,
-            assigneeId: assigner?._id || '',
-          })
-      : _id
-      ? await taskAPI.edittask({ _id, ...payload })
-      : await taskAPI.addtask({ user: userId, ...payload });
+          assigneeId: assigner?._id || '',
+        });
+      } else {
+        result = await subTasksAPI.createSubTask({
+          taskId: _id,
+          title,
+          description,
+          deadline: hasDeadline ? deadline : null,
+          isCompleted,
+          assigneeId: assigner?._id || '',
+        });
+      }
+    } else {
+      result = _id
+        ? await taskAPI.edittask({ _id, ...payload })
+        : await taskAPI.addtask({ user: userId, ...payload });
+    }
 
     if (isForSubtask && _id && setSubTasksArray) {
       const typedAssigner = assigner as User;
@@ -167,7 +173,11 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   };
 
   const onChangeCheckBoxDeadline = () => {
-    setHasDeadline((prev) => !prev);
+    setHasDeadline((prev) => {
+      if (prev) setDeadline('');
+      else setDeadline(new Date().toISOString());
+      return !prev;
+    });
   };
 
   const onChangeCheckBoxIsCompleted = () => {
