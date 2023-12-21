@@ -1,0 +1,141 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  position: relative;
+}
+
+.bell {
+  font-weight: 900;
+  font-size: 20px;
+  color: $white;
+  text-transform: uppercase;
+  transition: color $transition-delay;
+  cursor: pointer;
+
+  &:hover {
+    color: $gray-300;
+  }
+}
+
+:global(.light_theme) .bell {
+  color: $black;
+
+  &:hover {
+    color: $gray-200;
+  }
+}
+
+.notificationsList {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 300px;
+  background-color: $background-dark-0;
+  border: 2px solid $background-dark-50;
+  transition:
+    background-color $transition-delay,
+    border-color $transition-delay,
+    color $transition-delay;
+  color: $white;
+  border-radius: 10px;
+  z-index: 1;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+:global(.light_theme) .notificationsList {
+  background-color: $gray-600;
+  border: 2px solid $gray-500;
+  color: $black;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  color: $white;
+  background: transparent;
+  transition:
+    color $transition-delay,
+    background $transition-delay,
+    border $transition-delay;
+  cursor: pointer;
+  padding: 10px;
+}
+
+:global(.light_theme) .user {
+  color: $black;
+}
+
+.userName {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  word-break: break-all;
+  font-weight: 600;
+}
+
+.user:hover {
+  background: $gray-25;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .user:hover {
+  background: $gray-400;
+}
+
+.userAvatar {
+  border: 2px solid $warning-200;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.taskInfosection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  align-items: start;
+  gap: 5px;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.buttons button {
+  border-width: 2px;
+  border-style: solid;
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+}
+
+.accept,
+.decline {
+  transition: background-color $transition-delay;
+}
+
+.accept {
+  border-color: $success-200;
+}
+
+.accept:hover {
+  background-color: $success-200;
+}
+
+.decline {
+  border-color: $error-200;
+}
+
+.decline:hover {
+  background-color: $error-200;
+}

@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .wrapper {
   width: 100%;
@@ -45,7 +45,9 @@ h1 {
   padding: 10px;
   background-color: $background-dark-0;
   color: $white;
-  transition: background-color $transition-delay color $transition-delay;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
 
   &:hover {
     background-color: $background-dark-10;
@@ -63,7 +65,9 @@ h1 {
 
 .answer {
   background-color: $background-dark-0;
-  transition: background-color $transition-delay, max-height $transition-delay;
+  transition:
+    background-color $transition-delay,
+    max-height $transition-delay;
   max-height: 0px;
   height: auto;
   overflow: hidden;
@@ -83,7 +87,9 @@ h1 {
   .answer {
     max-height: 300px;
     background-color: $background-dark-0;
-    transition: background-color $transition-delay, max-height $transition-delay;
+    transition:
+      background-color $transition-delay,
+      max-height $transition-delay;
   }
 }
 

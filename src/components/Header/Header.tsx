@@ -1,18 +1,19 @@
-import { FC } from "react";
-import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
+import { FC } from 'react';
+import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectLanguage, selectTheme } from "../../redux/slices/auth/selectors";
-import ROUTES from "../../routes";
-import { Language, Theme } from "../../types";
-import { changeLang, changeTheme } from "../../redux/slices/auth/auth";
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectLanguage, selectTheme } from '../../redux/slices/auth/selectors';
+import ROUTES from '../../routes';
+import Notifications from './Notifications/Notifications';
+import { Language, Theme } from '../../types';
+import { changeLang, changeTheme } from '../../redux/slices/auth/auth';
 
-import styles from "./Header.module.scss";
+import styles from './Header.module.scss';
 
-import logo from "../../assets/logo.png";
+import logo from '../../assets/logo.png';
 
 export type Link = {
   path: ROUTES;
@@ -32,7 +33,7 @@ const Header: FC<HeaderProps> = ({ links }) => {
 
   const toggleTheme = () => {
     const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem('theme', newTheme);
     dispatch(changeTheme(newTheme));
   };
 
@@ -67,6 +68,7 @@ const Header: FC<HeaderProps> = ({ links }) => {
         >
           {i18n.language}
         </button>
+        <Notifications />
       </div>
 
       <nav>
