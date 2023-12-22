@@ -41,6 +41,10 @@
   z-index: 4;
   max-height: 500px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 :global(.light_theme) .notificationsList {
