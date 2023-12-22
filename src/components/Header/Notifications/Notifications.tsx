@@ -11,7 +11,6 @@ import styles from './Notifications.module.scss';
 import ROUTES from '../../../routes';
 import { truncate } from '../../../helpers/string';
 import { Status } from '../../../types';
-import { error } from 'console';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -37,41 +36,48 @@ const Notifications = () => {
     );
   }
 
-  useEffect(() => {
-    async function getNotifications() {
-      setIsLoading(true);
-      const notifications = await notificationsAPI.getNotifications();
-      const {
-        currentPage,
-        totalPages,
-        status,
-        notifications: notificationsList,
-        message: errorMessage,
-      } = notifications;
+  async function getNotifications(page?: number, limit?: number) {
+    setIsLoading(true);
+    const notifications = await notificationsAPI.getNotifications(page, limit);
+    const {
+      currentPage,
+      totalPages,
+      status,
+      notifications: notificationsList,
+      message: errorMessage,
+    } = notifications;
 
-      if (status === Status.SUCCESS) {
-        setNotifications(notificationsList);
-        setCurrentPage(currentPage);
-        setTotalPages(totalPages);
-        setErrorMessage('');
-      } else {
-        setErrorMessage(errorMessage || 'Error');
-      }
-
-      setIsLoading(false);
-
-      const socket = socketsAPI.getSocket();
-
-      socket.on('newSubtaskConfirmation', (notification: Notification) => {
-        console.log('newSubtaskConfirmation', notification);
-        setNotifications((prev) => [...prev, notification]);
-      });
-
-      socket.on('delSubtaskConfirmation', (notifId: string) => {
-        console.log('delSubtaskConfirmation', notifId);
-        setNotifications((prev) => prev.filter((el) => el._id !== notifId));
-      });
+    if (status === Status.SUCCESS) {
+      setNotifications((prev) => [...prev, ...notificationsList]);
+      setCurrentPage(currentPage);
+      setTotalPages(totalPages);
+      setErrorMessage('');
+    } else {
+      setErrorMessage(errorMessage || 'Error');
     }
+
+    setIsLoading(false);
+
+    const socket = socketsAPI.getSocket();
+
+    socket.on('newSubtaskConfirmation', (notification: Notification) => {
+      console.log('newSubtaskConfirmation', notification);
+      setNotifications((prev) => [...prev, notification]);
+    });
+
+    socket.on('delSubtaskConfirmation', (notifId: string) => {
+      console.log('delSubtaskConfirmation', notifId);
+      setNotifications((prev) => prev.filter((el) => el._id !== notifId));
+    });
+  }
+
+  async function loadMore() {
+    if (currentPage < totalPages) {
+      await getNotifications(currentPage + 1);
+    }
+  }
+
+  useEffect(() => {
     getNotifications();
   }, []);
 
@@ -146,11 +152,9 @@ const Notifications = () => {
   };
 
   function GetContent(error: string, length: number, loading: boolean) {
-    if (loading) {
-      return null;
-    } else if (error) {
+    if (error) {
       return <ErrorNotificationsList error={error} />;
-    } else if (length === 0) {
+    } else if (length === 0 && !loading) {
       return <EmptyNotificationsList />;
     } else {
       return <NotificationsList />;
@@ -167,6 +171,7 @@ const Notifications = () => {
       <div className={styles.notificationsList}>
         {isNotificationsOpen &&
           GetContent(errorMessage, notifications.length, isLoading)}
+        {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
       </div>
     </div>
   );
