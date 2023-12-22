@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, UIEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
@@ -72,10 +72,14 @@ const Notifications = () => {
   }
 
   async function loadMore() {
-    if (currentPage < totalPages) {
-      await getNotifications(currentPage + 1);
-    }
+    await getNotifications(currentPage + 1);
   }
+
+  const handleCategoriesScroll = (e: UIEvent<HTMLElement>) => {
+    const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+    const isScrolled = scrollHeight === scrollTop + clientHeight;
+    if (!isLoading && currentPage < totalPages && isScrolled) loadMore();
+  };
 
   useEffect(() => {
     getNotifications();
@@ -168,7 +172,10 @@ const Notifications = () => {
         className={styles.bell}
         onClick={toggleNotifications}
       />
-      <div className={styles.notificationsList}>
+      <div
+        className={styles.notificationsList}
+        onScroll={handleCategoriesScroll}
+      >
         {isNotificationsOpen &&
           GetContent(errorMessage, notifications.length, isLoading)}
         {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
