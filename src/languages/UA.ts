@@ -116,6 +116,7 @@ const UA = {
   dev: '(розр.)',
   rejected: 'Відхилено',
   completedSub: 'Завершено',
+  subtaskConfirmation: 'Запит на підтвердження завдання',
 };
 
 export default UA;

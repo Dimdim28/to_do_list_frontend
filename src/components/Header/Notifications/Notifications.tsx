@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import notificationsAPI, { Notification } from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
@@ -12,6 +13,11 @@ import { truncate } from '../../../helpers/string';
 
 const Notifications = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const NOTIFICATION_TYPES_COLLECTION = {
+    'subtask-confirmation': 'subtaskConfirmation',
+  };
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -80,6 +86,9 @@ const Notifications = () => {
           <div className={styles.notificationsList}>
             {notifications.map((notification) => (
               <div key={notification._id} className={styles.notification}>
+                <p className={styles.notificationType}>
+                  {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
+                </p>
                 <div className={styles.user}>
                   <img
                     className={styles.userAvatar}

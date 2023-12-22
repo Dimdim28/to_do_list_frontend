@@ -49,6 +49,19 @@
   color: $black;
 }
 
+.notificationType {
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
+  font-weight: 600;
+  opacity: 0.3;
+  color: $white;
+}
+
+:global(.light_theme) .notificationType {
+  color: $black;
+}
+
 .user {
   display: flex;
   align-items: center;
@@ -60,7 +73,7 @@
     color $transition-delay,
     background $transition-delay,
     border $transition-delay;
-  cursor: pointer;
+  // cursor: pointer;
   padding: 10px;
 }
 
@@ -76,14 +89,14 @@
   font-weight: 600;
 }
 
-.user:hover {
-  background: $gray-25;
-  transition: background $transition-delay;
-}
+// .user:hover {
+//   background: $gray-25;
+//   transition: background $transition-delay;
+// }
 
-:global(.light_theme) .user:hover {
-  background: $gray-400;
-}
+// :global(.light_theme) .user:hover {
+//   background: $gray-400;
+// }
 
 .userAvatar {
   border: 2px solid $warning-200;
@@ -138,4 +151,20 @@
 
 .decline:hover {
   background-color: $error-200;
+}
+
+.notification {
+  border-top: 2px solid $background-dark-50;
+}
+
+.notification:first-child {
+  border-top: none;
+}
+
+:global(.light_theme) .notification {
+  border-top: 2px solid $gray-500;
+}
+
+:global(.light_theme) .notification:first-child {
+  border-top: none;
 }
