@@ -6,7 +6,6 @@ import TaskEditing from './TaskEditing/TaskForm';
 import TaskCard from './TaskCard/TaskCard';
 import Pagination from './Pagination/Pagination';
 import Preloader from '../../../components/Preloader/Preloader';
-import TaskSharing from './TaskSharing/TaskSharing';
 import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
 import { usePrevious } from '../../../hooks';
 import { Modal } from '../../../components/common/Modal/Modal';

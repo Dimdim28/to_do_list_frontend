@@ -1,10 +1,15 @@
 import instanse from '../axios';
 import { Status } from '../types';
+import { SubTask } from './subTaskAPI';
 
 export type NotificationsResponse = {
   status: number;
   statusText: string;
-  data: Notification[];
+  data: {
+    notifications: Notification[];
+    currentPage: number;
+    totalPages: number;
+  };
 };
 
 export enum NotificationType {
@@ -14,7 +19,7 @@ export enum NotificationType {
 export type Notification = {
   assigneeId: string;
   createdAt: string;
-  subtaskId: string | null;
+  subtaskId: SubTask;
   type: NotificationType;
   userId: {
     avatar: {
@@ -28,7 +33,9 @@ export type Notification = {
 };
 
 export interface Result {
-  notifications: Notification[] | null;
+  notifications: Notification[];
+  currentPage: number;
+  totalPages: number;
   status: Status;
   message?: string;
 }
@@ -38,12 +45,15 @@ class notificationsAPIClass {
     try {
       const response: NotificationsResponse =
         await instanse.get(`/notification`);
-      return { notifications: response.data, status: Status.SUCCESS };
+      const { notifications, currentPage, totalPages } = response.data;
+      return { notifications, currentPage, totalPages, status: Status.SUCCESS };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
-        notifications: null,
+        notifications: [],
+        currentPage: 0,
+        totalPages: 1,
       };
     }
   }

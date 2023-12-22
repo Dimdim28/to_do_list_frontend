@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router';
+
+import notificationsAPI, { Notification } from '../../../api/notificationsApi';
+import socketsAPI from '../../../api/socketsAPI';
 
 import styles from './Notifications.module.scss';
-import notificationsAPI, { Notification } from '../../../api/notificationsApi';
-import Preloader from '../../Preloader/Preloader';
+import ROUTES from '../../../routes';
 
 const Notifications = () => {
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -14,11 +19,23 @@ const Notifications = () => {
     setIsNotificationsOpen((prev) => !prev);
   }
 
+  function removeNotification(id: string) {
+    setNotifications((prev) =>
+      prev.filter((notification) => notification._id !== id),
+    );
+  }
+
   useEffect(() => {
     async function getNotifications() {
       const notifications = await notificationsAPI.getNotifications();
-      const notificationsList = notifications.notifications;
-      const errorMessage = notifications.message;
+
+      const {
+        currentPage,
+        totalPages,
+        status,
+        notifications: notificationsList,
+        message: errorMessage,
+      } = notifications;
 
       if (errorMessage) {
         setErrorMessage(errorMessage);
@@ -40,10 +57,13 @@ const Notifications = () => {
         onClick={toggleNotifications}
       />
 
-      {!errorMessage && notifications.length === 0 ? (
-        <Preloader />
-      ) : (
-        isNotificationsOpen && (
+      {!errorMessage &&
+        isNotificationsOpen &&
+        (notifications.length === 0 ? (
+          <div className={styles.notificationsList}>
+            <p style={{ textAlign: 'center' }}>No notifications</p>
+          </div>
+        ) : (
           <div className={styles.notificationsList}>
             {notifications.map((notification) => (
               <div key={notification._id} className={styles.notification}>
@@ -62,13 +82,29 @@ const Notifications = () => {
                     </p>
 
                     <div className={styles.buttons}>
-                      <button className={styles.accept}>
+                      <button
+                        className={styles.accept}
+                        onClick={() => {
+                          socketsAPI.confirmSubtask(notification.subtaskId._id);
+                          removeNotification(notification._id);
+                          navigate(ROUTES.PROFILE);
+                          setTimeout(() => {
+                            navigate(ROUTES.HOME);
+                          }, 0);
+                        }}
+                      >
                         <FontAwesomeIcon
                           icon={faCheck}
                           className={styles.acceptIcon}
                         />
                       </button>
-                      <button className={styles.decline}>
+                      <button
+                        className={styles.decline}
+                        onClick={() => {
+                          socketsAPI.rejectSubtask(notification.subtaskId._id);
+                          removeNotification(notification._id);
+                        }}
+                      >
                         <FontAwesomeIcon
                           icon={faXmark}
                           className={styles.declineIcon}
@@ -80,8 +116,7 @@ const Notifications = () => {
               </div>
             ))}
           </div>
-        )
-      )}
+        ))}
     </div>
   );
 };
