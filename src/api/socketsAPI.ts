@@ -13,6 +13,12 @@ class socketsAPIClass {
         },
       },
     });
+
+    console.log(this.socket);
+
+    this.socket.on('newSubtaskConfirmation', (notification: Notification) => {
+      console.log('newSubtaskConfirmation', notification);
+    });
   }
 
   confirmSubtask(subtaskId: string) {
@@ -22,6 +28,15 @@ class socketsAPIClass {
   rejectSubtask(subtaskId: string) {
     this.socket.emit('subtask:reject', subtaskId);
   }
+
+  // public listenForNewSubtaskConfirmation(
+  //   callback: (notification: Notification) => void = () => {},
+  // ) {
+  //   this.socket.on('newSubtaskConfirmation', (notification: Notification) => {
+  //     console.log('newSubtaskConfirmation', notification);
+  //     callback(notification);
+  //   });
+  // }
 
   public getSocket() {
     return this.socket;
