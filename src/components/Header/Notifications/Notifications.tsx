@@ -46,19 +46,17 @@ const Notifications = () => {
       if (notificationsList && !errorMessage)
         setNotifications(notificationsList);
 
-      // socketsAPI.listenForNewSubtaskConfirmation();
+      const socket = socketsAPI.getSocket();
 
-      // socket.on('newSubtaskConfirmation', (notification: Notification) => {
-      //   console.log('newSubtaskConfirmation', notification);
-      //   setNotifications((prev) => [...prev, notification]);
-      // });
+      socket.on('newSubtaskConfirmation', (notification: Notification) => {
+        console.log('newSubtaskConfirmation', notification);
+        setNotifications((prev) => [...prev, notification]);
+      });
 
-      // socket.on('delSubtaskConfirmation', (notification: Notification) => {
-      //   console.log('delSubtaskConfirmation', notification);
-      //   setNotifications((prev) =>
-      //     prev.filter((el) => el._id !== notification._id),
-      //   );
-      // });
+      socket.on('delSubtaskConfirmation', (notifId: string) => {
+        console.log('delSubtaskConfirmation', notifId);
+        setNotifications((prev) => prev.filter((el) => el._id !== notifId));
+      });
     }
     getNotifications();
   }, []);
