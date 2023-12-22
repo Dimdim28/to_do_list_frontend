@@ -72,7 +72,6 @@
   display: flex;
   align-items: center;
   justify-content: end;
-  width: 100%;
   word-break: break-all;
   font-weight: 600;
 }
@@ -88,8 +87,8 @@
 
 .userAvatar {
   border: 2px solid $warning-200;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
@@ -98,15 +97,16 @@
 .taskInfosection {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  height: 70px;
   align-items: start;
   gap: 5px;
 }
 
 .buttons {
   display: flex;
-  width: 100%;
+  flex-direction: column;
   justify-content: flex-end;
   gap: 10px;
 }

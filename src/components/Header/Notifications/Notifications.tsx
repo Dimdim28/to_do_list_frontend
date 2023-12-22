@@ -8,6 +8,7 @@ import socketsAPI from '../../../api/socketsAPI';
 
 import styles from './Notifications.module.scss';
 import ROUTES from '../../../routes';
+import { truncate } from '../../../helpers/string';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -90,39 +91,41 @@ const Notifications = () => {
                   />
                   <div className={styles.taskInfosection}>
                     <p className={styles.userName}>
-                      {notification.userId.username} sent you a task
+                      {notification.userId.username}
                     </p>
-
-                    <div className={styles.buttons}>
-                      <button
-                        className={styles.accept}
-                        onClick={() => {
-                          socketsAPI.confirmSubtask(notification.subtaskId._id);
-                          removeNotification(notification._id);
-                          navigate(ROUTES.PROFILE);
-                          setTimeout(() => {
-                            navigate(ROUTES.HOME);
-                          }, 0);
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          className={styles.acceptIcon}
-                        />
-                      </button>
-                      <button
-                        className={styles.decline}
-                        onClick={() => {
-                          socketsAPI.rejectSubtask(notification.subtaskId._id);
-                          removeNotification(notification._id);
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={faXmark}
-                          className={styles.declineIcon}
-                        />
-                      </button>
-                    </div>
+                    <p className={styles.taskName}>
+                      {truncate(notification.subtaskId.title, 20)}
+                    </p>
+                  </div>
+                  <div className={styles.buttons}>
+                    <button
+                      className={styles.accept}
+                      onClick={() => {
+                        socketsAPI.confirmSubtask(notification.subtaskId._id);
+                        removeNotification(notification._id);
+                        navigate(ROUTES.PROFILE);
+                        setTimeout(() => {
+                          navigate(ROUTES.HOME);
+                        }, 0);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className={styles.acceptIcon}
+                      />
+                    </button>
+                    <button
+                      className={styles.decline}
+                      onClick={() => {
+                        socketsAPI.rejectSubtask(notification.subtaskId._id);
+                        removeNotification(notification._id);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faXmark}
+                        className={styles.declineIcon}
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
