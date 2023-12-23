@@ -1,16 +1,16 @@
-import { useEffect, useState, UIEvent } from 'react';
+import { useEffect, useState, UIEvent, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
+import ROUTES from '../../../routes';
 import notificationsAPI, { Notification } from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
+import { Status } from '../../../types';
+import { truncate } from '../../../helpers/string';
 
 import styles from './Notifications.module.scss';
-import ROUTES from '../../../routes';
-import { truncate } from '../../../helpers/string';
-import { Status } from '../../../types';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -26,6 +26,10 @@ const Notifications = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const bellRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
   function toggleNotifications() {
     setIsNotificationsOpen((prev) => !prev);
   }
@@ -81,8 +85,22 @@ const Notifications = () => {
     if (!isLoading && currentPage < totalPages && isScrolled) loadMore();
   };
 
+  function handleClickOutside(e: MouseEvent) {
+    if (
+      !bellRef.current?.contains(e.target as Node) &&
+      !listRef.current?.contains(e.target as Node)
+    ) {
+      setIsNotificationsOpen(false);
+    }
+  }
+
   useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
     getNotifications();
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const NotificationsList = () => {
@@ -167,19 +185,19 @@ const Notifications = () => {
 
   return (
     <div className={styles.wrapper}>
-      <FontAwesomeIcon
-        icon={faBell}
-        className={styles.bell}
-        onClick={toggleNotifications}
-      />
-      <div
-        className={styles.notificationsList}
-        onScroll={handleCategoriesScroll}
-      >
-        {isNotificationsOpen &&
-          GetContent(errorMessage, notifications.length, isLoading)}
-        {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-      </div>
+      <button ref={bellRef} onClick={toggleNotifications}>
+        <FontAwesomeIcon icon={faBell} className={styles.bell} />
+      </button>
+      {isNotificationsOpen && (
+        <div
+          ref={listRef}
+          className={styles.notificationsList}
+          onScroll={handleCategoriesScroll}
+        >
+          {GetContent(errorMessage, notifications.length, isLoading)}
+          {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
+        </div>
+      )}
     </div>
   );
 };
