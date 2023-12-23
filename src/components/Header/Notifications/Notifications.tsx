@@ -113,7 +113,7 @@ const Notifications = () => {
               {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
             </p>
             <div className={styles.user}>
-              <UserImage user={notification.userId} />
+              <UserImage user={notification.userId} size="large" />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
                   {notification.userId.username}
