@@ -42,8 +42,6 @@ const authSlice = createSlice({
       state.profile = action.payload;
       state.message = '';
       state.status = Status.SUCCESS;
-      socketsAPI.init();
-      console.log('connectwebsockets fetchuserdata signin');
     });
     builder.addCase(fetchUserData.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -59,8 +57,7 @@ const authSlice = createSlice({
       state.profile = action.payload;
       state.status = Status.SUCCESS;
       state.message = '';
-      socketsAPI.init();
-      console.log('connectwebsockets fetchauthme');
+      socketsAPI.init(window.localStorage.getItem('token') || '');
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -76,8 +73,6 @@ const authSlice = createSlice({
       state.profile = action.payload;
       state.status = Status.SUCCESS;
       state.message = '';
-      socketsAPI.init();
-      console.log('connectwebsockets registeruser');
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.status = Status.ERROR;

@@ -1,15 +1,16 @@
-import { useState, FC } from "react";
-import { NavLink } from "react-router-dom";
-import { useFormik } from "formik";
-import { useTranslation } from "react-i18next";
+import { useState, FC } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
-import withHomeRedirect from "../../hoc/withHomeRedirect";
-import { FormikInput } from "../../components/common/Input/Input";
-import { useAppDispatch } from "../../hooks";
-import { registerUser } from "../../redux/slices/auth/thunk";
-import ROUTES from "../../routes";
+import withHomeRedirect from '../../hoc/withHomeRedirect';
+import { FormikInput } from '../../components/common/Input/Input';
+import { useAppDispatch } from '../../hooks';
+import { registerUser } from '../../redux/slices/auth/thunk';
+import ROUTES from '../../routes';
+import socketsAPI from '../../api/socketsAPI';
 
-import styles from "./Register.module.scss";
+import styles from './Register.module.scss';
 
 interface Values {
   email?: string;
@@ -21,39 +22,39 @@ interface Values {
 const validate = (values: Values) => {
   const errors: Values = {};
   if (!values.email) {
-    errors.email = "Required";
+    errors.email = 'Required';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
+    errors.email = 'Invalid email address';
   }
 
   if (!values.username) {
-    errors.username = "Required";
+    errors.username = 'Required';
   } else if (values.username.length < 3) {
-    errors.username = "Must be 3 characters or more";
+    errors.username = 'Must be 3 characters or more';
   } else if (values.username.length > 15) {
-    errors.username = "Must be 15 characters or less";
+    errors.username = 'Must be 15 characters or less';
   }
 
   if (!values.firstPass) {
-    errors.firstPass = "Required";
+    errors.firstPass = 'Required';
   } else if (values.firstPass.length < 5) {
-    errors.firstPass = "Must be 5 characters or more";
+    errors.firstPass = 'Must be 5 characters or more';
   } else if (values.firstPass.length > 15) {
-    errors.firstPass = "Must be 15 characters or less";
+    errors.firstPass = 'Must be 15 characters or less';
   }
 
   if (!values.secondPass) {
-    errors.secondPass = "Required";
+    errors.secondPass = 'Required';
   } else if (values.secondPass.length < 5) {
-    errors.secondPass = "Must be 5 characters or more";
+    errors.secondPass = 'Must be 5 characters or more';
   } else if (values.secondPass.length > 15) {
-    errors.secondPass = "Must be 15 characters or less";
+    errors.secondPass = 'Must be 15 characters or less';
   } else if (values.firstPass !== values.secondPass) {
-    errors.secondPass = "Passwords must be same";
+    errors.secondPass = 'Passwords must be same';
   }
 
   if (values.firstPass !== values.secondPass) {
-    errors.secondPass = "Passwords are not the same";
+    errors.secondPass = 'Passwords are not the same';
   }
   return errors;
 };
@@ -66,17 +67,18 @@ const SignupForm: FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      username: "",
-      firstPass: "",
-      secondPass: "",
+      email: '',
+      username: '',
+      firstPass: '',
+      secondPass: '',
     },
     validate,
     onSubmit: async (values, { setSubmitting }) => {
       const data: any = await dispatch(registerUser(values));
       if (data.error) setError(data.payload);
-      if ("token" in data.payload) {
-        window.localStorage.setItem("token", data.payload.token);
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
+        socketsAPI.init(data.payload.token);
       }
       formik.resetForm();
       setSubmitting(false);
@@ -86,13 +88,13 @@ const SignupForm: FC = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h1>{t("signUpBold")}</h1>
+        <h1>{t('signUpBold')}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput
               name="email"
               type="email"
-              title={t("email")}
+              title={t('email')}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -106,7 +108,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="username"
               type="text"
-              title={t("login")}
+              title={t('login')}
               onChange={formik.handleChange}
               value={formik.values.username}
               onBlur={formik.handleBlur}
@@ -121,7 +123,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="firstPass"
               type="password"
-              title={t("enterPassword")}
+              title={t('enterPassword')}
               onChange={formik.handleChange}
               value={formik.values.firstPass}
               onBlur={formik.handleBlur}
@@ -135,7 +137,7 @@ const SignupForm: FC = () => {
             <FormikInput
               name="secondPass"
               type="password"
-              title={t("confirmPassword")}
+              title={t('confirmPassword')}
               onChange={formik.handleChange}
               value={formik.values.secondPass}
               onBlur={formik.handleBlur}
@@ -152,13 +154,13 @@ const SignupForm: FC = () => {
               }
               type="submit"
             >
-              {t("signUp")}
+              {t('signUp')}
             </button>
             <NavLink
               className={styles.link}
               to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`}
             >
-              {t("signIn")}
+              {t('signIn')}
             </NavLink>
           </div>
         </form>

@@ -3,28 +3,32 @@ import { io } from 'socket.io-client';
 class socketsAPIClass {
   private socket: any;
 
-  public init() {
+  public init(token: string) {
     this.socket = io('ws://localhost:5000/notifications', {
       transportOptions: {
         polling: {
           extraHeaders: {
-            token: window.localStorage.getItem('token') || '',
+            token,
           },
         },
       },
     });
   }
 
-  confirmSubtask(subtaskId: string) {
+  public confirmSubtask(subtaskId: string) {
     this.socket.emit('subtask:confirm', subtaskId);
   }
 
-  rejectSubtask(subtaskId: string) {
+  public rejectSubtask(subtaskId: string) {
     this.socket.emit('subtask:reject', subtaskId);
   }
 
   public getSocket() {
     return this.socket;
+  }
+
+  public closeConnection() {
+    this.socket.disconnect();
   }
 }
 

@@ -13,6 +13,8 @@ import { truncate } from '../../../helpers/string';
 
 import styles from './Notifications.module.scss';
 
+import newNotificationAudio from '../../../assets/newNotification.mp3';
+
 const Notifications = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ const Notifications = () => {
 
   const bellRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef(new Audio(newNotificationAudio));
 
   function toggleNotifications() {
     setIsNotificationsOpen((prev) => !prev);
@@ -66,12 +69,13 @@ const Notifications = () => {
     const socket = socketsAPI.getSocket();
 
     socket.on('newSubtaskConfirmation', (notification: Notification) => {
-      // console.log('newSubtaskConfirmation', notification);
       setNotifications((prev) => [notification, ...prev]);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
     });
 
     socket.on('delSubtaskConfirmation', (notifId: string) => {
-      // console.log('delSubtaskConfirmation', notifId);
       setNotifications((prev) => prev.filter((el) => el._id !== notifId));
     });
   }

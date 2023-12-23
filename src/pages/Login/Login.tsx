@@ -1,16 +1,17 @@
-import { useState, FC } from "react";
-import { NavLink } from "react-router-dom";
-import { useFormik } from "formik";
-import { useTranslation } from "react-i18next";
+import { useState, FC } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
-import withHomeRedirect from "../../hoc/withHomeRedirect";
-import { FormikInput } from "../../components/common/Input/Input";
-import { useAppDispatch } from "../../hooks";
-import { fetchUserData } from "../../redux/slices/auth/thunk";
-import { validate } from "./helpers";
-import ROUTES from "../../routes";
+import withHomeRedirect from '../../hoc/withHomeRedirect';
+import { FormikInput } from '../../components/common/Input/Input';
+import { useAppDispatch } from '../../hooks';
+import { fetchUserData } from '../../redux/slices/auth/thunk';
+import { validate } from './helpers';
+import ROUTES from '../../routes';
+import socketsAPI from '../../api/socketsAPI';
 
-import styles from "./Login.module.scss";
+import styles from './Login.module.scss';
 
 const Login: FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -21,15 +22,16 @@ const Login: FC<{}> = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validate,
     onSubmit: async (values, { setSubmitting }) => {
       const data: any = await dispatch(fetchUserData(values));
       if (data.error) setError(data.payload);
-      if ("token" in data.payload) {
-        window.localStorage.setItem("token", data.payload.token);
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
+        socketsAPI.init(data.payload.token);
       }
       formik.resetForm();
       setSubmitting(false);
@@ -39,7 +41,7 @@ const Login: FC<{}> = () => {
   return (
     <main>
       <div className={styles.wrapper}>
-        <h1>{t("signInBold")}</h1>
+        <h1>{t('signInBold')}</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.fieldsWrapper}>
             <FormikInput
@@ -48,7 +50,7 @@ const Login: FC<{}> = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
-              title={t("email")}
+              title={t('email')}
             />
             {formik.errors.email && formik.touched.email ? (
               <p>{formik.errors.email}</p>
@@ -59,7 +61,7 @@ const Login: FC<{}> = () => {
             <FormikInput
               name="password"
               type="password"
-              title={t("password")}
+              title={t('password')}
               onChange={formik.handleChange}
               value={formik.values.password}
               onBlur={formik.handleBlur}
@@ -76,13 +78,13 @@ const Login: FC<{}> = () => {
               }
               type="submit"
             >
-              {t("signIn")}
+              {t('signIn')}
             </button>
             <NavLink
               className={styles.link}
               to={`${ROUTES.AUTH}/${ROUTES.REGISTER}`}
             >
-              {t("signUp")}
+              {t('signUp')}
             </NavLink>
           </div>
 
