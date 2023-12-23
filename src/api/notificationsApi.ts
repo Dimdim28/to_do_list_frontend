@@ -45,7 +45,6 @@ class notificationsAPIClass {
     page?: number,
     limit?: number,
   ): Promise<Result> {
-    console.log(page, limit);
     try {
       const response: NotificationsResponse = await instanse.get(
         `/notification`,

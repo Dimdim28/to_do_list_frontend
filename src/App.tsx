@@ -15,7 +15,6 @@ import TRANSLATIONS from './lang';
 import { Language } from './types';
 import { selectTheme } from './redux/slices/auth/selectors';
 import { Link } from './components/Header/Header';
-import socketsAPI from './api/socketsAPI';
 
 import './styles/reset.scss';
 import './styles/typography.scss';
@@ -34,8 +33,6 @@ i18next.use(initReactI18next).init({
   resources: TRANSLATIONS,
   fallbackLng: 'en',
 });
-
-socketsAPI.init();
 
 export const HEADER_LINKS: Link[] = [
   {
@@ -67,7 +64,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAuthMe());
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
