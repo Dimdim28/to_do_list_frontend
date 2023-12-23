@@ -66,12 +66,12 @@ const Notifications = () => {
     const socket = socketsAPI.getSocket();
 
     socket.on('newSubtaskConfirmation', (notification: Notification) => {
-      console.log('newSubtaskConfirmation', notification);
+      // console.log('newSubtaskConfirmation', notification);
       setNotifications((prev) => [notification, ...prev]);
     });
 
     socket.on('delSubtaskConfirmation', (notifId: string) => {
-      console.log('delSubtaskConfirmation', notifId);
+      // console.log('delSubtaskConfirmation', notifId);
       setNotifications((prev) => prev.filter((el) => el._id !== notifId));
     });
   }
@@ -160,11 +160,19 @@ const Notifications = () => {
   };
 
   const EmptyNotificationsList = () => {
-    return <p style={{ textAlign: 'center' }}>No notifications</p>;
+    return <p className={styles.noNotifications}>No notifications</p>;
   };
 
   const ErrorNotificationsList = ({ error }: { error: string }) => {
-    return <p style={{ textAlign: 'center' }}>{error}</p>;
+    return <p className={styles.errorMessage}>{error}</p>;
+  };
+
+  const LoadingNotificationsList = () => {
+    return (
+      <div className={styles.loaderWrapper}>
+        <span className={styles.loader}></span>
+      </div>
+    );
   };
 
   function GetContent(error: string, length: number, loading: boolean) {
@@ -189,7 +197,7 @@ const Notifications = () => {
           onScroll={handleCategoriesScroll}
         >
           {GetContent(errorMessage, notifications.length, isLoading)}
-          {isLoading && <p style={{ textAlign: 'center' }}>Loading...</p>}
+          {isLoading && <LoadingNotificationsList />}
         </div>
       )}
     </div>
