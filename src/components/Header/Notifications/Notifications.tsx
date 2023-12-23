@@ -116,7 +116,7 @@ const Notifications = () => {
               <UserImage user={notification.userId} size="large" />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
-                  {notification.userId.username}
+                  {notification?.userId?.username || 'User'}
                 </p>
                 <p className={styles.taskName}>
                   {truncate(notification.subtaskId.title, 20)}

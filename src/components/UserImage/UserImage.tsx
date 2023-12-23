@@ -22,7 +22,7 @@ const UserImage: FC<UserImageProps> = ({ user, size = 'medium' }) => {
           user?.avatar?.url ||
           'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
         }
-        alt={user.username}
+        alt={user?.username || 'User'}
       />
     </div>
   );
