@@ -67,7 +67,7 @@ const Notifications = () => {
 
     socket.on('newSubtaskConfirmation', (notification: Notification) => {
       console.log('newSubtaskConfirmation', notification);
-      setNotifications((prev) => [...prev, notification]);
+      setNotifications((prev) => [notification, ...prev]);
     });
 
     socket.on('delSubtaskConfirmation', (notifId: string) => {
