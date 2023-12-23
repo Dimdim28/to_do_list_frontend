@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Task, getTask } from '../../../../api/taskAPI';
 import { humaniseDate, truncate } from '../../../../helpers/string';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
+import UserImage from '../../../../components/UserImage/UserImage';
 import taskAPI from '../../../../api/taskAPI';
 
 import styles from './TaskCard.module.scss';
@@ -135,14 +136,7 @@ const TaskCard = ({
       {assigneeId && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          <img
-            className={styles.sharedAvatar}
-            src={
-              userId?.avatar?.url ||
-              'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
-            }
-            alt="avatar"
-          />
+          {userId && <UserImage user={userId} />}
           <p className={styles.sharedUsername}>{userId?.username}</p>
         </div>
       )}

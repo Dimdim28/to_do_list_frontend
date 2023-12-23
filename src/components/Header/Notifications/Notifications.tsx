@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import notificationsAPI, { Notification } from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
+import UserImage from '../../UserImage/UserImage';
 
 import styles from './Notifications.module.scss';
 import ROUTES from '../../../routes';
@@ -94,14 +95,7 @@ const Notifications = () => {
               {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
             </p>
             <div className={styles.user}>
-              <img
-                className={styles.userAvatar}
-                src={
-                  notification.userId.avatar?.url ||
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
-                }
-                alt="avatar"
-              />
+              <UserImage user={notification.userId} />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
                   {notification.userId.username}
