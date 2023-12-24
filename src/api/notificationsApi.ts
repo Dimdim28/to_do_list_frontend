@@ -44,11 +44,12 @@ class notificationsAPIClass {
   public async getNotifications(
     page?: number,
     limit?: number,
+    skip?: number,
   ): Promise<Result> {
     try {
       const response: NotificationsResponse = await instanse.get(
         `/notification`,
-        { params: { page, limit } },
+        { params: { page, limit, skip } },
       );
       const { notifications, currentPage, totalPages } = response.data;
       return { notifications, currentPage, totalPages, status: Status.SUCCESS };

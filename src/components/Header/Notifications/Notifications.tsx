@@ -29,6 +29,8 @@ const Notifications = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [realTimeNotificationsCount, setRealTimeNotificationsCount] =
+    useState(0);
 
   const bellRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -44,9 +46,17 @@ const Notifications = () => {
     );
   }
 
-  async function getNotifications(page?: number, limit?: number) {
+  async function getNotifications(
+    page?: number,
+    skip?: number,
+    limit?: number,
+  ) {
     setIsLoading(true);
-    const notifications = await notificationsAPI.getNotifications(page, limit);
+    const notifications = await notificationsAPI.getNotifications(
+      page,
+      limit,
+      skip,
+    );
     const {
       currentPage,
       totalPages,
@@ -57,8 +67,8 @@ const Notifications = () => {
 
     if (status === Status.SUCCESS) {
       setNotifications((prev) => [...prev, ...notificationsList]);
-      setCurrentPage(currentPage);
-      setTotalPages(totalPages);
+      setCurrentPage(+currentPage);
+      setTotalPages(+totalPages);
       setErrorMessage('');
     } else {
       setErrorMessage(errorMessage || 'Error');
@@ -70,6 +80,7 @@ const Notifications = () => {
 
     socket.on('newSubtaskConfirmation', (notification: Notification) => {
       setNotifications((prev) => [notification, ...prev]);
+      setRealTimeNotificationsCount((prev) => prev + 1);
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current.play();
@@ -77,11 +88,12 @@ const Notifications = () => {
 
     socket.on('delSubtaskConfirmation', (notifId: string) => {
       setNotifications((prev) => prev.filter((el) => el._id !== notifId));
+      setRealTimeNotificationsCount((prev) => prev - 1);
     });
   }
 
   async function loadMore() {
-    await getNotifications(currentPage + 1);
+    await getNotifications(currentPage + 1, realTimeNotificationsCount);
   }
 
   const handleCategoriesScroll = (e: UIEvent<HTMLElement>) => {
@@ -131,6 +143,7 @@ const Notifications = () => {
                   className={styles.accept}
                   onClick={() => {
                     socketsAPI.confirmSubtask(notification.subtaskId._id);
+                    setRealTimeNotificationsCount((prev) => prev - 1);
                     removeNotification(notification._id);
                     navigate(ROUTES.PROFILE);
                     setTimeout(() => {
@@ -148,6 +161,7 @@ const Notifications = () => {
                   onClick={() => {
                     socketsAPI.rejectSubtask(notification.subtaskId._id);
                     removeNotification(notification._id);
+                    setRealTimeNotificationsCount((prev) => prev - 1);
                   }}
                 >
                   <FontAwesomeIcon
