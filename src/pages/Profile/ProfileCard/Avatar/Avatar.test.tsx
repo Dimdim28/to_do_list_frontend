@@ -1,9 +1,10 @@
-import { Provider } from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import Avatar from "./Avatar";
-import store from "../../../../redux/store";
+import Avatar from './Avatar';
+import store from '../../../../redux/store';
+import exp from 'constants';
 
 const renderAvatar = () => {
   render(
@@ -11,7 +12,7 @@ const renderAvatar = () => {
       <Router>
         <Avatar />
       </Router>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -19,23 +20,27 @@ beforeEach(() => {
   renderAvatar();
 });
 
-describe("Avatar", () => {
-  it("renders without crashing", () => {
-    expect(screen.getByTestId("avatar-container")).toBeInTheDocument();
-    expect(screen.getByTestId("file-input-component")).toBeInTheDocument();
-    expect(screen.getByTestId("add-photo-component")).toBeInTheDocument();
-    expect(screen.getByTestId("camera-icon-component")).toBeInTheDocument();
+describe('Avatar', () => {
+  it('renders without crashing', () => {
+    expect(screen.getByTestId('avatar-container')).toBeInTheDocument();
+    expect(screen.getByTestId('file-input-component')).toBeInTheDocument();
+    expect(screen.getByTestId('add-photo-component')).toBeInTheDocument();
+    expect(screen.getByTestId('camera-icon-component')).toBeInTheDocument();
   });
 
-  it("renders without errors", () => {
-    expect(screen.queryByTestId("error")).toBeNull();
+  it('renders the default avatar when no profile avatar is available', () => {
+    expect(screen.getByAltText('default')).toBeInTheDocument();
   });
 
-  it("should call handleChangeFile when file input changes", () => {
-    const fileInput = screen.getByTestId("file-input-component");
+  it('renders without errors', () => {
+    expect(screen.queryByTestId('error')).toBeNull();
+  });
+
+  it('should call handleChangeFile when file input changes', () => {
+    const fileInput = screen.getByTestId('file-input-component');
     const mockFileEvent = {
       target: {
-        files: ["file"],
+        files: ['file'],
       },
     };
     const handleChangeFile = jest.fn();

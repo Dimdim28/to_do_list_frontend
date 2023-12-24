@@ -1,14 +1,14 @@
-import { useRef, FC, FormEvent } from "react";
-import { toast } from "react-toastify";
+import { useRef, FC, FormEvent } from 'react';
+import { toast } from 'react-toastify';
 
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
-import { selectUserProfile } from "../../../../redux/slices/profile/selectors";
-import { changeAvatar } from "../../../../redux/slices/profile/thunk";
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { selectUserProfile } from '../../../../redux/slices/profile/selectors';
+import { changeAvatar } from '../../../../redux/slices/profile/thunk';
 
-import styles from "./Avatar.module.scss";
+import styles from './Avatar.module.scss';
 
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Avatar: FC = () => {
   const dispatch = useAppDispatch();
@@ -24,12 +24,12 @@ const Avatar: FC = () => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-      return toast.error("File type should be image, png, jpg or jpeg");
+    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      return toast.error('File type should be image, png, jpg or jpeg');
     }
 
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append('image', file);
 
     try {
       await dispatch(changeAvatar({ image: formData }));
@@ -46,7 +46,16 @@ const Avatar: FC = () => {
         onChange={handleChangeFile}
         data-testid="file-input-component"
       />
-      {avatar && <img src={avatar.url} alt="logo" />}
+      {avatar ? (
+        <img src={avatar.url} alt="logo" />
+      ) : (
+        <img
+          src={
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
+          }
+          alt="default"
+        />
+      )}
       <div
         className={styles.addPhoto}
         onClick={() => inputFileRef.current?.click()}

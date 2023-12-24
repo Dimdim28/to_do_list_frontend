@@ -1,45 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAuthMe, fetchUserData, registerUser } from "./thunk";
-import { AuthSliceState } from "./types";
-import { Language, Status, Theme } from "../../../types";
+import { fetchAuthMe, fetchUserData, registerUser } from './thunk';
+import { AuthSliceState } from './types';
+import { Language, Status, Theme } from '../../../types';
+import socketsAPI from '../../../api/socketsAPI';
 
 const initialState: AuthSliceState = {
   profile: null,
   status: Status.LOADING,
-  theme: (localStorage.getItem("theme") as Theme) || Theme.DARK,
-  lang: (localStorage.getItem("lang") as Language) || Language.EN,
+  theme: (localStorage.getItem('theme') as Theme) || Theme.DARK,
+  lang: (localStorage.getItem('lang') as Language) || Language.EN,
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     logout(state) {
       state.profile = null;
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("theme");
-      window.localStorage.removeItem("lang");
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('theme');
+      window.localStorage.removeItem('lang');
     },
     changeTheme(state, action) {
       state.theme = action.payload;
-      window.localStorage.setItem("theme", action.payload);
+      window.localStorage.setItem('theme', action.payload);
     },
     changeLang(state, action) {
       state.lang = action.payload;
-      window.localStorage.setItem("lang", action.payload);
+      window.localStorage.setItem('lang', action.payload);
     },
   },
 
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.pending, (state) => {
       state.status = Status.LOADING;
-      state.message = "";
+      state.message = '';
       state.profile = null;
     });
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
       state.profile = action.payload;
-      state.message = "";
+      state.message = '';
       state.status = Status.SUCCESS;
     });
     builder.addCase(fetchUserData.rejected, (state, action) => {
@@ -50,12 +51,13 @@ const authSlice = createSlice({
     builder.addCase(fetchAuthMe.pending, (state) => {
       state.status = Status.LOADING;
       state.profile = null;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(fetchAuthMe.fulfilled, (state, action) => {
       state.profile = action.payload;
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
+      socketsAPI.init(window.localStorage.getItem('token') || '');
     });
     builder.addCase(fetchAuthMe.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -65,12 +67,12 @@ const authSlice = createSlice({
     builder.addCase(registerUser.pending, (state) => {
       state.status = Status.LOADING;
       state.profile = null;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.profile = action.payload;
       state.status = Status.SUCCESS;
-      state.message = "";
+      state.message = '';
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.status = Status.ERROR;

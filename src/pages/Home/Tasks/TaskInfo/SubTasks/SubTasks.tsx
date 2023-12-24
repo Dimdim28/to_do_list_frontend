@@ -8,6 +8,7 @@ import { Modal } from '../../../../../components/common/Modal/Modal';
 import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
 import TaskForm from '../../TaskEditing/TaskForm';
 import { getTask } from '../../../../../api/taskAPI';
+import UserImage from '../../../../../components/UserImage/UserImage';
 
 import styles from './SubTasks.module.scss';
 
@@ -56,6 +57,8 @@ const SubTasks: FC<SubTasksProps> = ({
   const [subTaskDeleting, setSubTaskDeleting] = useState<boolean>(false);
   const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
+
+  // TODO fix className for avatar
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>{t('subtasks')}</h3>
@@ -106,14 +109,7 @@ const SubTasks: FC<SubTasksProps> = ({
               >
                 <div className={styles.line}>
                   <div className={styles.subTaskUser}>
-                    <img
-                      src={
-                        assigneeId?.avatar?.url ||
-                        'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
-                      }
-                      alt={assigneeId.username}
-                      className={styles.subTaskUserAvatar}
-                    />
+                    <UserImage user={assigneeId} />
                     <p className={styles.subTaskUsername}>
                       {assigneeId.username}
                     </p>

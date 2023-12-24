@@ -1,31 +1,31 @@
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, FC } from 'react';
 
-import Tasks from "./Tasks/Tasks";
-import Filters from "./FiltersBar/FiltersBar";
-import withLoginRedirect from "../../hoc/withLoginRedirect";
-import { useAppDispatch } from "../../hooks";
-import { clearCategories } from "../../redux/slices/home/home";
-import { fetchCategories } from "../../redux/slices/home/thunk";
-import { IsCompleted, Date } from "./FiltersBar/Filters/Filters";
-import taskAPI, { Task, getTask } from "../../api/taskAPI";
+import Tasks from './Tasks/Tasks';
+import Filters from './FiltersBar/FiltersBar';
+import withLoginRedirect from '../../hoc/withLoginRedirect';
+import { useAppDispatch } from '../../hooks';
+import { clearCategories } from '../../redux/slices/home/home';
+import { fetchCategories } from '../../redux/slices/home/thunk';
+import { IsCompleted, Date } from './FiltersBar/Filters/Filters';
+import taskAPI, { Task, getTask } from '../../api/taskAPI';
 
-import styles from "./Home.module.scss";
+import styles from './Home.module.scss';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [date, setDate] = useState<Date>("all");
-  const [isCompleted, setIsCompleted] = useState<IsCompleted>("false");
+  const [date, setDate] = useState<Date>('all');
+  const [isCompleted, setIsCompleted] = useState<IsCompleted>('false');
   const [categories, setCategories] = useState<string[]>([]);
 
   const [TasksArray, setTasks] = useState<Task[]>([]);
   const [totalTaskPages, setTotalTaskPages] = useState(1);
   const [isTasksLoading, setIsTasksLoading] = useState(false);
-  const [tasksError, setTasksError] = useState("");
+  const [tasksError, setTasksError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [isNavBarOpened, setIsNavberOpened] = useState(true);
 
@@ -35,8 +35,8 @@ const Home: FC = () => {
     categories,
   };
 
-  if (isCompleted !== "all") {
-    if (isCompleted === "false") {
+  if (isCompleted !== 'all') {
+    if (isCompleted === 'false') {
       fetchingParams.isCompleted = false;
     } else {
       fetchingParams.isCompleted = true;
@@ -58,19 +58,19 @@ const Home: FC = () => {
         setIsMobile(false);
       }
     };
-    window.addEventListener("resize", cb);
+    window.addEventListener('resize', cb);
 
     return () => {
-      window.removeEventListener("resize", cb);
+      window.removeEventListener('resize', cb);
     };
   }, []);
 
   async function fetchTasks(params?: getTask) {
     setIsTasksLoading(true);
-    setTasksError("");
+    setTasksError('');
     const result = await taskAPI.getTasks(params);
     if (!result) {
-      setTasksError("Could not fetch tasks");
+      setTasksError('Could not fetch tasks');
       return;
     }
     const { message, tasks, totalPages: fetchedTotalPages } = result;

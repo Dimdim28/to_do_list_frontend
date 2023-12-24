@@ -1,19 +1,20 @@
-import { Dispatch, SetStateAction, FC } from "react";
-import { useTranslation } from "react-i18next";
+import { Dispatch, SetStateAction, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import Button from "../../../../components/common/Button/Button";
-import Preloader from "../../../../components/Preloader/Preloader";
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
-import { logout } from "../../../../redux/slices/auth/auth";
-import { clear } from "../../../../redux/slices/home/home";
-import { exit } from "../../../../redux/slices/profile/profile";
+import Button from '../../../../components/common/Button/Button';
+import Preloader from '../../../../components/Preloader/Preloader';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { logout } from '../../../../redux/slices/auth/auth';
+import { clear } from '../../../../redux/slices/home/home';
+import { exit } from '../../../../redux/slices/profile/profile';
 import {
   selectProfileMessage,
   selectProfileStatus,
-} from "../../../../redux/slices/profile/selectors";
-import { Status } from "../../../../types";
+} from '../../../../redux/slices/profile/selectors';
+import socketsAPI from '../../../../api/socketsAPI';
+import { Status } from '../../../../types';
 
-import styles from "./Exit.module.scss";
+import styles from './Exit.module.scss';
 
 interface ExitFromAccountProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -31,6 +32,7 @@ const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
     dispatch(exit());
     dispatch(clear());
     toggleActive(false);
+    socketsAPI.closeConnection();
   };
 
   const cancel = () => {
@@ -44,17 +46,17 @@ const Exit: FC<ExitFromAccountProps> = ({ toggleActive }) => {
       ) : (
         <>
           <h3 className={styles.title} data-testid="are-you-sure-container">
-            {t("areYouSure")}
+            {t('areYouSure')}
           </h3>
           <div className={styles.buttons}>
             <Button
-              text={t("no")}
+              text={t('no')}
               callback={cancel}
               class="cancel"
               data-testid="cancel-container"
             />
             <Button
-              text={t("yes")}
+              text={t('yes')}
               callback={submit}
               class="submit"
               data-testid="submit-container"

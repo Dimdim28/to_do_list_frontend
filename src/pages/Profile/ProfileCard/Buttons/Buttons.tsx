@@ -1,10 +1,10 @@
-import React, { useState, FC } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from "../../../../hooks";
-import { clearProfileErrorMessage } from "../../../../redux/slices/profile/profile";
+import { useAppDispatch } from '../../../../hooks';
+import { clearProfileErrorMessage } from '../../../../redux/slices/profile/profile';
 
-import styles from "./Buttons.module.scss";
+import styles from './Buttons.module.scss';
 
 interface ButtonsProps {
   setIsExiting: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,7 +34,7 @@ const Buttons: FC<ButtonsProps> = ({
         onClick={() => handleButtonClick(() => setIsExiting(true))}
         data-testid="exit-button-component"
       >
-        {t("logOut")}
+        {t('logOut')}
       </button>
 
       <button
@@ -44,7 +44,7 @@ const Buttons: FC<ButtonsProps> = ({
         }
         data-testid="change-password-button-component"
       >
-        {t(isPassEditing ? "closePasswordChange" : "changePassword")}
+        {t(isPassEditing ? 'closePasswordChange' : 'changePassword')}
       </button>
 
       <button
@@ -52,7 +52,7 @@ const Buttons: FC<ButtonsProps> = ({
         onClick={() => handleButtonClick(() => setIsAccountDeleting(true))}
         data-testid="delete-account-button-component"
       >
-        {t("deleteAccount")}
+        {t('deleteAccount')}
       </button>
     </div>
   );

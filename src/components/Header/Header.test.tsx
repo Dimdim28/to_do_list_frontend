@@ -27,6 +27,8 @@ jest.mock('react-i18next', () => ({
   useTranslation: jest.fn(),
 }));
 
+jest.mock('../../assets/newNotif.ogg', () => 'newNotif.ogg');
+
 let i18nChangeLanguage: jest.Mock;
 
 describe('Header', () => {

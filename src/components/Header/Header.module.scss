@@ -43,7 +43,7 @@ header {
   color: $black;
 
   &:hover {
-    color: $gray-50;
+    color: $gray-200;
   }
 }
 
@@ -63,15 +63,15 @@ header {
   color: $black;
 
   &:hover {
-    color: $gray-50;
+    color: $gray-200;
   }
 }
 
 header nav {
   display: flex;
-  width: calc(100% - 30px);
   justify-content: flex-end;
   padding-right: 10px;
+  gap: 20px;
   font-weight: 600;
 }
 

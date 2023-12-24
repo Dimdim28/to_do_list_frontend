@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 
 import Preloader from '../Preloader/Preloader';
+import UserImage from '../UserImage/UserImage';
 import userAPI, { User } from '../../api/userAPI';
 
 import styles from './SearchUser.module.scss';
@@ -91,14 +92,7 @@ const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
                 key={user._id}
                 onClick={() => handleUserClick(user)}
               >
-                <img
-                  className={styles.userAvatar}
-                  src={
-                    user.avatar?.url ||
-                    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
-                  }
-                  alt="avatar"
-                />
+                <UserImage user={user} />
                 <div className={styles.userName}>{user.username}</div>
               </div>
             ))}

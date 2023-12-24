@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .wrapper {
   width: 100%;
@@ -59,6 +59,7 @@
 .chartWrapper {
   width: 95%;
   max-width: 1400px;
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
