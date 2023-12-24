@@ -13,7 +13,7 @@ import { truncate } from '../../../helpers/string';
 
 import styles from './Notifications.module.scss';
 
-import newNotificationAudio from '../../../assets/newNotification.mp3';
+import newNotificationAudio from '../../../assets/newNotif.ogg';
 import scrollAudio from '../../../assets/scroll.mp3';
 
 const Notifications = () => {
