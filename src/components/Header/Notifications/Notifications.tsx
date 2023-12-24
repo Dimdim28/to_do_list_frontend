@@ -137,10 +137,10 @@ const Notifications = () => {
               <UserImage user={notification.userId} size="large" />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
-                  {notification?.userId?.username || 'User'}
+                  {truncate(notification?.userId?.username || 'User', 16)}
                 </p>
                 <p className={styles.taskName}>
-                  {truncate(notification.subtaskId.title, 20)}
+                  {truncate(notification.subtaskId.title, 16)}
                 </p>
               </div>
               <div className={styles.buttons}>
