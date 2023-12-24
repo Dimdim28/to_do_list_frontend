@@ -34,7 +34,7 @@ const Footer: FC<FooterProps> = ({ links }) => {
         ))}
       </nav>
       <div className={styles.centeredText}>{t('footer')}</div>
-      <div className={styles.rightAlignedText}>{t('v')} 4.3.0</div>
+      <div className={styles.rightAlignedText}>{t('v')} 4.4.0</div>
     </footer>
   );
   // {t('dev')}
