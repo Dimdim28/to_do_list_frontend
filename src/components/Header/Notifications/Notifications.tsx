@@ -14,6 +14,7 @@ import { truncate } from '../../../helpers/string';
 import styles from './Notifications.module.scss';
 
 import newNotificationAudio from '../../../assets/newNotification.mp3';
+import scrollAudio from '../../../assets/scroll.mp3';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Notifications = () => {
   const bellRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef(new Audio(newNotificationAudio));
+  const scrollRef = useRef(new Audio(scrollAudio));
 
   function toggleNotifications() {
     setIsNotificationsOpen((prev) => !prev);
@@ -96,7 +98,10 @@ const Notifications = () => {
     await getNotifications(currentPage + 1, realTimeNotificationsCount);
   }
 
-  const handleCategoriesScroll = (e: UIEvent<HTMLElement>) => {
+  const handleNotificationsListScroll = (e: UIEvent<HTMLElement>) => {
+    scrollRef.current.pause();
+    scrollRef.current.currentTime = 0;
+    scrollRef.current.play();
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
     const isScrolled = scrollHeight === scrollTop + clientHeight;
     if (!isLoading && currentPage < totalPages && isScrolled) loadMore();
@@ -212,7 +217,7 @@ const Notifications = () => {
         <div
           ref={listRef}
           className={styles.notificationsList}
-          onScroll={handleCategoriesScroll}
+          onScroll={handleNotificationsListScroll}
         >
           {GetContent(errorMessage, notifications.length, isLoading)}
           {isLoading && <LoadingNotificationsList />}
