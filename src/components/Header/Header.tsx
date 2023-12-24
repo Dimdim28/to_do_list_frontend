@@ -57,7 +57,7 @@ const Header: FC<HeaderProps> = ({ links }) => {
     <header>
       <div className={styles.actionsWrapper}>
         <img className={styles.logo} alt="logo" src={logo} />
-
+        {isAuthorized && <Notifications />}
         <FontAwesomeIcon
           onClick={toggleTheme}
           data-testid="theme-icon"
@@ -73,7 +73,6 @@ const Header: FC<HeaderProps> = ({ links }) => {
         >
           {i18n.language}
         </button>
-        {isAuthorized && <Notifications />}
       </div>
 
       <nav>
