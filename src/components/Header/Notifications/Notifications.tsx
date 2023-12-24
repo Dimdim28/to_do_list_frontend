@@ -178,7 +178,7 @@ const Notifications = () => {
   };
 
   const EmptyNotificationsList = () => {
-    return <p className={styles.noNotifications}>No notifications</p>;
+    return <p className={styles.noNotifications}>{t('noNotifications')}</p>;
   };
 
   const ErrorNotificationsList = ({ error }: { error: string }) => {

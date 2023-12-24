@@ -58,7 +58,7 @@ const SubTasks: FC<SubTasksProps> = ({
   const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
 
-  // TODO: fix className for avatar
+  // TODO fix className for avatar
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>{t('subtasks')}</h3>

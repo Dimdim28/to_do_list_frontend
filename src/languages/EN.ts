@@ -116,6 +116,7 @@ const EN = {
   rejected: 'Rejected',
   completedSub: 'Completed',
   subtaskConfirmation: 'Accepting task request',
+  noNotifications: 'No notifications',
 };
 
 export default EN;

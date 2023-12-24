@@ -117,6 +117,7 @@ const UA = {
   rejected: 'Відхилено',
   completedSub: 'Завершено',
   subtaskConfirmation: 'Запит на підтвердження завдання',
+  noNotifications: 'Нема сповіщень',
 };
 
 export default UA;
