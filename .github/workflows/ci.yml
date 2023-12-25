@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master, main, tests, develop ]
+    branches: [master, main, tests, develop]
   pull_request:
-    branches: [ master, main, tests, develop ]
+    branches: [master, main, tests, develop]
 
 jobs:
   build:
@@ -13,6 +13,6 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v3
       - name: Install dependancies
-        run: npm ci
+        run: npm ci --force
       - name: Test application
         run: npm test
