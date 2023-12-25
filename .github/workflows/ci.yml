@@ -13,6 +13,6 @@ jobs:
       - name: Get repository code
         uses: actions/checkout@v3
       - name: Install dependancies
-        run: npm ci --force
+        run: npm ci
       - name: Test application
         run: npm test
