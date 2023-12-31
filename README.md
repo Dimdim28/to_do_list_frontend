@@ -6,7 +6,7 @@
 
 # Installation required
 
-To get the project up and running correctly, you need to install Node.js, npm and react-scripts (if you've never worked with React).
+To get the project up and running correctly, you need to install Node.js, npm and react-scripts (if you've never worked with React)
 
 [Node.js download link](https://nodejs.org/en/download/current) (Win 32/64/ARM64, mac 64/ARM64, Linux 64)
 
