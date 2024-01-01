@@ -4,15 +4,20 @@ class socketsAPIClass {
   private socket: any;
 
   public init(token: string) {
-    this.socket = io('ws://localhost:5000/notifications', {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            token,
+    this.socket = io(
+      `wss://${
+        process.env.REACT_SOCKETS_API_URL || 'localhost:5000'
+      }/notifications`,
+      {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              token,
+            },
           },
         },
       },
-    });
+    );
   }
 
   public confirmSubtask(subtaskId: string) {
