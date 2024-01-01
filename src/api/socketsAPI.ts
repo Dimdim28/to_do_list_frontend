@@ -5,7 +5,7 @@ class socketsAPIClass {
 
   public init(token: string) {
     this.socket = io(
-      `ws://${
+      `wss://${
         process.env.REACT_SOCKETS_API_URL || 'localhost:5000'
       }/notifications`,
       {
