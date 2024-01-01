@@ -13,8 +13,7 @@ import { truncate } from '../../../helpers/string';
 
 import styles from './Notifications.module.scss';
 
-import newNotificationAudio from '../../../assets/newNotif.ogg';
-// import scrollAudio from '../../../assets/NewNotif2.ogg';
+import newNotificationAudio from '../../../assets/newNotification.ogg';
 
 const Notifications = () => {
   const navigate = useNavigate();
