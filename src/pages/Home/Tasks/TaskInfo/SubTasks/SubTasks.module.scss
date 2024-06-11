@@ -25,6 +25,12 @@
   width: 100%;
   max-height: 300px;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .subTask {
@@ -101,15 +107,6 @@
   justify-content: start;
   align-items: center;
   gap: 20px;
-}
-
-.subTaskUserAvatar {
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid $warning-200;
 }
 
 .titleSubTaskAvatar {
