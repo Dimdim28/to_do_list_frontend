@@ -85,20 +85,15 @@ const SubTasks: FC<SubTasksProps> = ({
               }}
             >
               <div className={styles.subTaskHeader}>
-                <img
-                  src={
-                    assigneeId?.avatar?.url ||
-                    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
-                  }
-                  alt={assigneeId.username}
-                  className={`${styles.subTaskUserAvatar} ${
-                    styles.titleSubTaskAvatar
-                  } ${
+                <UserImage
+                  user={assigneeId}
+                  additionalClassname={`${styles.titleSubTaskAvatar} ${
                     activeSubTask === el._id
                       ? styles.titleSubTaskAvatarActive
                       : ''
                   }`}
                 />
+
                 <p className={styles.subTaskTitle}>{truncate(title, 20)}</p>
                 <Status rejected={rejected} isCompleted={isCompleted} />
               </div>
@@ -111,7 +106,7 @@ const SubTasks: FC<SubTasksProps> = ({
                   <div className={styles.subTaskUser}>
                     <UserImage user={assigneeId} />
                     <p className={styles.subTaskUsername}>
-                      {assigneeId.username}
+                      {assigneeId?.username || 'Anon'}
                     </p>
                   </div>
                   <div className={styles.icons}>
