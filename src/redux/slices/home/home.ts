@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { Status } from "../../../types";
-import { fetchCategories } from "./thunk";
-import { HomeSliceState } from "./types";
+import { Status } from '../../../types';
+import { fetchCategories } from './thunk';
+import { HomeSliceState } from './types';
 
 const initialState: HomeSliceState = {
   category: {
@@ -11,10 +11,16 @@ const initialState: HomeSliceState = {
     currentPage: 1,
     status: Status.LOADING,
   },
+  task: {
+    tasks: [],
+    totalPages: 0,
+    currentPage: 1,
+    status: Status.LOADING,
+  },
 };
 
 const homeSlice = createSlice({
-  name: "home",
+  name: 'home',
   initialState,
   reducers: {
     clear: () => initialState,
@@ -47,7 +53,7 @@ const homeSlice = createSlice({
       const { currentPage, totalPages, categories } = state.category;
       if (currentPage !== 0) {
         const categoryIndex = categories.findIndex(
-          (category) => category._id === action.payload
+          (category) => category._id === action.payload,
         );
         state.category.categories.splice(categoryIndex, 1);
         if (categories.length < (currentPage - 1) * 10 + 1) {
@@ -61,14 +67,14 @@ const homeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
       state.category.status = Status.LOADING;
-      state.category.message = "";
+      state.category.message = '';
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [
         ...state.category.categories,
         ...(action.payload?.categories || []),
       ];
-      state.category.message = "";
+      state.category.message = '';
       state.category.status = Status.SUCCESS;
       state.category.totalPages = action.payload.totalPages;
       state.category.currentPage = Number(action.payload.currentPage);

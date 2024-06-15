@@ -41,6 +41,13 @@ export const MOCK_OBJECT_ONE: RootState = {
       status: Status.SUCCESS,
       message: '',
     },
+    task: {
+      tasks: [],
+      currentPage: 1,
+      status: Status.LOADING,
+      totalPages: 0,
+      message: '',
+    },
   },
   profile: {
     stats: [],
@@ -65,6 +72,12 @@ export const MOCK_OBJECT_TWO: RootState = {
       currentPage: 1,
       status: Status.LOADING,
       message: '',
+    },
+    task: {
+      tasks: [],
+      currentPage: 1,
+      status: Status.LOADING,
+      totalPages: 0,
     },
   },
   profile: {
@@ -103,6 +116,13 @@ export const MOCK_OBJECT_THREE: RootState = {
       currentPage: 1,
       status: Status.ERROR,
       message: 'Error',
+    },
+    task: {
+      tasks: [],
+      currentPage: 1,
+      status: Status.LOADING,
+      totalPages: 0,
+      message: '',
     },
   },
   profile: {
