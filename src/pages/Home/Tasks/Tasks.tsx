@@ -7,39 +7,32 @@ import TaskCard from './TaskCard/TaskCard';
 import Pagination from './Pagination/Pagination';
 import Preloader from '../../../components/Preloader/Preloader';
 import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
-import { usePrevious } from '../../../hooks';
+import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
 import { Modal } from '../../../components/common/Modal/Modal';
 import { Task, getTask } from '../../../api/taskAPI';
 import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
+import {
+  selectTaskCurrentPage,
+  selectTaskTotalPages,
+  selectTasks,
+  selectTasksError,
+  selectTasksStatus,
+} from '../../../redux/slices/home/selectors';
+import { Status } from '../../../types';
+import { fetchTasks } from '../../../redux/slices/home/thunk';
 
 interface TaskProps {
-  setCurrentPage: Dispatch<SetStateAction<number>>;
   taskFetchingParams: getTask;
-  fetchTasks: (params: getTask) => void;
-  isLoading: boolean;
-  error: string;
-  Tasks: Task[];
-  totalPages: number;
   isMobile?: boolean;
-  setTasks: Dispatch<SetStateAction<Task[]>>;
 }
 
-const Tasks: FC<TaskProps> = ({
-  setCurrentPage,
-  taskFetchingParams,
-  fetchTasks,
-  isLoading,
-  error,
-  Tasks,
-  totalPages,
-  isMobile,
-  setTasks,
-}) => {
+const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const [taskDeleting, setTaskDeleting] = useState(false);
   const [taskEditing, setTaskEditing] = useState(false);
@@ -48,15 +41,20 @@ const Tasks: FC<TaskProps> = ({
   const [taskInfo, setTaskInfo] = useState(false);
   const [taskProps, setTaskProps] = useState<Task | {}>({});
 
+  const loadingStatus = useAppSelector(selectTasksStatus);
+  const errorMessage = useAppSelector(selectTasksError);
+  const tasks = useAppSelector(selectTasks);
+  const totalPages = useAppSelector(selectTaskTotalPages);
+
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
   const prevCategories = usePrevious(categories);
 
   const updateTaskStatus = (id: string, isCompleted: boolean) => {
-    const updatedTasks = Tasks.map((el) =>
-      el._id === id ? { ...el, isCompleted } : el,
-    );
-    setTasks(updatedTasks);
+    //   const updatedTasks = Tasks.map((el) =>
+    //     el._id === id ? { ...el, isCompleted } : el,
+    //   );
+    //   setTasks(updatedTasks);
   };
 
   useEffect(() => {
@@ -65,30 +63,29 @@ const Tasks: FC<TaskProps> = ({
       deadline === prevDeadline &&
       categories === prevCategories
     ) {
-      fetchTasks(taskFetchingParams);
+      dispatch(fetchTasks(taskFetchingParams));
       return;
     }
-    setCurrentPage(1);
-    fetchTasks({ ...taskFetchingParams, page: 1 });
+    dispatch(fetchTasks({ ...taskFetchingParams, page: 1 }));
   }, [isCompleted, deadline, categories, page]);
 
   return (
     <main
       className={`${
-        Tasks && Tasks.length > 0 ? styles.wrapperWithTasks : styles.wrapper
+        tasks && tasks.length > 0 ? styles.wrapperWithTasks : styles.wrapper
       } ${isMobile && styles.mobileWrapper}`}
     >
       <div className={styles.line}>
         <button
           className={styles.createTask}
           onClick={() => {
-            setTaskEditing(true);
-            setTaskProps({
-              fetchTasks,
-              taskFetchingParams,
-              setCurrentPage,
-              length: Tasks?.length || 0,
-            });
+            // setTaskEditing(true);
+            // setTaskProps({
+            //   fetchTasks,
+            //   taskFetchingParams,
+            //   setCurrentPage,
+            //   length: Tasks?.length || 0,
+            // });
           }}
         >
           {t('addTask')}
@@ -125,16 +122,16 @@ const Tasks: FC<TaskProps> = ({
         setActive={setTaskInfo}
       />
 
-      {isLoading ? (
+      {loadingStatus === Status.LOADING ? (
         <Preloader />
       ) : (
         <div className={styles.tasksWrapper}>
-          {error ? (
-            <div className={styles.errorMessage}>{error}</div>
+          {errorMessage ? (
+            <div className={styles.errorMessage}>{errorMessage}</div>
           ) : (
             <div className={styles.tasks}>
-              {Tasks && Tasks.length > 0 ? (
-                Tasks.map((el) => (
+              {tasks && tasks.length > 0 ? (
+                tasks.map((el) => (
                   <TaskCard
                     setTaskEditing={setTaskEditing}
                     setTaskProps={setTaskProps}
@@ -145,9 +142,9 @@ const Tasks: FC<TaskProps> = ({
                     task={el}
                     key={el._id}
                     length={Tasks.length}
-                    fetchTasks={fetchTasks}
+                    fetchTasks={() => {}}
                     taskFetchingParams={taskFetchingParams}
-                    setCurrentPage={setCurrentPage}
+                    setCurrentPage={() => {}}
                     updateTaskStatus={updateTaskStatus}
                   />
                 ))
@@ -161,7 +158,7 @@ const Tasks: FC<TaskProps> = ({
             <div className={styles.pagination}>
               <Pagination
                 currentPage={page || 1}
-                setCurrentPage={setCurrentPage}
+                setCurrentPage={() => {}}
                 totalPages={totalPages}
               />
             </div>

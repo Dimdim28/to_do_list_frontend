@@ -25,14 +25,12 @@ interface CategoryProps {
   activeCategories: string[];
   setActiveCategories: Dispatch<SetStateAction<string[]>>;
   taskFetchingParams: getTask;
-  fetchTasks: (params: getTask) => void;
 }
 const Categories: FC<CategoryProps> = ({
   isForTask,
   activeCategories,
   setActiveCategories,
   taskFetchingParams,
-  fetchTasks,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -87,7 +85,6 @@ const Categories: FC<CategoryProps> = ({
                   !!activeCategories.find((category) => category === el._id)
                 }
                 taskFetchingParams={taskFetchingParams}
-                fetchTasks={fetchTasks}
               />
             ))
           )}
@@ -96,7 +93,7 @@ const Categories: FC<CategoryProps> = ({
         <p
           className={styles.addCategory}
           onClick={() => {
-            setCategoryProps({ ...taskFetchingParams, fetchTasks });
+            setCategoryProps({ ...taskFetchingParams });
             setCategoryEditing(true);
           }}
         >

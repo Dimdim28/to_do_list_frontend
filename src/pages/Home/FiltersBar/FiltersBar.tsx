@@ -1,13 +1,13 @@
-import { Dispatch, SetStateAction, FC} from "react";
+import { Dispatch, SetStateAction, FC } from 'react';
 
-import Filters, { Date, IsCompleted } from "./Filters/Filters";
-import Categories from "./Categories/Categories";
-import { getTask } from "../../../api/taskAPI";
+import Filters, { Date, IsCompleted } from './Filters/Filters';
+import Categories from './Categories/Categories';
+import { getTask } from '../../../api/taskAPI';
 
-import styles from "./FiltersBar.module.scss";
+import styles from './FiltersBar.module.scss';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface FiltersBarProps {
   date: Date;
@@ -17,7 +17,6 @@ interface FiltersBarProps {
   categories: string[];
   setCategories: Dispatch<SetStateAction<string[]>>;
   taskFetchingParams: getTask;
-  fetchTasks: (params: getTask) => void;
   isMobile?: boolean;
   setIsNavberOpened?: Dispatch<SetStateAction<boolean>>;
 }
@@ -30,7 +29,6 @@ const FiltersBar: FC<FiltersBarProps> = ({
   categories,
   setCategories,
   taskFetchingParams,
-  fetchTasks,
   isMobile,
   setIsNavberOpened,
 }) => {
@@ -52,7 +50,6 @@ const FiltersBar: FC<FiltersBarProps> = ({
         activeCategories={categories}
         setActiveCategories={setCategories}
         taskFetchingParams={taskFetchingParams}
-        fetchTasks={fetchTasks}
       />
       <Filters
         date={date}

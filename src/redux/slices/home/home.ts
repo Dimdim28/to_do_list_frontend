@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types';
-import { fetchCategories } from './thunk';
+import { fetchCategories, fetchTasks } from './thunk';
 import { HomeSliceState } from './types';
 
 const initialState: HomeSliceState = {
@@ -82,6 +82,21 @@ const homeSlice = createSlice({
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.category.status = Status.ERROR;
       state.category.message = String(action.payload);
+    });
+    builder.addCase(fetchTasks.pending, (state) => {
+      state.task.status = Status.LOADING;
+      state.task.message = '';
+    });
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      state.task.tasks = action.payload.tasks;
+      state.task.status = Status.SUCCESS;
+      state.task.totalPages = action.payload.totalPages;
+      state.task.currentPage = Number(action.payload.currentPage);
+      state.task.message = '';
+    });
+    builder.addCase(fetchTasks.rejected, (state, action) => {
+      state.task.status = Status.ERROR;
+      state.task.message = String(action.payload);
     });
   },
 });

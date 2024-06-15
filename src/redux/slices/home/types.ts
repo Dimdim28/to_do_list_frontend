@@ -24,6 +24,12 @@ export type Tasks = {
   message?: string;
 };
 
+export type TasksResponse = {
+  data: Tasks;
+  status: number;
+  statusText: string;
+};
+
 export interface HomeSliceState {
   category: Categories;
   task: Tasks;
