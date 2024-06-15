@@ -16,13 +16,11 @@ jest.mock("../../../../../redux/slices/home/home", () => ({
 }));
 
 const mockToggleActive = jest.fn();
-const mockFetchTasks = jest.fn();
 
 const mockChildProps = {
     _id: "1",
     title: "Category 1",
     color: "#ff0000",
-    fetchTasks: mockFetchTasks,
     taskFetchingParams: {},
 };
 

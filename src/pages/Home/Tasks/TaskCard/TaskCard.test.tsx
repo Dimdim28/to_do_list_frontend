@@ -2,6 +2,8 @@ import { render, fireEvent, screen } from '@testing-library/react';
 
 import TaskCard from './TaskCard';
 import { Task } from '../../../../api/taskAPI';
+import store from '../../../../redux/store';
+import { Provider } from 'react-redux';
 
 describe('TaskCard', () => {
   const task: Task = {
@@ -25,7 +27,6 @@ describe('TaskCard', () => {
   const mockSetTaskProps = jest.fn();
   const mockSetTaskDeleting = jest.fn();
   const mockSetTaskSharing = jest.fn();
-  const mockFetchTasks = jest.fn();
   const mockTaskFetchingParams = {};
   const mockSetCurrentPage = jest.fn();
   const mockSetTaskAddingLink = jest.fn();
@@ -34,19 +35,21 @@ describe('TaskCard', () => {
 
   test('renders task card correctly', () => {
     render(
-      <TaskCard
-        task={task}
-        setTaskEditing={mockSetTaskEditing}
-        setTaskProps={mockSetTaskProps}
-        setTaskDeleting={mockSetTaskDeleting}
-        setTaskSharing={mockSetTaskSharing}
-        setTaskInfo={mockSetTaskInfo}
-        fetchTasks={mockFetchTasks}
-        taskFetchingParams={mockTaskFetchingParams}
-        setCurrentPage={mockSetCurrentPage}
-        setTaskAddingLink={mockSetTaskAddingLink}
-        updateTaskStatus={updateTaskStatus}
-      />,
+      <Provider store={store}>
+        <TaskCard
+          task={task}
+          setTaskEditing={mockSetTaskEditing}
+          setTaskProps={mockSetTaskProps}
+          setTaskDeleting={mockSetTaskDeleting}
+          setTaskSharing={mockSetTaskSharing}
+          setTaskInfo={mockSetTaskInfo}
+          taskFetchingParams={mockTaskFetchingParams}
+          setCurrentPage={mockSetCurrentPage}
+          setTaskAddingLink={mockSetTaskAddingLink}
+          updateTaskStatus={updateTaskStatus}
+        />
+        ,
+      </Provider>,
     );
 
     expect(screen.getByText('Task Title')).toBeInTheDocument();
@@ -57,26 +60,26 @@ describe('TaskCard', () => {
 
   test('calls setTaskEditing and setTaskProps correctly on edit icon click', () => {
     render(
-      <TaskCard
-        task={task}
-        setTaskEditing={mockSetTaskEditing}
-        setTaskProps={mockSetTaskProps}
-        setTaskDeleting={mockSetTaskDeleting}
-        setTaskSharing={mockSetTaskSharing}
-        setTaskInfo={mockSetTaskInfo}
-        fetchTasks={mockFetchTasks}
-        taskFetchingParams={mockTaskFetchingParams}
-        setCurrentPage={mockSetCurrentPage}
-        setTaskAddingLink={mockSetTaskAddingLink}
-        updateTaskStatus={updateTaskStatus}
-      />,
+      <Provider store={store}>
+        <TaskCard
+          task={task}
+          setTaskEditing={mockSetTaskEditing}
+          setTaskProps={mockSetTaskProps}
+          setTaskDeleting={mockSetTaskDeleting}
+          setTaskSharing={mockSetTaskSharing}
+          setTaskInfo={mockSetTaskInfo}
+          taskFetchingParams={mockTaskFetchingParams}
+          setCurrentPage={mockSetCurrentPage}
+          setTaskAddingLink={mockSetTaskAddingLink}
+          updateTaskStatus={updateTaskStatus}
+        />
+      </Provider>,
     );
 
     fireEvent.click(screen.getByTestId('edit-icon'));
     expect(mockSetTaskProps).toHaveBeenCalledWith({
       ...task,
       isAssignedUser: false,
-      fetchTasks: mockFetchTasks,
       taskFetchingParams: mockTaskFetchingParams,
     });
     expect(mockSetTaskEditing).toHaveBeenCalledWith(true);
@@ -94,7 +97,7 @@ describe('TaskCard', () => {
   //       setTaskDeleting={mockSetTaskDeleting}
   //       setTaskSharing={mockSetTaskSharing}
   //       setTaskInfo={mockSetTaskInfo}
-  //       fetchTasks={mockFetchTasks}
+  //
   //       taskFetchingParams={mockTaskFetchingParams}
   //       setCurrentPage={mockSetCurrentPage}
   //       setTaskAddingLink={mockSetTaskAddingLink}
@@ -105,7 +108,6 @@ describe('TaskCard', () => {
   //   fireEvent.click(screen.getByTestId('delete-icon'));
   //   expect(mockSetTaskProps).toHaveBeenCalledWith({
   //     ...task,
-  //     fetchTasks: mockFetchTasks,
   //     taskFetchingParams: mockTaskFetchingParams,
   //     setCurrentPage: mockSetCurrentPage,
   //   });
@@ -121,7 +123,7 @@ describe('TaskCard', () => {
   //       setTaskDeleting={mockSetTaskDeleting}
   //       setTaskSharing={mockSetTaskSharing}
   //       setTaskInfo={mockSetTaskInfo}
-  //       fetchTasks={mockFetchTasks}
+  //
   //       taskFetchingParams={mockTaskFetchingParams}
   //       setCurrentPage={mockSetCurrentPage}
   //       setTaskAddingLink={mockSetTaskAddingLink}
@@ -132,7 +134,6 @@ describe('TaskCard', () => {
   //   fireEvent.click(screen.getByTestId("share-icon"));
   //   expect(mockSetTaskProps).toHaveBeenCalledWith({
   //     ...task,
-  //     fetchTasks: mockFetchTasks,
   //     taskFetchingParams: mockTaskFetchingParams,
   //   });
   //   expect(mockSetTaskSharing).toHaveBeenCalledWith(true);

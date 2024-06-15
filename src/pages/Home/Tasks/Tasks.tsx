@@ -77,13 +77,11 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
         <button
           className={styles.createTask}
           onClick={() => {
-            // setTaskEditing(true);
-            // setTaskProps({
-            //   fetchTasks,
-            //   taskFetchingParams,
-            //   setCurrentPage,
-            //   length: Tasks?.length || 0,
-            // });
+            setTaskEditing(true);
+            setTaskProps({
+              taskFetchingParams,
+              length: Tasks?.length || 0,
+            });
           }}
         >
           {t('addTask')}
@@ -140,7 +138,6 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
                     task={el}
                     key={el._id}
                     length={Tasks.length}
-                    fetchTasks={() => {}}
                     taskFetchingParams={taskFetchingParams}
                     setCurrentPage={() => {}}
                     updateTaskStatus={updateTaskStatus}

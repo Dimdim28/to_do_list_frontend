@@ -18,6 +18,8 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import subTasksAPI from '../../../../api/subTaskAPI';
+import { fetchTasks } from '../../../../redux/slices/home/thunk';
+import { useAppDispatch } from '../../../../hooks';
 
 interface taskProps {
   task: Task;
@@ -26,7 +28,6 @@ interface taskProps {
     SetStateAction<
       | {}
       | (Task & {
-          fetchTasks: (params: getTask) => void;
           taskFetchingParams: getTask;
           isAssignedUser?: boolean;
         })
@@ -36,7 +37,6 @@ interface taskProps {
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
-  fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   length?: number;
@@ -51,7 +51,6 @@ const TaskCard = ({
   setTaskSharing,
   setTaskAddingLink,
   setTaskInfo,
-  fetchTasks,
   taskFetchingParams,
   setCurrentPage,
   updateTaskStatus,
@@ -72,6 +71,7 @@ const TaskCard = ({
   } = task;
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
 
@@ -89,7 +89,7 @@ const TaskCard = ({
             });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
         if (assigneeId) {
-          fetchTasks(taskFetchingParams);
+          dispatch(fetchTasks(taskFetchingParams));
         }
         updateTaskStatus(_id || '', !completed);
       } catch (e) {
@@ -103,7 +103,7 @@ const TaskCard = ({
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps({ ...task, fetchTasks, taskFetchingParams });
+        setTaskProps({ ...task, taskFetchingParams });
         setTaskInfo(true);
       }}
     >
@@ -174,7 +174,6 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              fetchTasks,
               taskFetchingParams,
               isAssignedUser: !!assigneeId,
             });
@@ -192,7 +191,6 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                fetchTasks,
                 taskFetchingParams,
                 isForSubTask: !!assigneeId,
               });
@@ -213,7 +211,6 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              fetchTasks,
               taskFetchingParams,
               setCurrentPage,
               length,
@@ -240,7 +237,6 @@ const TaskCard = ({
               }
               setTaskProps({
                 _id: _id,
-                fetchTasks,
                 taskFetchingParams,
                 isForSubtask: true,
               });

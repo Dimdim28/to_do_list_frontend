@@ -1,46 +1,45 @@
-import { useState, Dispatch, SetStateAction, FC } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import Button from "../../../../../components/common/Button/Button";
-import { Input } from "../../../../../components/common/Input/Input";
-import Preloader from "../../../../../components/Preloader/Preloader";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks";
-import { selectProfile } from "../../../../../redux/slices/auth/selectors";
-import { addCategoryToList, updateCategoryInList,} from "../../../../../redux/slices/home/home";
-import categoryAPI, { Category } from "../../../../../api/categoryAPI";
-import { Status } from "../../../../../types";
-import { getTask } from "../../../../../api/taskAPI";
+import Button from '../../../../../components/common/Button/Button';
+import { Input } from '../../../../../components/common/Input/Input';
+import Preloader from '../../../../../components/Preloader/Preloader';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks';
+import { selectProfile } from '../../../../../redux/slices/auth/selectors';
+import {
+  addCategoryToList,
+  updateCategoryInList,
+} from '../../../../../redux/slices/home/home';
+import categoryAPI, { Category } from '../../../../../api/categoryAPI';
+import { Status } from '../../../../../types';
+import { getTask } from '../../../../../api/taskAPI';
 
-import styles from "./CategoryForm.module.scss";
+import styles from './CategoryForm.module.scss';
+import { fetchTasks } from '../../../../../redux/slices/home/thunk';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Category & {
-    fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
   };
 }
 
-const CategoryForm: FC<CategoryFormProps> = ({
-  childProps,
-  toggleActive,
-}) => {
+const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const [status, setStatus] = useState(Status.SUCCESS);
-  const [categoryError, setCategoryError] = useState("");
+  const [categoryError, setCategoryError] = useState('');
   const {
     _id,
     title: prevTitle,
     color: prevColor,
-    fetchTasks,
     taskFetchingParams,
   } = childProps;
-  const [color, setColor] = useState(prevColor || "#ffffff");
-  const [title, setTittle] = useState(prevTitle || "");
+  const [color, setColor] = useState(prevColor || '#ffffff');
+  const [title, setTittle] = useState(prevTitle || '');
 
-  const userId = useAppSelector(selectProfile)?._id || "";
+  const userId = useAppSelector(selectProfile)?._id || '';
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -49,10 +48,10 @@ const CategoryForm: FC<CategoryFormProps> = ({
       : await categoryAPI.addCategory({ title, user: userId, color });
     const { message, status } = result;
     setStatus(status);
-    setCategoryError(message || "");
+    setCategoryError(message || '');
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      fetchTasks(taskFetchingParams);
+      dispatch(fetchTasks(taskFetchingParams));
       if (_id) {
         dispatch(updateCategoryInList({ _id, title, color }));
       } else {
@@ -71,7 +70,7 @@ const CategoryForm: FC<CategoryFormProps> = ({
         <Preloader />
       ) : (
         <>
-          <h3 className={styles.title}>{t("categoryColor")}</h3>
+          <h3 className={styles.title}>{t('categoryColor')}</h3>
           <input
             data-testid="color-input"
             className={styles.chooseColor}
@@ -79,12 +78,17 @@ const CategoryForm: FC<CategoryFormProps> = ({
             value={color}
             onChange={(e) => setColor(e.target.value)}
           />
-          <Input title={t("title")} value={title} setValue={setTittle} type="text" />
+          <Input
+            title={t('title')}
+            value={title}
+            setValue={setTittle}
+            type="text"
+          />
 
           <div className={styles.buttons}>
-            <Button text={t("cancel")} callback={cancel} class="cancel" />
+            <Button text={t('cancel')} callback={cancel} class="cancel" />
             <Button
-              text={t("submit")}
+              text={t('submit')}
               callback={submit}
               class="submit"
               disabled={title.length < 3}

@@ -16,7 +16,6 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export interface SubTasksProps {
   subTasks: SubTask[];
-  fetchTasks: (params: getTask) => void;
   taskFetchingParams: getTask;
 }
 
@@ -45,11 +44,7 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
   );
 };
 
-const SubTasks: FC<SubTasksProps> = ({
-  subTasks,
-  fetchTasks,
-  taskFetchingParams,
-}) => {
+const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
   const { t } = useTranslation();
 
   const [subTasksArray, setSubTasksArray] = useState<SubTask[]>(subTasks);
@@ -117,7 +112,6 @@ const SubTasks: FC<SubTasksProps> = ({
                         setSubTaskProps({
                           ...el,
                           isForSubtask: true,
-                          fetchTasks,
                           taskFetchingParams,
                           setSubTasksArray,
                         });
@@ -138,7 +132,6 @@ const SubTasks: FC<SubTasksProps> = ({
                         setSubTaskProps({
                           subTaskId: el._id,
                           title: el.title,
-                          fetchTasks,
                           taskFetchingParams,
                           setSubTasksArray,
                         });

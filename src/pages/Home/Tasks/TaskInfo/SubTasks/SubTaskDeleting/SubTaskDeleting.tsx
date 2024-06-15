@@ -9,6 +9,8 @@ import { getTask } from '../../../../../../api/taskAPI';
 import subTasksAPI, { SubTask } from '../../../../../../api/subTaskAPI';
 
 import styles from './SubTaskDeleting.module.scss';
+import { fetchTasks } from '../../../../../../redux/slices/home/thunk';
+import { useAppDispatch } from '../../../../../../hooks';
 
 interface SubTaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -18,7 +20,6 @@ interface SubTaskDeletingProps {
     subTaskId: string;
     title: string;
     taskFetchingParams: getTask;
-    fetchTasks: (params: getTask) => void;
   };
 }
 
@@ -26,13 +27,13 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { subTaskId, title, taskFetchingParams, fetchTasks, setSubTasksArray } =
-    childProps;
+  const { subTaskId, title, taskFetchingParams, setSubTasksArray } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -41,7 +42,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      fetchTasks(taskFetchingParams);
+      dispatch(fetchTasks(taskFetchingParams));
       setSubTasksArray((subTasks) =>
         subTasks.filter((el) => el._id !== subTaskId),
       );
