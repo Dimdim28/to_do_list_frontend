@@ -9,7 +9,7 @@ import {
   selectCategoryTotalPages,
   selectCategories,
   selectCategoriesStatus,
-  selectCategoriesrError,
+  selectCategoriesError,
 } from './selectors';
 
 import { Status } from '../../../types';
@@ -58,8 +58,8 @@ describe('Testing home slice selectors', () => {
   });
 
   it('selectCategoriesrError must work correctly', () => {
-    expect(selectCategoriesrError(MOCK_OBJECT_ONE)).toBe('');
-    expect(selectCategoriesrError(MOCK_OBJECT_TWO)).toBe('');
-    expect(selectCategoriesrError(MOCK_OBJECT_THREE)).toBe('Error');
+    expect(selectCategoriesError(MOCK_OBJECT_ONE)).toBe('');
+    expect(selectCategoriesError(MOCK_OBJECT_TWO)).toBe('');
+    expect(selectCategoriesError(MOCK_OBJECT_THREE)).toBe('Error');
   });
 });

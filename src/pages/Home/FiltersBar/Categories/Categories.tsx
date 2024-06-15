@@ -10,7 +10,7 @@ import { CategoryDeleting } from './CategoryDeleting/CategoryDeleting';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   selectCategories,
-  selectCategoriesrError,
+  selectCategoriesError,
   selectCategoriesStatus,
   selectCategoryCurrentPage,
   selectCategoryTotalPages,
@@ -45,7 +45,7 @@ const Categories: FC<CategoryProps> = ({
   const status = useAppSelector(selectCategoriesStatus);
   const currentPage = useAppSelector(selectCategoryCurrentPage);
   const totalPages = useAppSelector(selectCategoryTotalPages);
-  const message = useAppSelector(selectCategoriesrError);
+  const message = useAppSelector(selectCategoriesError);
 
   const loadMore = () => {
     const newPage = 1 + currentPage;
