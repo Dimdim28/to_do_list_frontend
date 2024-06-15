@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types';
 import { fetchCategories, fetchTasks } from './thunk';
@@ -26,6 +26,9 @@ const homeSlice = createSlice({
     clear: () => initialState,
     clearCategories(state) {
       state.category.categories = [];
+    },
+    clearTasks(state) {
+      state.task.tasks = [];
     },
     updateCategoryInList(state, action) {
       for (const category of state.category.categories) {
@@ -62,6 +65,18 @@ const homeSlice = createSlice({
             totalPages === 1 ? totalPages : totalPages - 1;
         }
       }
+    },
+    updateTaskCompletionStatus(
+      state,
+      action: PayloadAction<{ id: string; isCompleted: boolean }>,
+    ) {
+      const updatedTasks = state.task.tasks.map((el) =>
+        el._id === action.payload.id
+          ? { ...el, isCompleted: action.payload.isCompleted }
+          : el,
+      );
+
+      state.task.tasks = updatedTasks;
     },
   },
   extraReducers: (builder) => {
@@ -107,5 +122,7 @@ export const {
   updateCategoryInList,
   addCategoryToList,
   removeCategoryFromList,
+  clearTasks,
+  updateTaskCompletionStatus,
   clear,
 } = homeSlice.actions;

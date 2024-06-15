@@ -22,6 +22,7 @@ import {
 } from '../../../redux/slices/home/selectors';
 import { Status } from '../../../types';
 import { fetchTasks } from '../../../redux/slices/home/thunk';
+import { updateTaskCompletionStatus } from '../../../redux/slices/home/home';
 
 interface TaskProps {
   taskFetchingParams: getTask;
@@ -51,10 +52,7 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
   const prevCategories = usePrevious(categories);
 
   const updateTaskStatus = (id: string, isCompleted: boolean) => {
-    //   const updatedTasks = Tasks.map((el) =>
-    //     el._id === id ? { ...el, isCompleted } : el,
-    //   );
-    //   setTasks(updatedTasks);
+    dispatch(updateTaskCompletionStatus({ id, isCompleted }));
   };
 
   useEffect(() => {
