@@ -1,20 +1,8 @@
-import { useEffect, useState, Dispatch, SetStateAction, FC } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TaskDeleting from './TaskDeleting/TaskDeleting';
-import TaskEditing from './TaskEditing/TaskForm';
-import TaskCard from './TaskCard/TaskCard';
-import Pagination from './Pagination/Pagination';
-import Preloader from '../../../components/Preloader/Preloader';
-import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
-import { Modal } from '../../../components/common/Modal/Modal';
-import { Task, getTask } from '../../../api/taskAPI';
-import TaskInfo from './TaskInfo/TaskInfo';
-
-import styles from './Tasks.module.scss';
 import {
-  selectTaskCurrentPage,
   selectTaskTotalPages,
   selectTasks,
   selectTasksError,
@@ -23,6 +11,18 @@ import {
 import { Status } from '../../../types';
 import { fetchTasks } from '../../../redux/slices/home/thunk';
 import { updateTaskCompletionStatus } from '../../../redux/slices/home/home';
+
+import TaskDeleting from './TaskDeleting/TaskDeleting';
+import TaskEditing from './TaskEditing/TaskForm';
+import TaskCard from './TaskCard/TaskCard';
+import Pagination from './Pagination/Pagination';
+import Preloader from '../../../components/Preloader/Preloader';
+import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
+import { Modal } from '../../../components/common/Modal/Modal';
+import { Task, getTask } from '../../../api/taskAPI';
+import TaskInfo from './TaskInfo/TaskInfo';
+
+import styles from './Tasks.module.scss';
 
 interface TaskProps {
   taskFetchingParams: getTask;
@@ -154,11 +154,7 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
 
           {totalPages > 1 && (
             <div className={styles.pagination}>
-              <Pagination
-                currentPage={page || 1}
-                setCurrentPage={() => {}}
-                totalPages={totalPages}
-              />
+              <Pagination currentPage={page || 1} totalPages={totalPages} />
             </div>
           )}
         </div>

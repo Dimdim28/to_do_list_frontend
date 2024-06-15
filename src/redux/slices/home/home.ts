@@ -27,9 +27,6 @@ const homeSlice = createSlice({
     clearCategories(state) {
       state.category.categories = [];
     },
-    clearTasks(state) {
-      state.task.tasks = [];
-    },
     updateCategoryInList(state, action) {
       for (const category of state.category.categories) {
         if (category._id === action.payload._id) {
@@ -78,6 +75,9 @@ const homeSlice = createSlice({
 
       state.task.tasks = updatedTasks;
     },
+    updateTaskCurrentPage(state, action: PayloadAction<number>) {
+      state.task.currentPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
@@ -122,7 +122,7 @@ export const {
   updateCategoryInList,
   addCategoryToList,
   removeCategoryFromList,
-  clearTasks,
   updateTaskCompletionStatus,
+  updateTaskCurrentPage,
   clear,
 } = homeSlice.actions;

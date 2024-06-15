@@ -13,7 +13,7 @@ import styles from './Home.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { selectCategoryCurrentPage } from '../../redux/slices/home/selectors';
+import { selectTaskCurrentPage } from '../../redux/slices/home/selectors';
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const Home: FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isNavBarOpened, setIsNavberOpened] = useState(true);
 
-  const currentPage = useAppSelector(selectCategoryCurrentPage);
+  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   const fetchingParams: getTask = {
     page: currentPage,
