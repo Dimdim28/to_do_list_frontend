@@ -3,31 +3,28 @@ import { useEffect, useState, FC } from 'react';
 import Tasks from './Tasks/Tasks';
 import Filters from './FiltersBar/FiltersBar';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { clearCategories } from '../../redux/slices/home/home';
 import { fetchCategories } from '../../redux/slices/home/thunk';
 import { IsCompleted, Date } from './FiltersBar/Filters/Filters';
-import taskAPI, { Task, getTask } from '../../api/taskAPI';
+import { getTask } from '../../api/taskAPI';
 
 import styles from './Home.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { selectTaskCurrentPage } from '../../redux/slices/home/selectors';
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [date, setDate] = useState<Date>('all');
   const [isCompleted, setIsCompleted] = useState<IsCompleted>('false');
   const [categories, setCategories] = useState<string[]>([]);
-
-  const [TasksArray, setTasks] = useState<Task[]>([]);
-  const [totalTaskPages, setTotalTaskPages] = useState(1);
-  const [isTasksLoading, setIsTasksLoading] = useState(false);
-  const [tasksError, setTasksError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [isNavBarOpened, setIsNavberOpened] = useState(true);
+
+  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   const fetchingParams: getTask = {
     page: currentPage,
@@ -59,29 +56,13 @@ const Home: FC = () => {
       }
     };
     window.addEventListener('resize', cb);
+    window.addEventListener('load', cb);
 
     return () => {
       window.removeEventListener('resize', cb);
+      window.removeEventListener('load', cb);
     };
   }, []);
-
-  async function fetchTasks(params?: getTask) {
-    setIsTasksLoading(true);
-    setTasksError('');
-    const result = await taskAPI.getTasks(params);
-    if (!result) {
-      setTasksError('Could not fetch tasks');
-      return;
-    }
-    const { message, tasks, totalPages: fetchedTotalPages } = result;
-    if (message) {
-      setTasksError(message);
-    } else {
-      setTasks(tasks);
-      setTotalTaskPages(fetchedTotalPages || totalTaskPages);
-      setIsTasksLoading(false);
-    }
-  }
 
   return (
     <div className={styles.row}>
@@ -103,23 +84,12 @@ const Home: FC = () => {
           setIsCompleted={setIsCompleted}
           categories={categories}
           setCategories={setCategories}
-          fetchTasks={fetchTasks}
           taskFetchingParams={fetchingParams}
           setIsNavberOpened={setIsNavberOpened}
         />
       )}
 
-      <Tasks
-        isMobile={isMobile}
-        Tasks={TasksArray}
-        setTasks={setTasks}
-        totalPages={totalTaskPages}
-        isLoading={isTasksLoading}
-        error={tasksError}
-        fetchTasks={fetchTasks}
-        taskFetchingParams={fetchingParams}
-        setCurrentPage={setCurrentPage}
-      />
+      <Tasks isMobile={isMobile} taskFetchingParams={fetchingParams} />
     </div>
   );
 };

@@ -10,7 +10,6 @@ import styles from './TaskInfo.module.scss';
 
 interface TaskInfoProps {
   childProps: Task & {
-    fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
     setSubTasksArray?: SubTask[];
   };
@@ -26,7 +25,6 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     sharedWith,
     links,
     subtasks,
-    fetchTasks,
     taskFetchingParams,
   } = childProps;
 
@@ -60,11 +58,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       <p className={styles.description}>{description}</p>
 
       {subtasks?.length > 0 ? (
-        <SubTasks
-          subTasks={subtasks}
-          fetchTasks={fetchTasks}
-          taskFetchingParams={taskFetchingParams}
-        />
+        <SubTasks subTasks={subtasks} taskFetchingParams={taskFetchingParams} />
       ) : null}
 
       <div className={styles.links}>

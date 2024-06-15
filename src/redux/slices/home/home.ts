@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { Status } from "../../../types";
-import { fetchCategories } from "./thunk";
-import { HomeSliceState } from "./types";
+import { Status } from '../../../types';
+import { fetchCategories, fetchTasks } from './thunk';
+import { HomeSliceState } from './types';
 
 const initialState: HomeSliceState = {
   category: {
@@ -11,10 +11,16 @@ const initialState: HomeSliceState = {
     currentPage: 1,
     status: Status.LOADING,
   },
+  task: {
+    tasks: [],
+    totalPages: 0,
+    currentPage: 1,
+    status: Status.LOADING,
+  },
 };
 
 const homeSlice = createSlice({
-  name: "home",
+  name: 'home',
   initialState,
   reducers: {
     clear: () => initialState,
@@ -47,7 +53,7 @@ const homeSlice = createSlice({
       const { currentPage, totalPages, categories } = state.category;
       if (currentPage !== 0) {
         const categoryIndex = categories.findIndex(
-          (category) => category._id === action.payload
+          (category) => category._id === action.payload,
         );
         state.category.categories.splice(categoryIndex, 1);
         if (categories.length < (currentPage - 1) * 10 + 1) {
@@ -57,18 +63,33 @@ const homeSlice = createSlice({
         }
       }
     },
+    updateTaskCompletionStatus(
+      state,
+      action: PayloadAction<{ id: string; isCompleted: boolean }>,
+    ) {
+      const updatedTasks = state.task.tasks.map((el) =>
+        el._id === action.payload.id
+          ? { ...el, isCompleted: action.payload.isCompleted }
+          : el,
+      );
+
+      state.task.tasks = updatedTasks;
+    },
+    updateTaskCurrentPage(state, action: PayloadAction<number>) {
+      state.task.currentPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.pending, (state) => {
       state.category.status = Status.LOADING;
-      state.category.message = "";
+      state.category.message = '';
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [
         ...state.category.categories,
         ...(action.payload?.categories || []),
       ];
-      state.category.message = "";
+      state.category.message = '';
       state.category.status = Status.SUCCESS;
       state.category.totalPages = action.payload.totalPages;
       state.category.currentPage = Number(action.payload.currentPage);
@@ -76,6 +97,21 @@ const homeSlice = createSlice({
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.category.status = Status.ERROR;
       state.category.message = String(action.payload);
+    });
+    builder.addCase(fetchTasks.pending, (state) => {
+      state.task.status = Status.LOADING;
+      state.task.message = '';
+    });
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      state.task.tasks = action.payload.tasks;
+      state.task.status = Status.SUCCESS;
+      state.task.totalPages = action.payload.totalPages;
+      state.task.currentPage = Number(action.payload.currentPage);
+      state.task.message = '';
+    });
+    builder.addCase(fetchTasks.rejected, (state, action) => {
+      state.task.status = Status.ERROR;
+      state.task.message = String(action.payload);
     });
   },
 });
@@ -86,5 +122,7 @@ export const {
   updateCategoryInList,
   addCategoryToList,
   removeCategoryFromList,
+  updateTaskCompletionStatus,
+  updateTaskCurrentPage,
   clear,
 } = homeSlice.actions;

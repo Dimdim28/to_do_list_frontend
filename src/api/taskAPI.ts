@@ -72,14 +72,6 @@ export interface Result {
   message?: string;
 }
 
-export interface TasksResult {
-  tasks: Task[];
-  status: Status;
-  message?: string;
-  totalPages?: number;
-  currentPage?: number;
-}
-
 export type TasksResponse = {
   status: number;
   statusText: string;
@@ -139,28 +131,6 @@ class taskAPIClass {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         task: null,
-      };
-    }
-  }
-
-  public async getTasks(params?: getTask): Promise<TasksResult> {
-    try {
-      let newParams: any = params;
-      const categories = params?.categories?.map((el) => `"${el}"`).join(',');
-
-      if (categories) {
-        newParams = { ...params, categories: `[${categories}]` };
-      }
-      const response: TasksResponse = await instanse.get(`/task`, {
-        params: newParams,
-      });
-      const { tasks, currentPage, totalPages } = response.data;
-      return { tasks, currentPage, totalPages, status: Status.SUCCESS };
-    } catch (err: any) {
-      return {
-        message: err?.response?.data?.message || 'Error',
-        status: Status.ERROR,
-        tasks: [],
       };
     }
   }

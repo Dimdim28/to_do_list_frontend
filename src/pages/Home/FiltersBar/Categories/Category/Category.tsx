@@ -1,11 +1,11 @@
-import { useState, Dispatch, SetStateAction, FC } from "react";
+import { useState, Dispatch, SetStateAction, FC } from 'react';
 
-import { getTask } from "../../../../../api/taskAPI";
+import { getTask } from '../../../../../api/taskAPI';
 
-import styles from "./Category.module.scss";
+import styles from './Category.module.scss';
 
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface CategoryProps {
   _id: string;
@@ -20,7 +20,6 @@ export interface CategoryProps {
   setActiveCategories: Dispatch<SetStateAction<string[]>>;
   isActive: boolean;
   taskFetchingParams: getTask;
-  fetchTasks: (params: getTask) => void;
 }
 
 const Category: FC<CategoryProps> = ({
@@ -33,7 +32,7 @@ const Category: FC<CategoryProps> = ({
   ...props
 }) => {
   const [hover, setHover] = useState(false);
-  
+
   const handleMouseEnter = () => {
     setHover(true);
   };
@@ -55,7 +54,7 @@ const Category: FC<CategoryProps> = ({
       className={isForTask ? styles.tasksFormCategory : styles.category}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ borderColor: hover || isActive ? "#f97316" : props.color }}
+      style={{ borderColor: hover || isActive ? '#f97316' : props.color }}
     >
       <span className={isActive ? styles.activeTitle : styles.title}>
         {props.title}

@@ -1,11 +1,10 @@
-import { Dispatch, SetStateAction}from "react";
-
-import styles from "./Pagination.module.scss";
+import styles from './Pagination.module.scss';
+import { useAppDispatch } from '../../../../hooks';
+import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 interface PageButtonProps {
@@ -13,7 +12,7 @@ interface PageButtonProps {
   num: number;
   disabled: boolean;
   active?: boolean;
-  callBack: Dispatch<SetStateAction<number>>;
+  callBack: (value: number) => void;
 }
 
 const PageButton = ({
@@ -41,11 +40,11 @@ const PageButton = ({
   );
 };
 
-const Pagination = ({
-  currentPage,
-  totalPages,
-  setCurrentPage,
-}: PaginationProps) => {
+const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+  const dispatch = useAppDispatch();
+  const setCurrentPage = (value: number) =>
+    dispatch(updateTaskCurrentPage(value));
+
   return (
     <div className={styles.wrapper}>
       <PageButton

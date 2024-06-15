@@ -1,6 +1,6 @@
-import { Status } from "../../../types";
-import { homeReducer } from "./home";
-import { fetchCategories } from "./thunk";
+import { Status } from '../../../types';
+import { homeReducer } from './home';
+import { fetchCategories } from './thunk';
 
 const initialState = {
   category: {
@@ -8,16 +8,22 @@ const initialState = {
     totalPages: 0,
     currentPage: 0,
     status: Status.LOADING,
-    message: "",
+    message: '',
+  },
+  task: {
+    tasks: [],
+    currentPage: 1,
+    status: Status.LOADING,
+    totalPages: 0,
   },
 };
 
-describe("fetchCategories extra reducers:", () => {
-  it("should update categories and status when fetchCategories is fulfilled", () => {
+describe('fetchCategories extra reducers:', () => {
+  it('should update categories and status when fetchCategories is fulfilled', () => {
     const categoriesPayload = {
-      categories: ["Category 1", "Category 2"],
+      categories: ['Category 1', 'Category 2'],
       totalPages: 2,
-      currentPage: "1",
+      currentPage: '1',
     };
 
     const action = {
@@ -27,11 +33,17 @@ describe("fetchCategories extra reducers:", () => {
 
     const expectedState = {
       category: {
-        categories: ["Category 1", "Category 2"],
+        categories: ['Category 1', 'Category 2'],
         totalPages: 2,
         currentPage: 1,
         status: Status.SUCCESS,
-        message: "",
+        message: '',
+      },
+      task: {
+        tasks: [],
+        currentPage: 1,
+        status: Status.LOADING,
+        totalPages: 0,
       },
     };
 
@@ -39,7 +51,7 @@ describe("fetchCategories extra reducers:", () => {
     expect(result).toEqual(expectedState);
   });
 
-  it("should update status when fetchCategories is loading", () => {
+  it('should update status when fetchCategories is loading', () => {
     const action = {
       type: fetchCategories.pending.type,
     };
@@ -50,7 +62,13 @@ describe("fetchCategories extra reducers:", () => {
         totalPages: 0,
         currentPage: 0,
         status: Status.LOADING,
-        message: "",
+        message: '',
+      },
+      task: {
+        tasks: [],
+        currentPage: 1,
+        status: Status.LOADING,
+        totalPages: 0,
       },
     };
 
@@ -58,10 +76,10 @@ describe("fetchCategories extra reducers:", () => {
     expect(result).toEqual(expectedState);
   });
 
-  it("should update status and message when fetchCategories is rejected", () => {
+  it('should update status and message when fetchCategories is rejected', () => {
     const action = {
       type: fetchCategories.rejected.type,
-      payload: "Error fetching categories",
+      payload: 'Error fetching categories',
     };
 
     const expectedState = {
@@ -70,7 +88,13 @@ describe("fetchCategories extra reducers:", () => {
         totalPages: 0,
         currentPage: 0,
         status: Status.ERROR,
-        message: "Error fetching categories",
+        message: 'Error fetching categories',
+      },
+      task: {
+        tasks: [],
+        currentPage: 1,
+        status: Status.LOADING,
+        totalPages: 0,
       },
     };
 

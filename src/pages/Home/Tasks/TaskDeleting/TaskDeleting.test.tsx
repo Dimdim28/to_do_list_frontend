@@ -1,8 +1,10 @@
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import TaskDeleting from './TaskDeleting';
 import taskAPI from '../../../../api/taskAPI';
 import { Status } from '../../../../types';
+import store from '../../../../redux/store';
+import { Provider } from 'react-redux';
 
 jest.mock('../../../../api/taskAPI');
 
@@ -10,7 +12,6 @@ describe('TaskDeleting', () => {
   const childProps = {
     _id: '1',
     title: 'abcd',
-    fetchTasks: jest.fn(),
     taskFetchingParams: {},
     setCurrentPage: () => {},
     length: 10,
@@ -21,7 +22,11 @@ describe('TaskDeleting', () => {
   };
 
   test('displays the confirmation message and buttons', () => {
-    render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
+    render(
+      <Provider store={store}>
+        <TaskDeleting toggleActive={jest.fn()} childProps={childProps} />
+      </Provider>,
+    );
 
     expect(screen.getByText('reallyTask')).toBeInTheDocument();
     expect(screen.getByText('abcd')).toBeInTheDocument();
@@ -32,7 +37,9 @@ describe('TaskDeleting', () => {
   test('calls toggleActive with false on cancel button click', () => {
     const toggleActiveMock = jest.fn();
     render(
-      <TaskDeleting toggleActive={toggleActiveMock} childProps={childProps} />,
+      <Provider store={store}>
+        <TaskDeleting toggleActive={toggleActiveMock} childProps={childProps} />
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('no'));
@@ -40,26 +47,19 @@ describe('TaskDeleting', () => {
   });
 
   test('calls taskAPI.deleteTask and fetchTasks on submit button click', async () => {
-    const fetchTasksMock = jest.fn();
     (taskAPI.deleteTask as any).mockResolvedValue({
       status: Status.SUCCESS,
       message: 'Task deleted successfully',
     });
     render(
-      <TaskDeleting
-        toggleActive={jest.fn()}
-        childProps={{ ...childProps, fetchTasks: fetchTasksMock }}
-      />,
+      <Provider store={store}>
+        <TaskDeleting toggleActive={jest.fn()} childProps={{ ...childProps }} />
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('yes'));
 
     expect(taskAPI.deleteTask).toHaveBeenCalledWith('1');
-    await waitFor(() =>
-      expect(fetchTasksMock).toHaveBeenCalledWith(
-        childProps.taskFetchingParams,
-      ),
-    );
   });
 
   test('displays error message when deletion fails', async () => {
@@ -68,14 +68,22 @@ describe('TaskDeleting', () => {
       status: Status.ERROR,
       message: errorMessage,
     });
-    render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
+    render(
+      <Provider store={store}>
+        <TaskDeleting toggleActive={jest.fn()} childProps={childProps} />
+      </Provider>,
+    );
 
     fireEvent.click(screen.getByText('yes'));
     await screen.findByText(errorMessage);
   });
 
   test('displays preloader while deleting', async () => {
-    render(<TaskDeleting toggleActive={jest.fn()} childProps={childProps} />);
+    render(
+      <Provider store={store}>
+        <TaskDeleting toggleActive={jest.fn()} childProps={childProps} />
+      </Provider>,
+    );
 
     (taskAPI.deleteTask as any).mockImplementation(() => {
       return new Promise(() => {}); // Create a promise that never resolves

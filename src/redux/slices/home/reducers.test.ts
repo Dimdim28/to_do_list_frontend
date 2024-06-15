@@ -2,7 +2,7 @@ import {
   MOCK_OBJECT_ONE,
   MOCK_OBJECT_TWO,
   MOCK_OBJECT_THREE,
-} from "../../../mocs/state";
+} from '../../../mocs/state';
 
 import {
   clearCategories,
@@ -11,40 +11,46 @@ import {
   removeCategoryFromList,
   clear,
   homeReducer,
-} from "./home";
+} from './home';
 
-import { HomeSliceState } from "./types";
-import { Status } from "../../../types";
+import { HomeSliceState } from './types';
+import { Status } from '../../../types';
 
-const initialState = {
+const initialState: HomeSliceState = {
   category: {
     categories: [
       {
-        _id: "646b95736b2cb6353f4fd104",
-        title: "hello",
-        user: "63f6342acc86923016194255",
-        color: "#d82222",
+        _id: '646b95736b2cb6353f4fd104',
+        title: 'hello',
+        user: '63f6342acc86923016194255',
+        color: '#d82222',
       },
       {
-        _id: "646bbbaefedb212d312d0447",
-        title: "lalala",
-        user: "63f6342acc86923016194255",
-        color: "#16a29f",
+        _id: '646bbbaefedb212d312d0447',
+        title: 'lalala',
+        user: '63f6342acc86923016194255',
+        color: '#16a29f',
       },
     ],
     totalPages: 4,
     currentPage: 4,
     status: Status.SUCCESS,
-    message: "",
+    message: '',
+  },
+  task: {
+    tasks: [],
+    currentPage: 1,
+    status: Status.LOADING,
+    totalPages: 0,
   },
 };
 
-describe("Testing home slice reducers", () => {
+describe('Testing home slice reducers', () => {
   const clearAction = { type: clear.type };
   const clearCategoriesAction = { type: clearCategories.type };
 
-  describe("clear reducer must works correctly", () => {
-    it("All slice must be cleared after this reducer calling if we are at the last page", () => {
+  describe('clear reducer must works correctly', () => {
+    it('All slice must be cleared after this reducer calling if we are at the last page', () => {
       const result = homeReducer(initialState, clearAction);
       const initialСlearlState: HomeSliceState = {
         category: {
@@ -53,12 +59,18 @@ describe("Testing home slice reducers", () => {
           currentPage: 1,
           status: Status.LOADING,
         },
+        task: {
+          tasks: [],
+          currentPage: 1,
+          status: Status.LOADING,
+          totalPages: 0,
+        },
       };
 
       expect(result).toEqual(initialСlearlState);
     });
 
-    it("All slice must be cleared after this reducer calling if we are not at the last page", () => {
+    it('All slice must be cleared after this reducer calling if we are not at the last page', () => {
       const firstResult = homeReducer(MOCK_OBJECT_ONE.home, clearAction);
       const secondResult = homeReducer(MOCK_OBJECT_TWO.home, clearAction);
       const thirdResult = homeReducer(MOCK_OBJECT_THREE.home, clearAction);
@@ -69,6 +81,12 @@ describe("Testing home slice reducers", () => {
           currentPage: 1,
           status: Status.LOADING,
         },
+        task: {
+          tasks: [],
+          currentPage: 1,
+          status: Status.LOADING,
+          totalPages: 0,
+        },
       };
 
       expect(firstResult).toEqual(initialСlearlState);
@@ -77,70 +95,70 @@ describe("Testing home slice reducers", () => {
     });
   });
 
-  describe("clearCategories reducer must work correctly", () => {
+  describe('clearCategories reducer must work correctly', () => {
     const firstResult = homeReducer(
       MOCK_OBJECT_ONE.home,
-      clearCategoriesAction
+      clearCategoriesAction,
     );
     const secondResult = homeReducer(
       MOCK_OBJECT_TWO.home,
-      clearCategoriesAction
+      clearCategoriesAction,
     );
     const thirdResult = homeReducer(
       MOCK_OBJECT_THREE.home,
-      clearCategoriesAction
+      clearCategoriesAction,
     );
 
     const fourthResult = homeReducer(initialState, clearCategoriesAction);
 
-    it("categories list must be empty", () => {
+    it('categories list must be empty', () => {
       expect(firstResult.category.categories).toEqual([]);
       expect(secondResult.category.categories).toEqual([]);
       expect(thirdResult.category.categories).toEqual([]);
       expect(fourthResult.category.categories).toEqual([]);
     });
 
-    it("totalPages must stay the same", () => {
+    it('totalPages must stay the same', () => {
       expect(firstResult.category.totalPages).toBe(5);
       expect(secondResult.category.totalPages).toBe(0);
       expect(thirdResult.category.totalPages).toBe(0);
       expect(fourthResult.category.totalPages).toBe(4);
     });
 
-    it("currentPage must stay the same", () => {
+    it('currentPage must stay the same', () => {
       expect(firstResult.category.currentPage).toBe(4);
       expect(secondResult.category.currentPage).toBe(1);
       expect(thirdResult.category.currentPage).toBe(1);
       expect(fourthResult.category.currentPage).toBe(4);
     });
 
-    it("status must stay the same", () => {
+    it('status must stay the same', () => {
       expect(firstResult.category.status).toBe(Status.SUCCESS);
       expect(secondResult.category.status).toBe(Status.LOADING);
       expect(thirdResult.category.status).toBe(Status.ERROR);
       expect(fourthResult.category.status).toBe(Status.SUCCESS);
     });
 
-    it("message must stay the same", () => {
-      expect(firstResult.category.message).toBe("");
-      expect(secondResult.category.message).toBe("");
-      expect(thirdResult.category.message).toBe("Error");
-      expect(fourthResult.category.message).toBe("");
+    it('message must stay the same', () => {
+      expect(firstResult.category.message).toBe('');
+      expect(secondResult.category.message).toBe('');
+      expect(thirdResult.category.message).toBe('Error');
+      expect(fourthResult.category.message).toBe('');
     });
   });
 
-  describe("updateCategoryInList reducer must works correctly", () => {
+  describe('updateCategoryInList reducer must works correctly', () => {
     const updateFirstCategory = {
-      _id: "646b95736b2cb6353f4fd104",
-      title: "hi",
-      user: "63f6342acc86923016194255",
-      color: "#000000",
+      _id: '646b95736b2cb6353f4fd104',
+      title: 'hi',
+      user: '63f6342acc86923016194255',
+      color: '#000000',
     };
     const prevSecondCategory = {
-      _id: "646bbbaefedb212d312d0447",
-      title: "lalala",
-      user: "63f6342acc86923016194255",
-      color: "#16a29f",
+      _id: '646bbbaefedb212d312d0447',
+      title: 'lalala',
+      user: '63f6342acc86923016194255',
+      color: '#16a29f',
     };
     const updateCategoryInListAction = {
       type: updateCategoryInList.type,
@@ -148,30 +166,30 @@ describe("Testing home slice reducers", () => {
     };
     const recivedResult = homeReducer(
       MOCK_OBJECT_ONE.home,
-      updateCategoryInListAction
+      updateCategoryInListAction,
     );
 
-    it("First cartegory must be changed", () => {
+    it('First cartegory must be changed', () => {
       expect(updateFirstCategory).toEqual(recivedResult.category.categories[0]);
     });
-    it("Second cartegory do not changed", () => {
+    it('Second cartegory do not changed', () => {
       expect(prevSecondCategory).toEqual(recivedResult.category.categories[1]);
     });
   });
 
-  describe("addCategoryToList reducer must works correctly if totalPages = currentPage", () => {
+  describe('addCategoryToList reducer must works correctly if totalPages = currentPage', () => {
     const newCategory = {
-      _id: "646b95736b2cb6353f4fd105",
-      title: "hi!",
-      user: "63f6342acc86923016194255",
-      color: "#000000",
+      _id: '646b95736b2cb6353f4fd105',
+      title: 'hi!',
+      user: '63f6342acc86923016194255',
+      color: '#000000',
     };
     const addCategoryToListAction = {
       type: addCategoryToList.type,
       payload: newCategory,
     };
 
-    it("Third cartegory must be added if we are at the last page", () => {
+    it('Third cartegory must be added if we are at the last page', () => {
       const recivedResult = homeReducer(initialState, addCategoryToListAction);
       expect(recivedResult.category.totalPages).toBe(4);
       expect(recivedResult.category.currentPage).toBe(4);
@@ -179,10 +197,10 @@ describe("Testing home slice reducers", () => {
       expect(recivedResult.category.categories[2]).toEqual(newCategory);
     });
 
-    it("Third cartegory must not be added if we are not at the last page", () => {
+    it('Third cartegory must not be added if we are not at the last page', () => {
       const recivedResult = homeReducer(
         MOCK_OBJECT_ONE.home,
-        addCategoryToListAction
+        addCategoryToListAction,
       );
       expect(recivedResult.category.totalPages).toBe(5);
       expect(recivedResult.category.currentPage).toBe(4);
@@ -190,19 +208,19 @@ describe("Testing home slice reducers", () => {
     });
   });
 
-  describe("removeCategoryFromList reducer must work correctly", () => {
+  describe('removeCategoryFromList reducer must work correctly', () => {
     const firstCategory = {
-      _id: "646b95736b2cb6353f4fd104",
-      title: "hello",
-      user: "63f6342acc86923016194255",
-      color: "#d82222",
+      _id: '646b95736b2cb6353f4fd104',
+      title: 'hello',
+      user: '63f6342acc86923016194255',
+      color: '#d82222',
     };
 
     const addCategoryToListAction = {
       type: removeCategoryFromList.type,
     };
 
-    it("removeCategoryFromList if we are at the last page", () => {
+    it('removeCategoryFromList if we are at the last page', () => {
       const recivedResult = homeReducer(initialState, addCategoryToListAction);
       expect(recivedResult.category.totalPages).toBe(3);
       expect(recivedResult.category.currentPage).toBe(3);
@@ -210,10 +228,10 @@ describe("Testing home slice reducers", () => {
       expect(recivedResult.category.categories[0]).toEqual(firstCategory);
     });
 
-    it("removeCategoryFromList if we are not at the last page", () => {
+    it('removeCategoryFromList if we are not at the last page', () => {
       const recivedResult = homeReducer(
         MOCK_OBJECT_ONE.home,
-        addCategoryToListAction
+        addCategoryToListAction,
       );
       expect(recivedResult.category.totalPages).toBe(4);
       expect(recivedResult.category.currentPage).toBe(3);

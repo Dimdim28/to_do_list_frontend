@@ -1,12 +1,12 @@
-import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import { Provider } from 'react-redux';
+import { render, screen } from '@testing-library/react';
 
-import Categories from "./Categories";
-import configureStore from "redux-mock-store";
+import Categories from './Categories';
+import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 
-describe("Categories", () => {
+describe('Categories', () => {
   let store: any;
   beforeEach(() => {
     store = mockStore({
@@ -14,17 +14,17 @@ describe("Categories", () => {
         category: {
           categories: [
             {
-              _id: "1",
-              title: "Category 1",
-              color: "#ffffff",
+              _id: '1',
+              title: 'Category 1',
+              color: '#ffffff',
             },
             {
-              _id: "2",
-              title: "Category 2",
-              color: "#ff0000",
+              _id: '2',
+              title: 'Category 2',
+              color: '#ff0000',
             },
           ],
-          status: "success",
+          status: 'success',
           currentPage: 1,
           totalPages: 1,
           error: null,
@@ -33,7 +33,7 @@ describe("Categories", () => {
     });
   });
 
-  test("should render categories", () => {
+  test('should render categories', () => {
     render(
       <Provider store={store}>
         <Categories
@@ -41,13 +41,12 @@ describe("Categories", () => {
           activeCategories={[]}
           setActiveCategories={() => {}}
           taskFetchingParams={{}}
-          fetchTasks={() => {}}
         />
-      </Provider>
+      </Provider>,
     );
 
-    const category1 = screen.getByText("Category 1");
-    const category2 = screen.getByText("Category 2");
+    const category1 = screen.getByText('Category 1');
+    const category2 = screen.getByText('Category 2');
 
     expect(category1).toBeInTheDocument();
     expect(category2).toBeInTheDocument();
@@ -58,7 +57,7 @@ describe("Categories", () => {
       home: {
         category: {
           categories: [],
-          status: "success",
+          status: 'success',
           currentPage: 1,
           totalPages: 1,
           error: null,
@@ -73,12 +72,11 @@ describe("Categories", () => {
           activeCategories={[]}
           setActiveCategories={() => {}}
           taskFetchingParams={{}}
-          fetchTasks={() => {}}
         />
-      </Provider>
+      </Provider>,
     );
 
-    const noCategoriesMessage = screen.getByText("noCategories");
+    const noCategoriesMessage = screen.getByText('noCategories');
 
     expect(noCategoriesMessage).toBeInTheDocument();
   });
@@ -88,7 +86,7 @@ describe("Categories", () => {
       home: {
         category: {
           categories: [],
-          status: "loading",
+          status: 'loading',
           currentPage: 1,
           totalPages: 1,
           error: null,
@@ -103,12 +101,11 @@ describe("Categories", () => {
           activeCategories={[]}
           setActiveCategories={() => {}}
           taskFetchingParams={{}}
-          fetchTasks={() => {}}
         />
-      </Provider>
+      </Provider>,
     );
 
-    const preloader = screen.getByTestId("preloader");
+    const preloader = screen.getByTestId('preloader');
 
     expect(preloader).toBeInTheDocument();
   });

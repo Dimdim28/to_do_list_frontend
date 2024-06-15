@@ -1,20 +1,21 @@
 import { useState, Dispatch, SetStateAction, FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from '../../../../hooks';
 
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { Input } from '../../../../components/common/Input/Input';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
 import { Status } from '../../../../types';
+import subTasksAPI from '../../../../api/subTaskAPI';
+import { fetchTasks } from '../../../../redux/slices/home/thunk';
 import { truncate } from '../../../../helpers/string';
 
 import styles from './TaskAddingLink.module.scss';
-import subTasksAPI from '../../../../api/subTaskAPI';
 
 interface TaskAddingLinkProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
     isForSubTask?: boolean;
   };
@@ -24,14 +25,14 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { _id, title, links, fetchTasks, taskFetchingParams, isForSubTask } =
-    childProps;
+  const { _id, title, links, taskFetchingParams, isForSubTask } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
   const [url, setUrl] = useState('');
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const submit = async () => {
     setStatus(Status.LOADING);
@@ -43,7 +44,7 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      fetchTasks(taskFetchingParams);
+      dispatch(fetchTasks(taskFetchingParams));
     }
   };
 

@@ -7,7 +7,7 @@ import Categories from '../../FiltersBar/Categories/Categories';
 import { Input } from '../../../../components/common/Input/Input';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import { TextArea } from '../../../../components/common/TextArea/TextArea';
-import { useAppSelector } from '../../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
@@ -21,14 +21,14 @@ import styles from './TaskForm.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { humaniseDate, truncate } from '../../../../helpers/string';
+import { fetchTasks } from '../../../../redux/slices/home/thunk';
+import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    fetchTasks: (params: getTask) => void;
     taskFetchingParams: getTask;
     length: number;
-    setCurrentPage: Dispatch<SetStateAction<number>>;
     isForSubtask?: boolean;
     assigneeId?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
@@ -45,17 +45,18 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
     links: prevLinks,
-    fetchTasks,
     taskFetchingParams,
     length,
-    setCurrentPage,
     isForSubtask,
     assigneeId,
     setSubTasksArray,
     isAssignedUser,
   } = childProps;
 
+  console.log('props =', childProps);
+
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -156,13 +157,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (!_id && length === 10 && !isForSubtask) {
-        setCurrentPage((prev) => {
-          const params = { ...taskFetchingParams, page: prev + 1 };
-          fetchTasks(params);
-          return prev + 1;
-        });
+        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 0) + 1));
       } else {
-        fetchTasks(taskFetchingParams);
+        dispatch(fetchTasks(taskFetchingParams));
       }
       toggleActive(false);
     }
@@ -227,7 +224,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           ) : (
             <Categories
               isForTask
-              fetchTasks={fetchTasks}
               taskFetchingParams={taskFetchingParams}
               activeCategories={categories}
               setActiveCategories={setCategories}

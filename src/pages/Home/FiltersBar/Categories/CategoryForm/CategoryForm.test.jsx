@@ -29,7 +29,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      fetchTasks: jest.fn(),
       taskFetchingParams: {},
     };
 
@@ -67,7 +66,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      fetchTasks: jest.fn(),
       taskFetchingParams: {},
     };
   
@@ -104,7 +102,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      fetchTasks: jest.fn(),
       taskFetchingParams: {},
     };
   

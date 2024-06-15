@@ -1,21 +1,20 @@
-import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import { Provider } from 'react-redux';
+import { render, screen } from '@testing-library/react';
 
-import store from "../../../redux/store";
-import { TranslationKeys } from "../../../types";
-import FiltersBar from "./FiltersBar";
+import store from '../../../redux/store';
+import { TranslationKeys } from '../../../types';
+import FiltersBar from './FiltersBar';
 
-const mockDate = "week";
+const mockDate = 'week';
 const mockSetDate = jest.fn();
-const mockIsCompleted = "all";
+const mockIsCompleted = 'all';
 const mockSetIsCompleted = jest.fn();
-const mockCategories = ["1", "2"];
+const mockCategories = ['1', '2'];
 const mockSetCategories = jest.fn();
 const mockTaskFetchingParams = {};
-const mockFetchTasks = jest.fn();
 
-jest.mock("react-i18next", () => ({
-  ...jest.requireActual("react-i18next"),
+jest.mock('react-i18next', () => ({
+  ...jest.requireActual('react-i18next'),
   useTranslation: () => ({
     t: (str: any) => str,
     i18n: {
@@ -24,8 +23,8 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-describe("FiltersBar", () => {
-  test("renders the FiltersBar component with categories and filters", () => {
+describe('FiltersBar', () => {
+  test('renders the FiltersBar component with categories and filters', () => {
     render(
       <Provider store={store}>
         <FiltersBar
@@ -36,15 +35,18 @@ describe("FiltersBar", () => {
           categories={mockCategories}
           setCategories={mockSetCategories}
           taskFetchingParams={mockTaskFetchingParams}
-          fetchTasks={mockFetchTasks}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole('list')).toBeInTheDocument();
     expect(screen.getByText(TranslationKeys.Categories)).toBeInTheDocument();
     expect(screen.getByText(TranslationKeys.DateAndStatus)).toBeInTheDocument();
-    expect(screen.getByText(TranslationKeys.DeadlineFilters)).toBeInTheDocument();
-    expect(screen.getByText(TranslationKeys.CompletionStatus)).toBeInTheDocument();
+    expect(
+      screen.getByText(TranslationKeys.DeadlineFilters),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(TranslationKeys.CompletionStatus),
+    ).toBeInTheDocument();
   });
 });
