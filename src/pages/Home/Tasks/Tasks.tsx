@@ -10,7 +10,10 @@ import {
 } from '../../../redux/slices/home/selectors';
 import { Status } from '../../../types';
 import { fetchTasks } from '../../../redux/slices/home/thunk';
-import { updateTaskCompletionStatus } from '../../../redux/slices/home/home';
+import {
+  updateTaskCompletionStatus,
+  updateTaskCurrentPage,
+} from '../../../redux/slices/home/home';
 
 import TaskDeleting from './TaskDeleting/TaskDeleting';
 import TaskEditing from './TaskEditing/TaskForm';
@@ -80,7 +83,7 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
             setTaskEditing(true);
             setTaskProps({
               taskFetchingParams,
-              length: Tasks?.length || 0,
+              length: tasks.length,
             });
           }}
         >
@@ -137,9 +140,11 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
                     setTaskInfo={setTaskInfo}
                     task={el}
                     key={el._id}
-                    length={Tasks.length}
+                    length={tasks.length}
                     taskFetchingParams={taskFetchingParams}
-                    setCurrentPage={() => {}}
+                    setCurrentPage={(value: number) =>
+                      dispatch(updateTaskCurrentPage(value))
+                    }
                     updateTaskStatus={updateTaskStatus}
                   />
                 ))

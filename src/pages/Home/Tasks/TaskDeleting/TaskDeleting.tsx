@@ -11,26 +11,19 @@ import subTasksAPI from '../../../../api/subTaskAPI';
 import styles from './TaskDeleting.module.scss';
 import { useAppDispatch } from '../../../../hooks';
 import { fetchTasks } from '../../../../redux/slices/home/thunk';
+import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     taskFetchingParams: getTask;
-    setCurrentPage: Dispatch<SetStateAction<number>>;
     length: number;
     isForSubTask?: boolean;
   };
 }
 
 const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
-  const {
-    _id,
-    title,
-    taskFetchingParams,
-    setCurrentPage,
-    length,
-    isForSubTask,
-  } = childProps;
+  const { _id, title, taskFetchingParams, length, isForSubTask } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -48,14 +41,7 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (length === 1) {
-        setCurrentPage((prev) => {
-          const params = {
-            ...taskFetchingParams,
-            page: prev >= 2 ? prev - 1 : 1,
-          };
-          dispatch(fetchTasks(params));
-          return prev >= 2 ? prev - 1 : 1;
-        });
+        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 2) - 1));
       } else {
         dispatch(fetchTasks(taskFetchingParams));
       }

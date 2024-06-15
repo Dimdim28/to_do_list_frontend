@@ -22,13 +22,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { humaniseDate, truncate } from '../../../../helpers/string';
 import { fetchTasks } from '../../../../redux/slices/home/thunk';
+import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
     taskFetchingParams: getTask;
     length: number;
-    setCurrentPage: Dispatch<SetStateAction<number>>;
     isForSubtask?: boolean;
     assigneeId?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
@@ -47,12 +47,13 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     links: prevLinks,
     taskFetchingParams,
     length,
-    setCurrentPage,
     isForSubtask,
     assigneeId,
     setSubTasksArray,
     isAssignedUser,
   } = childProps;
+
+  console.log('props =', childProps);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -156,11 +157,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (!_id && length === 10 && !isForSubtask) {
-        setCurrentPage((prev) => {
-          const params = { ...taskFetchingParams, page: prev + 1 };
-          dispatch(fetchTasks(params));
-          return prev + 1;
-        });
+        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 0) + 1));
       } else {
         dispatch(fetchTasks(taskFetchingParams));
       }

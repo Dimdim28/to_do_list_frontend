@@ -38,7 +38,7 @@ interface taskProps {
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
   taskFetchingParams: getTask;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
+  setCurrentPage: (page: number) => {};
   length?: number;
   updateTaskStatus: (id: string, isCompleted: boolean) => void;
 }
@@ -212,7 +212,6 @@ const TaskCard = ({
             setTaskProps({
               ...task,
               taskFetchingParams,
-              setCurrentPage,
               length,
               isForSubTask: !!assigneeId,
             });
