@@ -1,4 +1,4 @@
-@import "partials/theme";
+@import 'partials/theme';
 
 html,
 body {
@@ -25,46 +25,37 @@ body {
 }
 
 * {
-  scrollbar-color: $white $background-dark-100;
-  scrollbar-width: thin;
-  transition: scrollbar-color $transition-delay;
-
-  &:hover,
-  &:focus {
-    scrollbar-color: $black $background-dark-200;
-  }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: $background-dark--10;
-  transition: background-color $transition-delay;
-}
-
-::-webkit-scrollbar-thumb {
-  background-clip: padding-box;
-
-  background-color: $background-dark-100;
-  transition: background-color $transition-delay;
-
-  &:hover {
-    background-color: $background-dark-200;
+  ::-webkit-scrollbar {
+    width: 8px;
   }
 
-  &:active {
-    background-color: $gray-300;
+  ::-webkit-scrollbar-track {
+    background-color: $background-dark--10;
+    transition: background-color $transition-delay;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+
+    background-color: $background-dark-100;
+    transition: background-color $transition-delay;
+
+    &:hover {
+      background-color: $background-dark-200;
+    }
+
+    &:active {
+      background-color: $gray-300;
+    }
   }
 }
 
 .light_theme {
-  ::-webkit-scrollbar-track {
+  *::-webkit-scrollbar-track {
     background-color: $white;
   }
 
-  ::-webkit-scrollbar-thumb {
+  *::-webkit-scrollbar-thumb {
     background-color: $gray-400;
 
     &:active {
