@@ -9,6 +9,7 @@ import styles from './Avatar.module.scss';
 
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import avatarEffect from '../../../../assets/32animated.png';
 
 const Avatar: FC = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +47,7 @@ const Avatar: FC = () => {
         onChange={handleChangeFile}
         data-testid="file-input-component"
       />
+      <img src={avatarEffect} className={styles.avatarEffect} alt="effect" />
       {avatar ? (
         <img src={avatar.url} alt="logo" />
       ) : (
@@ -56,6 +58,7 @@ const Avatar: FC = () => {
           alt="default"
         />
       )}
+
       <div
         className={styles.addPhoto}
         onClick={() => inputFileRef.current?.click()}

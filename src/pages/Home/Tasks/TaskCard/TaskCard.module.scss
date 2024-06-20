@@ -3,7 +3,6 @@
 .wrapper,
 .completedWrapper {
   background-color: $background-dark-0;
-  width: 350px;
   padding: 0 20px 20px;
   border-radius: 20px;
   position: relative;
@@ -248,35 +247,5 @@
   color: $success-200;
 }
 
-@media screen and (max-width: 1420px) {
-  .wrapper,
-  .completedWrapper {
-    width: 300px;
-  }
-}
 
-@media screen and (max-width: 1320px) {
-  .wrapper,
-  .completedWrapper {
-    width: 250px;
-  }
-}
 
-@media screen and (max-width: 1120px) {
-  .wrapper,
-  .completedWrapper {
-    width: 200px;
-
-    .icons {
-      opacity: 100%;
-      right: -15px;
-    }
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .wrapper,
-  .completedWrapper {
-    width: 250px;
-  }
-}

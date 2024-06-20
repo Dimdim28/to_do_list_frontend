@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .row {
   display: flex;
@@ -18,6 +18,12 @@
   background-color: $gray-600;
 }
 
+.changeEffect {
+  position: absolute;
+  left: 20px;
+  top: 0;
+}
+
 .idWrapper {
   position: absolute;
   top: 15px;
@@ -25,7 +31,9 @@
   font-weight: 600;
   cursor: pointer;
   color: $white;
-  transition: background-color $transition-delay, color $transition-delay;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
 
   &:hover {
     color: $warning-200;

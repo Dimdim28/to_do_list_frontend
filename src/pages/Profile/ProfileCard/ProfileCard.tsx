@@ -1,16 +1,17 @@
-import React, { useState, FC } from "react";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import React, { useState, FC } from 'react';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
-import Avatar from "./Avatar/Avatar";
-import Name from "./Name/Name";
-import ProfileData from "./ProfileData/ProfileData";
-import Buttons from "./Buttons/Buttons";
-import DeleteProfile from "./DeleteProfile/DeleteProfile";
-import Exit from "./Exit/Exit";
-import { Modal } from "../../../components/common/Modal/Modal";
+import Avatar from './Avatar/Avatar';
+import Name from './Name/Name';
+import ProfileData from './ProfileData/ProfileData';
+import Buttons from './Buttons/Buttons';
+import DeleteProfile from './DeleteProfile/DeleteProfile';
+import Exit from './Exit/Exit';
+import { Modal } from '../../../components/common/Modal/Modal';
 
-import styles from "./ProfileCard.module.scss";
+import styles from './ProfileCard.module.scss';
+import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 interface ProfileCardProps {
   isNameEditing: boolean;
@@ -44,13 +45,14 @@ const ProfileCard: FC<ProfileCardProps> = ({
   const { t } = useTranslation();
 
   const [isIdShown, setIsIdShown] = useState(false);
+  const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
 
   const showIdHandler = () => {
     if (!isIdShown) {
       setIsIdShown(true);
     } else {
       navigator.clipboard.writeText(id);
-      toast.success("Copied to Clipboard");
+      toast.success('Copied to Clipboard');
       setTimeout(() => {
         setIsIdShown(false);
       }, 5000);
@@ -60,13 +62,21 @@ const ProfileCard: FC<ProfileCardProps> = ({
   return (
     <div className={styles.row} data-testid="profile-card-container">
       <Avatar />
+      <button
+        className={styles.changeEffect}
+        onClick={() => {
+          setIsEffectModalOpened(true);
+        }}
+      >
+        Change effect
+      </button>
 
       <div
         className={styles.idWrapper}
         onClick={showIdHandler}
         data-testid="id"
       >
-        {isIdShown ? id : t("showMyId")}
+        {isIdShown ? id : t('showMyId')}
       </div>
       <div className={styles.info} data-testid="info">
         <Name
@@ -103,6 +113,14 @@ const ProfileCard: FC<ProfileCardProps> = ({
           childProps={{ toggleActive: setIsExiting }}
         />
       )}
+      {
+        <Modal
+          active={isEffectModalOpened}
+          setActive={setIsEffectModalOpened}
+          ChildComponent={ChangeAvatarEffect}
+          childProps={{ toggleActive: setIsEffectModalOpened }}
+        />
+      }
     </div>
   );
 };

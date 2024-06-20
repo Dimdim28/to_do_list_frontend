@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from 'react';
+import { useEffect, useState, FC, Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
@@ -26,13 +26,19 @@ import { Task, getTask } from '../../../api/taskAPI';
 import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
+import { SearchTask } from '../../../components/SearchTask/SearchTask';
 
 interface TaskProps {
   taskFetchingParams: getTask;
   isMobile?: boolean;
+  setSearchPattern: Dispatch<SetStateAction<string>>;
 }
 
-const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
+const Tasks: FC<TaskProps> = ({
+  taskFetchingParams,
+  isMobile,
+  setSearchPattern,
+}) => {
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
   const { t } = useTranslation();
@@ -77,6 +83,11 @@ const Tasks: FC<TaskProps> = ({ taskFetchingParams, isMobile }) => {
       } ${isMobile && styles.mobileWrapper}`}
     >
       <div className={styles.line}>
+        <SearchTask
+          value={taskFetchingParams.searchPattern || ''}
+          changeValue={setSearchPattern}
+          callback={(value) => console.log(value)}
+        />
         <button
           className={styles.createTask}
           onClick={() => {

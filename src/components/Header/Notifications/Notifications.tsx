@@ -211,6 +211,9 @@ const Notifications = () => {
     <div className={styles.wrapper}>
       <button ref={bellRef} onClick={toggleNotifications}>
         <FontAwesomeIcon icon={faBell} className={styles.bell} />
+        <div className={styles.dot}>
+          {notifications.length > 9 ? '9+' : notifications.length}
+        </div>
       </button>
       {isNotificationsOpen && (
         <div

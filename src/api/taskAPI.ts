@@ -64,6 +64,7 @@ export interface getTask {
   categories?: string[];
   deadline?: string | null;
   isCompleted?: boolean;
+  searchPattern?: string;
 }
 
 export interface Result {

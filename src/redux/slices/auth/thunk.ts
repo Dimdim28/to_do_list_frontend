@@ -8,7 +8,7 @@ export const fetchUserData = createAsyncThunk<Profile, LoginParams>(
   async (params, { rejectWithValue }) => {
     try {
       const response: ProfileResponse = await instanse.post(
-        '/user/signin',
+        '/auth/signin',
         params,
       );
       return response.data;
@@ -28,7 +28,7 @@ export const registerUser = createAsyncThunk<Profile, RegisterParams>(
         return rejectWithValue('Passwords do not match');
       }
 
-      const response: ProfileResponse = await instanse.post('/user/signup', {
+      const response: ProfileResponse = await instanse.post('/auth/signup', {
         username,
         password: firstPass,
         email,

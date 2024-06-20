@@ -106,6 +106,7 @@ const UA = {
   searchUser: 'Пошук користувача',
   noUsers: 'Користувачів не знайдено',
   inputUsername: 'Введіть юзернейм',
+  inputTaskTitle: 'Введіть назву або опис задачі',
   chosenUser: 'Обраний користувач',
   assignYourself: 'Призначте себе',
   remove: 'Видалити',
