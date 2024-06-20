@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import styles from './ChangeavatarEffect.module.scss';
+
 import { useAppSelector } from '../../../hooks';
 import { selectUserProfile } from '../../../redux/slices/profile/selectors';
+
+import styles from './ChangeAvatarEffect.module.scss';
 
 const avatars = [
   {
