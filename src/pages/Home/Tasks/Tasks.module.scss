@@ -35,11 +35,12 @@
 
 .line {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   padding: 10px;
   height: 63px;
   width: 100%;
+  gap: 20px;
 }
 
 .createTask {
@@ -97,15 +98,27 @@
 }
 
 .tasks {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 40px;
   padding: 0 10px;
   width: 100%;
   max-height: calc(100% - 60px);
   overflow-y: auto;
   padding-bottom: 60px;
+
+  @media screen and (max-width: 2100px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media screen and (max-width: 1500px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pagination {

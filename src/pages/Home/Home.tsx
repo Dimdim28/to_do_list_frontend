@@ -19,6 +19,7 @@ const Home: FC = () => {
   const dispatch = useAppDispatch();
 
   const [date, setDate] = useState<Date>('all');
+  const [searchPattern, setSearchPattern] = useState<string>('');
   const [isCompleted, setIsCompleted] = useState<IsCompleted>('false');
   const [categories, setCategories] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
@@ -30,6 +31,7 @@ const Home: FC = () => {
     page: currentPage,
     deadline: date,
     categories,
+    searchPattern,
   };
 
   if (isCompleted !== 'all') {
@@ -48,19 +50,20 @@ const Home: FC = () => {
   }, []);
 
   useEffect(() => {
-    let cb = function () {
+    const handleResize = () => {
       if (window.innerWidth < 680) {
         setIsMobile(true);
       } else {
         setIsMobile(false);
       }
     };
-    window.addEventListener('resize', cb);
-    window.addEventListener('load', cb);
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', cb);
-      window.removeEventListener('load', cb);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -75,7 +78,7 @@ const Home: FC = () => {
           }}
         />
       )}
-      {isNavBarOpened && (
+      {(isNavBarOpened || !isMobile) && (
         <Filters
           isMobile={isMobile}
           date={date}
@@ -89,7 +92,11 @@ const Home: FC = () => {
         />
       )}
 
-      <Tasks isMobile={isMobile} taskFetchingParams={fetchingParams} />
+      <Tasks
+        isMobile={isMobile}
+        taskFetchingParams={fetchingParams}
+        setSearchPattern={setSearchPattern}
+      />
     </div>
   );
 };

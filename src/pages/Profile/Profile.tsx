@@ -1,27 +1,24 @@
-import { useEffect, useState, FC } from "react";
-import { useSelector } from "react-redux";
-import { Bar } from "react-chartjs-2";
+import { useEffect, useState, FC } from 'react';
+import { useSelector } from 'react-redux';
+import { Bar } from 'react-chartjs-2';
 
-import Preloader from "../../components/Preloader/Preloader";
-import ProfileCard from "./ProfileCard/ProfileCard";
-import withLoginRedirect from "../../hoc/withLoginRedirect";
-import { ChangePass } from "./ChangePass/ChangePass";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectProfile, selectIsAuth } from "../../redux/slices/auth/selectors";
+import Preloader from '../../components/Preloader/Preloader';
+import ProfileCard from './ProfileCard/ProfileCard';
+import withLoginRedirect from '../../hoc/withLoginRedirect';
+import { ChangePass } from './ChangePass/ChangePass';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectProfile, selectIsAuth } from '../../redux/slices/auth/selectors';
 import {
   selectProfileMessage,
   selectProfileStatus,
   selectStats,
   selectUserProfile,
-} from "../../redux/slices/profile/selectors";
-import {
-  fetchUserProfile,
-  getStats,
-} from "../../redux/slices/profile/thunk";
-import { chartOptions, getChartData } from "../../helpers/stats";
-import { Chart as ChartJS, registerables } from "chart.js";
+} from '../../redux/slices/profile/selectors';
+import { fetchUserProfile, getStats } from '../../redux/slices/profile/thunk';
+import { chartOptions, getChartData } from '../../helpers/stats';
+import { Chart as ChartJS, registerables } from 'chart.js';
 
-import styles from "./Profile.module.scss";
+import styles from './Profile.module.scss';
 
 ChartJS.register(...registerables);
 
@@ -34,7 +31,7 @@ const Profile: FC = () => {
   const [isExiting, setIsExiting] = useState(false);
 
   const profile = useAppSelector(selectUserProfile) || {
-    username: "",
+    username: '',
   };
   const { username } = profile;
   const [name, setName] = useState(username);
@@ -42,7 +39,7 @@ const Profile: FC = () => {
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-  const id = useAppSelector(selectProfile)?._id || "";
+  const id = useAppSelector(selectProfile)?._id || '';
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
@@ -56,7 +53,7 @@ const Profile: FC = () => {
     setName(username);
   }, [username]);
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return <Preloader />;
   }
 
@@ -68,12 +65,10 @@ const Profile: FC = () => {
           setIsNameEditing={setIsNameEditing}
           name={name}
           setName={setName}
-
           id={id}
           setIsExiting={setIsExiting}
           setIspassEditing={setIspassEditing}
           setIsAccountDeleting={setIsAccountDeleting}
-
           isAccountDeleting={isAccountDeleting}
           isExiting={isExiting}
         />
@@ -85,11 +80,29 @@ const Profile: FC = () => {
             </div>
           </div>
         )}
-        {status === "error" && <p className={styles.error}>{message}</p>}
+        {status === 'error' && <p className={styles.error}>{message}</p>}
       </div>
       {profileStats.length > 0 && (
-        <div className={styles.chartWrapper}>
-          <Bar data={getChartData(profileStats)} options={chartOptions} />
+        <div className={styles.statsWrapper}>
+          <div className={styles.chartWrapper}>
+            <Bar data={getChartData(profileStats)} options={chartOptions} />
+          </div>
+          <div className={styles.statsNumbers}>
+            <div className={styles.leftcol}>
+              <span>76</span>
+              <span>583</span>
+              <span>1562</span>
+              <span>435</span>
+              <span>83</span>
+            </div>
+            <div className={styles.rightcol}>
+              <span>Public groups</span>
+              <span>Friends</span>
+              <span>Tasks completed</span>
+              <span>Tasks shared</span>
+              <span>Projects</span>
+            </div>
+          </div>
         </div>
       )}
     </main>

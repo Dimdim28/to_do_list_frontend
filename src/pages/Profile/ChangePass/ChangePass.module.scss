@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .aside {
   width: 100%;
@@ -29,6 +29,7 @@
   .fieldsWrapper {
     position: relative;
     flex-grow: 1;
+    max-width: 300px;
 
     p {
       color: $error-200;
@@ -40,6 +41,7 @@
 
 .button {
   margin-top: 40px;
+  margin-left: 40px;
   outline: none;
   background-color: inherit;
   color: $warning-200;

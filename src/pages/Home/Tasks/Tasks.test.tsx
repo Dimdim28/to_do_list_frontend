@@ -16,7 +16,10 @@ describe('Tasks', () => {
   test('renders without errors', () => {
     render(
       <Provider store={store}>
-        <Tasks taskFetchingParams={taskFetchingParams} />
+        <Tasks
+          taskFetchingParams={taskFetchingParams}
+          setSearchPattern={() => {}}
+        />
       </Provider>,
     );
 
@@ -26,7 +29,10 @@ describe('Tasks', () => {
   test("clicking on 'Create task +' opens the task editing modal", () => {
     render(
       <Provider store={store}>
-        <Tasks taskFetchingParams={taskFetchingParams} />
+        <Tasks
+          taskFetchingParams={taskFetchingParams}
+          setSearchPattern={() => {}}
+        />
       </Provider>,
     );
 

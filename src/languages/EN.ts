@@ -105,6 +105,7 @@ const EN = {
   searchUser: 'Search user',
   noUsers: 'No users found',
   inputUsername: 'Input username',
+  inputTaskTitle: 'Input task title or description',
   chosenUser: 'Chosen user',
   assignYourself: 'Assign yourself',
   remove: 'Remove',

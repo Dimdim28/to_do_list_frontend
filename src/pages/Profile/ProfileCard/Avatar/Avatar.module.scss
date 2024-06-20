@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 .avatar {
   height: 300px;
@@ -11,7 +11,7 @@
   transition: background-color $transition-delay;
   flex-shrink: 0;
 
-  input[type="file"] {
+  input[type='file'] {
     display: none;
   }
 
@@ -20,6 +20,17 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  .avatarEffect {
+    width: 120%;
+    height: 120%;
+    position: absolute;
+    left: calc((1 - 1.2) / 2 * 100%);
+    top: calc((1 - 1.2) / 2 * 100%);
+    z-index: 2;
+    max-width: none;
+    pointer-events: none;
   }
 
   .addPhoto {
@@ -36,6 +47,7 @@
     opacity: 0;
     transition: 0.5s;
     cursor: pointer;
+    z-index: 2;
 
     .camera {
       font-size: 80px;

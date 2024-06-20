@@ -17,6 +17,28 @@
   }
 }
 
+.dot {
+  position: absolute;
+  background: $error-200;
+  border: 1px solid $black;
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 6px;
+  line-height: 10px;
+  font-weight: 800;
+  top: -1px;
+  right: -3px;
+  transition: border-color $transition-delay;
+}
+
+:global(.light_theme) .dot {
+  border: 1px solid $white;
+}
+
 :global(.light_theme) .bell {
   color: $black;
 

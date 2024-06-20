@@ -3,11 +3,7 @@
 .wrapper {
   width: 100%;
   padding: 0 20px;
-  min-height: calc(100% - 80px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: calc(100% - 80px);
   overflow-y: auto;
   background-color: $background-dark-35;
   transition: background-color $transition-delay;
@@ -26,7 +22,7 @@
   max-width: 1400px;
   position: relative;
   width: 100%;
-  flex-grow: 1;
+  margin-bottom: 40px;
 }
 
 .passwordWrapper {
@@ -34,7 +30,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 40px;
   width: 100%;
   border: 2px solid $warning-200;
   border-radius: 15px;
@@ -56,16 +52,85 @@
   color: $error-200;
 }
 
+.statsWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 40px;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
 .chartWrapper {
-  width: 95%;
-  max-width: 1400px;
-  height: 70vh;
+  width: 400px;
+  max-height: 300px;
+  max-width: 600px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid $warning-200;
+  flex-grow: 1;
+  background-color: $background-dark-10;
+  transition: background-color $transition-delay;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
+.statsNumbers {
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid $warning-200;
+  display: flex;
+  flex-grow: 1;
+  max-height: 300px;
+  max-width: 600px;
+  justify-content: space-around;
+  font-weight: 600;
+  font-size: 20px;
+  background-color: $background-dark-10;
+  transition: background-color $transition-delay;
+
+  .leftcol {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-right: 20px;
+
+    span {
+      color: $warning-200;
+      text-align: center;
+    }
+  }
+  .rightcol {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: $white;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+  }
+}
+
+:global(.light_theme) .statsNumbers,
+:global(.light_theme) .chartWrapper {
+  background-color: $gray-600;
+}
+
+:global(.light_theme) .rightcol {
+  color: $black;
+}
 @media screen and (max-width: 480px) {
   .wrapper {
     .profile {
