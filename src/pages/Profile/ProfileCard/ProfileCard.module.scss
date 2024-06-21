@@ -22,6 +22,20 @@
   position: absolute;
   left: 20px;
   top: 0;
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .changeEffect {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
 }
 
 .idWrapper {
