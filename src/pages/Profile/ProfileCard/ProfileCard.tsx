@@ -68,7 +68,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
           setIsEffectModalOpened(true);
         }}
       >
-        Change effect
+        {t('changeAvatarEffect')}
       </button>
 
       <div
