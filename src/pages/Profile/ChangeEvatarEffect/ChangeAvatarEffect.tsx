@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './ChangeavatarEffect.module.scss';
+import styles from './ChangeAvatarEffect.module.scss';
 import { useAppSelector } from '../../../hooks';
 import { selectUserProfile } from '../../../redux/slices/profile/selectors';
 
