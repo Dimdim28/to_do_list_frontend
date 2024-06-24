@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { useState, Dispatch, SetStateAction, FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
@@ -53,7 +53,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     isAssignedUser,
   } = childProps;
 
-  console.log('props =', childProps);
+  useEffect(() => {
+    console.log(prevTitle);
+  }, [prevTitle]);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -224,7 +226,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           ) : (
             <Categories
               isForTask
-              taskFetchingParams={taskFetchingParams}
               activeCategories={categories}
               setActiveCategories={setCategories}
             />

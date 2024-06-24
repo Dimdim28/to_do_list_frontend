@@ -5,27 +5,26 @@ import Button from '../../../../../components/common/Button/Button';
 import Preloader from '../../../../../components/Preloader/Preloader';
 
 import { useAppDispatch } from '../../../../../hooks';
-import { removeCategoryFromList } from '../../../../../redux/slices/home/home';
+import {
+  removeCategoryFromList,
+  removeCategoryFromTasksList,
+} from '../../../../../redux/slices/home/home';
 import categoryAPI, { Category } from '../../../../../api/categoryAPI';
 import { Status } from '../../../../../types';
-import { getTask } from '../../../../../api/taskAPI';
 import { truncate } from '../../../../../helpers/string';
 
 import styles from './CategoryDeleting.module.scss';
-import { fetchTasks } from '../../../../../redux/slices/home/thunk';
 
 interface CategoryDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
-  childProps: Category & {
-    taskFetchingParams: getTask;
-  };
+  childProps: Category;
 }
 
 export const CategoryDeleting: FC<CategoryDeletingProps> = ({
   toggleActive,
   childProps,
 }) => {
-  const { _id, title, color, taskFetchingParams } = childProps;
+  const { _id, title, color } = childProps;
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -41,7 +40,7 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
     setCategoryError(message || '');
     if (status === Status.SUCCESS) {
       dispatch(removeCategoryFromList(_id));
-      dispatch(fetchTasks(taskFetchingParams));
+      dispatch(removeCategoryFromTasksList(_id));
       toggleActive(false);
     }
   };

@@ -9,19 +9,16 @@ import { selectProfile } from '../../../../../redux/slices/auth/selectors';
 import {
   addCategoryToList,
   updateCategoryInList,
+  updateCategoryInTasksList,
 } from '../../../../../redux/slices/home/home';
 import categoryAPI, { Category } from '../../../../../api/categoryAPI';
 import { Status } from '../../../../../types';
-import { getTask } from '../../../../../api/taskAPI';
 
 import styles from './CategoryForm.module.scss';
-import { fetchTasks } from '../../../../../redux/slices/home/thunk';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
-  childProps: Category & {
-    taskFetchingParams: getTask;
-  };
+  childProps: Category;
 }
 
 const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
@@ -30,12 +27,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState('');
-  const {
-    _id,
-    title: prevTitle,
-    color: prevColor,
-    taskFetchingParams,
-  } = childProps;
+  const { _id, title: prevTitle, color: prevColor } = childProps;
   const [color, setColor] = useState(prevColor || '#ffffff');
   const [title, setTittle] = useState(prevTitle || '');
 
@@ -51,8 +43,8 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
     setCategoryError(message || '');
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      dispatch(fetchTasks(taskFetchingParams));
       if (_id) {
+        dispatch(updateCategoryInTasksList({ _id, title, color }));
         dispatch(updateCategoryInList({ _id, title, color }));
       } else {
         dispatch(addCategoryToList(result.category));

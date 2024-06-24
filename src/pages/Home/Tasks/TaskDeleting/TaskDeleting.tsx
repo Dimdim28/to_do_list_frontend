@@ -3,27 +3,31 @@ import { useTranslation } from 'react-i18next';
 
 import Preloader from '../../../../components/Preloader/Preloader';
 import Button from '../../../../components/common/Button/Button';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import taskAPI, { Task } from '../../../../api/taskAPI';
 import { truncate } from '../../../../helpers/string';
 import { Status } from '../../../../types';
 import subTasksAPI from '../../../../api/subTaskAPI';
 
 import styles from './TaskDeleting.module.scss';
-import { useAppDispatch } from '../../../../hooks';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import {
+  removeTaskFromList,
+  updateTaskCurrentPage,
+} from '../../../../redux/slices/home/home';
+import { selectTaskCurrentPage } from '../../../../redux/slices/home/selectors';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    taskFetchingParams: getTask;
     length: number;
     isForSubTask?: boolean;
   };
 }
 
 const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
-  const { _id, title, taskFetchingParams, length, isForSubTask } = childProps;
+  const { _id, title, length, isForSubTask } = childProps;
+
+  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -41,9 +45,9 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (length === 1) {
-        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 2) - 1));
+        dispatch(updateTaskCurrentPage((currentPage || 2) - 1));
       } else {
-        dispatch(fetchTasks(taskFetchingParams));
+        dispatch(removeTaskFromList(_id));
       }
       toggleActive(false);
     }

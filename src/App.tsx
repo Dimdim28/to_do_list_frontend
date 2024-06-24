@@ -59,6 +59,21 @@ export const FOOTER_LINKS: Link[] = [
 function App() {
   const dispatch = useAppDispatch();
 
+  const appHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+  };
+
+  window.onload = function () {
+    appHeight();
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', appHeight);
+    window.addEventListener('load', appHeight);
+    appHeight();
+  }, []);
+
   const theme = useAppSelector(selectTheme);
   document.documentElement.className = `${theme}_theme`;
 

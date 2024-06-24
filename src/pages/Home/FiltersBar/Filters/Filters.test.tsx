@@ -1,46 +1,39 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
-import Filters, { Date, IsCompleted } from "./Filters";
-import { Item } from "../../../../components/common/Select/Select";
+import Filters from './Filters';
+import { Provider } from 'react-redux';
+import store from '../../../../redux/store';
 
-const selectStatusOptions: Item<IsCompleted>[] = [
-  { name: "Completed", value: "true" },
-  { name: "In process", value: "false" },
-  { name: "all", value: "all" },
-];
+// const selectStatusOptions: Item<IsCompleted>[] = [
+//   { name: "Completed", value: "true" },
+//   { name: "In process", value: "false" },
+//   { name: "all", value: "all" },
+// ];
 
-const selectDateOptions: Item<Date>[] = [
-  { name: "day", value: "day" },
-  { name: "week", value: "week" },
-  { name: "month", value: "month" },
-  { name: "year", value: "year" },
-  { name: "all", value: "all" },
-  { name: "outdated", value: "outdated" },
-  { name: "no deadline", value: "nodeadline" },
-];
+// const selectDateOptions: Item<Date>[] = [
+//   { name: "day", value: "day" },
+//   { name: "week", value: "week" },
+//   { name: "month", value: "month" },
+//   { name: "year", value: "year" },
+//   { name: "all", value: "all" },
+//   { name: "outdated", value: "outdated" },
+//   { name: "no deadline", value: "nodeadline" },
+// ];
 
-describe("Filters", () => {
-  const mockDate: Date = "day";
-  const mockIsCompleted: IsCompleted = "true";
-  const mockSetDate = jest.fn();
-  const mockSetIsCompleted = jest.fn();
-
-  test("renders the Filters component", () => {
+describe('Filters', () => {
+  test('renders the Filters component', () => {
     render(
-      <Filters
-        date={mockDate}
-        isCompleted={mockIsCompleted}
-        setDate={mockSetDate}
-        setIsCompleted={mockSetIsCompleted}
-      />
+      <Provider store={store}>
+        <Filters />
+      </Provider>,
     );
 
-    expect(screen.getByText("deadlineFilters")).toBeInTheDocument();
-    expect(screen.getByText("dateAndStatus")).toBeInTheDocument();
-    expect(screen.getByText("completionStatus")).toBeInTheDocument();
+    expect(screen.getByText('deadlineFilters')).toBeInTheDocument();
+    expect(screen.getByText('dateAndStatus')).toBeInTheDocument();
+    expect(screen.getByText('completionStatus')).toBeInTheDocument();
   });
 
-/*  describe("It should pass correct props", () => {
+  /*  describe("It should pass correct props", () => {
     it("should render correctly completion status", () => {
       for (const { name, value } of selectStatusOptions) {
         render(

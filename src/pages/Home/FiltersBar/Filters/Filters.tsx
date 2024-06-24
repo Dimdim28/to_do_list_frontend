@@ -1,56 +1,66 @@
-import { SetStateAction, Dispatch, FC } from "react";
-import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
-import Select, { Item } from "../../../../components/common/Select/Select";
+import Select, { Item } from '../../../../components/common/Select/Select';
 
-import styles from "./Filters.module.scss";
+import styles from './Filters.module.scss';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import {
+  updateTaskDate,
+  updateTaskIsCompleted,
+} from '../../../../redux/slices/home/home';
+import {
+  selectTasksDate,
+  selectTasksIsCompleted,
+} from '../../../../redux/slices/home/selectors';
 
 export type Date =
-  | "day"
-  | "week"
-  | "month"
-  | "year"
-  | "all"
-  | "outdated"
-  | "nodeadline";
-export type IsCompleted = "true" | "false" | "all";
+  | 'day'
+  | 'week'
+  | 'month'
+  | 'year'
+  | 'all'
+  | 'outdated'
+  | 'nodeadline';
+export type IsCompleted = 'true' | 'false' | 'all';
 
-interface FiltersProps {
-  date: Date;
-  isCompleted: IsCompleted;
-  setDate: Dispatch<SetStateAction<Date>>;
-  setIsCompleted: Dispatch<SetStateAction<IsCompleted>>;
-}
-const Filters: FC<FiltersProps> = ({
-  isCompleted,
-  setIsCompleted,
-  date,
-  setDate,
-}) => {
+const Filters: FC<{}> = () => {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const date = useAppSelector(selectTasksDate);
+  const isCompleted = useAppSelector(selectTasksIsCompleted);
+
   const SELECT_STATUS_OPTIONS: Item<IsCompleted>[] = [
-    { name: i18next.t("statusCompleted"), value: "true" },
-    { name: i18next.t("statusInProcess"), value: "false" },
-    { name: i18next.t("statusAll"), value: "all" },
+    { name: i18next.t('statusCompleted'), value: 'true' },
+    { name: i18next.t('statusInProcess'), value: 'false' },
+    { name: i18next.t('statusAll'), value: 'all' },
   ];
 
   const SELECT_DATE_OPTIONS: Item<Date>[] = [
-    { name: i18next.t("deadlineDay"), value: "day" },
-    { name: i18next.t("deadlineWeek"), value: "week" },
-    { name: i18next.t("deadlineMonth"), value: "month" },
-    { name: i18next.t("deadlineYear"), value: "year" },
-    { name: i18next.t("deadlineAll"), value: "all" },
-    { name: i18next.t("deadlineOutdated"), value: "outdated" },
-    { name: i18next.t("deadlineNoDeadline"), value: "nodeadline" },
+    { name: i18next.t('deadlineDay'), value: 'day' },
+    { name: i18next.t('deadlineWeek'), value: 'week' },
+    { name: i18next.t('deadlineMonth'), value: 'month' },
+    { name: i18next.t('deadlineYear'), value: 'year' },
+    { name: i18next.t('deadlineAll'), value: 'all' },
+    { name: i18next.t('deadlineOutdated'), value: 'outdated' },
+    { name: i18next.t('deadlineNoDeadline'), value: 'nodeadline' },
   ];
 
-  const { t } = useTranslation();
+  const setDate = (date: Date) => {
+    dispatch(updateTaskDate(date));
+  };
+
+  const setIsCompleted = (isCompleted: IsCompleted) => {
+    dispatch(updateTaskIsCompleted(isCompleted));
+  };
 
   return (
     <section className={styles.dateWrapper}>
-      <h3>{t("dateAndStatus")}</h3>
+      <h3>{t('dateAndStatus')}</h3>
 
-      <h5>{t("deadlineFilters")}</h5>
+      <h5>{t('deadlineFilters')}</h5>
 
       <div className={styles.deadline}>
         <Select<Date>
@@ -61,9 +71,9 @@ const Filters: FC<FiltersProps> = ({
         />
       </div>
 
-      {date !== "outdated" && (
+      {date !== 'outdated' && (
         <>
-          <h5>{t("completionStatus")}</h5>
+          <h5>{t('completionStatus')}</h5>
           <div className={styles.progressStatus}>
             <Select<IsCompleted>
               items={SELECT_STATUS_OPTIONS}

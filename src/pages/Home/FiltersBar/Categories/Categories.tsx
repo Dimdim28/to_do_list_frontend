@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, FC, UIEvent } from 'react';
+import { useState, FC, UIEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
@@ -16,21 +16,18 @@ import {
   selectCategoryTotalPages,
 } from '../../../../redux/slices/home/selectors';
 import { fetchCategories } from '../../../../redux/slices/home/thunk';
-import { getTask } from '../../../../api/taskAPI';
 
 import styles from './Categories.module.scss';
 
 interface CategoryProps {
   isForTask?: boolean;
   activeCategories: string[];
-  setActiveCategories: Dispatch<SetStateAction<string[]>>;
-  taskFetchingParams: getTask;
+  setActiveCategories: (categories: string[]) => void;
 }
 const Categories: FC<CategoryProps> = ({
   isForTask,
   activeCategories,
   setActiveCategories,
-  taskFetchingParams,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -76,6 +73,7 @@ const Categories: FC<CategoryProps> = ({
               <Category
                 {...el}
                 key={id}
+                activeCategories={activeCategories}
                 setCategoryEditing={setCategoryEditing}
                 setCategoryInfo={setCategoryProps}
                 setCategoryDeleting={setCategoryDeleting}
@@ -84,7 +82,6 @@ const Categories: FC<CategoryProps> = ({
                 isActive={
                   !!activeCategories.find((category) => category === el._id)
                 }
-                taskFetchingParams={taskFetchingParams}
               />
             ))
           )}
@@ -93,7 +90,6 @@ const Categories: FC<CategoryProps> = ({
         <p
           className={styles.addCategory}
           onClick={() => {
-            setCategoryProps({ ...taskFetchingParams });
             setCategoryEditing(true);
           }}
         >

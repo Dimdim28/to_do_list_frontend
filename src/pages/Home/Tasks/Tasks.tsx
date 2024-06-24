@@ -1,11 +1,13 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
 import {
+  selectTaskFetchingParams,
   selectTaskTotalPages,
   selectTasks,
   selectTasksError,
+  selectTasksSearchPattern,
   selectTasksStatus,
 } from '../../../redux/slices/home/selectors';
 import { Status } from '../../../types';
@@ -13,6 +15,7 @@ import { fetchTasks } from '../../../redux/slices/home/thunk';
 import {
   updateTaskCompletionStatus,
   updateTaskCurrentPage,
+  updateTaskSearchPattern,
 } from '../../../redux/slices/home/home';
 
 import TaskDeleting from './TaskDeleting/TaskDeleting';
@@ -22,25 +25,17 @@ import Pagination from './Pagination/Pagination';
 import Preloader from '../../../components/Preloader/Preloader';
 import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
 import { Modal } from '../../../components/common/Modal/Modal';
-import { Task, getTask } from '../../../api/taskAPI';
+import { Task } from '../../../api/taskAPI';
 import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
 import { SearchTask } from '../../../components/SearchTask/SearchTask';
 
 interface TaskProps {
-  taskFetchingParams: getTask;
   isMobile?: boolean;
-  setSearchPattern: Dispatch<SetStateAction<string>>;
 }
 
-const Tasks: FC<TaskProps> = ({
-  taskFetchingParams,
-  isMobile,
-  setSearchPattern,
-}) => {
-  const { page, isCompleted, deadline, categories } = taskFetchingParams;
-
+const Tasks: FC<TaskProps> = ({ isMobile }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -55,6 +50,10 @@ const Tasks: FC<TaskProps> = ({
   const errorMessage = useAppSelector(selectTasksError);
   const tasks = useAppSelector(selectTasks);
   const totalPages = useAppSelector(selectTaskTotalPages);
+  const taskFetchingParams = useAppSelector(selectTaskFetchingParams);
+  const taskSearchPattern = useAppSelector(selectTasksSearchPattern);
+
+  const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
@@ -62,6 +61,10 @@ const Tasks: FC<TaskProps> = ({
 
   const updateTaskStatus = (id: string, isCompleted: boolean) => {
     dispatch(updateTaskCompletionStatus({ id, isCompleted }));
+  };
+
+  const updateSearchPattern = (value: string) => {
+    dispatch(updateTaskSearchPattern(value));
   };
 
   useEffect(() => {
@@ -84,8 +87,8 @@ const Tasks: FC<TaskProps> = ({
     >
       <div className={styles.line}>
         <SearchTask
-          value={taskFetchingParams.searchPattern || ''}
-          changeValue={setSearchPattern}
+          value={taskSearchPattern}
+          changeValue={updateSearchPattern}
           callback={(value) => console.log(value)}
         />
         <button

@@ -5,18 +5,17 @@ import { useAppDispatch } from '../../../../hooks';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { Input } from '../../../../components/common/Input/Input';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import taskAPI, { Task } from '../../../../api/taskAPI';
 import { Status } from '../../../../types';
 import subTasksAPI from '../../../../api/subTaskAPI';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
 import { truncate } from '../../../../helpers/string';
 
 import styles from './TaskAddingLink.module.scss';
+import { addLinkToTask } from '../../../../redux/slices/home/home';
 
 interface TaskAddingLinkProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    taskFetchingParams: getTask;
     isForSubTask?: boolean;
   };
 }
@@ -25,7 +24,7 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { _id, title, links, taskFetchingParams, isForSubTask } = childProps;
+  const { _id, title, links, isForSubTask } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -44,7 +43,7 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      dispatch(fetchTasks(taskFetchingParams));
+      dispatch(addLinkToTask({ id: _id, link: url }));
     }
   };
 

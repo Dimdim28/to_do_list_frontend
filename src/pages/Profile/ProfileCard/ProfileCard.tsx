@@ -97,30 +97,25 @@ const ProfileCard: FC<ProfileCardProps> = ({
         setIsAccountDeleting={setIsAccountDeleting}
       />
 
-      {isAccountDeleting && (
-        <Modal
-          active={isAccountDeleting}
-          setActive={setIsAccountDeleting}
-          ChildComponent={DeleteProfile}
-          childProps={{ toggleActive: setIsAccountDeleting }}
-        />
-      )}
-      {isExiting && (
-        <Modal
-          active={isExiting}
-          setActive={setIsExiting}
-          ChildComponent={Exit}
-          childProps={{ toggleActive: setIsExiting }}
-        />
-      )}
-      {
-        <Modal
-          active={isEffectModalOpened}
-          setActive={setIsEffectModalOpened}
-          ChildComponent={ChangeAvatarEffect}
-          childProps={{ toggleActive: setIsEffectModalOpened }}
-        />
-      }
+      <Modal
+        active={isAccountDeleting}
+        setActive={setIsAccountDeleting}
+        ChildComponent={DeleteProfile}
+        childProps={{ toggleActive: setIsAccountDeleting }}
+      />
+      <Modal
+        active={isExiting}
+        setActive={setIsExiting}
+        ChildComponent={Exit}
+        childProps={{ toggleActive: setIsExiting }}
+      />
+
+      <Modal
+        active={isEffectModalOpened}
+        setActive={setIsEffectModalOpened}
+        ChildComponent={ChangeAvatarEffect}
+        childProps={{ toggleActive: setIsEffectModalOpened }}
+      />
     </div>
   );
 };

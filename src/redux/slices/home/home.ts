@@ -3,6 +3,11 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Status } from '../../../types';
 import { fetchCategories, fetchTasks } from './thunk';
 import { HomeSliceState } from './types';
+import {
+  Date,
+  IsCompleted,
+} from '../../../pages/Home/FiltersBar/Filters/Filters';
+import { Category } from '../../../api/taskAPI';
 
 const initialState: HomeSliceState = {
   category: {
@@ -15,6 +20,10 @@ const initialState: HomeSliceState = {
     tasks: [],
     totalPages: 0,
     currentPage: 1,
+    searchPattern: '',
+    isCompleted: 'false',
+    date: 'all',
+    activeCategories: [],
     status: Status.LOADING,
   },
 };
@@ -27,12 +36,29 @@ const homeSlice = createSlice({
     clearCategories(state) {
       state.category.categories = [];
     },
-    updateCategoryInList(state, action) {
+    updateCategoryInList(state, action: PayloadAction<Category>) {
       for (const category of state.category.categories) {
         if (category._id === action.payload._id) {
           category.title = action.payload.title;
           category.color = action.payload.color;
         }
+      }
+    },
+    updateCategoryInTasksList(state, action: PayloadAction<Category>) {
+      for (const task of state.task.tasks) {
+        for (const category of task.categories ?? []) {
+          if (category._id === action.payload._id) {
+            category.color = action.payload.color;
+            category.title = action.payload.title;
+          }
+        }
+      }
+    },
+    removeCategoryFromTasksList(state, action: PayloadAction<string>) {
+      for (const task of state.task.tasks) {
+        task.categories = (task.categories || [])?.filter(
+          (el) => el._id !== action.payload,
+        );
       }
     },
     addCategoryToList(state, action) {
@@ -49,7 +75,7 @@ const homeSlice = createSlice({
         }
       }
     },
-    removeCategoryFromList(state, action) {
+    removeCategoryFromList(state, action: PayloadAction<string>) {
       const { currentPage, totalPages, categories } = state.category;
       if (currentPage !== 0) {
         const categoryIndex = categories.findIndex(
@@ -75,8 +101,34 @@ const homeSlice = createSlice({
 
       state.task.tasks = updatedTasks;
     },
+    addLinkToTask(state, action: PayloadAction<{ id: string; link: string }>) {
+      const updatedTasks = state.task.tasks.map((el) =>
+        el._id === action.payload.id
+          ? { ...el, links: [...(el.links ?? []), action.payload.link] }
+          : el,
+      );
+
+      state.task.tasks = updatedTasks;
+    },
+    removeTaskFromList(state, action: PayloadAction<string>) {
+      state.task.tasks = state.task.tasks.filter(
+        (el) => el._id !== action.payload,
+      );
+    },
     updateTaskCurrentPage(state, action: PayloadAction<number>) {
       state.task.currentPage = action.payload;
+    },
+    updateTaskDate(state, action: PayloadAction<Date>) {
+      state.task.date = action.payload;
+    },
+    updateTaskIsCompleted(state, action: PayloadAction<IsCompleted>) {
+      state.task.isCompleted = action.payload;
+    },
+    updateTaskActiveCategories(state, action: PayloadAction<string[]>) {
+      state.task.activeCategories = action.payload;
+    },
+    updateTaskSearchPattern(state, action: PayloadAction<string>) {
+      state.task.searchPattern = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -120,9 +172,17 @@ export const homeReducer = homeSlice.reducer;
 export const {
   clearCategories,
   updateCategoryInList,
+  updateCategoryInTasksList,
   addCategoryToList,
   removeCategoryFromList,
+  removeCategoryFromTasksList,
   updateTaskCompletionStatus,
   updateTaskCurrentPage,
+  updateTaskDate,
+  removeTaskFromList,
+  updateTaskIsCompleted,
+  updateTaskActiveCategories,
+  updateTaskSearchPattern,
+  addLinkToTask,
   clear,
 } = homeSlice.actions;

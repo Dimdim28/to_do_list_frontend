@@ -1,37 +1,30 @@
 import { Dispatch, SetStateAction, FC } from 'react';
 
-import Filters, { Date, IsCompleted } from './Filters/Filters';
+import Filters from './Filters/Filters';
 import Categories from './Categories/Categories';
-import { getTask } from '../../../api/taskAPI';
 
 import styles from './FiltersBar.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { updateTaskActiveCategories } from '../../../redux/slices/home/home';
+import { selectTasksActiveCategories } from '../../../redux/slices/home/selectors';
 
 interface FiltersBarProps {
-  date: Date;
-  setDate: Dispatch<SetStateAction<Date>>;
-  isCompleted: IsCompleted;
-  setIsCompleted: Dispatch<SetStateAction<IsCompleted>>;
-  categories: string[];
-  setCategories: Dispatch<SetStateAction<string[]>>;
-  taskFetchingParams: getTask;
   isMobile?: boolean;
   setIsNavberOpened?: Dispatch<SetStateAction<boolean>>;
 }
 
-const FiltersBar: FC<FiltersBarProps> = ({
-  date,
-  setDate,
-  isCompleted,
-  setIsCompleted,
-  categories,
-  setCategories,
-  taskFetchingParams,
-  isMobile,
-  setIsNavberOpened,
-}) => {
+const FiltersBar: FC<FiltersBarProps> = ({ isMobile, setIsNavberOpened }) => {
+  const dispatch = useAppDispatch();
+
+  const activeCategories = useAppSelector(selectTasksActiveCategories);
+
+  const setCategories = (categories: string[]) => {
+    dispatch(updateTaskActiveCategories(categories));
+  };
+
   return (
     <aside
       className={isMobile ? styles.mobileFiltersWrapper : styles.filtersWrapper}
@@ -47,16 +40,10 @@ const FiltersBar: FC<FiltersBarProps> = ({
         />
       )}
       <Categories
-        activeCategories={categories}
+        activeCategories={activeCategories}
         setActiveCategories={setCategories}
-        taskFetchingParams={taskFetchingParams}
       />
-      <Filters
-        date={date}
-        setDate={setDate}
-        isCompleted={isCompleted}
-        setIsCompleted={setIsCompleted}
-      />
+      <Filters />
     </aside>
   );
 };

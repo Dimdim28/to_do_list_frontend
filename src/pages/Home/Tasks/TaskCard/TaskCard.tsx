@@ -191,7 +191,6 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                taskFetchingParams,
                 isForSubTask: !!assigneeId,
               });
               setTaskAddingLink(true);
@@ -211,7 +210,6 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
               length,
               isForSubTask: !!assigneeId,
             });

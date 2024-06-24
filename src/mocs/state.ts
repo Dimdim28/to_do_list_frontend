@@ -44,6 +44,10 @@ export const MOCK_OBJECT_ONE: RootState = {
     task: {
       tasks: [],
       currentPage: 1,
+      searchPattern: '',
+      isCompleted: 'false',
+      date: 'all',
+      activeCategories: [],
       status: Status.LOADING,
       totalPages: 0,
       message: '',
@@ -76,6 +80,10 @@ export const MOCK_OBJECT_TWO: RootState = {
     task: {
       tasks: [],
       currentPage: 1,
+      searchPattern: '',
+      isCompleted: 'false',
+      date: 'all',
+      activeCategories: [],
       status: Status.LOADING,
       totalPages: 0,
     },
@@ -120,6 +128,10 @@ export const MOCK_OBJECT_THREE: RootState = {
     task: {
       tasks: [],
       currentPage: 1,
+      searchPattern: '',
+      isCompleted: 'false',
+      date: 'all',
+      activeCategories: [],
       status: Status.LOADING,
       totalPages: 0,
       message: '',

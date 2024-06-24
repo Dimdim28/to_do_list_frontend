@@ -1,7 +1,5 @@
 import { useState, Dispatch, SetStateAction, FC } from 'react';
 
-import { getTask } from '../../../../../api/taskAPI';
-
 import styles from './Category.module.scss';
 
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -17,9 +15,9 @@ export interface CategoryProps {
   setCategoryEditing: Dispatch<SetStateAction<boolean>>;
   setCategoryDeleting: Dispatch<SetStateAction<boolean>>;
   setCategoryInfo: Dispatch<SetStateAction<{}>>;
-  setActiveCategories: Dispatch<SetStateAction<string[]>>;
+  setActiveCategories: (categories: any) => void;
+  activeCategories: string[];
   isActive: boolean;
-  taskFetchingParams: getTask;
 }
 
 const Category: FC<CategoryProps> = ({
@@ -27,6 +25,7 @@ const Category: FC<CategoryProps> = ({
   setCategoryDeleting,
   setCategoryEditing,
   setActiveCategories,
+  activeCategories,
   isForTask,
   isActive,
   ...props
@@ -46,9 +45,21 @@ const Category: FC<CategoryProps> = ({
       data-testid="category-element"
       onClick={() => {
         if (isActive) {
-          setActiveCategories((prev) => prev.filter((el) => el !== props._id));
+          if (isForTask) {
+            setActiveCategories((prev: string[]) =>
+              prev.filter((el) => el !== props._id),
+            );
+          } else {
+            setActiveCategories(
+              activeCategories.filter((el) => el !== props._id),
+            );
+          }
         } else {
-          setActiveCategories((prev) => [...prev, props._id]);
+          if (isForTask) {
+            setActiveCategories((prev: string[]) => [...prev, props._id]);
+          } else {
+            setActiveCategories([...activeCategories, props._id]);
+          }
         }
       }}
       className={isForTask ? styles.tasksFormCategory : styles.category}

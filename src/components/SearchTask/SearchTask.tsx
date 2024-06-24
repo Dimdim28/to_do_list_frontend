@@ -14,7 +14,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface SearchTaskProps {
   value: string;
-  changeValue: Dispatch<SetStateAction<string>>;
+  changeValue: (value: string) => void;
   callback: (value: string) => void;
 }
 

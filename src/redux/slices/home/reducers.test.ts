@@ -40,6 +40,10 @@ const initialState: HomeSliceState = {
   task: {
     tasks: [],
     currentPage: 1,
+    date: 'all',
+    isCompleted: 'false',
+    activeCategories: [],
+    searchPattern: '',
     status: Status.LOADING,
     totalPages: 0,
   },
@@ -62,6 +66,10 @@ describe('Testing home slice reducers', () => {
         task: {
           tasks: [],
           currentPage: 1,
+          date: 'all',
+          isCompleted: 'false',
+          activeCategories: [],
+          searchPattern: '',
           status: Status.LOADING,
           totalPages: 0,
         },
@@ -84,6 +92,10 @@ describe('Testing home slice reducers', () => {
         task: {
           tasks: [],
           currentPage: 1,
+          date: 'all',
+          isCompleted: 'false',
+          activeCategories: [],
+          searchPattern: '',
           status: Status.LOADING,
           totalPages: 0,
         },
