@@ -90,6 +90,7 @@ const Categories: FC<CategoryProps> = ({
         <p
           className={styles.addCategory}
           onClick={() => {
+            setCategoryProps({});
             setCategoryEditing(true);
           }}
         >

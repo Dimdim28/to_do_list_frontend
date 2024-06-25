@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { useState, Dispatch, SetStateAction, FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../components/common/Button/Button';
@@ -32,6 +32,11 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
   const [title, setTittle] = useState(prevTitle || '');
 
   const userId = useAppSelector(selectProfile)?._id || '';
+
+  useEffect(() => {
+    setColor(prevColor || '#ffffff');
+    setTittle(prevTitle || '');
+  }, [childProps]);
 
   const submit = async () => {
     setStatus(Status.LOADING);

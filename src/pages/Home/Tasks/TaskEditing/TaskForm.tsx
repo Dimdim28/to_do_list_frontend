@@ -53,10 +53,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     isAssignedUser,
   } = childProps;
 
-  useEffect(() => {
-    console.log(prevTitle);
-  }, [prevTitle]);
-
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -74,6 +70,21 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
 
   const profile = useAppSelector(selectProfile);
+
+  useEffect(() => {
+    if (childProps) {
+      setStatus(Status.SUCCESS);
+      setTaskError('');
+      setTittle(prevTitle || '');
+      setDescription(prevDescription || '');
+      setCategories(prevCategories?.map((el) => el._id) || []);
+      setHasDeadline(!!prevDeadline);
+      setDeadline(prevDeadline || '');
+      setIsCompleted(prevIscompleted || false);
+      setLinks([...(prevLinks || [])]);
+      setAssigner(assigneeId || null);
+    }
+  }, [childProps]);
 
   const userId = profile?._id || '';
   const avatar = profile?.avatar || {
