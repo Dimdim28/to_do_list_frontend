@@ -70,7 +70,7 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
   useEffect(() => {
     if (
       isCompleted === prevIsCompleted &&
-      deadline === prevDeadline &&
+      deadline === prevDeadline && // todo: maybe it is possible to rewrite without useprevious, just with  page changes listening
       categories === prevCategories
     ) {
       dispatch(fetchTasks(taskFetchingParams));

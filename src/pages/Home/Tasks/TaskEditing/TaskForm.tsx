@@ -10,8 +10,15 @@ import { TextArea } from '../../../../components/common/TextArea/TextArea';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
-import subTasksAPI, { SubTask } from '../../../../api/subTaskAPI';
+import taskAPI, {
+  Task,
+  Result as TaskResult,
+  getTask,
+} from '../../../../api/taskAPI';
+import subTasksAPI, {
+  Result as SubTaskResult,
+  SubTask,
+} from '../../../../api/subTaskAPI';
 import SearchUser from '../../../../components/SearchUser/SearchUser';
 import ChosenUser from '../ChosenUser/ChosenUser';
 import { User } from '../../../../api/userAPI';
@@ -106,7 +113,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    let result;
+    let result: TaskResult | SubTaskResult;
 
     if (isAssignedUser) {
       result = await subTasksAPI.editSubTask({
@@ -165,7 +172,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         ),
       );
     }
-    const { message, status } = result;
+    const { message, status, task } = result;
+    console.log(task);
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {

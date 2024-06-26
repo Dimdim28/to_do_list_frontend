@@ -18,8 +18,8 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import subTasksAPI from '../../../../api/subTaskAPI';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
 import { useAppDispatch } from '../../../../hooks';
+import { updateTaskCompletionStatus } from '../../../../redux/slices/home/home';
 
 interface taskProps {
   task: Task;
@@ -89,7 +89,9 @@ const TaskCard = ({
             });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
         if (assigneeId) {
-          dispatch(fetchTasks(taskFetchingParams));
+          dispatch(
+            updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
+          );
         }
         updateTaskStatus(_id || '', !completed);
       } catch (e) {

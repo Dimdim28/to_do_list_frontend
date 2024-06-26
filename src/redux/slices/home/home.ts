@@ -8,6 +8,7 @@ import {
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
 import { Category } from '../../../api/taskAPI';
+import { SubTask } from '../../../api/subTaskAPI';
 
 const initialState: HomeSliceState = {
   category: {
@@ -101,6 +102,51 @@ const homeSlice = createSlice({
 
       state.task.tasks = updatedTasks;
     },
+    updateSubTaskInTask(
+      state,
+      action: PayloadAction<{ taskId: string; subTask: SubTask }>,
+    ) {
+      const { taskId, subTask } = action.payload;
+      const taskInList = state.task.tasks.find((el) => el._id === taskId);
+      if (taskInList) {
+        taskInList.subtasks = taskInList.subtasks.map((el) =>
+          el._id === subTask._id ? subTask : el,
+        );
+      }
+    },
+    removeSubTaskFromTask(
+      state,
+      action: PayloadAction<{ taskId: string; subTaskId: string }>,
+    ) {
+      const { taskId, subTaskId } = action.payload;
+      const taskInListIndex = state.task.tasks.findIndex(
+        (el) => el._id === taskId,
+      );
+      if (taskInListIndex > -1) {
+        state.task.tasks = state.task.tasks.map((el) =>
+          el._id === taskId
+            ? {
+                ...el,
+                subtasks: el.subtasks.filter(
+                  (subtask) => subtask._id !== subTaskId,
+                ),
+              }
+            : el,
+        );
+      }
+    },
+    addSubTaskToTask(
+      state,
+      action: PayloadAction<{ taskId: string; subTaskId: string }>,
+    ) {
+      const { taskId, subTaskId } = action.payload;
+      const taskInList = state.task.tasks.find((el) => el._id === taskId);
+      if (taskInList) {
+        taskInList.subtasks = taskInList.subtasks.filter(
+          (el) => el._id !== subTaskId,
+        );
+      }
+    },
     addLinkToTask(state, action: PayloadAction<{ id: string; link: string }>) {
       const updatedTasks = state.task.tasks.map((el) =>
         el._id === action.payload.id
@@ -184,5 +230,8 @@ export const {
   updateTaskActiveCategories,
   updateTaskSearchPattern,
   addLinkToTask,
+  updateSubTaskInTask,
+  removeSubTaskFromTask,
+  addSubTaskToTask,
   clear,
 } = homeSlice.actions;
