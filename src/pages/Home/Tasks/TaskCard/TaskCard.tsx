@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-import { Task, getTask } from '../../../../api/taskAPI';
+import { Task } from '../../../../api/taskAPI';
 import { humaniseDate, truncate } from '../../../../helpers/string';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import UserImage from '../../../../components/UserImage/UserImage';
@@ -28,7 +28,6 @@ interface taskProps {
     SetStateAction<
       | {}
       | (Task & {
-          taskFetchingParams: getTask;
           isAssignedUser?: boolean;
         })
     >
@@ -37,7 +36,6 @@ interface taskProps {
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
-  taskFetchingParams: getTask;
   setCurrentPage: (page: number) => {};
   length?: number;
   updateTaskStatus: (id: string, isCompleted: boolean) => void;
@@ -51,8 +49,6 @@ const TaskCard = ({
   setTaskSharing,
   setTaskAddingLink,
   setTaskInfo,
-  taskFetchingParams,
-  setCurrentPage,
   updateTaskStatus,
   length,
 }: taskProps) => {
@@ -105,7 +101,7 @@ const TaskCard = ({
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps({ ...task, taskFetchingParams });
+        setTaskProps({ ...task });
         setTaskInfo(true);
       }}
     >
@@ -176,7 +172,6 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
               isAssignedUser: !!assigneeId,
             });
             setTaskEditing(true);
@@ -236,7 +231,7 @@ const TaskCard = ({
               }
               setTaskProps({
                 _id: _id,
-                taskFetchingParams,
+                parentTaskId: _id,
                 isForSubtask: true,
               });
               setTaskSharing(true);

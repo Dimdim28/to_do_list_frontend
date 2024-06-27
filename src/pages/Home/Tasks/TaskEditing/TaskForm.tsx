@@ -28,18 +28,27 @@ import styles from './TaskForm.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { humaniseDate, truncate } from '../../../../helpers/string';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
+import {
+  addSubTaskToTask,
+  addTaskToList,
+  updateSubTaskInTask,
+  updateTaskCurrentPage,
+  updateTaskInList,
+} from '../../../../redux/slices/home/home';
+import {
+  selectTaskCurrentPage,
+  selectTaskTotalPages,
+} from '../../../../redux/slices/home/selectors';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    taskFetchingParams: getTask;
     length: number;
     isForSubtask?: boolean;
     assigneeId?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
     isAssignedUser?: boolean;
+    parentTaskId?: string;
   };
 }
 
@@ -52,12 +61,12 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
     links: prevLinks,
-    taskFetchingParams,
     length,
     isForSubtask,
     assigneeId,
     setSubTasksArray,
     isAssignedUser,
+    parentTaskId,
   } = childProps;
 
   const { t } = useTranslation();
@@ -77,6 +86,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
 
   const profile = useAppSelector(selectProfile);
+  const totalpages = useAppSelector(selectTaskTotalPages);
+  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   useEffect(() => {
     if (childProps) {
@@ -124,7 +135,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       });
     } else if (isForSubtask) {
       if (assigneeId) {
-        result = await subTasksAPI.editSubTask({
+        const response = await subTasksAPI.editSubTask({
           subTaskId: _id,
           title,
           description,
@@ -132,29 +143,20 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           isCompleted,
           assigneeId: assigner?._id || '',
         });
-      } else {
-        result = await subTasksAPI.createSubTask({
-          taskId: _id,
-          title,
-          description,
-          deadline: hasDeadline ? deadline : null,
-          isCompleted,
-          assigneeId: assigner?._id || '',
-        });
-      }
-    } else {
-      result = _id
-        ? await taskAPI.edittask({ _id, ...payload })
-        : await taskAPI.addtask({ user: userId, ...payload });
-    }
 
-    if (isForSubtask && _id && setSubTasksArray) {
-      const typedAssigner = assigner as User;
-      setSubTasksArray((prev) =>
-        prev.map((el) =>
-          el._id === _id
-            ? {
-                ...el,
+        const typedAssigner = assigner as User;
+        // setSubTasksArray((prev) =>
+        //   prev.map((el) => (el._id === _id ? (result.task as SubTask) : el)),  todo: modify interfaces when be will be updated
+        // );
+
+        const { status, task } = response;
+
+        if (status === Status.SUCCESS && parentTaskId && setSubTasksArray) {
+          dispatch(
+            updateSubTaskInTask({
+              taskId: parentTaskId as string,
+              subTask: {
+                ...(task as SubTask),
                 title,
                 description,
                 deadline,
@@ -167,21 +169,108 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                   },
                   username: typedAssigner.username,
                 },
-              }
-            : el,
-        ),
-      );
+              },
+            }),
+          );
+          setSubTasksArray((prev) =>
+            prev.map((el) =>
+              el._id === _id
+                ? {
+                    ...el,
+                    title,
+                    description,
+                    deadline,
+                    isCompleted,
+                    assigneeId: {
+                      _id: typedAssigner._id,
+                      avatar: {
+                        url: typedAssigner.avatar?.url || '',
+                        public_id: typedAssigner.avatar?.public_id || '',
+                      },
+                      username: typedAssigner.username,
+                    },
+                  }
+                : el,
+            ),
+          );
+        }
+
+        result = response;
+      } else {
+        const response = await subTasksAPI.createSubTask({
+          taskId: _id,
+          title,
+          description,
+          deadline: hasDeadline ? deadline : null,
+          isCompleted,
+          assigneeId: assigner?._id || '',
+        });
+
+        const { status, task } = response;
+
+        if (status === Status.SUCCESS && parentTaskId) {
+          const typedAssigner = assigner as User;
+
+          const createdSubTask: SubTask = {
+            ...(task as SubTask),
+            title,
+            description,
+            deadline,
+            isCompleted,
+            assigneeId: {
+              _id: typedAssigner._id,
+              avatar: {
+                url: typedAssigner.avatar?.url || '',
+                public_id: typedAssigner.avatar?.public_id || '',
+              },
+              username: typedAssigner.username,
+            },
+          };
+
+          if (setSubTasksArray)
+            setSubTasksArray((prev) => [...prev, createdSubTask]);
+          dispatch(
+            addSubTaskToTask({ taskId: parentTaskId, subTask: createdSubTask }),
+          );
+        }
+
+        result = response;
+      }
+    } else {
+      if (_id) {
+        const response = await taskAPI.edittask({ _id, ...payload });
+
+        const { task, status } = response;
+
+        if (status === Status.SUCCESS) {
+          dispatch(updateTaskInList(task as Task));
+        }
+
+        result = response;
+      } else {
+        const response = await taskAPI.addtask({ user: userId, ...payload });
+
+        const { task, status } = response;
+
+        if (status === Status.SUCCESS) {
+          if (length === 10) {
+            const newPage =
+              currentPage === totalpages ? totalpages + 1 : totalpages; //todo: добавление и удаление таски пересмотреть, надо узнать а если я добавляю таску на
+            dispatch(updateTaskCurrentPage(newPage)); // страницу например первую, а у меня всего 10 страниц, как мне понять, будет ли у меня 10 страниц или станет 11.
+          } else {
+            // вижу 2 решения - с бекенда присылать на добавление и удаление таски изменилось ли количество страниц, либо просто добавить таску на эту страницу, пусть их тут будет хоть 300
+            dispatch(addTaskToList(task as Task)); // а уже при рефетчинге будет по 10.
+          }
+        }
+        result = response;
+      }
     }
-    const { message, status, task } = result;
-    console.log(task);
+
+    const { message, status } = result;
+
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      if (!_id && length === 10 && !isForSubtask) {
-        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 0) + 1));
-      } else {
-        dispatch(fetchTasks(taskFetchingParams));
-      }
       toggleActive(false);
     }
   };

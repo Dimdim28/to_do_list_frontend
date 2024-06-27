@@ -28,7 +28,6 @@ describe('TaskForm', () => {
     deadline: '2023-01-01',
     isCompleted: false,
     setCurrentPage: () => {},
-    taskFetchingParams: {},
     length: 10,
     subtasks: [],
   };

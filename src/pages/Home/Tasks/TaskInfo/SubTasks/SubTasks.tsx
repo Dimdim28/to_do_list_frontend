@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -16,7 +16,7 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export interface SubTasksProps {
   subTasks: SubTask[];
-  taskFetchingParams: getTask;
+  taskId: string;
 }
 
 const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
@@ -44,7 +44,7 @@ const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
   );
 };
 
-const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
+const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
   const { t } = useTranslation();
 
   const [subTasksArray, setSubTasksArray] = useState<SubTask[]>(subTasks);
@@ -52,6 +52,10 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
   const [subTaskDeleting, setSubTaskDeleting] = useState<boolean>(false);
   const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
+
+  useEffect(() => {
+    setSubTasksArray(subTasks);
+  }, [subTasks]);
 
   // TODO fix className for avatar
   return (
@@ -112,8 +116,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
                         setSubTaskProps({
                           ...el,
                           isForSubtask: true,
-                          taskFetchingParams,
                           setSubTasksArray,
+                          parentTaskId: taskId,
                         });
                         setSubTaskEditing(true);
                         e.stopPropagation();
@@ -132,8 +136,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
                         setSubTaskProps({
                           subTaskId: el._id,
                           title: el.title,
-                          taskFetchingParams,
                           setSubTasksArray,
+                          parentTaskId: taskId,
                         });
                         setSubTaskDeleting(true);
                         e.stopPropagation();

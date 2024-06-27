@@ -7,7 +7,7 @@ import {
   Date,
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
-import { Category } from '../../../api/taskAPI';
+import { Category, Task } from '../../../api/taskAPI';
 import { SubTask } from '../../../api/subTaskAPI';
 
 const initialState: HomeSliceState = {
@@ -102,6 +102,9 @@ const homeSlice = createSlice({
 
       state.task.tasks = updatedTasks;
     },
+    addTaskToList(state, action: PayloadAction<Task>) {
+      state.task.tasks = [...state.task.tasks, action.payload];
+    },
     updateSubTaskInTask(
       state,
       action: PayloadAction<{ taskId: string; subTask: SubTask }>,
@@ -119,32 +122,21 @@ const homeSlice = createSlice({
       action: PayloadAction<{ taskId: string; subTaskId: string }>,
     ) {
       const { taskId, subTaskId } = action.payload;
-      const taskInListIndex = state.task.tasks.findIndex(
-        (el) => el._id === taskId,
-      );
-      if (taskInListIndex > -1) {
-        state.task.tasks = state.task.tasks.map((el) =>
-          el._id === taskId
-            ? {
-                ...el,
-                subtasks: el.subtasks.filter(
-                  (subtask) => subtask._id !== subTaskId,
-                ),
-              }
-            : el,
+      const taskInList = state.task.tasks.find((el) => el._id === taskId);
+      if (taskInList) {
+        taskInList.subtasks = taskInList.subtasks.filter(
+          (subtask) => subtask._id !== subTaskId,
         );
       }
     },
     addSubTaskToTask(
       state,
-      action: PayloadAction<{ taskId: string; subTaskId: string }>,
+      action: PayloadAction<{ taskId: string; subTask: SubTask }>,
     ) {
-      const { taskId, subTaskId } = action.payload;
+      const { taskId, subTask } = action.payload;
       const taskInList = state.task.tasks.find((el) => el._id === taskId);
       if (taskInList) {
-        taskInList.subtasks = taskInList.subtasks.filter(
-          (el) => el._id !== subTaskId,
-        );
+        taskInList.subtasks = [...taskInList.subtasks, subTask];
       }
     },
     addLinkToTask(state, action: PayloadAction<{ id: string; link: string }>) {
@@ -159,6 +151,12 @@ const homeSlice = createSlice({
     removeTaskFromList(state, action: PayloadAction<string>) {
       state.task.tasks = state.task.tasks.filter(
         (el) => el._id !== action.payload,
+      );
+    },
+    updateTaskInList(state, action: PayloadAction<Task>) {
+      const updatedTask = action.payload;
+      state.task.tasks = state.task.tasks.map((el) =>
+        el._id === updatedTask._id ? updatedTask : el,
       );
     },
     updateTaskCurrentPage(state, action: PayloadAction<number>) {
@@ -226,9 +224,11 @@ export const {
   updateTaskCurrentPage,
   updateTaskDate,
   removeTaskFromList,
+  updateTaskInList,
   updateTaskIsCompleted,
   updateTaskActiveCategories,
   updateTaskSearchPattern,
+  addTaskToList,
   addLinkToTask,
   updateSubTaskInTask,
   removeSubTaskFromTask,

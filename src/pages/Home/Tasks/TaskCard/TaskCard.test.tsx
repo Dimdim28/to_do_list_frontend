@@ -27,7 +27,6 @@ describe('TaskCard', () => {
   const mockSetTaskProps = jest.fn();
   const mockSetTaskDeleting = jest.fn();
   const mockSetTaskSharing = jest.fn();
-  const mockTaskFetchingParams = {};
   const mockSetCurrentPage = jest.fn();
   const mockSetTaskAddingLink = jest.fn();
   const mockSetTaskInfo = jest.fn();
@@ -43,7 +42,6 @@ describe('TaskCard', () => {
           setTaskDeleting={mockSetTaskDeleting}
           setTaskSharing={mockSetTaskSharing}
           setTaskInfo={mockSetTaskInfo}
-          taskFetchingParams={mockTaskFetchingParams}
           setCurrentPage={mockSetCurrentPage}
           setTaskAddingLink={mockSetTaskAddingLink}
           updateTaskStatus={updateTaskStatus}
@@ -68,7 +66,6 @@ describe('TaskCard', () => {
           setTaskDeleting={mockSetTaskDeleting}
           setTaskSharing={mockSetTaskSharing}
           setTaskInfo={mockSetTaskInfo}
-          taskFetchingParams={mockTaskFetchingParams}
           setCurrentPage={mockSetCurrentPage}
           setTaskAddingLink={mockSetTaskAddingLink}
           updateTaskStatus={updateTaskStatus}
@@ -80,62 +77,10 @@ describe('TaskCard', () => {
     expect(mockSetTaskProps).toHaveBeenCalledWith({
       ...task,
       isAssignedUser: false,
-      taskFetchingParams: mockTaskFetchingParams,
     });
     expect(mockSetTaskEditing).toHaveBeenCalledWith(true);
   });
 
   //TODO for Ivan: add tests for delete and share icons, handle all cases when we deal with subtask ot main task, are we a creator or an assigned user
   //TODO for Ivan: remoxe next tests or use them as a base for your tests for the previous TODO
-
-  // test('calls setTaskDeleting correctly on delete icon click', () => {
-  //   render(
-  //     <TaskCard
-  //       task={task}
-  //       setTaskEditing={mockSetTaskEditing}
-  //       setTaskProps={mockSetTaskProps}
-  //       setTaskDeleting={mockSetTaskDeleting}
-  //       setTaskSharing={mockSetTaskSharing}
-  //       setTaskInfo={mockSetTaskInfo}
-  //
-  //       taskFetchingParams={mockTaskFetchingParams}
-  //       setCurrentPage={mockSetCurrentPage}
-  //       setTaskAddingLink={mockSetTaskAddingLink}
-  //       updateTaskStatus={updateTaskStatus}
-  //     />,
-  //   );
-
-  //   fireEvent.click(screen.getByTestId('delete-icon'));
-  //   expect(mockSetTaskProps).toHaveBeenCalledWith({
-  //     ...task,
-  //     taskFetchingParams: mockTaskFetchingParams,
-  //     setCurrentPage: mockSetCurrentPage,
-  //   });
-  //   expect(mockSetTaskDeleting).toHaveBeenCalledWith(true);
-  // });
-
-  // test("calls setTaskSharing correctly on share icon click", () => {
-  //   render(
-  //     <TaskCard
-  //       task={task}
-  //       setTaskEditing={mockSetTaskEditing}
-  //       setTaskProps={mockSetTaskProps}
-  //       setTaskDeleting={mockSetTaskDeleting}
-  //       setTaskSharing={mockSetTaskSharing}
-  //       setTaskInfo={mockSetTaskInfo}
-  //
-  //       taskFetchingParams={mockTaskFetchingParams}
-  //       setCurrentPage={mockSetCurrentPage}
-  //       setTaskAddingLink={mockSetTaskAddingLink}
-  //       updateTaskStatus={updateTaskStatus}
-  //     />
-  //   );
-
-  //   fireEvent.click(screen.getByTestId("share-icon"));
-  //   expect(mockSetTaskProps).toHaveBeenCalledWith({
-  //     ...task,
-  //     taskFetchingParams: mockTaskFetchingParams,
-  //   });
-  //   expect(mockSetTaskSharing).toHaveBeenCalledWith(true);
-  // });
 });

@@ -10,13 +10,13 @@ import styles from './TaskInfo.module.scss';
 
 interface TaskInfoProps {
   childProps: Task & {
-    taskFetchingParams: getTask;
     setSubTasksArray?: SubTask[];
   };
 }
 
 const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
   const {
+    _id,
     title,
     description,
     categories,
@@ -25,7 +25,6 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
     sharedWith,
     links,
     subtasks,
-    taskFetchingParams,
   } = childProps;
 
   const { t } = useTranslation();
@@ -58,7 +57,7 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       <p className={styles.description}>{description}</p>
 
       {subtasks?.length > 0 ? (
-        <SubTasks subTasks={subtasks} taskFetchingParams={taskFetchingParams} />
+        <SubTasks subTasks={subtasks} taskId={_id} />
       ) : null}
 
       <div className={styles.links}>

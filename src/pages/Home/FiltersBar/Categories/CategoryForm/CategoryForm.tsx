@@ -43,7 +43,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
     const result = _id
       ? await categoryAPI.editCategory({ _id, title, color })
       : await categoryAPI.addCategory({ title, user: userId, color });
-    const { message, status } = result;
+    const { message, status, category } = result;
     setStatus(status);
     setCategoryError(message || '');
     if (status === Status.SUCCESS) {
@@ -52,7 +52,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
         dispatch(updateCategoryInTasksList({ _id, title, color }));
         dispatch(updateCategoryInList({ _id, title, color }));
       } else {
-        dispatch(addCategoryToList(result.category));
+        dispatch(addCategoryToList(category));
       }
     }
   };

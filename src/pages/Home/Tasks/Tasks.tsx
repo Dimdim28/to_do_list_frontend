@@ -96,7 +96,6 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
           onClick={() => {
             setTaskEditing(true);
             setTaskProps({
-              taskFetchingParams,
               length: tasks.length,
             });
           }}
@@ -155,7 +154,6 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
                     task={el}
                     key={el._id}
                     length={tasks.length}
-                    taskFetchingParams={taskFetchingParams}
                     setCurrentPage={(value: number) =>
                       dispatch(updateTaskCurrentPage(value))
                     }
