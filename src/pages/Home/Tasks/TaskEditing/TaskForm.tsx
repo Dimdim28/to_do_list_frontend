@@ -32,13 +32,8 @@ import {
   addSubTaskToTask,
   addTaskToList,
   updateSubTaskInTask,
-  updateTaskCurrentPage,
   updateTaskInList,
 } from '../../../../redux/slices/home/home';
-import {
-  selectTaskCurrentPage,
-  selectTaskTotalPages,
-} from '../../../../redux/slices/home/selectors';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -61,7 +56,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
     links: prevLinks,
-    length,
+    // length,
     isForSubtask,
     assigneeId,
     setSubTasksArray,
@@ -86,8 +81,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
 
   const profile = useAppSelector(selectProfile);
-  const totalpages = useAppSelector(selectTaskTotalPages);
-  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   useEffect(() => {
     if (childProps) {
@@ -253,14 +246,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         const { task, status } = response;
 
         if (status === Status.SUCCESS) {
-          if (length === 10) {
-            const newPage =
-              currentPage === totalpages ? totalpages + 1 : totalpages; //todo: добавление и удаление таски пересмотреть, надо узнать а если я добавляю таску на
-            dispatch(updateTaskCurrentPage(newPage)); // страницу например первую, а у меня всего 10 страниц, как мне понять, будет ли у меня 10 страниц или станет 11.
-          } else {
-            // вижу 2 решения - с бекенда присылать на добавление и удаление таски изменилось ли количество страниц, либо просто добавить таску на эту страницу, пусть их тут будет хоть 300
-            dispatch(addTaskToList(task as Task)); // а уже при рефетчинге будет по 10.
-          }
+          dispatch(addTaskToList(task as Task));
         }
         result = response;
       }

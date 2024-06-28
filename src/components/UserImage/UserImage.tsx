@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { User } from '../../api/userAPI';
 
 import styles from './UserImage.module.scss';
-
-import avatarEffect from '../../assets/32animated.png';
+import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
 
 type Size = 'medium' | 'large';
 
@@ -19,6 +18,17 @@ const UserImage: FC<UserImageProps> = ({
   size = 'medium',
   additionalClassname,
 }) => {
+  const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
+
+  useEffect(() => {
+    const avatarEffect = (
+      avatarsEffectsList[
+        Math.floor(Math.random() * avatarsEffectsList.length)
+      ] || avatarsEffectsList[0]
+    ).animation;
+    setEffectUrl(avatarEffect);
+  }, []);
+
   return (
     <div
       className={`${styles.userImageWrapper} ${
@@ -33,7 +43,7 @@ const UserImage: FC<UserImageProps> = ({
         }
         alt={user?.username || 'User'}
       />
-      <img src={avatarEffect} className={styles.avatarEffect} alt="effect" />
+      <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
     </div>
   );
 };

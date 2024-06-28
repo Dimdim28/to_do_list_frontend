@@ -57,6 +57,7 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
     setSubTasksArray(subTasks);
   }, [subTasks]);
 
+  if (!subTasksArray.length) return null;
   // TODO fix className for avatar
   return (
     <div className={styles.wrapper}>

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SubTasks from './SubTasks/SubTasks';
-import { Task, getTask } from '../../../../api/taskAPI';
+import { Task } from '../../../../api/taskAPI';
 import { humaniseDate } from '../../../../helpers/string';
 import { SubTask } from '../../../../api/subTaskAPI';
 
