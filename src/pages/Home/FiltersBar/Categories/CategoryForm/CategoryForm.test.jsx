@@ -29,7 +29,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      taskFetchingParams: {},
     };
 
     render(
@@ -66,7 +65,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      taskFetchingParams: {},
     };
   
     const toggleActiveMock = jest.fn();
@@ -102,7 +100,6 @@ describe("CategoryForm", () => {
       _id: "category-id",
       title: "Category Title",
       color: "#ffffff",
-      taskFetchingParams: {},
     };
   
     render(

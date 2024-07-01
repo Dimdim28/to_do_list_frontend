@@ -2,14 +2,13 @@ import { Status } from '../../../types';
 
 export type Profile = {
   email: string;
-  avatar: Avatar;
+  avatar: string;
   username: string;
   _id: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type Avatar = { url: string; public_id: string };
 export type Message = { status: number };
 
 export type ProfileResponse = {
@@ -34,7 +33,7 @@ export interface ChangeAvatarParams {
 }
 
 export type AvatarResponse = {
-  data: Avatar;
+  data: string;
   status: number;
   statusText: string;
 };

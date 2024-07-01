@@ -21,7 +21,6 @@ const mockChildProps = {
     _id: "1",
     title: "Category 1",
     color: "#ff0000",
-    taskFetchingParams: {},
 };
 
   describe("CategoryDeleting", () => {

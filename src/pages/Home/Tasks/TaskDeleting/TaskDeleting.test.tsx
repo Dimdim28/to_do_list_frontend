@@ -12,7 +12,6 @@ describe('TaskDeleting', () => {
   const childProps = {
     _id: '1',
     title: 'abcd',
-    taskFetchingParams: {},
     setCurrentPage: () => {},
     length: 10,
     user: 'fgd',

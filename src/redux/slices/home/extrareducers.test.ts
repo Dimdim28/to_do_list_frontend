@@ -2,7 +2,7 @@ import { Status } from '../../../types';
 import { homeReducer } from './home';
 import { fetchCategories } from './thunk';
 
-const initialState = {
+const initialState: any = {
   category: {
     categories: [],
     totalPages: 0,
@@ -13,6 +13,10 @@ const initialState = {
   task: {
     tasks: [],
     currentPage: 1,
+    searchPattern: '',
+    isCompleted: 'false',
+    date: 'all',
+    activeCategories: [],
     status: Status.LOADING,
     totalPages: 0,
   },
@@ -42,6 +46,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },
@@ -67,6 +75,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },
@@ -93,6 +105,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },

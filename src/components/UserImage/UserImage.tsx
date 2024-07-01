@@ -1,15 +1,13 @@
-import { FC } from 'react';
-
-import { User } from '../../api/userAPI';
+import { FC, useEffect, useState } from 'react';
 
 import styles from './UserImage.module.scss';
-
-import avatarEffect from '../../assets/32animated.png';
+import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
+import { UserTask } from '../../api/taskAPI';
 
 type Size = 'medium' | 'large';
 
 interface UserImageProps {
-  user: User;
+  user: UserTask;
   size?: Size;
   additionalClassname?: string;
 }
@@ -19,6 +17,17 @@ const UserImage: FC<UserImageProps> = ({
   size = 'medium',
   additionalClassname,
 }) => {
+  const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
+
+  useEffect(() => {
+    const avatarEffect = (
+      avatarsEffectsList[
+        Math.floor(Math.random() * avatarsEffectsList.length)
+      ] || avatarsEffectsList[0]
+    ).animation;
+    setEffectUrl(avatarEffect);
+  }, []);
+
   return (
     <div
       className={`${styles.userImageWrapper} ${
@@ -28,12 +37,12 @@ const UserImage: FC<UserImageProps> = ({
       <img
         className={styles.avatarImage}
         src={
-          user?.avatar?.url ||
+          user?.avatar ||
           'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
         }
         alt={user?.username || 'User'}
       />
-      <img src={avatarEffect} className={styles.avatarEffect} alt="effect" />
+      <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
     </div>
   );
 };

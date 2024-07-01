@@ -1,5 +1,9 @@
 import { Category } from '../../../api/categoryAPI';
 import { Task } from '../../../api/taskAPI';
+import {
+  Date,
+  IsCompleted,
+} from '../../../pages/Home/FiltersBar/Filters/Filters';
 import { Status } from '../../../types';
 
 export type CategoriesResponse = {
@@ -20,6 +24,10 @@ export type Tasks = {
   tasks: Task[];
   totalPages: number;
   currentPage: number;
+  searchPattern: string;
+  isCompleted: IsCompleted;
+  date: Date;
+  activeCategories: string[];
   status: Status;
   message?: string;
 };

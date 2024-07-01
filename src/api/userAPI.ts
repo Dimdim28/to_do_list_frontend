@@ -1,20 +1,12 @@
 import instanse from '../axios';
 import { Status } from '../types';
-
-export type User = {
-  _id: string;
-  username: string;
-  avatar: {
-    url: string;
-    public_id: string;
-  } | null;
-};
+import { UserTask } from './taskAPI';
 
 export type FetchUsersResponse = {
   status: number;
   statusText: string;
   data: {
-    foundUsers: User[];
+    foundUsers: UserTask[];
     page: number;
     totalPages: number;
   };

@@ -5,12 +5,11 @@ import Preloader from '../../../../../../components/Preloader/Preloader';
 import Button from '../../../../../../components/common/Button/Button';
 import { Status } from '../../../../../../types';
 import { truncate } from '../../../../../../helpers/string';
-import { getTask } from '../../../../../../api/taskAPI';
 import subTasksAPI, { SubTask } from '../../../../../../api/subTaskAPI';
 
 import styles from './SubTaskDeleting.module.scss';
-import { fetchTasks } from '../../../../../../redux/slices/home/thunk';
 import { useAppDispatch } from '../../../../../../hooks';
+import { removeSubTaskFromTask } from '../../../../../../redux/slices/home/home';
 
 interface SubTaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +18,7 @@ interface SubTaskDeletingProps {
     hideModal: () => void;
     subTaskId: string;
     title: string;
-    taskFetchingParams: getTask;
+    parentTaskId: string;
   };
 }
 
@@ -27,7 +26,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
   childProps,
   toggleActive,
 }) => {
-  const { subTaskId, title, taskFetchingParams, setSubTasksArray } = childProps;
+  const { subTaskId, title, parentTaskId, setSubTasksArray } = childProps;
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -42,7 +41,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      dispatch(fetchTasks(taskFetchingParams));
+      dispatch(removeSubTaskFromTask({ taskId: parentTaskId, subTaskId }));
       setSubTasksArray((subTasks) =>
         subTasks.filter((el) => el._id !== subTaskId),
       );

@@ -45,24 +45,24 @@ export const Modal: FC<ModalProps> = ({
     <div
       style={{ zIndex }}
       role="dialog-wrapper"
-      className={active ? styles.modalActive : styles.modal}
+      className={`${active ? styles.modalActive : undefined} ${styles.modal}`}
     >
-      {active && (
-        <div
-          role="dialog"
-          data-testid="modal-content"
-          className={active ? styles.modalContentActive : styles.modalContent}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <FontAwesomeIcon
-            data-testid="modal-close-button"
-            icon={faCircleXmark}
-            className={styles.close}
-            onClick={() => setActive(false)}
-          />
-          <ChildComponent toggleActive={setActive} childProps={childProps} />
-        </div>
-      )}
+      <div
+        role="dialog"
+        data-testid="modal-content"
+        className={`${active ? styles.modalContentActive : undefined} ${
+          styles.modalContent
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <FontAwesomeIcon
+          data-testid="modal-close-button"
+          icon={faCircleXmark}
+          className={styles.close}
+          onClick={() => setActive(false)}
+        />
+        <ChildComponent toggleActive={setActive} childProps={childProps} />
+      </div>
     </div>
   );
 };

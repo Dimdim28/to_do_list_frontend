@@ -44,12 +44,12 @@
 }
 
 .searchIcon {
-  color: $gray-25;
+  color: $gray-400;
   margin-left: 20px;
   font-size: 25px;
   transition: color $transition-delay;
 }
 
 :global(.light_theme) .searchIcon {
-  color: $gray-400;
+  color: $gray-25;
 }

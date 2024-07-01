@@ -14,23 +14,23 @@ export type TaskResponse = {
   data: Task;
 };
 
+export type UserTask = {
+  _id: string;
+  username: string;
+  avatar: string;
+};
+
 type PureTask = {
   title?: string;
+  type: 'subtask' | 'task';
   description?: string;
   categories?: Category[];
   deadline?: string | null;
   isCompleted?: boolean;
   sharedWith?: string[] | { userId: string; username: string }[];
   links?: string[];
-  assigneeId?: string;
-  userId?: {
-    _id: string;
-    username: string;
-    avatar: {
-      url: string;
-      public_id: string;
-    };
-  };
+  assignee?: string;
+  creator?: UserTask;
 };
 
 type User = {

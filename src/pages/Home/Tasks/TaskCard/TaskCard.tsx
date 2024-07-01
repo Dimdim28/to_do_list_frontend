@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-import { Task, getTask } from '../../../../api/taskAPI';
+import { Task } from '../../../../api/taskAPI';
 import { humaniseDate, truncate } from '../../../../helpers/string';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import UserImage from '../../../../components/UserImage/UserImage';
@@ -18,8 +18,8 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import subTasksAPI from '../../../../api/subTaskAPI';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
 import { useAppDispatch } from '../../../../hooks';
+import { updateTaskCompletionStatus } from '../../../../redux/slices/home/home';
 
 interface taskProps {
   task: Task;
@@ -28,7 +28,6 @@ interface taskProps {
     SetStateAction<
       | {}
       | (Task & {
-          taskFetchingParams: getTask;
           isAssignedUser?: boolean;
         })
     >
@@ -37,7 +36,6 @@ interface taskProps {
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
-  taskFetchingParams: getTask;
   setCurrentPage: (page: number) => {};
   length?: number;
   updateTaskStatus: (id: string, isCompleted: boolean) => void;
@@ -51,8 +49,6 @@ const TaskCard = ({
   setTaskSharing,
   setTaskAddingLink,
   setTaskInfo,
-  taskFetchingParams,
-  setCurrentPage,
   updateTaskStatus,
   length,
 }: taskProps) => {
@@ -66,8 +62,9 @@ const TaskCard = ({
     sharedWith,
     links,
     subtasks,
-    assigneeId,
-    userId,
+    assignee,
+    creator,
+    type,
   } = task;
 
   const { t } = useTranslation();
@@ -78,7 +75,7 @@ const TaskCard = ({
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = assigneeId
+        const result = assignee
           ? await subTasksAPI.editSubTask({
               subTaskId: _id,
               isCompleted: !completed,
@@ -86,10 +83,13 @@ const TaskCard = ({
           : await taskAPI.edittask({
               _id: _id || '',
               isCompleted: !completed,
+              type,
             });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (assigneeId) {
-          dispatch(fetchTasks(taskFetchingParams));
+        if (assignee) {
+          dispatch(
+            updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
+          );
         }
         updateTaskStatus(_id || '', !completed);
       } catch (e) {
@@ -103,7 +103,7 @@ const TaskCard = ({
     <div
       className={completed ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps({ ...task, taskFetchingParams });
+        setTaskProps({ ...task });
         setTaskInfo(true);
       }}
     >
@@ -133,11 +133,11 @@ const TaskCard = ({
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
 
-      {assigneeId && (
+      {creator && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          {userId && <UserImage user={userId} />}
-          <p className={styles.sharedUsername}>{userId?.username}</p>
+          {creator && <UserImage user={creator} />}
+          <p className={styles.sharedUsername}>{creator?.username}</p>
         </div>
       )}
       <div className={styles.links}>
@@ -174,8 +174,7 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
-              isAssignedUser: !!assigneeId,
+              isAssignedUser: !!assignee,
             });
             setTaskEditing(true);
             e.stopPropagation();
@@ -191,8 +190,7 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                taskFetchingParams,
-                isForSubTask: !!assigneeId,
+                isForSubTask: !!assignee,
               });
               setTaskAddingLink(true);
               e.stopPropagation();
@@ -211,9 +209,8 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
               length,
-              isForSubTask: !!assigneeId,
+              isForSubTask: !!assignee,
             });
             setTaskDeleting(true);
             e.stopPropagation();
@@ -236,7 +233,7 @@ const TaskCard = ({
               }
               setTaskProps({
                 _id: _id,
-                taskFetchingParams,
+                parentTaskId: _id,
                 isForSubtask: true,
               });
               setTaskSharing(true);
