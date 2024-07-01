@@ -11,10 +11,7 @@ export const MOCK_OBJECT_ONE: RootState = {
       email: 'test@gmail.com',
       token: '01032004hahathisismytoken',
       username: 'DimonTheBest',
-      avatar: {
-        url: 'link',
-        public_id: 'id',
-      },
+      avatar: 'link',
     },
     theme: Theme.DARK,
     lang: Language.EN,
@@ -100,10 +97,7 @@ export const MOCK_OBJECT_TWO: RootState = {
       email: 'dench@gmail.com',
       createdAt: '2023',
       updatedAt: '2024',
-      avatar: {
-        url: 'link',
-        public_id: 'id',
-      },
+      avatar: 'link',
     },
     status: Status.SUCCESS,
     message: '',

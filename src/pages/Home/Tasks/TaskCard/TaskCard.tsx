@@ -62,8 +62,9 @@ const TaskCard = ({
     sharedWith,
     links,
     subtasks,
-    assigneeId,
-    userId,
+    assignee,
+    creator,
+    type,
   } = task;
 
   const { t } = useTranslation();
@@ -74,7 +75,7 @@ const TaskCard = ({
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = assigneeId
+        const result = assignee
           ? await subTasksAPI.editSubTask({
               subTaskId: _id,
               isCompleted: !completed,
@@ -82,9 +83,10 @@ const TaskCard = ({
           : await taskAPI.edittask({
               _id: _id || '',
               isCompleted: !completed,
+              type,
             });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (assigneeId) {
+        if (assignee) {
           dispatch(
             updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
           );
@@ -131,11 +133,11 @@ const TaskCard = ({
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
 
-      {assigneeId && (
+      {creator && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          {userId && <UserImage user={userId} />}
-          <p className={styles.sharedUsername}>{userId?.username}</p>
+          {creator && <UserImage user={creator} />}
+          <p className={styles.sharedUsername}>{creator?.username}</p>
         </div>
       )}
       <div className={styles.links}>
@@ -172,7 +174,7 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              isAssignedUser: !!assigneeId,
+              isAssignedUser: !!assignee,
             });
             setTaskEditing(true);
             e.stopPropagation();
@@ -188,7 +190,7 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                isForSubTask: !!assigneeId,
+                isForSubTask: !!assignee,
               });
               setTaskAddingLink(true);
               e.stopPropagation();
@@ -208,7 +210,7 @@ const TaskCard = ({
             setTaskProps({
               ...task,
               length,
-              isForSubTask: !!assigneeId,
+              isForSubTask: !!assignee,
             });
             setTaskDeleting(true);
             e.stopPropagation();

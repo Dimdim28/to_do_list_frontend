@@ -1,5 +1,6 @@
 import instanse from '../axios';
 import { Status } from '../types';
+import { UserTask } from './taskAPI';
 
 export type CreateSubTaskResponse = {
   status: number;
@@ -22,14 +23,7 @@ export type SubTask = {
   isCompleted: boolean;
   deadline: string;
   rejected: boolean;
-  assigneeId: {
-    _id: string;
-    username: string;
-    avatar: {
-      url: string;
-      public_id: string;
-    };
-  };
+  assignee: UserTask;
   createdAt: string;
   updatedAt: string;
 };
@@ -100,7 +94,7 @@ class subTasksAPIClass {
     categories,
   }: EditSubTaskParams): Promise<Result> {
     try {
-      const response = await instanse.patch(`/task/subtask/${subTaskId}`, {
+      const response = await instanse.patch(`/subtask/${subTaskId}`, {
         title,
         description,
         assigneeId,
@@ -123,7 +117,7 @@ class subTasksAPIClass {
   public async deleteSubTask(subTaskId: string): Promise<Result> {
     try {
       const response: SubTaskResponse = await instanse.delete(
-        `/task/subtask/${subTaskId}`,
+        `/subtask/${subTaskId}`,
       );
       return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
@@ -141,12 +135,9 @@ class subTasksAPIClass {
     url: string,
   ): Promise<Result> {
     try {
-      const response: SubTaskResponse = await instanse.patch(
-        `/task/subtask/${id}`,
-        {
-          links: [...prevLinks, url],
-        },
-      );
+      const response: SubTaskResponse = await instanse.patch(`/subtask/${id}`, {
+        links: [...prevLinks, url],
+      });
       return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
       return {

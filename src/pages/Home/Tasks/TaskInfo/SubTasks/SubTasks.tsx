@@ -59,6 +59,7 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
 
   if (!subTasksArray.length) return null;
   // TODO fix className for avatar
+
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>{t('subtasks')}</h3>
@@ -70,7 +71,7 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
             isCompleted,
             deadline,
             rejected,
-            assigneeId,
+            assignee,
             description,
           } = el;
 
@@ -86,7 +87,7 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
             >
               <div className={styles.subTaskHeader}>
                 <UserImage
-                  user={assigneeId}
+                  user={assignee}
                   additionalClassname={`${styles.titleSubTaskAvatar} ${
                     activeSubTask === el._id
                       ? styles.titleSubTaskAvatarActive
@@ -104,9 +105,9 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
               >
                 <div className={styles.line}>
                   <div className={styles.subTaskUser}>
-                    <UserImage user={assigneeId} />
+                    <UserImage user={assignee} />
                     <p className={styles.subTaskUsername}>
-                      {assigneeId?.username || 'Anon'}
+                      {assignee?.username || 'Anon'}
                     </p>
                   </div>
                   <div className={styles.icons}>

@@ -7,10 +7,7 @@ export type Profile = {
   token: string;
   updatedAt: string;
   username: string;
-  avatar: {
-    url: string;
-    public_id: string;
-  } | null;
+  avatar: string;
 };
 
 export type ProfileResponse = {

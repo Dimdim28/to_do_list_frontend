@@ -13,7 +13,7 @@ import { Status } from '../../../../types';
 import taskAPI, {
   Task,
   Result as TaskResult,
-  getTask,
+  UserTask,
 } from '../../../../api/taskAPI';
 import subTasksAPI, {
   Result as SubTaskResult,
@@ -21,7 +21,6 @@ import subTasksAPI, {
 } from '../../../../api/subTaskAPI';
 import SearchUser from '../../../../components/SearchUser/SearchUser';
 import ChosenUser from '../ChosenUser/ChosenUser';
-import { User } from '../../../../api/userAPI';
 
 import styles from './TaskForm.module.scss';
 
@@ -40,7 +39,7 @@ interface TaskFormProps {
   childProps: Task & {
     length: number;
     isForSubtask?: boolean;
-    assigneeId?: User | null;
+    assignee?: UserTask | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
     isAssignedUser?: boolean;
     parentTaskId?: string;
@@ -58,10 +57,11 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     links: prevLinks,
     // length,
     isForSubtask,
-    assigneeId,
+    assignee,
     setSubTasksArray,
     isAssignedUser,
     parentTaskId,
+    type,
   } = childProps;
 
   const { t } = useTranslation();
@@ -78,7 +78,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
-  const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
+  const [assigner, setAssigner] = useState<UserTask | null>(assignee || null);
 
   const profile = useAppSelector(selectProfile);
 
@@ -93,20 +93,20 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       setDeadline(prevDeadline || '');
       setIsCompleted(prevIscompleted || false);
       setLinks([...(prevLinks || [])]);
-      setAssigner(assigneeId || null);
+      setAssigner(assignee || null);
     }
   }, [childProps]);
 
   const userId = profile?._id || '';
-  const avatar = profile?.avatar || {
-    url: 'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg',
-    public_id: '',
-  };
+  const avatar =
+    profile?.avatar ||
+    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg';
+
   const username = profile?.username || '';
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description, links: links || [] };
+    let payload = { title, description, links: links || [], type };
     payload = Object.assign(payload, {
       deadline: hasDeadline ? deadline : null,
     });
@@ -127,17 +127,18 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         isCompleted,
       });
     } else if (isForSubtask) {
-      if (assigneeId) {
+      if (assignee) {
+        console.log(assignee);
         const response = await subTasksAPI.editSubTask({
           subTaskId: _id,
           title,
           description,
           deadline: hasDeadline ? deadline : null,
           isCompleted,
-          assigneeId: assigner?._id || '',
+          assigneeId: assignee?._id || '',
         });
 
-        const typedAssigner = assigner as User;
+        const typedAssigner = assigner as UserTask;
         // setSubTasksArray((prev) =>
         //   prev.map((el) => (el._id === _id ? (result.task as SubTask) : el)),  todo: modify interfaces when be will be updated
         // );
@@ -154,12 +155,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                 description,
                 deadline,
                 isCompleted,
-                assigneeId: {
+                assignee: {
                   _id: typedAssigner._id,
-                  avatar: {
-                    url: typedAssigner.avatar?.url || '',
-                    public_id: typedAssigner.avatar?.public_id || '',
-                  },
+                  avatar: typedAssigner.avatar || '',
                   username: typedAssigner.username,
                 },
               },
@@ -174,12 +172,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                     description,
                     deadline,
                     isCompleted,
-                    assigneeId: {
+                    assignee: {
                       _id: typedAssigner._id,
-                      avatar: {
-                        url: typedAssigner.avatar?.url || '',
-                        public_id: typedAssigner.avatar?.public_id || '',
-                      },
+                      avatar: typedAssigner.avatar || '',
                       username: typedAssigner.username,
                     },
                   }
@@ -202,21 +197,16 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         const { status, task } = response;
 
         if (status === Status.SUCCESS && parentTaskId) {
-          const typedAssigner = assigner as User;
-
           const createdSubTask: SubTask = {
             ...(task as SubTask),
             title,
             description,
             deadline,
             isCompleted,
-            assigneeId: {
-              _id: typedAssigner._id,
-              avatar: {
-                url: typedAssigner.avatar?.url || '',
-                public_id: typedAssigner.avatar?.public_id || '',
-              },
-              username: typedAssigner.username,
+            assignee: {
+              _id: assignee?._id || '',
+              avatar: assignee?.avatar || '',
+              username: assignee?.username || '',
             },
           };
 
@@ -299,7 +289,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             ) : (
               <>
                 <SearchUser
-                  handleUserClick={(user: User) => {
+                  handleUserClick={(user: UserTask) => {
                     setAssigner(user);
                   }}
                 />

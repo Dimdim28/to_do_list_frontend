@@ -1,14 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 
-import { User } from '../../api/userAPI';
-
 import styles from './UserImage.module.scss';
 import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
+import { UserTask } from '../../api/taskAPI';
 
 type Size = 'medium' | 'large';
 
 interface UserImageProps {
-  user: User;
+  user: UserTask;
   size?: Size;
   additionalClassname?: string;
 }
@@ -38,7 +37,7 @@ const UserImage: FC<UserImageProps> = ({
       <img
         className={styles.avatarImage}
         src={
-          user?.avatar?.url ||
+          user?.avatar ||
           'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
         }
         alt={user?.username || 'User'}
