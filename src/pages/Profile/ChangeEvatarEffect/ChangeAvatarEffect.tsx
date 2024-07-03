@@ -161,11 +161,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
           >
             <div className={styles.avatar}>
               {avatar ? (
-                <img
-                  src={avatar.url}
-                  alt="logo"
-                  className={styles.avatarImage}
-                />
+                <img src={avatar} alt="logo" className={styles.avatarImage} />
               ) : (
                 <img
                   className={styles.avatarImage}
@@ -213,11 +209,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
                   alt="effect"
                 />
                 {avatar ? (
-                  <img
-                    src={avatar.url}
-                    alt="logo"
-                    className={styles.avatarImage}
-                  />
+                  <img src={avatar} alt="logo" className={styles.avatarImage} />
                 ) : (
                   <img
                     className={styles.avatarImage}
@@ -242,7 +234,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
             )}
             {avatar ? (
               <img
-                src={avatar.url}
+                src={avatar}
                 alt="logo"
                 className={`${styles.avatarImage} ${
                   activeAvatar < 0 ? styles.border : ''

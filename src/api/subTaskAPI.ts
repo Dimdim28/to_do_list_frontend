@@ -1,6 +1,5 @@
 import instanse from '../axios';
 import { Status } from '../types';
-import { UserTask } from './taskAPI';
 
 export type CreateSubTaskResponse = {
   status: number;
@@ -23,7 +22,11 @@ export type SubTask = {
   isCompleted: boolean;
   deadline: string;
   rejected: boolean;
-  assignee: UserTask;
+  assignee: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
   createdAt: string;
   updatedAt: string;
 };

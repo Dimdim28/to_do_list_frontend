@@ -20,8 +20,10 @@ import instanse from '../../../axios';
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   'profile/fetchUserProfile',
   async (params, { rejectWithValue }) => {
+    const { id } = params;
+    const url = id ? `/user/profile/${id}` : '/user/me';
     try {
-      const response: ProfileResponse = await instanse.get(`/user/me`);
+      const response: ProfileResponse = await instanse.get(url);
       return {
         ...response.data,
         avatarUrl: response.data.avatar,
@@ -29,7 +31,7 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
 export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
@@ -38,14 +40,14 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
     try {
       const response: AvatarResponse = await instanse.post(
         `/image/avatar`,
-        params.image
+        params.image,
       );
 
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
 export const deleteAccount = createAsyncThunk<void>(
@@ -58,7 +60,7 @@ export const deleteAccount = createAsyncThunk<void>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.message || 'Error');
     }
-  }
+  },
 );
 
 export const changePass = createAsyncThunk<Message, ChangePassword>(
@@ -67,7 +69,7 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
     try {
       const passCheckingResult: DeleteAccountResponse = await instanse.post(
         '/user/password',
-        { oldPassword: params.oldPassword, newPassword: params.newPassword }
+        { oldPassword: params.oldPassword, newPassword: params.newPassword },
       );
 
       if (passCheckingResult.status !== 200) {
@@ -78,10 +80,10 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
-export const changeName = createAsyncThunk<Message, ChangeName>(
+export const changeName = createAsyncThunk<Profile, ChangeName>(
   'profile/changeName',
   async (params, { rejectWithValue }) => {
     try {
@@ -92,7 +94,7 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
 export const getStats = createAsyncThunk<DailyStats[]>(
@@ -104,5 +106,5 @@ export const getStats = createAsyncThunk<DailyStats[]>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );

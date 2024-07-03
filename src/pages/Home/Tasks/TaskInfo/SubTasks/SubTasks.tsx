@@ -13,6 +13,7 @@ import UserImage from '../../../../../components/UserImage/UserImage';
 import styles from './SubTasks.module.scss';
 
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import ROUTES from '../../../../../routes';
 
 export interface SubTasksProps {
   subTasks: SubTask[];
@@ -53,13 +54,16 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
   const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
 
+  const goToProfile = (id: string) => {
+    window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
+  };
+
   useEffect(() => {
     setSubTasksArray(subTasks);
   }, [subTasks]);
 
   if (!subTasksArray.length) return null;
   // TODO fix className for avatar
-
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>{t('subtasks')}</h3>
@@ -87,6 +91,7 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
             >
               <div className={styles.subTaskHeader}>
                 <UserImage
+                  onAvatarClick={(user) => goToProfile(user._id)}
                   user={assignee}
                   additionalClassname={`${styles.titleSubTaskAvatar} ${
                     activeSubTask === el._id
@@ -105,7 +110,10 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
               >
                 <div className={styles.line}>
                   <div className={styles.subTaskUser}>
-                    <UserImage user={assignee} />
+                    <UserImage
+                      user={assignee}
+                      onAvatarClick={(user) => goToProfile(user._id)}
+                    />
                     <p className={styles.subTaskUsername}>
                       {assignee?.username || 'Anon'}
                     </p>

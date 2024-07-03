@@ -14,15 +14,8 @@ export type TaskResponse = {
   data: Task;
 };
 
-export type UserTask = {
-  _id: string;
-  username: string;
-  avatar: string;
-};
-
 type PureTask = {
   title?: string;
-  type: 'subtask' | 'task';
   description?: string;
   categories?: Category[];
   deadline?: string | null;
@@ -30,7 +23,11 @@ type PureTask = {
   sharedWith?: string[] | { userId: string; username: string }[];
   links?: string[];
   assignee?: string;
-  creator?: UserTask;
+  creator?: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
 };
 
 type User = {

@@ -117,6 +117,42 @@ const homeSlice = createSlice({
         );
       }
     },
+    updateMySubTaskInTasksList(
+      state,
+      action: PayloadAction<{
+        _id: string;
+        title: string;
+        description: string;
+        deadline: string;
+        isCompleted: boolean;
+      }>,
+    ) {
+      const { _id, title, description, deadline, isCompleted } = action.payload;
+      const taskInList = state.task.tasks.find((el) => el._id === _id);
+
+      if (taskInList) {
+        taskInList.title = title;
+        taskInList.description = description;
+        taskInList.deadline = deadline;
+        taskInList.isCompleted = isCompleted;
+      }
+    },
+    updateSubTaskCompletionStatusInSubtasksList(
+      state,
+      action: PayloadAction<{
+        taskId: string;
+        subTaskId: string;
+        isCompleted: boolean;
+      }>,
+    ) {
+      const { taskId, subTaskId, isCompleted } = action.payload;
+      const taskInList = state.task.tasks.find((el) => el._id === taskId);
+      if (taskInList) {
+        taskInList.subtasks = taskInList.subtasks.map((el) =>
+          el._id === subTaskId ? { ...el, isCompleted } : el,
+        );
+      }
+    },
     removeSubTaskFromTask(
       state,
       action: PayloadAction<{ taskId: string; subTaskId: string }>,
@@ -231,6 +267,8 @@ export const {
   addTaskToList,
   addLinkToTask,
   updateSubTaskInTask,
+  updateMySubTaskInTasksList,
+  updateSubTaskCompletionStatusInSubtasksList,
   removeSubTaskFromTask,
   addSubTaskToTask,
   clear,

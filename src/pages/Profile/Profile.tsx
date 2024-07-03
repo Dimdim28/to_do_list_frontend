@@ -19,11 +19,13 @@ import { chartOptions, getChartData } from '../../helpers/stats';
 import { Chart as ChartJS, registerables } from 'chart.js';
 
 import styles from './Profile.module.scss';
+import { useParams } from 'react-router';
 
 ChartJS.register(...registerables);
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
+  const { id = '' } = useParams();
 
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isPassEditing, setIspassEditing] = useState(false);
@@ -39,12 +41,12 @@ const Profile: FC = () => {
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-  const id = useAppSelector(selectProfile)?._id || '';
+  const ownerId = useAppSelector(selectProfile)?._id || '';
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
     if (isAuth)
-      dispatch(fetchUserProfile({ id })).then(() => {
+      dispatch(fetchUserProfile({ id: id })).then(() => {
         dispatch(getStats());
       });
   }, [id, isAuth]);
@@ -71,9 +73,10 @@ const Profile: FC = () => {
           setIsAccountDeleting={setIsAccountDeleting}
           isAccountDeleting={isAccountDeleting}
           isExiting={isExiting}
+          ownerId={ownerId}
         />
 
-        {isPassEditing && (
+        {isPassEditing && (!id || id === ownerId) && (
           <div className={styles.passwordWrapper}>
             <div className={styles.passEditing}>
               <ChangePass id={id} />
@@ -84,9 +87,11 @@ const Profile: FC = () => {
       </div>
       {profileStats.length > 0 && (
         <div className={styles.statsWrapper}>
-          <div className={styles.chartWrapper}>
-            <Bar data={getChartData(profileStats)} options={chartOptions} />
-          </div>
+          {(!id || id === ownerId) && (
+            <div className={styles.chartWrapper}>
+              <Bar data={getChartData(profileStats)} options={chartOptions} />
+            </div>
+          )}
           <div className={styles.statsNumbers}>
             <div className={styles.leftcol}>
               <span>76</span>

@@ -11,12 +11,10 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { avatarsEffectsList } from '../../ChangeEvatarEffect/ChangeAvatarEffect';
 
-const avatarEffect = (
-  avatarsEffectsList[Math.floor(Math.random() * avatarsEffectsList.length)] ||
-  avatarsEffectsList[0]
-).animation;
-
-const Avatar: FC = () => {
+interface AvatarProps {
+  isOwner: boolean;
+}
+const Avatar: FC<AvatarProps> = ({ isOwner }) => {
   const dispatch = useAppDispatch();
 
   const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
@@ -57,15 +55,17 @@ const Avatar: FC = () => {
 
   return (
     <div className={styles.avatar} data-testid="avatar-container">
-      <input
-        type="file"
-        ref={inputFileRef}
-        onChange={handleChangeFile}
-        data-testid="file-input-component"
-      />
+      {isOwner && (
+        <input
+          type="file"
+          ref={inputFileRef}
+          onChange={handleChangeFile}
+          data-testid="file-input-component"
+        />
+      )}
       <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
       {avatar ? (
-        <img src={avatar.url} alt="logo" />
+        <img src={avatar} alt="logo" />
       ) : (
         <img
           src={
@@ -74,18 +74,19 @@ const Avatar: FC = () => {
           alt="default"
         />
       )}
-
-      <div
-        className={styles.addPhoto}
-        onClick={() => inputFileRef.current?.click()}
-        data-testid="add-photo-component"
-      >
-        <FontAwesomeIcon
-          className={styles.camera}
-          icon={faCirclePlus}
-          data-testid="camera-icon-component"
-        />
-      </div>
+      {isOwner && (
+        <div
+          className={styles.addPhoto}
+          onClick={() => inputFileRef.current?.click()}
+          data-testid="add-photo-component"
+        >
+          <FontAwesomeIcon
+            className={styles.camera}
+            icon={faCirclePlus}
+            data-testid="camera-icon-component"
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -13,7 +13,7 @@ import { Status } from '../../../../types';
 import taskAPI, {
   Task,
   Result as TaskResult,
-  UserTask,
+  getTask,
 } from '../../../../api/taskAPI';
 import subTasksAPI, {
   Result as SubTaskResult,
@@ -21,6 +21,7 @@ import subTasksAPI, {
 } from '../../../../api/subTaskAPI';
 import SearchUser from '../../../../components/SearchUser/SearchUser';
 import ChosenUser from '../ChosenUser/ChosenUser';
+import { User } from '../../../../api/userAPI';
 
 import styles from './TaskForm.module.scss';
 
@@ -30,6 +31,7 @@ import { humaniseDate, truncate } from '../../../../helpers/string';
 import {
   addSubTaskToTask,
   addTaskToList,
+  updateMySubTaskInTasksList,
   updateSubTaskInTask,
   updateTaskInList,
 } from '../../../../redux/slices/home/home';
@@ -39,7 +41,7 @@ interface TaskFormProps {
   childProps: Task & {
     length: number;
     isForSubtask?: boolean;
-    assignee?: UserTask | null;
+    assignee?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
     isAssignedUser?: boolean;
     parentTaskId?: string;
@@ -61,7 +63,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     setSubTasksArray,
     isAssignedUser,
     parentTaskId,
-    type,
   } = childProps;
 
   const { t } = useTranslation();
@@ -78,7 +79,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
-  const [assigner, setAssigner] = useState<UserTask | null>(assignee || null);
+  const [assigner, setAssigner] = useState<User | null>(assignee || null);
 
   const profile = useAppSelector(selectProfile);
 
@@ -106,7 +107,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description, links: links || [], type };
+    let payload = { title, description, links: links || [] };
     payload = Object.assign(payload, {
       deadline: hasDeadline ? deadline : null,
     });
@@ -128,17 +129,16 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       });
     } else if (isForSubtask) {
       if (assignee) {
-        console.log(assignee);
         const response = await subTasksAPI.editSubTask({
           subTaskId: _id,
           title,
           description,
           deadline: hasDeadline ? deadline : null,
           isCompleted,
-          assigneeId: assignee?._id || '',
+          assigneeId: assigner?._id || '',
         });
 
-        const typedAssigner = assigner as UserTask;
+        const typedAssigner = assigner as User;
         // setSubTasksArray((prev) =>
         //   prev.map((el) => (el._id === _id ? (result.task as SubTask) : el)),  todo: modify interfaces when be will be updated
         // );
@@ -161,6 +161,15 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                   username: typedAssigner.username,
                 },
               },
+            }),
+          );
+          dispatch(
+            updateMySubTaskInTasksList({
+              _id: _id,
+              title,
+              description,
+              deadline,
+              isCompleted,
             }),
           );
           setSubTasksArray((prev) =>
@@ -197,6 +206,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         const { status, task } = response;
 
         if (status === Status.SUCCESS && parentTaskId) {
+          const typedAssigner = assigner as User;
+
           const createdSubTask: SubTask = {
             ...(task as SubTask),
             title,
@@ -204,9 +215,9 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
             deadline,
             isCompleted,
             assignee: {
-              _id: assignee?._id || '',
-              avatar: assignee?.avatar || '',
-              username: assignee?.username || '',
+              _id: typedAssigner._id,
+              avatar: typedAssigner.avatar || '',
+              username: typedAssigner.username,
             },
           };
 
@@ -285,11 +296,12 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                 removeUser={() => {
                   setAssigner(null);
                 }}
+                isForCreation={!assignee}
               />
             ) : (
               <>
                 <SearchUser
-                  handleUserClick={(user: UserTask) => {
+                  handleUserClick={(user: User) => {
                     setAssigner(user);
                   }}
                 />

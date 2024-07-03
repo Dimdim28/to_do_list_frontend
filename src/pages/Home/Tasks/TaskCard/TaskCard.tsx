@@ -1,4 +1,10 @@
-import { useState, Dispatch, SetStateAction, useCallback } from 'react';
+import {
+  useState,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+} from 'react';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +26,8 @@ import {
 import subTasksAPI from '../../../../api/subTaskAPI';
 import { useAppDispatch } from '../../../../hooks';
 import { updateTaskCompletionStatus } from '../../../../redux/slices/home/home';
+import ROUTES from '../../../../routes';
+import { useNavigate } from 'react-router';
 
 interface taskProps {
   task: Task;
@@ -62,20 +70,29 @@ const TaskCard = ({
     sharedWith,
     links,
     subtasks,
-    assignee,
     creator,
-    type,
   } = task;
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [completed, setIsCompleted] = useState(isCompleted || false);
+
+  useEffect(() => {
+    if (isCompleted !== undefined && isCompleted !== completed) {
+      setIsCompleted(isCompleted);
+    }
+  }, [isCompleted]);
+
+  const goToProfile = (id: string) => {
+    navigate(`${ROUTES.PROFILE}/${id}`);
+  };
 
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = assignee
+        const result = creator
           ? await subTasksAPI.editSubTask({
               subTaskId: _id,
               isCompleted: !completed,
@@ -83,10 +100,9 @@ const TaskCard = ({
           : await taskAPI.edittask({
               _id: _id || '',
               isCompleted: !completed,
-              type,
             });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (assignee) {
+        if (creator) {
           dispatch(
             updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
           );
@@ -136,7 +152,12 @@ const TaskCard = ({
       {creator && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          {creator && <UserImage user={creator} />}
+          {creator && (
+            <UserImage
+              user={creator}
+              onAvatarClick={(user) => goToProfile(user._id)}
+            />
+          )}
           <p className={styles.sharedUsername}>{creator?.username}</p>
         </div>
       )}
@@ -174,7 +195,7 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              isAssignedUser: !!assignee,
+              isAssignedUser: !!creator,
             });
             setTaskEditing(true);
             e.stopPropagation();
@@ -190,7 +211,7 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                isForSubTask: !!assignee,
+                isForSubTask: !!creator,
               });
               setTaskAddingLink(true);
               e.stopPropagation();
@@ -210,7 +231,7 @@ const TaskCard = ({
             setTaskProps({
               ...task,
               length,
-              isForSubTask: !!assignee,
+              isForSubTask: !!creator,
             });
             setTaskDeleting(true);
             e.stopPropagation();

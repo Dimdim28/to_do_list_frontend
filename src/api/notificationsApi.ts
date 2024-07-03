@@ -1,7 +1,6 @@
 import instanse from '../axios';
 import { Status } from '../types';
 import { SubTask } from './subTaskAPI';
-import { UserTask } from './taskAPI';
 
 export type NotificationsResponse = {
   status: number;
@@ -22,7 +21,14 @@ export type Notification = {
   createdAt: string;
   subtaskId: SubTask;
   type: NotificationType;
-  userId: UserTask;
+  userId: {
+    avatar: {
+      url: string;
+      public_id: string;
+    };
+    username: string;
+    _id: string;
+  };
   _id: string;
 };
 

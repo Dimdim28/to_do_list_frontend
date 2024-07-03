@@ -1,21 +1,24 @@
 import { FC, useEffect, useState } from 'react';
 
+import { User } from '../../api/userAPI';
+
 import styles from './UserImage.module.scss';
 import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
-import { UserTask } from '../../api/taskAPI';
 
 type Size = 'medium' | 'large';
 
 interface UserImageProps {
-  user: UserTask;
+  user: User;
   size?: Size;
   additionalClassname?: string;
+  onAvatarClick?: (user: User) => void;
 }
 
 const UserImage: FC<UserImageProps> = ({
   user,
   size = 'medium',
   additionalClassname,
+  onAvatarClick,
 }) => {
   const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
 
@@ -35,7 +38,15 @@ const UserImage: FC<UserImageProps> = ({
       } ${additionalClassname ?? ''}`}
     >
       <img
-        className={styles.avatarImage}
+        onClick={(e) => {
+          if (onAvatarClick) {
+            e.stopPropagation();
+            onAvatarClick(user);
+          }
+        }}
+        className={`${styles.avatarImage} ${
+          onAvatarClick ? styles.clickable : ''
+        }`}
         src={
           user?.avatar ||
           'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'

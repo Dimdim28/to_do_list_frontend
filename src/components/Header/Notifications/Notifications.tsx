@@ -125,6 +125,9 @@ const Notifications = () => {
   }, []);
 
   const NotificationsList = () => {
+    const goToProfile = (id: string) => {
+      navigate(`${ROUTES.PROFILE}/${id}`);
+    };
     return (
       <>
         {notifications.map((notification) => (
@@ -133,7 +136,16 @@ const Notifications = () => {
               {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
             </p>
             <div className={styles.user}>
-              <UserImage user={notification.userId} size="large" />
+              <UserImage
+                user={{
+                  ...notification.userId,
+                  avatar: notification.userId.avatar.url,
+                }}
+                onAvatarClick={(user) => {
+                  goToProfile(user._id);
+                }}
+                size="large"
+              />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
                   {truncate(notification?.userId?.username || 'User', 16)}

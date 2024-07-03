@@ -20,7 +20,7 @@ describe('TaskCard', () => {
     createdAt: '2023-06-30',
     updatedAt: '2023-06-30',
     subtasks: [],
-    assignee: undefined,
+    assigneeId: undefined,
   };
 
   const mockSetTaskEditing = jest.fn();

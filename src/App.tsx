@@ -89,14 +89,15 @@ function App() {
             <Route path={ROUTES.LOGIN} element={<Login />} />
             <Route path={ROUTES.REGISTER} element={<Register />} />
           </Route>
-          <Route path={ROUTES.HOME} element={<HomeLayout />}>
+          <Route path="" element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
-          <Route path={ROUTES.PROFILE} element={<PageLayout />}>
+          <Route path="" element={<PageLayout />}>
+            <Route path={`${ROUTES.PROFILE}/:id`} element={<Profile />} />
             <Route path={ROUTES.PROFILE} element={<Profile />} />
           </Route>
-          <Route path={ROUTES.FAQ} element={<FAQLayout />}>
+          <Route path="" element={<FAQLayout />}>
             <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
           <Route path="*" element={<Navigate to={ROUTES.HOME} />} />

@@ -42,7 +42,10 @@ describe('Testing auth slice selectors', () => {
       email: 'test@gmail.com',
       token: '01032004hahathisismytoken',
       username: 'DimonTheBest',
-      avatar: 'link',
+      avatar: {
+        public_id: 'id',
+        url: 'link',
+      },
     });
 
     expect(recievedSecondState).toBe(null);

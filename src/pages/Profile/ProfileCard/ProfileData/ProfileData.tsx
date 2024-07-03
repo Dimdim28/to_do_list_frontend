@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from "../../../../hooks";
-import { selectUserProfile } from "../../../../redux/slices/profile/selectors";
+import { useAppSelector } from '../../../../hooks';
+import { selectUserProfile } from '../../../../redux/slices/profile/selectors';
 
-import styles from "./ProfileData.module.scss";
+import styles from './ProfileData.module.scss';
 
 interface DataLineProps {
   label: string;
@@ -24,8 +24,8 @@ const DataLine: FC<DataLineProps> = ({ label, value }) => {
 
 const ProfileData: FC = () => {
   const profile = useAppSelector(selectUserProfile) || {
-    email: "",
-    createdAt: "",
+    email: '',
+    createdAt: '',
   };
 
   const { email, createdAt } = profile;
