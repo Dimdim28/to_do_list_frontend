@@ -10,11 +10,7 @@ import { TextArea } from '../../../../components/common/TextArea/TextArea';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { Status } from '../../../../types';
-import taskAPI, {
-  Task,
-  Result as TaskResult,
-  getTask,
-} from '../../../../api/taskAPI';
+import taskAPI, { Task, Result as TaskResult } from '../../../../api/taskAPI';
 import subTasksAPI, {
   Result as SubTaskResult,
   SubTask,
@@ -121,12 +117,25 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     let result: TaskResult | SubTaskResult;
 
     if (isAssignedUser) {
-      result = await subTasksAPI.editSubTask({
+      //todo: here should be logic for update shared to us task
+      const response = await subTasksAPI.editSubTask({
         subTaskId: _id,
         links,
         categories,
         isCompleted,
       });
+
+      dispatch(
+        updateMySubTaskInTasksList({
+          _id: _id,
+          title,
+          description,
+          deadline,
+          isCompleted,
+        }),
+      );
+
+      result = response;
     } else if (isForSubtask) {
       if (assignee) {
         const response = await subTasksAPI.editSubTask({
@@ -145,7 +154,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
         const { status, task } = response;
 
-        if (status === Status.SUCCESS && parentTaskId && setSubTasksArray) {
+        if (status === Status.SUCCESS && parentTaskId) {
           dispatch(
             updateSubTaskInTask({
               taskId: parentTaskId as string,
@@ -172,24 +181,26 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
               isCompleted,
             }),
           );
-          setSubTasksArray((prev) =>
-            prev.map((el) =>
-              el._id === _id
-                ? {
-                    ...el,
-                    title,
-                    description,
-                    deadline,
-                    isCompleted,
-                    assignee: {
-                      _id: typedAssigner._id,
-                      avatar: typedAssigner.avatar || '',
-                      username: typedAssigner.username,
-                    },
-                  }
-                : el,
-            ),
-          );
+          if (setSubTasksArray) {
+            setSubTasksArray((prev) =>
+              prev.map((el) =>
+                el._id === _id
+                  ? {
+                      ...el,
+                      title,
+                      description,
+                      deadline,
+                      isCompleted,
+                      assignee: {
+                        _id: typedAssigner._id,
+                        avatar: typedAssigner.avatar || '',
+                        username: typedAssigner.username,
+                      },
+                    }
+                  : el,
+              ),
+            );
+          }
         }
 
         result = response;
@@ -206,26 +217,39 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         const { status, task } = response;
 
         if (status === Status.SUCCESS && parentTaskId) {
-          const typedAssigner = assigner as User;
-
-          const createdSubTask: SubTask = {
-            ...(task as SubTask),
-            title,
-            description,
-            deadline,
-            isCompleted,
-            assignee: {
-              _id: typedAssigner._id,
-              avatar: typedAssigner.avatar || '',
-              username: typedAssigner.username,
-            },
-          };
+          console.log(task);
+          const createdSubTask = task as SubTask;
 
           if (setSubTasksArray)
             setSubTasksArray((prev) => [...prev, createdSubTask]);
           dispatch(
             addSubTaskToTask({ taskId: parentTaskId, subTask: createdSubTask }),
           );
+          if (createdSubTask.assignee._id === userId) {
+            const {
+              _id,
+              title,
+              description,
+              isCompleted,
+              deadline,
+              assignee,
+              dateOfCompletion,
+            } = createdSubTask as SubTask & { dateOfCompletion: string };
+            dispatch(
+              addTaskToList({
+                _id,
+                title,
+                description,
+                isCompleted,
+                links: [],
+                categories: [],
+                deadline,
+                creator: assignee,
+                type: 'subtask',
+                dateOfCompletion,
+              } as any),
+            );
+          }
         }
 
         result = response;

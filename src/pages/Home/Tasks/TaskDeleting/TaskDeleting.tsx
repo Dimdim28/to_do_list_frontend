@@ -11,6 +11,7 @@ import subTasksAPI from '../../../../api/subTaskAPI';
 import styles from './TaskDeleting.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
+  updateSubTaskIsRejectedStatusInSubtasksList,
   removeTaskFromList,
   updateTaskCurrentPage,
 } from '../../../../redux/slices/home/home';
@@ -38,7 +39,7 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = isForSubTask
-      ? await subTasksAPI.editSubTask({ subTaskId: _id, rejected: true })
+      ? await subTasksAPI.editSubTask({ subTaskId: _id, isRejected: true })
       : await taskAPI.deleteTask(_id);
     const { message, status } = result;
     setStatus(status);
@@ -48,6 +49,12 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
         dispatch(updateTaskCurrentPage((currentPage || 2) - 1));
       } else {
         dispatch(removeTaskFromList(_id));
+        dispatch(
+          updateSubTaskIsRejectedStatusInSubtasksList({
+            subTaskId: _id,
+            isRejected: true,
+          }),
+        );
       }
       toggleActive(false);
     }

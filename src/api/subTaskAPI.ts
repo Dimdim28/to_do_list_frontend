@@ -21,7 +21,8 @@ export type SubTask = {
   description: string;
   isCompleted: boolean;
   deadline: string;
-  rejected: boolean;
+  isRejected: boolean;
+  isConfirmed: boolean;
   assignee: {
     _id: string;
     username: string;
@@ -51,7 +52,8 @@ interface EditSubTaskParams {
   isCompleted?: boolean;
   deadline?: string | null;
   links?: string[];
-  rejected?: boolean;
+  isRejected?: boolean;
+  isConfirmed?: boolean;
   categories?: string[];
 }
 
@@ -93,7 +95,8 @@ class subTasksAPIClass {
     assigneeId,
     isCompleted,
     deadline,
-    rejected,
+    isRejected,
+    isConfirmed,
     categories,
   }: EditSubTaskParams): Promise<Result> {
     try {
@@ -104,7 +107,8 @@ class subTasksAPIClass {
         isCompleted,
         deadline,
         links,
-        rejected,
+        rejected: isRejected,
+        isConfirmed,
         categories,
       });
       return { status: Status.SUCCESS, task: response.data };

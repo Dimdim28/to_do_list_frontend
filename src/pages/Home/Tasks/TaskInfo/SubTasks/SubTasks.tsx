@@ -20,29 +20,24 @@ export interface SubTasksProps {
   taskId: string;
 }
 
-const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
-  rejected,
-  isCompleted,
-}) => {
+const Status: FC<{
+  isRejected: boolean;
+  isCompleted: boolean;
+  isConfirmed: boolean;
+}> = ({ isRejected, isCompleted, isConfirmed }) => {
   const { t } = useTranslation();
 
-  return (
-    <>
-      {rejected ? (
-        <p className={styles.subTaskRejected}>
-          {rejected ? t('rejected') : null}
-        </p>
-      ) : (
-        <p
-          className={
-            isCompleted ? styles.subTaskCompleted : styles.subtaskInProgress
-          }
-        >
-          {isCompleted ? t('completedSub') : t('inProgress')}
-        </p>
-      )}
-    </>
-  );
+  if (isRejected) {
+    return <p className={styles.subTaskRejected}>{t('rejected')}</p>;
+  }
+  if (!isConfirmed) {
+    return <p className={styles.subTaskIgnored}>{t('ignored')}</p>;
+  }
+  if (isCompleted) {
+    return <p className={styles.subTaskCompleted}>{t('completedSub')}</p>;
+  }
+
+  return <p className={styles.subTaskInProgress}>{t('inProgress')}</p>;
 };
 
 const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
@@ -74,7 +69,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
             title,
             isCompleted,
             deadline,
-            rejected,
+            isRejected,
+            isConfirmed,
             assignee,
             description,
           } = el;
@@ -101,7 +97,11 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
                 />
 
                 <p className={styles.subTaskTitle}>{truncate(title, 20)}</p>
-                <Status rejected={rejected} isCompleted={isCompleted} />
+                <Status
+                  isRejected={isRejected}
+                  isConfirmed={isConfirmed}
+                  isCompleted={isCompleted}
+                />
               </div>
               <div
                 className={`${styles.subTaskInfo} ${

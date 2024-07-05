@@ -25,7 +25,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import subTasksAPI from '../../../../api/subTaskAPI';
 import { useAppDispatch } from '../../../../hooks';
-import { updateTaskCompletionStatus } from '../../../../redux/slices/home/home';
+import {
+  updateSubTaskCompletionStatusInSubtasksList,
+  updateTaskCompletionStatus,
+} from '../../../../redux/slices/home/home';
 import ROUTES from '../../../../routes';
 import { useNavigate } from 'react-router';
 
@@ -105,6 +108,13 @@ const TaskCard = ({
         if (creator) {
           dispatch(
             updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
+          );
+          console.log('will be set', !completed);
+          dispatch(
+            updateSubTaskCompletionStatusInSubtasksList({
+              subTaskId: _id,
+              isCompleted: !completed,
+            }),
           );
         }
         updateTaskStatus(_id || '', !completed);

@@ -9,7 +9,10 @@ import subTasksAPI, { SubTask } from '../../../../../../api/subTaskAPI';
 
 import styles from './SubTaskDeleting.module.scss';
 import { useAppDispatch } from '../../../../../../hooks';
-import { removeSubTaskFromTask } from '../../../../../../redux/slices/home/home';
+import {
+  removeMySubTaskFromTasksList,
+  removeSubTaskFromTask,
+} from '../../../../../../redux/slices/home/home';
 
 interface SubTaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -45,6 +48,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
       setSubTasksArray((subTasks) =>
         subTasks.filter((el) => el._id !== subTaskId),
       );
+      dispatch(removeMySubTaskFromTasksList(subTaskId));
       toggleActive(false);
     }
   };

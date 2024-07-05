@@ -116,6 +116,7 @@ const EN = {
   v: 'v.',
   dev: '(dev.)',
   rejected: 'Rejected',
+  ignored: 'No answer',
   completedSub: 'Completed',
   subtaskConfirmation: 'Accepting task request',
   noNotifications: 'No notifications',

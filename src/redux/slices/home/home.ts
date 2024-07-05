@@ -137,20 +137,60 @@ const homeSlice = createSlice({
         taskInList.isCompleted = isCompleted;
       }
     },
+    removeMySubTaskFromTasksList(state, action: PayloadAction<string>) {
+      const id = action.payload;
+      state.task.tasks = state.task.tasks.filter((el) => el._id !== id);
+    },
     updateSubTaskCompletionStatusInSubtasksList(
       state,
       action: PayloadAction<{
-        taskId: string;
+        taskId?: string;
         subTaskId: string;
         isCompleted: boolean;
       }>,
     ) {
       const { taskId, subTaskId, isCompleted } = action.payload;
-      const taskInList = state.task.tasks.find((el) => el._id === taskId);
-      if (taskInList) {
-        taskInList.subtasks = taskInList.subtasks.map((el) =>
-          el._id === subTaskId ? { ...el, isCompleted } : el,
-        );
+      if (taskId) {
+        const taskInList = state.task.tasks.find((el) => el._id === taskId);
+        if (taskInList) {
+          taskInList.subtasks = taskInList.subtasks.map((el) =>
+            el._id === subTaskId ? { ...el, isCompleted } : el,
+          );
+        }
+      } else {
+        for (const task of state.task.tasks) {
+          for (const subTask of task.subtasks || []) {
+            if (subTask._id === subTaskId) {
+              subTask.isCompleted = isCompleted;
+            }
+          }
+        }
+      }
+    },
+    updateSubTaskIsRejectedStatusInSubtasksList(
+      state,
+      action: PayloadAction<{
+        taskId?: string;
+        subTaskId: string;
+        isRejected: boolean;
+      }>,
+    ) {
+      const { taskId, subTaskId, isRejected } = action.payload;
+      if (taskId) {
+        const taskInList = state.task.tasks.find((el) => el._id === taskId);
+        if (taskInList) {
+          taskInList.subtasks = taskInList.subtasks.map((el) =>
+            el._id === subTaskId ? { ...el, isRejected } : el,
+          );
+        }
+      } else {
+        for (const task of state.task.tasks) {
+          for (const subTask of task.subtasks || []) {
+            if (subTask._id === subTaskId) {
+              subTask.isRejected = isRejected;
+            }
+          }
+        }
       }
     },
     removeSubTaskFromTask(
@@ -268,7 +308,9 @@ export const {
   addLinkToTask,
   updateSubTaskInTask,
   updateMySubTaskInTasksList,
+  removeMySubTaskFromTasksList,
   updateSubTaskCompletionStatusInSubtasksList,
+  updateSubTaskIsRejectedStatusInSubtasksList,
   removeSubTaskFromTask,
   addSubTaskToTask,
   clear,
