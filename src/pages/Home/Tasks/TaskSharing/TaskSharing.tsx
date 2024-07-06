@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { Input } from '../../../../components/common/Input/Input';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
+import taskAPI, { getTask } from '../../../../api/taskAPI';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 
 import styles from './TaskSharing.module.scss';
@@ -13,6 +13,7 @@ import { truncate } from '../../../../helpers/string';
 import { useAppDispatch } from '../../../../hooks';
 import { fetchTasks } from '../../../../redux/slices/home/thunk';
 import { Status } from '../../../../types/shared';
+import { Task } from '../../../../types/entities/Task';
 
 interface TaskSharingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

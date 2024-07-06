@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export interface CategoryProps {
   _id: string;
   title: string;
-  user: string;
   color: string;
   key: number;
   isForTask?: boolean;

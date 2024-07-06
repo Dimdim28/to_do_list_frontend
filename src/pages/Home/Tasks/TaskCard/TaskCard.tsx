@@ -5,10 +5,8 @@ import {
   useCallback,
   useEffect,
 } from 'react';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-import { Task } from '../../../../api/taskAPI';
 import { humaniseDate, truncate } from '../../../../helpers/string';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import UserImage from '../../../../components/UserImage/UserImage';
@@ -31,6 +29,7 @@ import {
 } from '../../../../redux/slices/home/home';
 import ROUTES from '../../../../routes';
 import { useNavigate } from 'react-router';
+import { Task } from '../../../../types/entities/Task';
 
 interface taskProps {
   task: Task;
@@ -70,7 +69,6 @@ const TaskCard = ({
     isCompleted,
     categories,
     _id,
-    sharedWith,
     links,
     subtasks,
     creator,
@@ -191,13 +189,6 @@ const TaskCard = ({
           {t('deadline')} {humaniseDate(deadline)}
         </p>
       )}
-      {sharedWith &&
-        sharedWith[0] !== 'already shared' &&
-        sharedWith.length > 0 && (
-          <div className={styles.username}>
-            {t('sharedWith')}: {sharedWith.length}
-          </div>
-        )}
       <div className={styles.icons}>
         <FontAwesomeIcon
           data-testid="edit-icon"
@@ -256,12 +247,6 @@ const TaskCard = ({
             icon={faListCheck}
             className={`${styles.icon} ${styles.share}`}
             onClick={(e) => {
-              if (sharedWith && sharedWith[0] === 'already shared') {
-                toast.error(
-                  'ERROR! You are not the author of this task, you can not share this task!',
-                );
-                return;
-              }
               setTaskProps({
                 _id: _id,
                 parentTaskId: _id,

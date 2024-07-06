@@ -6,10 +6,10 @@ import {
   Date,
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
-import { Task } from '../../../api/taskAPI';
-import { SubTask } from '../../../api/subTaskAPI';
 import { Status } from '../../../types/shared';
 import { Category } from '../../../types/entities/Category';
+import { SubTask } from '../../../types/entities/SubTask';
+import { Task } from '../../../types/entities/Task';
 
 const initialState: HomeSliceState = {
   category: {

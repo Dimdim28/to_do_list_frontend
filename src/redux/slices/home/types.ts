@@ -1,9 +1,9 @@
-import { Task } from '../../../api/taskAPI';
 import {
   Date,
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
 import { Category } from '../../../types/entities/Category';
+import { Task } from '../../../types/entities/Task';
 import { Status } from '../../../types/shared';
 
 export type CategoriesResponse = {

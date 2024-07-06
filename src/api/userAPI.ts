@@ -1,11 +1,5 @@
 import instanse from '../axios';
-import { Status } from '../types/shared';
-
-export type User = {
-  _id: string;
-  username: string;
-  avatar: string;
-};
+import { Status, User } from '../types/shared';
 
 export type FetchUsersResponse = {
   status: number;

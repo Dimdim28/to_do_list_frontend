@@ -1,14 +1,13 @@
-import { Avatar } from '../shared';
+import { User } from '../shared';
 
 export type SubTask = {
   _id: string;
   title: string;
   description: string;
   isCompleted: boolean;
-  deadline: string;
-  isRejected: boolean;
   isConfirmed: boolean;
-  assignee: Avatar;
-  createdAt: string;
-  updatedAt: string;
+  isRejected: boolean;
+  deadline: string | null;
+  dateOfCompletion: string | null;
+  assignee: User;
 };

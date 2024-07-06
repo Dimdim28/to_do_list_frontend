@@ -11,7 +11,6 @@ describe('Modal', () => {
     _id: '1',
     title: 'Test Category',
     color: '#000000',
-    user: '666',
   };
 
   it('renders modal when active prop is true', () => {
