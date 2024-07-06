@@ -1,4 +1,4 @@
-import { Language, Status, Theme } from '../../../types';
+import { Language, Status, Theme } from '../../../types/shared';
 
 export type Profile = {
   _id: string;

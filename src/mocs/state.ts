@@ -1,5 +1,5 @@
 import { RootState } from '../redux/store';
-import { Language, Status, Theme } from '../types';
+import { Language, Status, Theme } from '../types/shared';
 
 export const MOCK_OBJECT_ONE: RootState = {
   auth: {

@@ -4,13 +4,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import Avatar from './Avatar';
 import store from '../../../../redux/store';
-import exp from 'constants';
 
 const renderAvatar = () => {
   render(
     <Provider store={store}>
       <Router>
-        <Avatar />
+        <Avatar isOwner />
       </Router>
     </Provider>,
   );

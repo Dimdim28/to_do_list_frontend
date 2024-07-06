@@ -1,12 +1,7 @@
 import instanse from '../axios';
-import { Status } from '../types';
+import { Category } from '../types/entities/Category';
+import { Status } from '../types/shared';
 import { SubTask } from './subTaskAPI';
-
-export type Category = {
-  _id: string;
-  title: string;
-  color: string;
-};
 
 export type TaskResponse = {
   status: number;

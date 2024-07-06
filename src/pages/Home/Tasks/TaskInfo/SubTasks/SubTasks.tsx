@@ -7,7 +7,6 @@ import { humaniseDate, truncate } from '../../../../../helpers/string';
 import { Modal } from '../../../../../components/common/Modal/Modal';
 import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
 import TaskForm from '../../TaskEditing/TaskForm';
-import { getTask } from '../../../../../api/taskAPI';
 import UserImage from '../../../../../components/UserImage/UserImage';
 
 import styles from './SubTasks.module.scss';

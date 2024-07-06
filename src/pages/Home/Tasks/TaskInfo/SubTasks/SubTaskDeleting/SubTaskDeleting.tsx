@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import Preloader from '../../../../../../components/Preloader/Preloader';
 import Button from '../../../../../../components/common/Button/Button';
-import { Status } from '../../../../../../types';
 import { truncate } from '../../../../../../helpers/string';
 import subTasksAPI, { SubTask } from '../../../../../../api/subTaskAPI';
 
@@ -13,6 +12,7 @@ import {
   removeMySubTaskFromTasksList,
   removeSubTaskFromTask,
 } from '../../../../../../redux/slices/home/home';
+import { Status } from '../../../../../../types/shared';
 
 interface SubTaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

@@ -1,55 +1,50 @@
-import instanse from "../axios";
-import { Status } from "../types";
+import instanse from '../axios';
+import { Category } from '../types/entities/Category';
+import { Status } from '../types/shared';
 
-export type CategoryResponse = {
+type CategoryResponse = {
   status: number;
   statusText: string;
   data: Category;
 };
 
-type PureCategory = {
-  title: string;
-  color: string;
-};
-
-type User = {
-  user: string;
-};
-
-type Id = {
-  _id: string;
-};
-
-interface EditCategory extends PureCategory, Id {}
-interface AddCategory extends PureCategory, User {}
-export interface Category extends PureCategory, Id, User {}
-
-export interface Result {
+type CategoryResult = {
   category: Category | null;
   status: Status;
   message?: string;
+};
+
+interface EditCategory {
+  _id: string;
+  title: string;
+  color: string;
+}
+interface AddCategory {
+  user: string;
+  title: string;
+  color: string;
 }
 
 class categoryAPIClass {
-  public async deleteCategory(id: string): Promise<Result> {
+  public async deleteCategory(id: string): Promise<CategoryResult> {
     try {
       const response: CategoryResponse = await instanse.delete(
-        `/category/${id}`
+        `/category/${id}`,
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         category: null,
       };
     }
   }
 
-  public async addCategory(params: AddCategory): Promise<Result> {
+  public async addCategory(params: AddCategory): Promise<CategoryResult> {
     const { title, user, color } = params;
     try {
-      const response: CategoryResponse = await instanse.post("/category", {
+      const response: CategoryResponse = await instanse.post('/category', {
         title,
         user,
         color,
@@ -57,24 +52,24 @@ class categoryAPIClass {
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         category: null,
       };
     }
   }
 
-  public async editCategory(params: EditCategory): Promise<Result> {
+  public async editCategory(params: EditCategory): Promise<CategoryResult> {
     const { title, color, _id } = params;
     try {
       const response: CategoryResponse = await instanse.patch(
         `/category/${_id}`,
-        { title, color }
+        { title, color },
       );
       return { category: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
-        message: err?.response?.data?.message || "Error",
+        message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
         category: null,
       };

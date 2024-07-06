@@ -5,15 +5,16 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
 import ROUTES from '../../../routes';
-import notificationsAPI, { Notification } from '../../../api/notificationsApi';
+import notificationsAPI from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
 import UserImage from '../../UserImage/UserImage';
-import { Status } from '../../../types';
 import { truncate } from '../../../helpers/string';
 
 import styles from './Notifications.module.scss';
 
 import newNotificationAudio from '../../../assets/newNotification.mp3';
+import { Status } from '../../../types/shared';
+import { Notification } from '../../../types/entities/Notification';
 
 const Notifications = () => {
   const navigate = useNavigate();

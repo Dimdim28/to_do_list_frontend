@@ -9,7 +9,6 @@ import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import { TextArea } from '../../../../components/common/TextArea/TextArea';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
-import { Status } from '../../../../types';
 import taskAPI, { Task, Result as TaskResult } from '../../../../api/taskAPI';
 import subTasksAPI, {
   Result as SubTaskResult,
@@ -31,6 +30,7 @@ import {
   updateSubTaskInTask,
   updateTaskInList,
 } from '../../../../redux/slices/home/home';
+import { Status } from '../../../../types/shared';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

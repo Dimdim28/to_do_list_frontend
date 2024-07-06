@@ -1,14 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { Status } from '../../../types';
 import { fetchCategories, fetchTasks } from './thunk';
 import { HomeSliceState } from './types';
 import {
   Date,
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
-import { Category, Task } from '../../../api/taskAPI';
+import { Task } from '../../../api/taskAPI';
 import { SubTask } from '../../../api/subTaskAPI';
+import { Status } from '../../../types/shared';
+import { Category } from '../../../types/entities/Category';
 
 const initialState: HomeSliceState = {
   category: {

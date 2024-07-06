@@ -8,8 +8,8 @@ import {
   changeName,
   getStats,
 } from './thunk';
-import { Status } from '../../../types';
 import { Profile, ProfileSliceState } from './types';
+import { Status } from '../../../types/shared';
 
 const initialState: ProfileSliceState = {
   data: null,

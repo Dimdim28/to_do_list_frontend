@@ -11,10 +11,11 @@ import {
   updateCategoryInList,
   updateCategoryInTasksList,
 } from '../../../../../redux/slices/home/home';
-import categoryAPI, { Category } from '../../../../../api/categoryAPI';
-import { Status } from '../../../../../types';
+import categoryAPI from '../../../../../api/categoryAPI';
 
 import styles from './CategoryForm.module.scss';
+import { Status } from '../../../../../types/shared';
+import { Category } from '../../../../../types/entities/Category';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

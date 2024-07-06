@@ -10,7 +10,6 @@ import {
   selectTasksSearchPattern,
   selectTasksStatus,
 } from '../../../redux/slices/home/selectors';
-import { Status } from '../../../types';
 import { fetchTasks } from '../../../redux/slices/home/thunk';
 import {
   updateTaskCompletionStatus,
@@ -30,6 +29,7 @@ import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
 import { SearchTask } from '../../../components/SearchTask/SearchTask';
+import { Status } from '../../../types/shared';
 
 interface TaskProps {
   isMobile?: boolean;
@@ -44,7 +44,7 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskAddingLink, setTaskAddingLink] = useState(false);
   const [taskInfo, setTaskInfo] = useState(false);
-  const [taskProps, setTaskProps] = useState<Task | {}>({});
+  const [taskProps, setTaskProps] = useState<Task | object>({});
 
   const loadingStatus = useAppSelector(selectTasksStatus);
   const errorMessage = useAppSelector(selectTasksError);

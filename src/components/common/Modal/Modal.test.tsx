@@ -1,8 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { Modal } from './Modal';
-
-import { Category } from '../../../api/categoryAPI';
+import { Category } from '../../../types/entities/Category';
 
 describe('Modal', () => {
   const mockSetActive = jest.fn();

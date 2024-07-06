@@ -1,9 +1,17 @@
 import instanse from '../axios';
-import { Status } from '../types';
+import { SubTask } from '../types/entities/SubTask';
+import { Status } from '../types/shared';
 
-export type CreateSubTaskResponse = {
+type SubTaskResponse = {
   status: number;
   statusText: string;
+  data: SubTask;
+};
+
+type SubTaskResult = {
+  task: SubTask | null;
+  status: Status;
+  message?: string;
 };
 
 interface CreateSubTaskParams {
@@ -13,35 +21,6 @@ interface CreateSubTaskParams {
   assigneeId: string;
   isCompleted?: boolean;
   deadline?: string | null;
-}
-
-export type SubTask = {
-  _id: string;
-  title: string;
-  description: string;
-  isCompleted: boolean;
-  deadline: string;
-  isRejected: boolean;
-  isConfirmed: boolean;
-  assignee: {
-    _id: string;
-    username: string;
-    avatar: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type SubTaskResponse = {
-  status: number;
-  statusText: string;
-  data: SubTask;
-};
-
-export interface Result {
-  task: SubTask | null;
-  status: Status;
-  message?: string;
 }
 
 interface EditSubTaskParams {
@@ -65,7 +44,7 @@ class subTasksAPIClass {
     assigneeId,
     isCompleted,
     deadline,
-  }: CreateSubTaskParams): Promise<Result> {
+  }: CreateSubTaskParams): Promise<SubTaskResult> {
     try {
       const response: SubTaskResponse = await instanse.post(
         `/task/${taskId}/subtask`,
@@ -98,7 +77,7 @@ class subTasksAPIClass {
     isRejected,
     isConfirmed,
     categories,
-  }: EditSubTaskParams): Promise<Result> {
+  }: EditSubTaskParams): Promise<SubTaskResult> {
     try {
       const response = await instanse.patch(`/subtask/${subTaskId}`, {
         title,
@@ -107,7 +86,7 @@ class subTasksAPIClass {
         isCompleted,
         deadline,
         links,
-        rejected: isRejected,
+        isRejected,
         isConfirmed,
         categories,
       });
@@ -121,7 +100,7 @@ class subTasksAPIClass {
     }
   }
 
-  public async deleteSubTask(subTaskId: string): Promise<Result> {
+  public async deleteSubTask(subTaskId: string): Promise<SubTaskResult> {
     try {
       const response: SubTaskResponse = await instanse.delete(
         `/subtask/${subTaskId}`,
@@ -140,7 +119,7 @@ class subTasksAPIClass {
     id: string,
     prevLinks: string[],
     url: string,
-  ): Promise<Result> {
+  ): Promise<SubTaskResult> {
     try {
       const response: SubTaskResponse = await instanse.patch(`/subtask/${id}`, {
         links: [...prevLinks, url],

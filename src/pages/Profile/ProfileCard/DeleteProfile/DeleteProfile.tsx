@@ -12,9 +12,9 @@ import {
 } from '../../../../redux/slices/profile/selectors';
 import socketsAPI from '../../../../api/socketsAPI';
 import { deleteAccount } from '../../../../redux/slices/profile/thunk';
-import { Status } from '../../../../types';
 
 import styles from './DeleteProfile.module.scss';
+import { Status } from '../../../../types/shared';
 
 interface DeleteAccountProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

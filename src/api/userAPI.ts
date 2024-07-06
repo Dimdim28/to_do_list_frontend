@@ -1,5 +1,5 @@
 import instanse from '../axios';
-import { Status } from '../types';
+import { Status } from '../types/shared';
 
 export type User = {
   _id: string;

@@ -3,6 +3,7 @@ import {
   MOCK_OBJECT_THREE,
   MOCK_OBJECT_TWO,
 } from '../../../mocs/state';
+import { Status } from '../../../types/shared';
 
 import {
   selectCategoryCurrentPage,
@@ -11,8 +12,6 @@ import {
   selectCategoriesStatus,
   selectCategoriesError,
 } from './selectors';
-
-import { Status } from '../../../types';
 
 describe('Testing home slice selectors', () => {
   it('selectCategoryCurrentPage must work correctly', () => {

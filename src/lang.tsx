@@ -1,5 +1,5 @@
-import EN from "./languages/EN";
-import UA from "./languages/UA";
+import EN from './languages/EN';
+import UA from './languages/UA';
 
 const TRANSLATIONS = {
   en: {

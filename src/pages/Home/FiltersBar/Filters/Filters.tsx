@@ -25,7 +25,7 @@ export type Date =
   | 'nodeadline';
 export type IsCompleted = 'true' | 'false' | 'all';
 
-const Filters: FC<{}> = () => {
+const Filters: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 

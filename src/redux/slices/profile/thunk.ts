@@ -52,11 +52,11 @@ export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
 
 export const deleteAccount = createAsyncThunk<void>(
   'profile/deleteAccount',
-  async (params, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response: DeleteAccountResponse = await instanse.delete(`/user`);
 
-      return;
+      return response.data as any;
     } catch (err: any) {
       return rejectWithValue(err?.response?.message || 'Error');
     }

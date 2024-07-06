@@ -3,6 +3,7 @@ import {
   MOCK_OBJECT_TWO,
   MOCK_OBJECT_THREE,
 } from '../../../mocs/state';
+import { Status } from '../../../types/shared';
 
 import {
   clearCategories,
@@ -14,7 +15,6 @@ import {
 } from './home';
 
 import { HomeSliceState } from './types';
-import { Status } from '../../../types';
 
 const initialState: HomeSliceState = {
   category: {

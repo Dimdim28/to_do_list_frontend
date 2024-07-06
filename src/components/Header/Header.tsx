@@ -12,12 +12,12 @@ import {
 } from '../../redux/slices/auth/selectors';
 import ROUTES from '../../routes';
 import Notifications from './Notifications/Notifications';
-import { Language, Theme } from '../../types';
 import { changeLang, changeTheme } from '../../redux/slices/auth/auth';
 
 import styles from './Header.module.scss';
 
 import logo from '../../assets/logo.png';
+import { Language, Theme } from '../../types/shared';
 
 export type Link = {
   path: ROUTES;

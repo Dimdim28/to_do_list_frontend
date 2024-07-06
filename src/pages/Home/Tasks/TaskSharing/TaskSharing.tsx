@@ -7,12 +7,12 @@ import Preloader from '../../../../components/Preloader/Preloader';
 import { Input } from '../../../../components/common/Input/Input';
 import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
-import { Status } from '../../../../types';
 
 import styles from './TaskSharing.module.scss';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch } from '../../../../hooks';
 import { fetchTasks } from '../../../../redux/slices/home/thunk';
+import { Status } from '../../../../types/shared';
 
 interface TaskSharingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

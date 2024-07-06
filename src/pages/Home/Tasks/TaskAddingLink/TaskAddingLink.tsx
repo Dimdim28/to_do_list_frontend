@@ -6,12 +6,12 @@ import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { Input } from '../../../../components/common/Input/Input';
 import taskAPI, { Task } from '../../../../api/taskAPI';
-import { Status } from '../../../../types';
 import subTasksAPI from '../../../../api/subTaskAPI';
 import { truncate } from '../../../../helpers/string';
 
 import styles from './TaskAddingLink.module.scss';
 import { addLinkToTask } from '../../../../redux/slices/home/home';
+import { Status } from '../../../../types/shared';
 
 interface TaskAddingLinkProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

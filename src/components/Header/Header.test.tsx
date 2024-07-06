@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Header from './Header';
 import ROUTES from '../../routes';
 import store from '../../redux/store';
-import { Theme, TranslationKeys } from '../../types';
+import { Theme, TranslationKeys } from '../../types/shared';
 import { mockLocalStorage } from '../../mocs/localstorage';
 import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from '../../mocs/links';
 

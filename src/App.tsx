@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from './hooks';
 import { fetchAuthMe } from './redux/slices/auth/thunk';
 import ROUTES from './routes';
 import TRANSLATIONS from './lang';
-import { Language } from './types';
 import { selectTheme } from './redux/slices/auth/selectors';
 import { Link } from './components/Header/Header';
 
@@ -20,6 +19,7 @@ import './styles/reset.scss';
 import './styles/typography.scss';
 import './styles/global-styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import { Language } from './types/shared';
 
 const Login = lazy(() => import('./pages/Login/Login'));
 const Register = lazy(() => import('./pages/Register/Register'));

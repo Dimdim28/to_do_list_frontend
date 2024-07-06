@@ -12,9 +12,9 @@ import {
   selectProfileStatus,
 } from '../../../../redux/slices/profile/selectors';
 import socketsAPI from '../../../../api/socketsAPI';
-import { Status } from '../../../../types';
 
 import styles from './Exit.module.scss';
+import { Status } from '../../../../types/shared';
 
 interface ExitFromAccountProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

@@ -9,11 +9,12 @@ import {
   removeCategoryFromList,
   removeCategoryFromTasksList,
 } from '../../../../../redux/slices/home/home';
-import categoryAPI, { Category } from '../../../../../api/categoryAPI';
-import { Status } from '../../../../../types';
+import categoryAPI from '../../../../../api/categoryAPI';
 import { truncate } from '../../../../../helpers/string';
 
 import styles from './CategoryDeleting.module.scss';
+import { Status } from '../../../../../types/shared';
+import { Category } from '../../../../../types/entities/Category';
 
 interface CategoryDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

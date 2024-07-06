@@ -5,7 +5,6 @@ import Preloader from '../../../../components/Preloader/Preloader';
 import Button from '../../../../components/common/Button/Button';
 import taskAPI, { Task } from '../../../../api/taskAPI';
 import { truncate } from '../../../../helpers/string';
-import { Status } from '../../../../types';
 import subTasksAPI from '../../../../api/subTaskAPI';
 
 import styles from './TaskDeleting.module.scss';
@@ -16,6 +15,7 @@ import {
   updateTaskCurrentPage,
 } from '../../../../redux/slices/home/home';
 import { selectTaskCurrentPage } from '../../../../redux/slices/home/selectors';
+import { Status } from '../../../../types/shared';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

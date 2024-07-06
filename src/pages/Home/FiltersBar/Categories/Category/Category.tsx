@@ -14,7 +14,7 @@ export interface CategoryProps {
   isForTask?: boolean;
   setCategoryEditing: Dispatch<SetStateAction<boolean>>;
   setCategoryDeleting: Dispatch<SetStateAction<boolean>>;
-  setCategoryInfo: Dispatch<SetStateAction<{}>>;
+  setCategoryInfo: Dispatch<SetStateAction<object>>;
   setActiveCategories: (categories: any) => void;
   activeCategories: string[];
   isActive: boolean;

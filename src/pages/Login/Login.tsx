@@ -13,7 +13,7 @@ import socketsAPI from '../../api/socketsAPI';
 
 import styles from './Login.module.scss';
 
-const Login: FC<{}> = () => {
+const Login: FC = () => {
   const dispatch = useAppDispatch();
 
   const [error, setError] = useState(null);

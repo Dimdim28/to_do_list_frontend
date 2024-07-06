@@ -37,7 +37,7 @@ interface taskProps {
   setTaskEditing: Dispatch<SetStateAction<boolean>>;
   setTaskProps: Dispatch<
     SetStateAction<
-      | {}
+      | object
       | (Task & {
           isAssignedUser?: boolean;
         })
@@ -47,7 +47,7 @@ interface taskProps {
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
-  setCurrentPage: (page: number) => {};
+  setCurrentPage: (page: number) => void;
   length?: number;
   updateTaskStatus: (id: string, isCompleted: boolean) => void;
 }

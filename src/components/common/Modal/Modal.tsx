@@ -1,11 +1,10 @@
 import { useCallback, useEffect, Dispatch, SetStateAction, FC } from 'react';
 
-import { Category } from '../../../api/categoryAPI';
-
 import styles from './Modal.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { Category } from '../../../types/entities/Category';
 
 interface ModalProps {
   active: boolean;

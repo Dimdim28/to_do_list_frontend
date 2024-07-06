@@ -2,9 +2,9 @@ import { render, fireEvent, screen } from '@testing-library/react';
 
 import TaskDeleting from './TaskDeleting';
 import taskAPI from '../../../../api/taskAPI';
-import { Status } from '../../../../types';
 import store from '../../../../redux/store';
 import { Provider } from 'react-redux';
+import { Status } from '../../../../types/shared';
 
 jest.mock('../../../../api/taskAPI');
 

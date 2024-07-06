@@ -1,10 +1,10 @@
-import { Category } from '../../../api/categoryAPI';
 import { Task } from '../../../api/taskAPI';
 import {
   Date,
   IsCompleted,
 } from '../../../pages/Home/FiltersBar/Filters/Filters';
-import { Status } from '../../../types';
+import { Category } from '../../../types/entities/Category';
+import { Status } from '../../../types/shared';
 
 export type CategoriesResponse = {
   data: Categories;
