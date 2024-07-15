@@ -1,13 +1,14 @@
-import { render, screen } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
-import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+import { render, screen } from '@testing-library/react';
 
-import Footer from './Footer';
+import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from '../../mocs/links';
 import store from '../../redux/store';
 import ROUTES from '../../routes';
-import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from '../../mocs/links';
 import { TranslationKeys } from '../../types/shared';
+
+import Footer from './Footer';
 
 jest.mock('react-i18next', () => ({
   useTranslation: jest.fn(),

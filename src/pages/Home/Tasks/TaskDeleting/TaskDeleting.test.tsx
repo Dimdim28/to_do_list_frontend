@@ -1,15 +1,16 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { fireEvent, render, screen } from '@testing-library/react';
 
-import TaskDeleting from './TaskDeleting';
 import taskAPI from '../../../../api/taskAPI';
 import store from '../../../../redux/store';
-import { Provider } from 'react-redux';
 import { Status } from '../../../../types/shared';
+
+import TaskDeleting from './TaskDeleting';
 
 jest.mock('../../../../api/taskAPI');
 
 describe('TaskDeleting', () => {
-  const childProps = {
+  const childProps: any = {
     _id: '1',
     title: 'abcd',
     setCurrentPage: () => {},

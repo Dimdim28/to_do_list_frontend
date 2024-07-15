@@ -1,35 +1,37 @@
-import { useEffect, useState, FC } from 'react';
+import { FC,useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Modal } from '../../../components/common/Modal/Modal';
+import Preloader from '../../../components/Preloader/Preloader';
+import { SearchTask } from '../../../components/SearchTask/SearchTask';
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
-import {
-  selectTaskFetchingParams,
-  selectTaskTotalPages,
-  selectTasks,
-  selectTasksError,
-  selectTasksSearchPattern,
-  selectTasksStatus,
-} from '../../../redux/slices/home/selectors';
-import { fetchTasks } from '../../../redux/slices/home/thunk';
 import {
   updateTaskCompletionStatus,
   updateTaskCurrentPage,
   updateTaskSearchPattern,
 } from '../../../redux/slices/home/home';
+import {
+  selectTaskFetchingParams,
+  selectTasks,
+  selectTasksError,
+  selectTasksSearchPattern,
+  selectTasksStatus,
+  selectTaskTotalPages,
+} from '../../../redux/slices/home/selectors';
+import { fetchTasks } from '../../../redux/slices/home/thunk';
+import { SharedTask } from '../../../types/entities/SharedTask';
+import { SubTask } from '../../../types/entities/SubTask';
+import { Task } from '../../../types/entities/Task';
+import { Status } from '../../../types/shared';
 
+import Pagination from './Pagination/Pagination';
+import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
+import TaskCard from './TaskCard/TaskCard';
 import TaskDeleting from './TaskDeleting/TaskDeleting';
 import TaskEditing from './TaskEditing/TaskForm';
-import TaskCard from './TaskCard/TaskCard';
-import Pagination from './Pagination/Pagination';
-import Preloader from '../../../components/Preloader/Preloader';
-import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
-import { Modal } from '../../../components/common/Modal/Modal';
-import { Task } from '../../../api/taskAPI';
 import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
-import { SearchTask } from '../../../components/SearchTask/SearchTask';
-import { Status } from '../../../types/shared';
 
 interface TaskProps {
   isMobile?: boolean;
@@ -44,7 +46,9 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskAddingLink, setTaskAddingLink] = useState(false);
   const [taskInfo, setTaskInfo] = useState(false);
-  const [taskProps, setTaskProps] = useState<Task | object>({});
+  const [taskProps, setTaskProps] = useState<
+    Task | SharedTask | SubTask | object
+  >({});
 
   const loadingStatus = useAppSelector(selectTasksStatus);
   const errorMessage = useAppSelector(selectTasksError);

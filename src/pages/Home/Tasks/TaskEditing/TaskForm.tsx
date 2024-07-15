@@ -1,28 +1,19 @@
-import { useState, Dispatch, SetStateAction, FC, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect,useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import subTasksAPI, { SubTaskResult } from '../../../../api/subTaskAPI';
+import taskAPI, { TaskResult } from '../../../../api/taskAPI';
 import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/Preloader/Preloader';
-import Categories from '../../FiltersBar/Categories/Categories';
-import { Input } from '../../../../components/common/Input/Input';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
+import { Input } from '../../../../components/common/Input/Input';
 import { TextArea } from '../../../../components/common/TextArea/TextArea';
+import Preloader from '../../../../components/Preloader/Preloader';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
+import { humaniseDate, truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
-import taskAPI, { Task, Result as TaskResult } from '../../../../api/taskAPI';
-import subTasksAPI, {
-  Result as SubTaskResult,
-  SubTask,
-} from '../../../../api/subTaskAPI';
-import SearchUser from '../../../../components/SearchUser/SearchUser';
-import ChosenUser from '../ChosenUser/ChosenUser';
-import { User } from '../../../../api/userAPI';
-
-import styles from './TaskForm.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
-import { humaniseDate, truncate } from '../../../../helpers/string';
 import {
   addSubTaskToTask,
   addTaskToList,
@@ -30,7 +21,13 @@ import {
   updateSubTaskInTask,
   updateTaskInList,
 } from '../../../../redux/slices/home/home';
-import { Status } from '../../../../types/shared';
+import { SubTask } from '../../../../types/entities/SubTask';
+import { Task } from '../../../../types/entities/Task';
+import { Status, User } from '../../../../types/shared';
+import Categories from '../../FiltersBar/Categories/Categories';
+import ChosenUser from '../ChosenUser/ChosenUser';
+
+import styles from './TaskForm.module.scss';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
@@ -103,7 +100,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description, links: links || [] };
+    let payload = {
+      title,
+      description,
+      links: links || [],
+      categories: [],
+      isCompleted: false,
+      deadline: null,
+    };
     payload = Object.assign(payload, {
       deadline: hasDeadline ? deadline : null,
     });

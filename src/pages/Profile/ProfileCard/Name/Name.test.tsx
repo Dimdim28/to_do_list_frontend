@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
 import Name from './Name';
-import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 const mockToggleActive = jest.fn();
@@ -21,6 +21,7 @@ describe('Name', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={() => {}}
           name={'Ivan'}
@@ -41,6 +42,7 @@ describe('Name', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={true}
           setIsNameEditing={() => {}}
           name={'Ivan'}
@@ -61,6 +63,7 @@ describe('Name', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={() => {}}
           name={'Ivan'}
@@ -81,6 +84,7 @@ describe('Name', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={mockToggleActive}
           name={'Name'}
@@ -98,6 +102,7 @@ describe('Name', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={true}
           setIsNameEditing={mockToggleActive}
           name={'Name'}

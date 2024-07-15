@@ -1,20 +1,19 @@
-import { useEffect, useState, UIEvent, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router';
+import { UIEvent, useEffect, useRef,useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ROUTES from '../../../routes';
 import notificationsAPI from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
-import UserImage from '../../UserImage/UserImage';
+import newNotificationAudio from '../../../assets/newNotification.mp3';
 import { truncate } from '../../../helpers/string';
+import ROUTES from '../../../routes';
+import { Notification } from '../../../types/entities/Notification';
+import { Status } from '../../../types/shared';
+import UserImage from '../../UserImage/UserImage';
 
 import styles from './Notifications.module.scss';
-
-import newNotificationAudio from '../../../assets/newNotification.mp3';
-import { Status } from '../../../types/shared';
-import { Notification } from '../../../types/entities/Notification';
 
 const Notifications = () => {
   const navigate = useNavigate();

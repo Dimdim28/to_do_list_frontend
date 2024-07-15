@@ -1,16 +1,17 @@
-import React, { useState, FC } from 'react';
+import React, { FC,useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Modal } from '../../../components/common/Modal/Modal';
+import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
+
 import Avatar from './Avatar/Avatar';
-import Name from './Name/Name';
-import ProfileData from './ProfileData/ProfileData';
 import Buttons from './Buttons/Buttons';
 import DeleteProfile from './DeleteProfile/DeleteProfile';
 import Exit from './Exit/Exit';
-import { Modal } from '../../../components/common/Modal/Modal';
+import Name from './Name/Name';
+import ProfileData from './ProfileData/ProfileData';
 
 import styles from './ProfileCard.module.scss';
-import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 interface ProfileCardProps {
   isNameEditing: boolean;

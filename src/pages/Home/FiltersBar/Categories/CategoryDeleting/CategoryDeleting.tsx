@@ -1,20 +1,19 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC,SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import categoryAPI from '../../../../../api/categoryAPI';
 import Button from '../../../../../components/common/Button/Button';
 import Preloader from '../../../../../components/Preloader/Preloader';
-
+import { truncate } from '../../../../../helpers/string';
 import { useAppDispatch } from '../../../../../hooks';
 import {
   removeCategoryFromList,
   removeCategoryFromTasksList,
 } from '../../../../../redux/slices/home/home';
-import categoryAPI from '../../../../../api/categoryAPI';
-import { truncate } from '../../../../../helpers/string';
+import { Category } from '../../../../../types/entities/Category';
+import { Status } from '../../../../../types/shared';
 
 import styles from './CategoryDeleting.module.scss';
-import { Status } from '../../../../../types/shared';
-import { Category } from '../../../../../types/entities/Category';
 
 interface CategoryDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

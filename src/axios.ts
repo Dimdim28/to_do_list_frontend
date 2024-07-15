@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const instanse = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',

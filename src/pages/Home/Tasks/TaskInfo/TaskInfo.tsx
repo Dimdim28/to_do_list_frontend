@@ -1,30 +1,26 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SubTasks from './SubTasks/SubTasks';
 import { humaniseDate } from '../../../../helpers/string';
-
-import styles from './TaskInfo.module.scss';
+import { SharedTask } from '../../../../types/entities/SharedTask';
 import { SubTask } from '../../../../types/entities/SubTask';
 import { Task } from '../../../../types/entities/Task';
 
+import SubTasks from './SubTasks/SubTasks';
+
+import styles from './TaskInfo.module.scss';
+
 interface TaskInfoProps {
-  childProps: Task & {
-    setSubTasksArray?: SubTask[];
-  };
+  childProps:
+    | Task
+    | (SharedTask & {
+        setSubTasksArray?: SubTask[];
+      });
 }
 
 const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
-  const {
-    _id,
-    title,
-    description,
-    categories,
-    deadline,
-    isCompleted,
-    links,
-    subtasks,
-  } = childProps;
+  const { _id, title, description, categories, deadline, isCompleted, links } =
+    childProps;
 
   const { t } = useTranslation();
   return (
@@ -55,8 +51,8 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
       <p className={styles.description}>{description}</p>
 
-      {subtasks?.length > 0 ? (
-        <SubTasks subTasks={subtasks} taskId={_id} />
+      {(childProps as Task).subtasks?.length > 0 ? (
+        <SubTasks subTasks={(childProps as Task).subtasks} taskId={_id} />
       ) : null}
 
       <div className={styles.links}>

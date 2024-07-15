@@ -1,9 +1,10 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './ChangeAvatarEffect.module.scss';
 import { useAppSelector } from '../../../hooks';
 import { selectUserProfile } from '../../../redux/slices/profile/selectors';
+
+import styles from './ChangeAvatarEffect.module.scss';
 
 export const avatarsEffectsList = [
   {

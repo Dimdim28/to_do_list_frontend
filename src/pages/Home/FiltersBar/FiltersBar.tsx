@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction, FC } from 'react';
-
-import Filters from './Filters/Filters';
-import Categories from './Categories/Categories';
-
-import styles from './FiltersBar.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Dispatch, FC,SetStateAction } from 'react';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { updateTaskActiveCategories } from '../../../redux/slices/home/home';
 import { selectTasksActiveCategories } from '../../../redux/slices/home/selectors';
+
+import Categories from './Categories/Categories';
+import Filters from './Filters/Filters';
+
+import styles from './FiltersBar.module.scss';
 
 interface FiltersBarProps {
   isMobile?: boolean;

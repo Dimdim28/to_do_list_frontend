@@ -1,38 +1,38 @@
 import {
-  useState,
   Dispatch,
   SetStateAction,
   useCallback,
   useEffect,
+  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import {
+  faListCheck,
+  faPencil,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { humaniseDate, truncate } from '../../../../helpers/string';
+import subTasksAPI from '../../../../api/subTaskAPI';
+import taskAPI from '../../../../api/taskAPI';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import UserImage from '../../../../components/UserImage/UserImage';
-import taskAPI from '../../../../api/taskAPI';
-
-import styles from './TaskCard.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPencil,
-  faTrash,
-  faListCheck,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons';
-import subTasksAPI from '../../../../api/subTaskAPI';
+import { humaniseDate, truncate } from '../../../../helpers/string';
 import { useAppDispatch } from '../../../../hooks';
 import {
   updateSubTaskCompletionStatusInSubtasksList,
   updateTaskCompletionStatus,
 } from '../../../../redux/slices/home/home';
 import ROUTES from '../../../../routes';
-import { useNavigate } from 'react-router';
+import { SharedTask } from '../../../../types/entities/SharedTask';
 import { Task } from '../../../../types/entities/Task';
 
+import styles from './TaskCard.module.scss';
+
 interface taskProps {
-  task: Task;
+  task: Task | SharedTask;
   setTaskEditing: Dispatch<SetStateAction<boolean>>;
   setTaskProps: Dispatch<
     SetStateAction<
@@ -70,8 +70,7 @@ const TaskCard = ({
     categories,
     _id,
     links,
-    subtasks,
-    creator,
+    type,
   } = task;
 
   const { t } = useTranslation();
@@ -93,17 +92,18 @@ const TaskCard = ({
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = creator
-          ? await subTasksAPI.editSubTask({
-              subTaskId: _id,
-              isCompleted: !completed,
-            })
-          : await taskAPI.edittask({
-              _id: _id || '',
-              isCompleted: !completed,
-            });
+        const result =
+          type === 'subtask'
+            ? await subTasksAPI.editSubTask({
+                subTaskId: _id,
+                isCompleted: !completed,
+              })
+            : await taskAPI.edittask({
+                _id: _id || '',
+                isCompleted: !completed,
+              });
         if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (creator) {
+        if (type === 'subtask') {
           dispatch(
             updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
           );
@@ -157,16 +157,18 @@ const TaskCard = ({
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
 
-      {creator && (
+      {(task as SharedTask).creator && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          {creator && (
+          {(task as SharedTask).creator && (
             <UserImage
-              user={creator}
+              user={(task as SharedTask).creator}
               onAvatarClick={(user) => goToProfile(user._id)}
             />
           )}
-          <p className={styles.sharedUsername}>{creator?.username}</p>
+          <p className={styles.sharedUsername}>
+            {(task as SharedTask).creator?.username}
+          </p>
         </div>
       )}
       <div className={styles.links}>
@@ -178,9 +180,9 @@ const TaskCard = ({
       </div>
 
       <div className={styles.subtasks}>
-        {subtasks && subtasks.length > 0 && (
+        {(task as Task).subtasks && (task as Task).subtasks.length > 0 && (
           <p className={styles.subtask}>
-            {t('subTasksAmount')}: {subtasks.length}
+            {t('subTasksAmount')}: {(task as Task).subtasks.length}
           </p>
         )}
       </div>
@@ -196,7 +198,7 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              isAssignedUser: !!creator,
+              isAssignedUser: !!(task as SharedTask).creator,
             });
             setTaskEditing(true);
             e.stopPropagation();
@@ -212,7 +214,7 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                isForSubTask: !!creator,
+                isForSubTask: !!(task as SharedTask).creator,
               });
               setTaskAddingLink(true);
               e.stopPropagation();
@@ -232,14 +234,14 @@ const TaskCard = ({
             setTaskProps({
               ...task,
               length,
-              isForSubTask: !!creator,
+              isForSubTask: !!(task as SharedTask).creator,
             });
             setTaskDeleting(true);
             e.stopPropagation();
           }}
         />
 
-        {subtasks && subtasks.length < 10 && (
+        {(task as Task).subtasks && (task as Task).subtasks.length < 10 && (
           <FontAwesomeIcon
             color="black"
             data-testid="share-icon"

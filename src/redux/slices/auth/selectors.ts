@@ -1,4 +1,5 @@
 import { Status, Theme } from '../../../types/shared';
+
 import { RootState } from './../../store';
 import { Profile } from './types';
 

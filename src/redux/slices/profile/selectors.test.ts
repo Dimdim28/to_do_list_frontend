@@ -6,10 +6,10 @@ import {
 import { Status } from '../../../types/shared';
 
 import {
-  selectProfileStatus,
-  selectUserProfile,
   selectProfileMessage,
+  selectProfileStatus,
   selectStats,
+  selectUserProfile,
 } from './selectors';
 
 describe('Testing profile slice selectors', () => {
@@ -31,10 +31,7 @@ describe('Testing profile slice selectors', () => {
       email: 'dench@gmail.com',
       createdAt: '2023',
       updatedAt: '2024',
-      avatar: {
-        public_id: 'id',
-        url: 'link',
-      },
+      avatar: 'link',
     });
     expect(recievedThirdState).toBe(null);
   });

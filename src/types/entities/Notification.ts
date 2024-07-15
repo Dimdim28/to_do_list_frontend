@@ -1,4 +1,5 @@
 import { OldUser } from '../shared';
+
 import { SubTask } from './SubTask';
 
 export enum NotificationType {

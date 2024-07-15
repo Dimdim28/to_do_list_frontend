@@ -1,18 +1,19 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Preloader from '../../../../../../components/Preloader/Preloader';
+import subTasksAPI from '../../../../../../api/subTaskAPI';
 import Button from '../../../../../../components/common/Button/Button';
+import Preloader from '../../../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../../../helpers/string';
-import subTasksAPI, { SubTask } from '../../../../../../api/subTaskAPI';
-
-import styles from './SubTaskDeleting.module.scss';
 import { useAppDispatch } from '../../../../../../hooks';
 import {
   removeMySubTaskFromTasksList,
   removeSubTaskFromTask,
 } from '../../../../../../redux/slices/home/home';
+import { SubTask } from '../../../../../../types/entities/SubTask';
 import { Status } from '../../../../../../types/shared';
+
+import styles from './SubTaskDeleting.module.scss';
 
 interface SubTaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

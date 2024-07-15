@@ -1,9 +1,10 @@
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 
-import Home from './Home';
 import store from '../../redux/store';
-import { TranslationKeys } from '../../types';
+import { TranslationKeys } from '../../types/shared';
+
+import Home from './Home';
 
 jest.mock('react-i18next', () => ({
   ...jest.requireActual('react-i18next'),

@@ -1,13 +1,14 @@
-import { useEffect, useState, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { Chart as ChartJS, registerables } from 'chart.js';
 
 import Preloader from '../../components/Preloader/Preloader';
-import ProfileCard from './ProfileCard/ProfileCard';
+import { chartOptions, getChartData } from '../../helpers/stats';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
-import { ChangePass } from './ChangePass/ChangePass';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfile, selectIsAuth } from '../../redux/slices/auth/selectors';
+import { selectIsAuth, selectProfile } from '../../redux/slices/auth/selectors';
 import {
   selectProfileMessage,
   selectProfileStatus,
@@ -15,15 +16,15 @@ import {
   selectUserProfile,
 } from '../../redux/slices/profile/selectors';
 import { fetchUserProfile, getStats } from '../../redux/slices/profile/thunk';
-import { chartOptions, getChartData } from '../../helpers/stats';
-import { Chart as ChartJS, registerables } from 'chart.js';
+
+import { ChangePass } from './ChangePass/ChangePass';
+import ProfileCard from './ProfileCard/ProfileCard';
 
 import styles from './Profile.module.scss';
-import { useParams } from 'react-router';
 
 ChartJS.register(...registerables);
 
-const Profile: FC = () => {
+const Profile = () => {
   const dispatch = useAppDispatch();
   const { id = '' } = useParams();
 

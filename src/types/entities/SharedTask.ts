@@ -1,4 +1,5 @@
 import { User } from '../shared';
+
 import { Category } from './Category';
 
 export type SharedTask = {

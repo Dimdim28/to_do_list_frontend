@@ -1,18 +1,18 @@
-import { useEffect, useState, FC } from 'react';
+import { useEffect, useState } from 'react';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Tasks from './Tasks/Tasks';
-import Filters from './FiltersBar/FiltersBar';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch } from '../../hooks';
 import { clearCategories } from '../../redux/slices/home/home';
 import { fetchCategories } from '../../redux/slices/home/thunk';
 
+import Filters from './FiltersBar/FiltersBar';
+import Tasks from './Tasks/Tasks';
+
 import styles from './Home.module.scss';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-
-const Home: FC = () => {
+const Home = () => {
   const dispatch = useAppDispatch();
 
   const [isMobile, setIsMobile] = useState(false);

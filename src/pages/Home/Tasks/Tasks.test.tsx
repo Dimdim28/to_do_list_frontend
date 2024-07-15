@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 
-import Tasks from './Tasks';
 import store from '../../../redux/store';
+
+import Tasks from './Tasks';
 
 describe('Tasks', () => {
   test('renders without errors', () => {

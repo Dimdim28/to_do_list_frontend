@@ -8,8 +8,8 @@ import {
   selectIsAuth,
   selectIsChecked,
   selectIsRegistered,
-  selectProfile,
   selectMessage,
+  selectProfile,
 } from './selectors';
 
 describe('Testing auth slice selectors', () => {

@@ -1,11 +1,9 @@
 import {
-  SetStateAction,
+  ComponentPropsWithoutRef,
+  PropsWithChildren,
   useEffect,
   useRef,
   useState,
-  ComponentPropsWithoutRef,
-  Dispatch,
-  PropsWithChildren,
 } from 'react';
 
 import styles from './Select.module.scss';

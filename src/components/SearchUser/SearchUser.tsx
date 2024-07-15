@@ -1,15 +1,15 @@
 import { FC, UIEvent, useDeferredValue, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import userAPI from '../../api/userAPI';
+import ROUTES from '../../routes';
+import { User } from '../../types/shared';
 import Preloader from '../Preloader/Preloader';
 import UserImage from '../UserImage/UserImage';
-import userAPI, { User } from '../../api/userAPI';
 
 import styles from './SearchUser.module.scss';
-
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import ROUTES from '../../routes';
 
 interface SearchUserProps {
   handleUserClick: (user: User) => void;

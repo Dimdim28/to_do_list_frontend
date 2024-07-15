@@ -1,25 +1,25 @@
 import { lazy, useEffect } from 'react';
+import { initReactI18next } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
 
-import AuthLayout from './layouts/AuthLayout';
-import PageLayout from './layouts/PageLayout';
-import HomeLayout from './layouts/HomeLayout';
-import FAQLayout from './layouts/FAQLayout';
-import { useAppDispatch, useAppSelector } from './hooks';
-import { fetchAuthMe } from './redux/slices/auth/thunk';
-import ROUTES from './routes';
-import TRANSLATIONS from './lang';
-import { selectTheme } from './redux/slices/auth/selectors';
 import { Link } from './components/Header/Header';
+import AuthLayout from './layouts/AuthLayout';
+import FAQLayout from './layouts/FAQLayout';
+import HomeLayout from './layouts/HomeLayout';
+import PageLayout from './layouts/PageLayout';
+import { selectTheme } from './redux/slices/auth/selectors';
+import { fetchAuthMe } from './redux/slices/auth/thunk';
+import { Language } from './types/shared';
+import { useAppDispatch, useAppSelector } from './hooks';
+import TRANSLATIONS from './lang';
+import ROUTES from './routes';
 
 import './styles/reset.scss';
 import './styles/typography.scss';
 import './styles/global-styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import { Language } from './types/shared';
 
 const Login = lazy(() => import('./pages/Login/Login'));
 const Register = lazy(() => import('./pages/Register/Register'));

@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { User } from '../../../../api/userAPI';
 import { useTranslation } from 'react-i18next';
 
 import UserImage from '../../../../components/UserImage/UserImage';
+import ROUTES from '../../../../routes';
+import { User } from '../../../../types/shared';
 
 import styles from './ChosenUser.module.scss';
-import ROUTES from '../../../../routes';
 
 interface ChosenUserProps {
   user: User;

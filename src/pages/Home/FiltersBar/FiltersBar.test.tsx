@@ -2,7 +2,8 @@ import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 
 import store from '../../../redux/store';
-import { TranslationKeys } from '../../../types';
+import { TranslationKeys } from '../../../types/shared';
+
 import FiltersBar from './FiltersBar';
 
 jest.mock('react-i18next', () => ({

@@ -1,21 +1,22 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Preloader from '../../../../components/Preloader/Preloader';
-import Button from '../../../../components/common/Button/Button';
-import taskAPI, { Task } from '../../../../api/taskAPI';
-import { truncate } from '../../../../helpers/string';
 import subTasksAPI from '../../../../api/subTaskAPI';
-
-import styles from './TaskDeleting.module.scss';
+import taskAPI from '../../../../api/taskAPI';
+import Button from '../../../../components/common/Button/Button';
+import Preloader from '../../../../components/Preloader/Preloader';
+import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
-  updateSubTaskIsRejectedStatusInSubtasksList,
   removeTaskFromList,
+  updateSubTaskIsRejectedStatusInSubtasksList,
   updateTaskCurrentPage,
 } from '../../../../redux/slices/home/home';
 import { selectTaskCurrentPage } from '../../../../redux/slices/home/selectors';
+import { Task } from '../../../../types/entities/Task';
 import { Status } from '../../../../types/shared';
+
+import styles from './TaskDeleting.module.scss';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

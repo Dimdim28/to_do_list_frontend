@@ -1,4 +1,5 @@
 import { RootState } from "../../store";
+
 import { DailyStats, Profile } from "./types";
 
 export const selectProfileStatus = (state: RootState) => state.profile.status;

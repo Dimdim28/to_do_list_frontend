@@ -1,9 +1,11 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import store from '../../../../redux/store';
+import { Task } from '../../../../types/entities/Task';
 
 import TaskCard from './TaskCard';
-import { Task } from '../../../../api/taskAPI';
-import store from '../../../../redux/store';
-import { Provider } from 'react-redux';
 
 describe('TaskCard', () => {
   const task: Task = {
@@ -16,11 +18,10 @@ describe('TaskCard', () => {
       { _id: '1', color: 'blue', title: 'Category 1' },
       { _id: '2', color: 'red', title: 'Category 2' },
     ],
-    user: 'dfggfd',
-    createdAt: '2023-06-30',
-    updatedAt: '2023-06-30',
     subtasks: [],
-    assigneeId: undefined,
+    type: 'task',
+    links: [],
+    dateOfCompletion: null,
   };
 
   const mockSetTaskEditing = jest.fn();
@@ -34,20 +35,21 @@ describe('TaskCard', () => {
 
   test('renders task card correctly', () => {
     render(
-      <Provider store={store}>
-        <TaskCard
-          task={task}
-          setTaskEditing={mockSetTaskEditing}
-          setTaskProps={mockSetTaskProps}
-          setTaskDeleting={mockSetTaskDeleting}
-          setTaskSharing={mockSetTaskSharing}
-          setTaskInfo={mockSetTaskInfo}
-          setCurrentPage={mockSetCurrentPage}
-          setTaskAddingLink={mockSetTaskAddingLink}
-          updateTaskStatus={updateTaskStatus}
-        />
-        ,
-      </Provider>,
+      <Router>
+        <Provider store={store}>
+          <TaskCard
+            task={task}
+            setTaskEditing={mockSetTaskEditing}
+            setTaskProps={mockSetTaskProps}
+            setTaskDeleting={mockSetTaskDeleting}
+            setTaskSharing={mockSetTaskSharing}
+            setTaskInfo={mockSetTaskInfo}
+            setCurrentPage={mockSetCurrentPage}
+            setTaskAddingLink={mockSetTaskAddingLink}
+            updateTaskStatus={updateTaskStatus}
+          />
+        </Provider>
+      </Router>,
     );
 
     expect(screen.getByText('Task Title')).toBeInTheDocument();
@@ -58,19 +60,22 @@ describe('TaskCard', () => {
 
   test('calls setTaskEditing and setTaskProps correctly on edit icon click', () => {
     render(
-      <Provider store={store}>
-        <TaskCard
-          task={task}
-          setTaskEditing={mockSetTaskEditing}
-          setTaskProps={mockSetTaskProps}
-          setTaskDeleting={mockSetTaskDeleting}
-          setTaskSharing={mockSetTaskSharing}
-          setTaskInfo={mockSetTaskInfo}
-          setCurrentPage={mockSetCurrentPage}
-          setTaskAddingLink={mockSetTaskAddingLink}
-          updateTaskStatus={updateTaskStatus}
-        />
-      </Provider>,
+      <Router>
+        <Provider store={store}>
+          <TaskCard
+            task={task}
+            setTaskEditing={mockSetTaskEditing}
+            setTaskProps={mockSetTaskProps}
+            setTaskDeleting={mockSetTaskDeleting}
+            setTaskSharing={mockSetTaskSharing}
+            setTaskInfo={mockSetTaskInfo}
+            setCurrentPage={mockSetCurrentPage}
+            setTaskAddingLink={mockSetTaskAddingLink}
+            updateTaskStatus={updateTaskStatus}
+          />
+        </Provider>
+        ,
+      </Router>,
     );
 
     fireEvent.click(screen.getByTestId('edit-icon'));

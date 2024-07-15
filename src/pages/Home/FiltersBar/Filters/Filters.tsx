@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 
 import Select, { Item } from '../../../../components/common/Select/Select';
-
-import styles from './Filters.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   updateTaskDate,
@@ -14,6 +12,8 @@ import {
   selectTasksDate,
   selectTasksIsCompleted,
 } from '../../../../redux/slices/home/selectors';
+
+import styles from './Filters.module.scss';
 
 export type Date =
   | 'day'

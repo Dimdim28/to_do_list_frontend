@@ -1,10 +1,10 @@
-import { Suspense, FC } from "react";
+import { FC,Suspense } from "react";
 import { Outlet } from "react-router";
 
-import Footer from "../components/Footer/Footer";
-import Preloader from "../components/FallBackPreloader/FallBackPreloader";
-import Header from "../components/Header/Header";
 import { FOOTER_LINKS } from "../App";
+import Preloader from "../components/FallBackPreloader/FallBackPreloader";
+import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
 
 const HomeLayout: FC = () => {
   return (

@@ -1,14 +1,14 @@
-import { useState, FC } from 'react';
+import { FC,useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
 
-import withHomeRedirect from '../../hoc/withHomeRedirect';
+import socketsAPI from '../../api/socketsAPI';
 import { FormikInput } from '../../components/common/Input/Input';
+import withHomeRedirect from '../../hoc/withHomeRedirect';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../redux/slices/auth/thunk';
 import ROUTES from '../../routes';
-import socketsAPI from '../../api/socketsAPI';
 
 import styles from './Register.module.scss';
 

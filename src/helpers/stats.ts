@@ -1,6 +1,8 @@
-import { DailyStats } from "../redux/slices/profile/types";
-import { humaniseDate } from "./string";
 import i18next from "i18next";
+
+import { DailyStats } from "../redux/slices/profile/types";
+
+import { humaniseDate } from "./string";
 
 export const getChartData = (data: DailyStats[]) => {
   const labels = data.map((item) => item.date);

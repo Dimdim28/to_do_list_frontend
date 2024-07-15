@@ -1,6 +1,7 @@
-import { useState, Dispatch, SetStateAction, FC, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect,useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import categoryAPI from '../../../../../api/categoryAPI';
 import Button from '../../../../../components/common/Button/Button';
 import { Input } from '../../../../../components/common/Input/Input';
 import Preloader from '../../../../../components/Preloader/Preloader';
@@ -11,11 +12,10 @@ import {
   updateCategoryInList,
   updateCategoryInTasksList,
 } from '../../../../../redux/slices/home/home';
-import categoryAPI from '../../../../../api/categoryAPI';
+import { Category } from '../../../../../types/entities/Category';
+import { Status } from '../../../../../types/shared';
 
 import styles from './CategoryForm.module.scss';
-import { Status } from '../../../../../types/shared';
-import { Category } from '../../../../../types/entities/Category';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

@@ -8,7 +8,7 @@ type SubTaskResponse = {
   data: SubTask;
 };
 
-type SubTaskResult = {
+export type SubTaskResult = {
   task: SubTask | null;
   status: Status;
   message?: string;

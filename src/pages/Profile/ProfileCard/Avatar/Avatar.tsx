@@ -1,15 +1,14 @@
-import { useRef, FC, FormEvent, useState, useEffect } from 'react';
+import { FC, FormEvent, useEffect,useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectUserProfile } from '../../../../redux/slices/profile/selectors';
 import { changeAvatar } from '../../../../redux/slices/profile/thunk';
+import { avatarsEffectsList } from '../../ChangeEvatarEffect/ChangeAvatarEffect';
 
 import styles from './Avatar.module.scss';
-
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { avatarsEffectsList } from '../../ChangeEvatarEffect/ChangeAvatarEffect';
 
 interface AvatarProps {
   isOwner: boolean;

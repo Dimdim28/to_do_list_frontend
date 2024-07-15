@@ -1,4 +1,5 @@
 import { Status } from '../../../types/shared';
+
 import { homeReducer } from './home';
 import { fetchCategories } from './thunk';
 

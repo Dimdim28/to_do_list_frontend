@@ -4,22 +4,23 @@ import {
   //  fireEvent, waitFor, screen
 } from '@testing-library/react';
 
-import TaskForm from './TaskForm';
 // import taskAPI from '../../../../api/taskAPI';
 // import { Status } from '../../../../types';
 import store from '../../../../redux/store';
+import { Task } from '../../../../types/entities/Task';
+
+import TaskForm from './TaskForm';
 
 jest.mock('../../../../api/taskAPI');
 
 // TODO more test for the test god!
 
 describe('TaskForm', () => {
-  const childProps = {
+  const childProps: Task & { setCurrentPage: () => void; length: number } = {
     _id: '1',
     title: 'Task Title',
-    user: 'dsgf',
-    createdAt: 'ffdgf',
-    updatedAt: 'ffdgf',
+    links: [],
+    dateOfCompletion: null,
     description: 'Task Description',
     categories: [
       { _id: '1', color: 'blue', title: 'Category 1' },
@@ -30,6 +31,7 @@ describe('TaskForm', () => {
     setCurrentPage: () => {},
     length: 10,
     subtasks: [],
+    type: 'task',
   };
 
   test('renders the form fields and buttons', () => {

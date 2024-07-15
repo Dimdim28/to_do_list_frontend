@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 
-import { User } from '../../api/userAPI';
+import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
+import { User } from '../../types/shared';
 
 import styles from './UserImage.module.scss';
-import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
 
 type Size = 'medium' | 'large';
 

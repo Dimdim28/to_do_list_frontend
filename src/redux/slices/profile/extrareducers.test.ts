@@ -1,12 +1,13 @@
 import { MOCK_OBJECT_ONE } from '../../../mocs/state';
 import { Status } from '../../../types/shared';
+
 import { profileReducer } from './profile';
 import {
-  fetchUserProfile,
   changeAvatar,
-  deleteAccount,
-  changePass,
   changeName,
+  changePass,
+  deleteAccount,
+  fetchUserProfile,
   getStats,
 } from './thunk';
 

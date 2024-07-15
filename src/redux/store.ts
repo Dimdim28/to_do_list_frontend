@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
-import { homeReducer } from "./slices/home/home";
 import { authReducer } from "./slices/auth/auth";
+import { homeReducer } from "./slices/home/home";
 import { profileReducer } from "./slices/profile/profile";
 
 const store = configureStore({

@@ -1,9 +1,8 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
-
-import styles from './Category.module.scss';
-
+import { Dispatch, FC,SetStateAction, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import styles from './Category.module.scss';
 
 export interface CategoryProps {
   _id: string;

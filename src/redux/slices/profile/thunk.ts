@@ -1,21 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import instanse from '../../../axios';
+
 import {
   Avatar,
   AvatarResponse,
   ChangeAvatarParams,
+  ChangeName,
+  ChangePassword,
+  DailyStats,
+  DeleteAccountResponse,
   GetProfileParams,
+  Message,
   Profile,
   ProfileResponse,
-  DeleteAccountResponse,
-  Message,
-  ChangePassword,
-  UpdateProfileResponse,
-  ChangeName,
-  DailyStats,
   StatsResponse,
+  UpdateProfileResponse,
 } from './types';
-import instanse from '../../../axios';
 
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   'profile/fetchUserProfile',

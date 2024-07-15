@@ -1,19 +1,19 @@
-import { useState, SetStateAction, Dispatch, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/Preloader/Preloader';
-import { Input } from '../../../../components/common/Input/Input';
 import taskAPI, { getTask } from '../../../../api/taskAPI';
-import { selectProfile } from '../../../../redux/slices/auth/selectors';
-
-import styles from './TaskSharing.module.scss';
+import Button from '../../../../components/common/Button/Button';
+import { Input } from '../../../../components/common/Input/Input';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch } from '../../../../hooks';
+import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { Status } from '../../../../types/shared';
 import { Task } from '../../../../types/entities/Task';
+import { Status } from '../../../../types/shared';
+
+import styles from './TaskSharing.module.scss';
 
 interface TaskSharingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;

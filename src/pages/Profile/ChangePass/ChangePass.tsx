@@ -1,15 +1,16 @@
 import { FC } from 'react';
-import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
 
 import { FormikInput } from '../../../components/common/Input/Input';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { selectProfileStatus } from '../../../redux/slices/profile/selectors';
 import { changePass } from '../../../redux/slices/profile/thunk';
+import { Status } from '../../../types/shared';
+
 import { validate } from './helpers';
 
 import styles from './ChangePass.module.scss';
-import { Status } from '../../../types/shared';
 
 interface ChangePassProps {
   id: string;

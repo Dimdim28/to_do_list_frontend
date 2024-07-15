@@ -1,18 +1,18 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { humaniseDate, truncate } from '../../../../../helpers/string';
 import { Modal } from '../../../../../components/common/Modal/Modal';
-import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
-import TaskForm from '../../TaskEditing/TaskForm';
 import UserImage from '../../../../../components/UserImage/UserImage';
-
-import styles from './SubTasks.module.scss';
-
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { humaniseDate, truncate } from '../../../../../helpers/string';
 import ROUTES from '../../../../../routes';
 import { SubTask } from '../../../../../types/entities/SubTask';
+import TaskForm from '../../TaskEditing/TaskForm';
+
+import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
+
+import styles from './SubTasks.module.scss';
 
 export interface SubTasksProps {
   subTasks: SubTask[];

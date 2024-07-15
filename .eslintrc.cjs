@@ -16,5 +16,24 @@ module.exports = {
   plugins: ['@typescript-eslint', 'simple-import-sort', 'react', 'prettier'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages `react` related packages come first.
+          ['^react', '^@?\\w'],
+          // Internal packages.
+          ['^(@|components)(/.*|$)'],
+          // Side effect imports.
+          ['^\\u0000'],
+          // Parent imports. Put `..` last.
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          // Style imports.
+          ['^.+\\.?(css)$'],
+        ],
+      },
+    ],
   },
 };

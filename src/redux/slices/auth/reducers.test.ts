@@ -1,8 +1,9 @@
 import {
   MOCK_OBJECT_ONE,
-  MOCK_OBJECT_TWO,
   MOCK_OBJECT_THREE,
+  MOCK_OBJECT_TWO,
 } from "../../../mocs/state";
+
 import { authReducer, logout } from "./auth";
 
 describe("Testing auth slice reducers", () => {

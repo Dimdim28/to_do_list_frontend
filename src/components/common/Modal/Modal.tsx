@@ -1,16 +1,16 @@
-import { useCallback, useEffect, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useEffect } from 'react';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { Category } from '../../../types/entities/Category';
 
 import styles from './Modal.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { Category } from '../../../types/entities/Category';
 
 interface ModalProps {
   active: boolean;
   setActive: Dispatch<SetStateAction<boolean>>;
   ChildComponent: any;
-  childProps: Category | {};
+  childProps: Category | object;
   zIndex?: number;
 }
 

@@ -6,11 +6,11 @@ import {
 import { Status } from '../../../types/shared';
 
 import {
+  selectCategories,
+  selectCategoriesError,
+  selectCategoriesStatus,
   selectCategoryCurrentPage,
   selectCategoryTotalPages,
-  selectCategories,
-  selectCategoriesStatus,
-  selectCategoriesError,
 } from './selectors';
 
 describe('Testing home slice selectors', () => {
@@ -35,13 +35,11 @@ describe('Testing home slice selectors', () => {
       {
         _id: '646b95736b2cb6353f4fd104',
         title: 'hello',
-        user: '63f6342acc86923016194255',
         color: '#d82222',
       },
       {
         _id: '646bbbaefedb212d312d0447',
         title: 'lalala',
-        user: '63f6342acc86923016194255',
         color: '#16a29f',
       },
     ]);

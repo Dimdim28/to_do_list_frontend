@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, Dispatch, SetStateAction, FC,  } from "react";
+import { Dispatch, FC,InputHTMLAttributes, SetStateAction,   } from "react";
 
 import styles from "./TextArea.module.scss";
 

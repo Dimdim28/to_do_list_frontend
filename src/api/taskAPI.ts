@@ -10,7 +10,7 @@ type TaskResponse = {
   data: Task;
 };
 
-type TaskResult = {
+export type TaskResult = {
   task: Task | null;
   status: Status;
   message?: string;
@@ -97,10 +97,7 @@ class taskAPIClass {
   public async edittask(params: EditTask): Promise<TaskResult> {
     try {
       const { _id, ...body } = params;
-      const response: TaskResponse = await instanse.patch(
-        `/task/${params._id}`,
-        body,
-      );
+      const response: TaskResponse = await instanse.patch(`/task/${_id}`, body);
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {

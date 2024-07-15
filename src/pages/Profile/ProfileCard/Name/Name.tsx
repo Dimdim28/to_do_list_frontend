@@ -1,14 +1,13 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faCheck, faPencil, faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch } from '../../../../hooks';
 import { clearProfileErrorMessage } from '../../../../redux/slices/profile/profile';
 import { changeName } from '../../../../redux/slices/profile/thunk';
 
 import styles from './Name.module.scss';
-
-import { faCheck, faPencil, faX } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface NameProps {
   isNameEditing: boolean;
