@@ -46,7 +46,6 @@ describe('TaskCard', () => {
             setTaskInfo={mockSetTaskInfo}
             setCurrentPage={mockSetCurrentPage}
             setTaskAddingLink={mockSetTaskAddingLink}
-            updateTaskStatus={updateTaskStatus}
           />
         </Provider>
       </Router>,
@@ -71,7 +70,6 @@ describe('TaskCard', () => {
             setTaskInfo={mockSetTaskInfo}
             setCurrentPage={mockSetCurrentPage}
             setTaskAddingLink={mockSetTaskAddingLink}
-            updateTaskStatus={updateTaskStatus}
           />
         </Provider>
         ,

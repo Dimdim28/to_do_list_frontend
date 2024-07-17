@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect,useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,7 @@ import {
   addSubTaskToTask,
   addTaskToList,
   updateMySubTaskInTasksList,
+  updateSubTaskCompletionStatusInSubtasksList,
   updateSubTaskInTask,
   updateTaskInList,
 } from '../../../../redux/slices/home/home';
@@ -65,9 +66,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [taskError, setTaskError] = useState('');
   const [title, setTittle] = useState(prevTitle || '');
   const [description, setDescription] = useState(prevDescription || '');
-  const [categories, setCategories] = useState(
-    prevCategories?.map((el) => el._id) || [],
-  );
+  const [categories, setCategories] = useState(prevCategories || []);
   const [hasDeadline, setHasDeadline] = useState(!!prevDeadline);
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
@@ -82,7 +81,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       setTaskError('');
       setTittle(prevTitle || '');
       setDescription(prevDescription || '');
-      setCategories(prevCategories?.map((el) => el._id) || []);
+      setCategories(prevCategories || []);
       setHasDeadline(!!prevDeadline);
       setDeadline(prevDeadline || '');
       setIsCompleted(prevIscompleted || false);
@@ -113,7 +112,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     });
     if (categories.length >= 0)
       payload = Object.assign(payload, {
-        categories,
+        categories: categories.map((el) => el._id),
       });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
@@ -125,17 +124,23 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
       const response = await subTasksAPI.editSubTask({
         subTaskId: _id,
         links,
-        categories,
+        categories: categories.map((el) => el._id),
         isCompleted,
       });
 
       dispatch(
+        updateSubTaskCompletionStatusInSubtasksList({
+          subTaskId: _id,
+          isCompleted,
+          taskId: parentTaskId,
+        }),
+      );
+      dispatch(
         updateMySubTaskInTasksList({
           _id: _id,
-          title,
-          description,
-          deadline,
+          links,
           isCompleted,
+          categories,
         }),
       );
 

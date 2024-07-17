@@ -1,4 +1,4 @@
-import { FC,useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '../../../components/common/Modal/Modal';
@@ -62,10 +62,6 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
   const prevCategories = usePrevious(categories);
-
-  const updateTaskStatus = (id: string, isCompleted: boolean) => {
-    dispatch(updateTaskCompletionStatus({ id, isCompleted }));
-  };
 
   const updateSearchPattern = (value: string) => {
     dispatch(updateTaskSearchPattern(value));
@@ -161,7 +157,6 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
                     setCurrentPage={(value: number) =>
                       dispatch(updateTaskCurrentPage(value))
                     }
-                    updateTaskStatus={updateTaskStatus}
                   />
                 ))
               ) : (

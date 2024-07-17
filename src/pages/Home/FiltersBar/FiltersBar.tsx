@@ -1,10 +1,11 @@
-import { Dispatch, FC,SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { updateTaskActiveCategories } from '../../../redux/slices/home/home';
 import { selectTasksActiveCategories } from '../../../redux/slices/home/selectors';
+import { Category } from '../../../types/entities/Category';
 
 import Categories from './Categories/Categories';
 import Filters from './Filters/Filters';
@@ -21,7 +22,7 @@ const FiltersBar: FC<FiltersBarProps> = ({ isMobile, setIsNavberOpened }) => {
 
   const activeCategories = useAppSelector(selectTasksActiveCategories);
 
-  const setCategories = (categories: string[]) => {
+  const setCategories = (categories: Category[]) => {
     dispatch(updateTaskActiveCategories(categories));
   };
 

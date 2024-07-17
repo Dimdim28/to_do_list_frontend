@@ -1,6 +1,7 @@
-import { createSlice,PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
+import { Profile } from '../auth/types';
 
 import {
   changeAvatar,
@@ -10,7 +11,7 @@ import {
   fetchUserProfile,
   getStats,
 } from './thunk';
-import { Profile, ProfileSliceState } from './types';
+import { ProfileSliceState } from './types';
 
 const initialState: ProfileSliceState = {
   data: null,

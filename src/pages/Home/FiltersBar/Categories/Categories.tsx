@@ -1,4 +1,4 @@
-import { FC, UIEvent,useState } from 'react';
+import { FC, UIEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
@@ -12,6 +12,7 @@ import {
   selectCategoryTotalPages,
 } from '../../../../redux/slices/home/selectors';
 import { fetchCategories } from '../../../../redux/slices/home/thunk';
+import { Category as CategoryType } from '../../../../types/entities/Category';
 
 import Category from './Category/Category';
 import { CategoryDeleting } from './CategoryDeleting/CategoryDeleting';
@@ -21,8 +22,8 @@ import styles from './Categories.module.scss';
 
 interface CategoryProps {
   isForTask?: boolean;
-  activeCategories: string[];
-  setActiveCategories: (categories: string[]) => void;
+  activeCategories: CategoryType[];
+  setActiveCategories: (categories: CategoryType[]) => void;
 }
 const Categories: FC<CategoryProps> = ({
   isForTask,
@@ -80,7 +81,7 @@ const Categories: FC<CategoryProps> = ({
                 isForTask={isForTask}
                 setActiveCategories={setActiveCategories}
                 isActive={
-                  !!activeCategories.find((category) => category === el._id)
+                  !!activeCategories.find((category) => category._id === el._id)
                 }
               />
             ))

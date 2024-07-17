@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import instanse from '../../../axios';
+import { Profile } from '../auth/types';
 
 import {
-  Avatar,
   AvatarResponse,
   ChangeAvatarParams,
   ChangeName,
@@ -12,7 +12,6 @@ import {
   DeleteAccountResponse,
   GetProfileParams,
   Message,
-  Profile,
   ProfileResponse,
   StatsResponse,
   UpdateProfileResponse,
@@ -35,7 +34,7 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   },
 );
 
-export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
+export const changeAvatar = createAsyncThunk<string, ChangeAvatarParams>(
   'profile/changeAvatar',
   async (params, { rejectWithValue }) => {
     try {

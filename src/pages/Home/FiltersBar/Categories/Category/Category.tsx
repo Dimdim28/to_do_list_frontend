@@ -1,6 +1,8 @@
-import { Dispatch, FC,SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { Category as CategoryType } from '../../../../../types/entities/Category';
 
 import styles from './Category.module.scss';
 
@@ -13,8 +15,8 @@ export interface CategoryProps {
   setCategoryEditing: Dispatch<SetStateAction<boolean>>;
   setCategoryDeleting: Dispatch<SetStateAction<boolean>>;
   setCategoryInfo: Dispatch<SetStateAction<object>>;
-  setActiveCategories: (categories: any) => void;
-  activeCategories: string[];
+  setActiveCategories: (categories: CategoryType[]) => void;
+  activeCategories: CategoryType[];
   isActive: boolean;
 }
 
@@ -30,6 +32,10 @@ const Category: FC<CategoryProps> = ({
 }) => {
   const [hover, setHover] = useState(false);
 
+  const typedSetActiveCategories = setActiveCategories as Dispatch<
+    SetStateAction<CategoryType[]>
+  >;
+
   const handleMouseEnter = () => {
     setHover(true);
   };
@@ -42,21 +48,28 @@ const Category: FC<CategoryProps> = ({
     <div
       data-testid="category-element"
       onClick={() => {
+        console.log(activeCategories);
         if (isActive) {
           if (isForTask) {
-            setActiveCategories((prev: string[]) =>
-              prev.filter((el) => el !== props._id),
+            typedSetActiveCategories((prev) =>
+              prev.filter((el) => el._id !== props._id),
             );
           } else {
             setActiveCategories(
-              activeCategories.filter((el) => el !== props._id),
+              activeCategories.filter((el) => el._id !== props._id),
             );
           }
         } else {
           if (isForTask) {
-            setActiveCategories((prev: string[]) => [...prev, props._id]);
+            typedSetActiveCategories((prev) => [
+              ...prev,
+              { _id: props._id, color: props.color, title: props.title },
+            ]);
           } else {
-            setActiveCategories([...activeCategories, props._id]);
+            setActiveCategories([
+              ...activeCategories,
+              { _id: props._id, color: props.color, title: props.title },
+            ]);
           }
         }
       }}

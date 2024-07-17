@@ -27,7 +27,7 @@ export type Tasks = {
   searchPattern: string;
   isCompleted: IsCompleted;
   date: Date;
-  activeCategories: string[];
+  activeCategories: Category[];
   status: Status;
   message?: string;
 };

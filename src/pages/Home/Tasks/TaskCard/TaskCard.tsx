@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import {
@@ -48,7 +42,6 @@ interface taskProps {
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
   setCurrentPage: (page: number) => void;
   length?: number;
-  updateTaskStatus: (id: string, isCompleted: boolean) => void;
 }
 
 const TaskCard = ({
@@ -59,7 +52,6 @@ const TaskCard = ({
   setTaskSharing,
   setTaskAddingLink,
   setTaskInfo,
-  updateTaskStatus,
   length,
 }: taskProps) => {
   const {
@@ -77,14 +69,6 @@ const TaskCard = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [completed, setIsCompleted] = useState(isCompleted || false);
-
-  useEffect(() => {
-    if (isCompleted !== undefined && isCompleted !== completed) {
-      setIsCompleted(isCompleted);
-    }
-  }, [isCompleted]);
-
   const goToProfile = (id: string) => {
     navigate(`${ROUTES.PROFILE}/${id}`);
   };
@@ -96,36 +80,35 @@ const TaskCard = ({
           type === 'subtask'
             ? await subTasksAPI.editSubTask({
                 subTaskId: _id,
-                isCompleted: !completed,
+                isCompleted: !isCompleted,
               })
             : await taskAPI.edittask({
                 _id: _id || '',
-                isCompleted: !completed,
+                isCompleted: !isCompleted,
               });
-        if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (type === 'subtask') {
+        if (result.status === 'success') {
           dispatch(
-            updateTaskCompletionStatus({ id: _id, isCompleted: !completed }),
+            updateTaskCompletionStatus({ id: _id, isCompleted: !isCompleted }),
           );
-          console.log('will be set', !completed);
-          dispatch(
-            updateSubTaskCompletionStatusInSubtasksList({
-              subTaskId: _id,
-              isCompleted: !completed,
-            }),
-          );
+          if (type === 'subtask') {
+            dispatch(
+              updateSubTaskCompletionStatusInSubtasksList({
+                subTaskId: _id,
+                isCompleted: !isCompleted,
+              }),
+            );
+          }
         }
-        updateTaskStatus(_id || '', !completed);
       } catch (e) {
         console.log(e);
       }
     };
     toggle();
-  }, []);
+  }, [isCompleted]);
 
   return (
     <div
-      className={completed ? styles.completedWrapper : styles.wrapper}
+      className={isCompleted ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
         setTaskProps({ ...task });
         setTaskInfo(true);
@@ -134,7 +117,7 @@ const TaskCard = ({
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
-          isChecked={completed}
+          isChecked={isCompleted}
           label=""
           data-testid="checkbox"
           isRounded

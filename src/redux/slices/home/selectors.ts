@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import { getTask } from '../../../api/taskAPI';
 import { RootState } from '../../store';
 
@@ -22,29 +24,31 @@ export const selectTasksIsCompleted = (state: RootState) =>
 export const selectTasksDate = (state: RootState) => state.home.task.date;
 export const selectTasksActiveCategories = (state: RootState) =>
   state.home.task.activeCategories;
-export const selectTaskFetchingParams = (state: RootState): getTask => {
-  const page = state.home.task.currentPage;
-  const deadline = state.home.task.date;
-  const categories = state.home.task.activeCategories;
-  const searchPattern = state.home.task.searchPattern;
-  const isCompleted = state.home.task.isCompleted;
 
-  const fetchingParams: getTask = {
-    page,
-    deadline,
-    categories,
-    searchPattern,
-  };
+export const selectTaskFetchingParams = createSelector(
+  [
+    selectTaskCurrentPage,
+    selectTasksDate,
+    selectTasksActiveCategories,
+    selectTasksSearchPattern,
+    selectTasksIsCompleted,
+  ],
+  (page, deadline, activeCategories, searchPattern, isCompleted) => {
+    const fetchingParams: getTask = {
+      page,
+      deadline,
+      categories: activeCategories.map((el) => el._id),
+      searchPattern,
+    };
 
-  if (isCompleted !== 'all') {
-    if (isCompleted === 'false') {
-      fetchingParams.isCompleted = false;
-    } else {
-      fetchingParams.isCompleted = true;
+    if (isCompleted !== 'all') {
+      fetchingParams.isCompleted = isCompleted === 'true';
     }
-  }
-  return fetchingParams;
-};
+
+    return fetchingParams;
+  },
+);
+
 export const selectTasks = (state: RootState) => state.home.task.tasks;
 export const selectTasksStatus = (state: RootState) => state.home.task.status;
 export const selectTasksError = (state: RootState) => state.home.task.message;

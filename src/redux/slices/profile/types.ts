@@ -1,15 +1,6 @@
 import { Status } from '../../../types/shared';
+import { Profile } from '../auth/types';
 
-export type Profile = {
-  email: string;
-  avatar: Avatar;
-  username: string;
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Avatar = string;
 export type Message = { status: number };
 
 export type ProfileResponse = {
@@ -34,7 +25,7 @@ export interface ChangeAvatarParams {
 }
 
 export type AvatarResponse = {
-  data: Avatar;
+  data: string;
   status: number;
   statusText: string;
 };

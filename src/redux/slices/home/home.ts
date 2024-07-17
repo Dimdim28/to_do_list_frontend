@@ -1,4 +1,4 @@
-import { createSlice,PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   Date,
@@ -96,6 +96,7 @@ const homeSlice = createSlice({
       state,
       action: PayloadAction<{ id: string; isCompleted: boolean }>,
     ) {
+      console.log(action.payload.isCompleted);
       const updatedTasks = state.task.tasks.map((el) =>
         el._id === action.payload.id
           ? { ...el, isCompleted: action.payload.isCompleted }
@@ -123,20 +124,32 @@ const homeSlice = createSlice({
       state,
       action: PayloadAction<{
         _id: string;
-        title: string;
-        description: string;
-        deadline: string;
+        title?: string;
+        description?: string;
+        deadline?: string;
         isCompleted: boolean;
+        links?: string[];
+        categories?: Category[];
       }>,
     ) {
-      const { _id, title, description, deadline, isCompleted } = action.payload;
+      const {
+        _id,
+        title,
+        description,
+        deadline,
+        isCompleted,
+        links,
+        categories,
+      } = action.payload;
       const taskInList = state.task.tasks.find((el) => el._id === _id);
 
       if (taskInList) {
-        taskInList.title = title;
-        taskInList.description = description;
-        taskInList.deadline = deadline;
-        taskInList.isCompleted = isCompleted;
+        if (title) taskInList.title = title;
+        if (description) taskInList.description = description;
+        if (deadline !== undefined) taskInList.deadline = deadline;
+        if (isCompleted !== undefined) taskInList.isCompleted = isCompleted;
+        if (links) taskInList.links = [...links];
+        if (categories) taskInList.categories = categories;
       }
     },
     removeMySubTaskFromTasksList(state, action: PayloadAction<string>) {
@@ -246,7 +259,7 @@ const homeSlice = createSlice({
     updateTaskIsCompleted(state, action: PayloadAction<IsCompleted>) {
       state.task.isCompleted = action.payload;
     },
-    updateTaskActiveCategories(state, action: PayloadAction<string[]>) {
+    updateTaskActiveCategories(state, action: PayloadAction<Category[]>) {
       state.task.activeCategories = action.payload;
     },
     updateTaskSearchPattern(state, action: PayloadAction<string>) {
