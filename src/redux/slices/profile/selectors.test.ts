@@ -32,6 +32,7 @@ describe('Testing profile slice selectors', () => {
       createdAt: '2023',
       updatedAt: '2024',
       avatar: 'link',
+      token: '01032004hahathisismytoken',
     });
     expect(recievedThirdState).toBe(null);
   });

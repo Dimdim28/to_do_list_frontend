@@ -91,6 +91,7 @@ export const MOCK_OBJECT_TWO: RootState = {
     ],
     data: {
       _id: '6460e2e3832ea98269aa3777',
+      token: '01032004hahathisismytoken',
       username: 'dench',
       email: 'dench@gmail.com',
       createdAt: '2023',
