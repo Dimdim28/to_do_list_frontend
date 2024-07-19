@@ -1,46 +1,43 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Modal } from '../../../components/common/Modal/Modal';
+import Preloader from '../../../components/Preloader/Preloader';
+import { SearchTask } from '../../../components/SearchTask/SearchTask';
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
-import {
-  selectTaskTotalPages,
-  selectTasks,
-  selectTasksError,
-  selectTasksStatus,
-} from '../../../redux/slices/home/selectors';
-import { Status } from '../../../types';
-import { fetchTasks } from '../../../redux/slices/home/thunk';
 import {
   updateTaskCompletionStatus,
   updateTaskCurrentPage,
+  updateTaskSearchPattern,
 } from '../../../redux/slices/home/home';
+import {
+  selectTaskFetchingParams,
+  selectTasks,
+  selectTasksError,
+  selectTasksSearchPattern,
+  selectTasksStatus,
+  selectTaskTotalPages,
+} from '../../../redux/slices/home/selectors';
+import { fetchTasks } from '../../../redux/slices/home/thunk';
+import { SharedTask } from '../../../types/entities/SharedTask';
+import { SubTask } from '../../../types/entities/SubTask';
+import { Task } from '../../../types/entities/Task';
+import { Status } from '../../../types/shared';
 
+import Pagination from './Pagination/Pagination';
+import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
+import TaskCard from './TaskCard/TaskCard';
 import TaskDeleting from './TaskDeleting/TaskDeleting';
 import TaskEditing from './TaskEditing/TaskForm';
-import TaskCard from './TaskCard/TaskCard';
-import Pagination from './Pagination/Pagination';
-import Preloader from '../../../components/Preloader/Preloader';
-import TaskAddingLink from './TaskAddingLink/TaskAddingLink';
-import { Modal } from '../../../components/common/Modal/Modal';
-import { Task, getTask } from '../../../api/taskAPI';
 import TaskInfo from './TaskInfo/TaskInfo';
 
 import styles from './Tasks.module.scss';
-import { SearchTask } from '../../../components/SearchTask/SearchTask';
 
 interface TaskProps {
-  taskFetchingParams: getTask;
   isMobile?: boolean;
-  setSearchPattern: Dispatch<SetStateAction<string>>;
 }
 
-const Tasks: FC<TaskProps> = ({
-  taskFetchingParams,
-  isMobile,
-  setSearchPattern,
-}) => {
-  const { page, isCompleted, deadline, categories } = taskFetchingParams;
-
+const Tasks: FC<TaskProps> = ({ isMobile }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -49,25 +46,31 @@ const Tasks: FC<TaskProps> = ({
   const [taskSharing, setTaskSharing] = useState(false);
   const [taskAddingLink, setTaskAddingLink] = useState(false);
   const [taskInfo, setTaskInfo] = useState(false);
-  const [taskProps, setTaskProps] = useState<Task | {}>({});
+  const [taskProps, setTaskProps] = useState<
+    Task | SharedTask | SubTask | object
+  >({});
 
   const loadingStatus = useAppSelector(selectTasksStatus);
   const errorMessage = useAppSelector(selectTasksError);
   const tasks = useAppSelector(selectTasks);
   const totalPages = useAppSelector(selectTaskTotalPages);
+  const taskFetchingParams = useAppSelector(selectTaskFetchingParams);
+  const taskSearchPattern = useAppSelector(selectTasksSearchPattern);
+
+  const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
   const prevIsCompleted = usePrevious(isCompleted);
   const prevDeadline = usePrevious(deadline);
   const prevCategories = usePrevious(categories);
 
-  const updateTaskStatus = (id: string, isCompleted: boolean) => {
-    dispatch(updateTaskCompletionStatus({ id, isCompleted }));
+  const updateSearchPattern = (value: string) => {
+    dispatch(updateTaskSearchPattern(value));
   };
 
   useEffect(() => {
     if (
       isCompleted === prevIsCompleted &&
-      deadline === prevDeadline &&
+      deadline === prevDeadline && // todo: maybe it is possible to rewrite without useprevious, just with  page changes listening
       categories === prevCategories
     ) {
       dispatch(fetchTasks(taskFetchingParams));
@@ -84,8 +87,8 @@ const Tasks: FC<TaskProps> = ({
     >
       <div className={styles.line}>
         <SearchTask
-          value={taskFetchingParams.searchPattern || ''}
-          changeValue={setSearchPattern}
+          value={taskSearchPattern}
+          changeValue={updateSearchPattern}
           callback={(value) => console.log(value)}
         />
         <button
@@ -93,7 +96,6 @@ const Tasks: FC<TaskProps> = ({
           onClick={() => {
             setTaskEditing(true);
             setTaskProps({
-              taskFetchingParams,
               length: tasks.length,
             });
           }}
@@ -152,11 +154,9 @@ const Tasks: FC<TaskProps> = ({
                     task={el}
                     key={el._id}
                     length={tasks.length}
-                    taskFetchingParams={taskFetchingParams}
                     setCurrentPage={(value: number) =>
                       dispatch(updateTaskCurrentPage(value))
                     }
-                    updateTaskStatus={updateTaskStatus}
                   />
                 ))
               ) : (

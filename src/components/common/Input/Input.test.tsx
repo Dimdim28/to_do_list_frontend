@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent,render, screen } from "@testing-library/react";
 
-import { Input, FormikInput } from "./Input";
+import { FormikInput,Input } from "./Input";
 
 describe("Input", () => {
   const mockSetValue = jest.fn();

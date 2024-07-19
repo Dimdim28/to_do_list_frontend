@@ -1,14 +1,15 @@
 import { FC, UIEvent, useDeferredValue, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import userAPI from '../../api/userAPI';
+import ROUTES from '../../routes';
+import { User } from '../../types/shared';
 import Preloader from '../Preloader/Preloader';
 import UserImage from '../UserImage/UserImage';
-import userAPI, { User } from '../../api/userAPI';
 
 import styles from './SearchUser.module.scss';
-
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface SearchUserProps {
   handleUserClick: (user: User) => void;
@@ -57,6 +58,10 @@ const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
     fetchUsers(inputValue, newPage);
   };
 
+  const goToProfile = (id: string) => {
+    window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
+  };
+
   const handleUsersScroll = (e: UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
     const isScrolled = scrollHeight === scrollTop + clientHeight;
@@ -92,7 +97,12 @@ const SearchUser: FC<SearchUserProps> = ({ handleUserClick }) => {
                 key={user._id}
                 onClick={() => handleUserClick(user)}
               >
-                <UserImage user={user} />
+                <UserImage
+                  user={user}
+                  onAvatarClick={(user) => {
+                    goToProfile(user._id);
+                  }}
+                />
                 <div className={styles.userName}>{user.username}</div>
               </div>
             ))}

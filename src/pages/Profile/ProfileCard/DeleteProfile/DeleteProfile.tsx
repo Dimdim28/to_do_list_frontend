@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC,SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import socketsAPI from '../../../../api/socketsAPI';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
@@ -10,9 +11,8 @@ import {
   selectProfileMessage,
   selectProfileStatus,
 } from '../../../../redux/slices/profile/selectors';
-import socketsAPI from '../../../../api/socketsAPI';
 import { deleteAccount } from '../../../../redux/slices/profile/thunk';
-import { Status } from '../../../../types';
+import { Status } from '../../../../types/shared';
 
 import styles from './DeleteProfile.module.scss';
 

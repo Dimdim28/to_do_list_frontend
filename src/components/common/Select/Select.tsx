@@ -1,24 +1,22 @@
 import {
-  SetStateAction,
+  ComponentPropsWithoutRef,
+  PropsWithChildren,
   useEffect,
   useRef,
   useState,
-  ComponentPropsWithoutRef,
-  Dispatch,
-  PropsWithChildren,
-} from "react";
+} from 'react';
 
-import styles from "./Select.module.scss";
+import styles from './Select.module.scss';
 
 export type Item<T> = {
   name: string;
   value: T;
 };
 
-interface SelectProps<T> extends ComponentPropsWithoutRef<"input"> {
+interface SelectProps<T> extends ComponentPropsWithoutRef<'input'> {
   items: Item<T>[];
   activeValue: string;
-  callback: Dispatch<SetStateAction<T>>;
+  callback: (value: T) => void;
   width: string;
 }
 
@@ -30,7 +28,7 @@ const Select = <T,>({
 }: PropsWithChildren<SelectProps<T>>): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeName, setActiveName] = useState(
-    items.find((el) => el.value === activeValue)?.name
+    items.find((el) => el.value === activeValue)?.name,
   );
 
   const selectRef = useRef<HTMLDivElement>(null);
@@ -45,9 +43,9 @@ const Select = <T,>({
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [selectRef]);
 

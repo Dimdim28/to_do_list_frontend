@@ -1,58 +1,49 @@
 import instanse from '../axios';
-import { Status } from '../types';
-import { SubTask } from './subTaskAPI';
+import { Category } from '../types/entities/Category';
+import { SharedTask } from '../types/entities/SharedTask';
+import { Task } from '../types/entities/Task';
+import { Status } from '../types/shared';
 
-export type Category = {
-  _id: string;
-  title: string;
-  color: string;
-};
-
-export type TaskResponse = {
+type TaskResponse = {
   status: number;
   statusText: string;
   data: Task;
 };
 
-type PureTask = {
-  title?: string;
-  description?: string;
-  categories?: Category[];
-  deadline?: string | null;
-  isCompleted?: boolean;
-  sharedWith?: string[] | { userId: string; username: string }[];
-  links?: string[];
-  assigneeId?: string;
-  userId?: {
-    _id: string;
-    username: string;
-    avatar: {
-      url: string;
-      public_id: string;
-    };
+export type TaskResult = {
+  task: Task | null;
+  status: Status;
+  message?: string;
+};
+
+export type TasksResponse = {
+  status: number;
+  statusText: string;
+  data: {
+    tasks: (Task | SharedTask)[];
+    totalPages: number;
+    currentPage: number;
   };
 };
 
-type User = {
+interface EditTask {
+  _id?: string;
+  title?: string;
+  description?: string;
+  categories?: Category['_id'][];
+  links?: string[];
+  deadline?: string | null;
+  isCompleted?: boolean;
+}
+
+interface AddTask {
+  title: string;
   user: string;
-};
-
-type Id = {
-  _id: string;
-};
-
-type Date = {
-  createdAt: string;
-  updatedAt: string;
-};
-
-type SubTasks = {
-  subtasks: SubTask[];
-};
-
-interface EditTask extends PureTask, Id {}
-interface AddTask extends PureTask, User {}
-export interface Task extends PureTask, Id, User, Date, SubTasks {}
+  description: string;
+  categories: Category['_id'][];
+  deadline: string | null;
+  isCompleted: boolean;
+}
 
 export interface getTask {
   page?: number;
@@ -67,24 +58,8 @@ export interface getTask {
   searchPattern?: string;
 }
 
-export interface Result {
-  task: Task | null;
-  status: Status;
-  message?: string;
-}
-
-export type TasksResponse = {
-  status: number;
-  statusText: string;
-  data: {
-    tasks: Task[];
-    totalPages: number;
-    currentPage: number;
-  };
-};
-
 class taskAPIClass {
-  public async deleteTask(id: string): Promise<Result> {
+  public async deleteTask(id: string): Promise<TaskResult> {
     try {
       const response: TaskResponse = await instanse.delete(`/task/${id}`);
       return { task: response.data, status: Status.SUCCESS };
@@ -97,7 +72,7 @@ class taskAPIClass {
     }
   }
 
-  public async addtask(params: AddTask): Promise<Result> {
+  public async addtask(params: AddTask): Promise<TaskResult> {
     const { title, description, categories, user, deadline, isCompleted } =
       params;
     try {
@@ -119,13 +94,10 @@ class taskAPIClass {
     }
   }
 
-  public async edittask(params: EditTask): Promise<Result> {
+  public async edittask(params: EditTask): Promise<TaskResult> {
     try {
       const { _id, ...body } = params;
-      const response: TaskResponse = await instanse.patch(
-        `/task/${params._id}`,
-        body,
-      );
+      const response: TaskResponse = await instanse.patch(`/task/${_id}`, body);
       return { task: response.data, status: Status.SUCCESS };
     } catch (err: any) {
       return {
@@ -159,7 +131,7 @@ class taskAPIClass {
     id: string,
     prevLinks: string[],
     url: string,
-  ): Promise<Result> {
+  ): Promise<TaskResult> {
     try {
       const response: TaskResponse = await instanse.patch(`/task/${id}`, {
         links: [...prevLinks, url],

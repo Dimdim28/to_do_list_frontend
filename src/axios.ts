@@ -1,40 +1,40 @@
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const instanse = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-})
-// @ts-ignore
+});
+
 instanse.interceptors.request.use(
   (config) => {
     config.headers['Authorization'] = `Bearer ${window.localStorage.getItem(
-      'token'
-    )}`
-    return config
+      'token',
+    )}`;
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
 instanse.interceptors.response.use(
   (response) => {
-    return response
+    return response;
   },
   (error) => {
     if (error.response && error.response.status === 403) {
-      localStorage.removeItem('token')
+      localStorage.removeItem('token');
       if (
         !['/auth/login', '/auth/register'].includes(window.location.pathname)
       ) {
-        window.location.href = '/auth/login'
+        window.location.href = '/auth/login';
       }
     }
     if (error.response && error.response.status !== 403) {
-      toast.error(error?.response?.data?.message || 'Error')
+      toast.error(error?.response?.data?.message || 'Error');
     }
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
-export default instanse
+export default instanse;

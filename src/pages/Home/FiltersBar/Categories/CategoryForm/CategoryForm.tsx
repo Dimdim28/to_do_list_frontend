@@ -1,6 +1,7 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect,useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import categoryAPI from '../../../../../api/categoryAPI';
 import Button from '../../../../../components/common/Button/Button';
 import { Input } from '../../../../../components/common/Input/Input';
 import Preloader from '../../../../../components/Preloader/Preloader';
@@ -9,19 +10,16 @@ import { selectProfile } from '../../../../../redux/slices/auth/selectors';
 import {
   addCategoryToList,
   updateCategoryInList,
+  updateCategoryInTasksList,
 } from '../../../../../redux/slices/home/home';
-import categoryAPI, { Category } from '../../../../../api/categoryAPI';
-import { Status } from '../../../../../types';
-import { getTask } from '../../../../../api/taskAPI';
+import { Category } from '../../../../../types/entities/Category';
+import { Status } from '../../../../../types/shared';
 
 import styles from './CategoryForm.module.scss';
-import { fetchTasks } from '../../../../../redux/slices/home/thunk';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
-  childProps: Category & {
-    taskFetchingParams: getTask;
-  };
+  childProps: Category;
 }
 
 const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
@@ -30,32 +28,32 @@ const CategoryForm: FC<CategoryFormProps> = ({ childProps, toggleActive }) => {
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [categoryError, setCategoryError] = useState('');
-  const {
-    _id,
-    title: prevTitle,
-    color: prevColor,
-    taskFetchingParams,
-  } = childProps;
+  const { _id, title: prevTitle, color: prevColor } = childProps;
   const [color, setColor] = useState(prevColor || '#ffffff');
   const [title, setTittle] = useState(prevTitle || '');
 
   const userId = useAppSelector(selectProfile)?._id || '';
+
+  useEffect(() => {
+    setColor(prevColor || '#ffffff');
+    setTittle(prevTitle || '');
+  }, [childProps]);
 
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = _id
       ? await categoryAPI.editCategory({ _id, title, color })
       : await categoryAPI.addCategory({ title, user: userId, color });
-    const { message, status } = result;
+    const { message, status, category } = result;
     setStatus(status);
     setCategoryError(message || '');
     if (status === Status.SUCCESS) {
       toggleActive(false);
-      dispatch(fetchTasks(taskFetchingParams));
       if (_id) {
+        dispatch(updateCategoryInTasksList({ _id, title, color }));
         dispatch(updateCategoryInList({ _id, title, color }));
       } else {
-        dispatch(addCategoryToList(result.category));
+        dispatch(addCategoryToList(category));
       }
     }
   };

@@ -1,10 +1,11 @@
-import { Navigate } from "react-router";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 import { render, screen } from "@testing-library/react";
 
-import { withHomeRedirect } from "./withHomeRedirect";
-import TestComponent from "./testComponent";
 import ROUTES from "../routes";
+
+import TestComponent from "./testComponent";
+import { withHomeRedirect } from "./withHomeRedirect";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),

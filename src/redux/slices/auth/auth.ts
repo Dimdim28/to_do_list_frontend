@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import socketsAPI from '../../../api/socketsAPI';
+import { Language, Status, Theme } from '../../../types/shared';
+
 import { fetchAuthMe, fetchUserData, registerUser } from './thunk';
 import { AuthSliceState } from './types';
-import { Language, Status, Theme } from '../../../types';
-import socketsAPI from '../../../api/socketsAPI';
 
 const initialState: AuthSliceState = {
   profile: null,

@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import Category from './Category';
 
@@ -10,12 +10,12 @@ describe('Category component', () => {
     color: '#ff0000',
     key: 1,
     isForTask: false,
+    activeCategories: [],
     setCategoryEditing: jest.fn(),
     setCategoryDeleting: jest.fn(),
     setCategoryInfo: jest.fn(),
     setActiveCategories: jest.fn(),
     isActive: false,
-    taskFetchingParams: {},
   };
 
   it('should render the category title', () => {

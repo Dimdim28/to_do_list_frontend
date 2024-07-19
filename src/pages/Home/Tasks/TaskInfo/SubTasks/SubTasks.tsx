@@ -1,50 +1,45 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { SubTask } from '../../../../../api/subTaskAPI';
-import { humaniseDate, truncate } from '../../../../../helpers/string';
 import { Modal } from '../../../../../components/common/Modal/Modal';
-import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
-import TaskForm from '../../TaskEditing/TaskForm';
-import { getTask } from '../../../../../api/taskAPI';
 import UserImage from '../../../../../components/UserImage/UserImage';
+import { humaniseDate, truncate } from '../../../../../helpers/string';
+import ROUTES from '../../../../../routes';
+import { SubTask } from '../../../../../types/entities/SubTask';
+import TaskForm from '../../TaskEditing/TaskForm';
+
+import SubTaskDeleting from './SubTaskDeleting/SubTaskDeleting';
 
 import styles from './SubTasks.module.scss';
 
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-
 export interface SubTasksProps {
   subTasks: SubTask[];
-  taskFetchingParams: getTask;
+  taskId: string;
 }
 
-const Status: FC<{ rejected: boolean; isCompleted: boolean }> = ({
-  rejected,
-  isCompleted,
-}) => {
+const Status: FC<{
+  isRejected: boolean;
+  isCompleted: boolean;
+  isConfirmed: boolean;
+}> = ({ isRejected, isCompleted, isConfirmed }) => {
   const { t } = useTranslation();
 
-  return (
-    <>
-      {rejected ? (
-        <p className={styles.subTaskRejected}>
-          {rejected ? t('rejected') : null}
-        </p>
-      ) : (
-        <p
-          className={
-            isCompleted ? styles.subTaskCompleted : styles.subtaskInProgress
-          }
-        >
-          {isCompleted ? t('completedSub') : t('inProgress')}
-        </p>
-      )}
-    </>
-  );
+  if (isRejected) {
+    return <p className={styles.subTaskRejected}>{t('rejected')}</p>;
+  }
+  if (!isConfirmed) {
+    return <p className={styles.subTaskIgnored}>{t('ignored')}</p>;
+  }
+  if (isCompleted) {
+    return <p className={styles.subTaskCompleted}>{t('completedSub')}</p>;
+  }
+
+  return <p className={styles.subTaskInProgress}>{t('inProgress')}</p>;
 };
 
-const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
+const SubTasks: FC<SubTasksProps> = ({ subTasks, taskId }) => {
   const { t } = useTranslation();
 
   const [subTasksArray, setSubTasksArray] = useState<SubTask[]>(subTasks);
@@ -53,6 +48,15 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
   const [subTaskEditing, setSubTaskEditing] = useState<boolean>(false);
   const [subTaskProps, setSubTaskProps] = useState<any>({});
 
+  const goToProfile = (id: string) => {
+    window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
+  };
+
+  useEffect(() => {
+    setSubTasksArray(subTasks);
+  }, [subTasks]);
+
+  if (!subTasksArray.length) return null;
   // TODO fix className for avatar
   return (
     <div className={styles.wrapper}>
@@ -64,8 +68,9 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
             title,
             isCompleted,
             deadline,
-            rejected,
-            assigneeId,
+            isRejected,
+            isConfirmed,
+            assignee,
             description,
           } = el;
 
@@ -81,7 +86,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
             >
               <div className={styles.subTaskHeader}>
                 <UserImage
-                  user={assigneeId}
+                  onAvatarClick={(user) => goToProfile(user._id)}
+                  user={assignee}
                   additionalClassname={`${styles.titleSubTaskAvatar} ${
                     activeSubTask === el._id
                       ? styles.titleSubTaskAvatarActive
@@ -90,7 +96,11 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
                 />
 
                 <p className={styles.subTaskTitle}>{truncate(title, 20)}</p>
-                <Status rejected={rejected} isCompleted={isCompleted} />
+                <Status
+                  isRejected={isRejected}
+                  isConfirmed={isConfirmed}
+                  isCompleted={isCompleted}
+                />
               </div>
               <div
                 className={`${styles.subTaskInfo} ${
@@ -99,9 +109,12 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
               >
                 <div className={styles.line}>
                   <div className={styles.subTaskUser}>
-                    <UserImage user={assigneeId} />
+                    <UserImage
+                      user={assignee}
+                      onAvatarClick={(user) => goToProfile(user._id)}
+                    />
                     <p className={styles.subTaskUsername}>
-                      {assigneeId?.username || 'Anon'}
+                      {assignee?.username || 'Anon'}
                     </p>
                   </div>
                   <div className={styles.icons}>
@@ -112,8 +125,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
                         setSubTaskProps({
                           ...el,
                           isForSubtask: true,
-                          taskFetchingParams,
                           setSubTasksArray,
+                          parentTaskId: taskId,
                         });
                         setSubTaskEditing(true);
                         e.stopPropagation();
@@ -132,8 +145,8 @@ const SubTasks: FC<SubTasksProps> = ({ subTasks, taskFetchingParams }) => {
                         setSubTaskProps({
                           subTaskId: el._id,
                           title: el.title,
-                          taskFetchingParams,
                           setSubTasksArray,
+                          parentTaskId: taskId,
                         });
                         setSubTaskDeleting(true);
                         e.stopPropagation();

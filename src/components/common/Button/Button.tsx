@@ -1,4 +1,4 @@
-import {FC, ComponentPropsWithoutRef} from "react";
+import {ComponentPropsWithoutRef,FC} from "react";
 
 import styles from "./Button.module.scss";
 

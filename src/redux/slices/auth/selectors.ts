@@ -1,6 +1,7 @@
-import { Status, Theme } from "../../../types";
-import { RootState } from "./../../store";
-import { Profile } from "./types";
+import { Status, Theme } from '../../../types/shared';
+
+import { RootState } from './../../store';
+import { Profile } from './types';
 
 export const selectIsAuth = (state: RootState) => Boolean(state.auth.profile);
 export const selectIsChecked = (state: RootState) =>

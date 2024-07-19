@@ -1,16 +1,16 @@
 import { Provider } from 'react-redux';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { fireEvent,render, screen } from '@testing-library/react';
+
+import store from '../../../../redux/store';
 
 import Avatar from './Avatar';
-import store from '../../../../redux/store';
-import exp from 'constants';
 
 const renderAvatar = () => {
   render(
     <Provider store={store}>
       <Router>
-        <Avatar />
+        <Avatar isOwner />
       </Router>
     </Provider>,
   );

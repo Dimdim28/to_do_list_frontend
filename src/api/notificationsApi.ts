@@ -1,8 +1,8 @@
 import instanse from '../axios';
-import { Status } from '../types';
-import { SubTask } from './subTaskAPI';
+import { Notification } from '../types/entities/Notification';
+import { Status } from '../types/shared';
 
-export type NotificationsResponse = {
+type NotificationsResponse = {
   status: number;
   statusText: string;
   data: {
@@ -12,40 +12,20 @@ export type NotificationsResponse = {
   };
 };
 
-export enum NotificationType {
-  SUBTASK_CONFIRMATION = 'subtask-confirmation',
-}
-
-export type Notification = {
-  assigneeId: string;
-  createdAt: string;
-  subtaskId: SubTask;
-  type: NotificationType;
-  userId: {
-    avatar: {
-      public_id: string;
-      url: string;
-    };
-    username: string;
-    _id: string;
-  };
-  _id: string;
-};
-
-export interface Result {
+type NotificationResult = {
   notifications: Notification[];
   currentPage: number;
   totalPages: number;
   status: Status;
   message?: string;
-}
+};
 
 class notificationsAPIClass {
   public async getNotifications(
     page?: number,
     limit?: number,
     skip?: number,
-  ): Promise<Result> {
+  ): Promise<NotificationResult> {
     try {
       const response: NotificationsResponse = await instanse.get(
         `/notification`,

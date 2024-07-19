@@ -1,14 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { Status } from '../../../types/shared';
+import { Profile } from '../auth/types';
 
 import {
   changeAvatar,
+  changeName,
   changePass,
   deleteAccount,
   fetchUserProfile,
-  changeName,
   getStats,
 } from './thunk';
-import { Status } from '../../../types';
 import { ProfileSliceState } from './types';
 
 const initialState: ProfileSliceState = {
@@ -92,10 +94,16 @@ const profileSlice = createSlice({
       state.status = Status.LOADING;
       state.message = '';
     });
-    builder.addCase(changeName.fulfilled, (state) => {
-      state.status = Status.SUCCESS;
-      state.message = '';
-    });
+    builder.addCase(
+      changeName.fulfilled,
+      (state, action: PayloadAction<Profile>) => {
+        state.status = Status.SUCCESS;
+        state.message = '';
+        if (state.data) {
+          state.data.username = action.payload.username;
+        }
+      },
+    );
     builder.addCase(changeName.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);

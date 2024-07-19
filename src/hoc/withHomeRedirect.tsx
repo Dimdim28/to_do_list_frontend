@@ -1,10 +1,11 @@
-import { FC } from "react";
-import { Navigate } from "react-router";
+import { FC } from 'react';
+import { Navigate } from 'react-router';
 
-import { useAppSelector } from "../hooks";
-import { selectIsAuth, selectIsChecked } from "../redux/slices/auth/selectors";
-import ROUTES from "../routes";
+import { useAppSelector } from '../hooks';
+import { selectIsAuth, selectIsChecked } from '../redux/slices/auth/selectors';
+import ROUTES from '../routes';
 
+// eslint-disable-next-line react/display-name
 export const withHomeRedirect = (Component: FC<any>) => () => {
   const isAuth = useAppSelector(selectIsAuth);
   const isChecked = useAppSelector(selectIsChecked);

@@ -1,8 +1,9 @@
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 
-import ProfileData from "./ProfileData";
 import store from "../../../../redux/store";
+
+import ProfileData from "./ProfileData";
 
 const renderProfileData = () => {
   render(

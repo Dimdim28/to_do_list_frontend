@@ -1,6 +1,10 @@
-import { Category } from '../../../api/categoryAPI';
-import { Task } from '../../../api/taskAPI';
-import { Status } from '../../../types';
+import {
+  Date,
+  IsCompleted,
+} from '../../../pages/Home/FiltersBar/Filters/Filters';
+import { Category } from '../../../types/entities/Category';
+import { Task } from '../../../types/entities/Task';
+import { Status } from '../../../types/shared';
 
 export type CategoriesResponse = {
   data: Categories;
@@ -20,6 +24,10 @@ export type Tasks = {
   tasks: Task[];
   totalPages: number;
   currentPage: number;
+  searchPattern: string;
+  isCompleted: IsCompleted;
+  date: Date;
+  activeCategories: Category[];
   status: Status;
   message?: string;
 };

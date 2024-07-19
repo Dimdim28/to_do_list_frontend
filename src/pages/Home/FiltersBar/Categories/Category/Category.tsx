@@ -1,25 +1,23 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
-
-import { getTask } from '../../../../../api/taskAPI';
-
-import styles from './Category.module.scss';
-
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { Category as CategoryType } from '../../../../../types/entities/Category';
+
+import styles from './Category.module.scss';
 
 export interface CategoryProps {
   _id: string;
   title: string;
-  user: string;
   color: string;
   key: number;
   isForTask?: boolean;
   setCategoryEditing: Dispatch<SetStateAction<boolean>>;
   setCategoryDeleting: Dispatch<SetStateAction<boolean>>;
-  setCategoryInfo: Dispatch<SetStateAction<{}>>;
-  setActiveCategories: Dispatch<SetStateAction<string[]>>;
+  setCategoryInfo: Dispatch<SetStateAction<object>>;
+  setActiveCategories: (categories: CategoryType[]) => void;
+  activeCategories: CategoryType[];
   isActive: boolean;
-  taskFetchingParams: getTask;
 }
 
 const Category: FC<CategoryProps> = ({
@@ -27,11 +25,16 @@ const Category: FC<CategoryProps> = ({
   setCategoryDeleting,
   setCategoryEditing,
   setActiveCategories,
+  activeCategories,
   isForTask,
   isActive,
   ...props
 }) => {
   const [hover, setHover] = useState(false);
+
+  const typedSetActiveCategories = setActiveCategories as Dispatch<
+    SetStateAction<CategoryType[]>
+  >;
 
   const handleMouseEnter = () => {
     setHover(true);
@@ -45,10 +48,29 @@ const Category: FC<CategoryProps> = ({
     <div
       data-testid="category-element"
       onClick={() => {
+        console.log(activeCategories);
         if (isActive) {
-          setActiveCategories((prev) => prev.filter((el) => el !== props._id));
+          if (isForTask) {
+            typedSetActiveCategories((prev) =>
+              prev.filter((el) => el._id !== props._id),
+            );
+          } else {
+            setActiveCategories(
+              activeCategories.filter((el) => el._id !== props._id),
+            );
+          }
         } else {
-          setActiveCategories((prev) => [...prev, props._id]);
+          if (isForTask) {
+            typedSetActiveCategories((prev) => [
+              ...prev,
+              { _id: props._id, color: props.color, title: props.title },
+            ]);
+          } else {
+            setActiveCategories([
+              ...activeCategories,
+              { _id: props._id, color: props.color, title: props.title },
+            ]);
+          }
         }
       }}
       className={isForTask ? styles.tasksFormCategory : styles.category}

@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { getTask as TasksParams } from '../../../api/taskAPI';
 import instanse from '../../../axios';
+
 import {
   Categories,
   CategoriesParams,
@@ -8,7 +10,6 @@ import {
   Tasks,
   TasksResponse,
 } from './types';
-import { getTask as TasksParams } from '../../../api/taskAPI';
 
 export const fetchCategories = createAsyncThunk<Categories, CategoriesParams>(
   'task/fetchCategories',

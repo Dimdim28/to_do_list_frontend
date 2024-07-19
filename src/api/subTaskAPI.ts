@@ -1,9 +1,17 @@
 import instanse from '../axios';
-import { Status } from '../types';
+import { SubTask } from '../types/entities/SubTask';
+import { Status } from '../types/shared';
 
-export type CreateSubTaskResponse = {
+type SubTaskResponse = {
   status: number;
   statusText: string;
+  data: SubTask;
+};
+
+export type SubTaskResult = {
+  task: SubTask | null;
+  status: Status;
+  message?: string;
 };
 
 interface CreateSubTaskParams {
@@ -15,23 +23,6 @@ interface CreateSubTaskParams {
   deadline?: string | null;
 }
 
-export type SubTask = {
-  _id: string;
-  title: string;
-  description: string;
-  isCompleted: boolean;
-  deadline: string;
-  rejected: boolean;
-  assigneeId: {
-    _id: string;
-    username: string;
-    avatar: {
-      url: string;
-      public_id: string;
-    };
-  };
-};
-
 interface EditSubTaskParams {
   subTaskId: string;
   title?: string;
@@ -40,7 +31,8 @@ interface EditSubTaskParams {
   isCompleted?: boolean;
   deadline?: string | null;
   links?: string[];
-  rejected?: boolean;
+  isRejected?: boolean;
+  isConfirmed?: boolean;
   categories?: string[];
 }
 
@@ -52,21 +44,24 @@ class subTasksAPIClass {
     assigneeId,
     isCompleted,
     deadline,
-  }: CreateSubTaskParams) {
+  }: CreateSubTaskParams): Promise<SubTaskResult> {
     try {
-      await instanse.post(`/task/${taskId}/subtask`, {
-        title,
-        description,
-        assigneeId,
-        isCompleted,
-        deadline,
-      });
-      return { status: Status.SUCCESS };
+      const response: SubTaskResponse = await instanse.post(
+        `/task/${taskId}/subtask`,
+        {
+          title,
+          description,
+          assigneeId,
+          isCompleted,
+          deadline,
+        },
+      );
+      return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
-        users: [],
+        task: null,
       };
     }
   }
@@ -79,51 +74,62 @@ class subTasksAPIClass {
     assigneeId,
     isCompleted,
     deadline,
-    rejected,
+    isRejected,
+    isConfirmed,
     categories,
-  }: EditSubTaskParams) {
+  }: EditSubTaskParams): Promise<SubTaskResult> {
     try {
-      await instanse.patch(`/task/subtask/${subTaskId}`, {
+      const response = await instanse.patch(`/subtask/${subTaskId}`, {
         title,
         description,
         assigneeId,
         isCompleted,
         deadline,
         links,
-        rejected,
+        isRejected,
+        isConfirmed,
         categories,
       });
-      return { status: Status.SUCCESS };
+      return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
+        task: null,
       };
     }
   }
 
-  public async deleteSubTask(subTaskId: string) {
+  public async deleteSubTask(subTaskId: string): Promise<SubTaskResult> {
     try {
-      await instanse.delete(`/task/subtask/${subTaskId}`);
-      return { status: Status.SUCCESS };
+      const response: SubTaskResponse = await instanse.delete(
+        `/subtask/${subTaskId}`,
+      );
+      return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
+        task: null,
       };
     }
   }
 
-  public async addLinkToSubTask(id: string, prevLinks: string[], url: string) {
+  public async addLinkToSubTask(
+    id: string,
+    prevLinks: string[],
+    url: string,
+  ): Promise<SubTaskResult> {
     try {
-      await instanse.patch(`/task/subtask/${id}`, {
+      const response: SubTaskResponse = await instanse.patch(`/subtask/${id}`, {
         links: [...prevLinks, url],
       });
-      return { status: Status.SUCCESS };
+      return { status: Status.SUCCESS, task: response.data };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
+        task: null,
       };
     }
   }

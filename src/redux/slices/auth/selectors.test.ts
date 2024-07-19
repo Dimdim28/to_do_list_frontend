@@ -8,8 +8,8 @@ import {
   selectIsAuth,
   selectIsChecked,
   selectIsRegistered,
-  selectProfile,
   selectMessage,
+  selectProfile,
 } from './selectors';
 
 describe('Testing auth slice selectors', () => {
@@ -42,10 +42,7 @@ describe('Testing auth slice selectors', () => {
       email: 'test@gmail.com',
       token: '01032004hahathisismytoken',
       username: 'DimonTheBest',
-      avatar: {
-        public_id: 'id',
-        url: 'link',
-      },
+      avatar: 'link',
     });
 
     expect(recievedSecondState).toBe(null);

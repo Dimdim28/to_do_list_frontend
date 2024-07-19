@@ -1,5 +1,7 @@
-import { RootState } from "../../store";
-import { DailyStats, Profile } from "./types";
+import { RootState } from '../../store';
+import { Profile } from '../auth/types';
+
+import { DailyStats } from './types';
 
 export const selectProfileStatus = (state: RootState) => state.profile.status;
 export const selectUserProfile = (state: RootState): Profile | null =>

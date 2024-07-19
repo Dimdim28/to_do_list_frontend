@@ -1,5 +1,6 @@
 import { MOCK_OBJECT_ONE } from '../../../mocs/state';
-import { Language, Status, Theme } from '../../../types';
+import { Language, Status, Theme } from '../../../types/shared';
+
 import { authReducer } from './auth';
 import { fetchAuthMe, fetchUserData, registerUser } from './thunk';
 

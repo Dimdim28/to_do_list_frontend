@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './ChangeAvatarEffect.module.scss';
 import { useAppSelector } from '../../../hooks';
 import { selectUserProfile } from '../../../redux/slices/profile/selectors';
 
-const avatars = [
+import styles from './ChangeAvatarEffect.module.scss';
+
+export const avatarsEffectsList = [
   {
     animation:
       'https://cdn.discordapp.com/avatar-decoration-presets/a_c9b84ee80a335a9d59b69352e34574f6.png?size=240&passthrough=true',
@@ -161,11 +162,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
           >
             <div className={styles.avatar}>
               {avatar ? (
-                <img
-                  src={avatar.url}
-                  alt="logo"
-                  className={styles.avatarImage}
-                />
+                <img src={avatar} alt="logo" className={styles.avatarImage} />
               ) : (
                 <img
                   className={styles.avatarImage}
@@ -194,7 +191,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
               </svg>
             </div>
           </div>
-          {avatars.map((el, id) => (
+          {avatarsEffectsList.map((el, id) => (
             <div
               key={id}
               className={`${styles.avatarElement} ${
@@ -213,11 +210,7 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
                   alt="effect"
                 />
                 {avatar ? (
-                  <img
-                    src={avatar.url}
-                    alt="logo"
-                    className={styles.avatarImage}
-                  />
+                  <img src={avatar} alt="logo" className={styles.avatarImage} />
                 ) : (
                   <img
                     className={styles.avatarImage}
@@ -235,14 +228,14 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
           <div className={styles.avatar}>
             {activeAvatar > -1 && (
               <img
-                src={avatars[activeAvatar]?.animation}
+                src={avatarsEffectsList[activeAvatar]?.animation}
                 className={styles.avatarEffect}
                 alt="effect"
               />
             )}
             {avatar ? (
               <img
-                src={avatar.url}
+                src={avatar}
                 alt="logo"
                 className={`${styles.avatarImage} ${
                   activeAvatar < 0 ? styles.border : ''

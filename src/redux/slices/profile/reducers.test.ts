@@ -1,10 +1,10 @@
 import {
   MOCK_OBJECT_ONE,
-  MOCK_OBJECT_TWO,
   MOCK_OBJECT_THREE,
+  MOCK_OBJECT_TWO,
 } from "../../../mocs/state";
 
-import { profileReducer, exit, clearProfileErrorMessage } from "./profile";
+import { clearProfileErrorMessage,exit, profileReducer } from "./profile";
 
 describe("Testing profile slice reducers", () => {
   const exitAction = { type: exit.type };

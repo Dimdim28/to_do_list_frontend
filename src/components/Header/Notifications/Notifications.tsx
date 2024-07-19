@@ -1,19 +1,19 @@
-import { useEffect, useState, UIEvent, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router';
+import { UIEvent, useEffect, useRef,useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ROUTES from '../../../routes';
-import notificationsAPI, { Notification } from '../../../api/notificationsApi';
+import notificationsAPI from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
-import UserImage from '../../UserImage/UserImage';
-import { Status } from '../../../types';
+import newNotificationAudio from '../../../assets/newNotification.mp3';
 import { truncate } from '../../../helpers/string';
+import ROUTES from '../../../routes';
+import { Notification } from '../../../types/entities/Notification';
+import { Status } from '../../../types/shared';
+import UserImage from '../../UserImage/UserImage';
 
 import styles from './Notifications.module.scss';
-
-import newNotificationAudio from '../../../assets/newNotification.mp3';
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -125,6 +125,9 @@ const Notifications = () => {
   }, []);
 
   const NotificationsList = () => {
+    const goToProfile = (id: string) => {
+      navigate(`${ROUTES.PROFILE}/${id}`);
+    };
     return (
       <>
         {notifications.map((notification) => (
@@ -133,7 +136,16 @@ const Notifications = () => {
               {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
             </p>
             <div className={styles.user}>
-              <UserImage user={notification.userId} size="large" />
+              <UserImage
+                user={{
+                  ...notification.userId,
+                  avatar: notification.userId.avatar.url,
+                }}
+                onAvatarClick={(user) => {
+                  goToProfile(user._id);
+                }}
+                size="large"
+              />
               <div className={styles.taskInfosection}>
                 <p className={styles.userName}>
                   {truncate(notification?.userId?.username || 'User', 16)}

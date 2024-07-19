@@ -1,16 +1,15 @@
 import { 
-  InputHTMLAttributes, 
-  useState, Dispatch,
-  SetStateAction,
   ChangeEventHandler,
+Dispatch,
+  FC, 
   FocusEventHandler,
-  FC 
-} from "react";
-
-import styles from "./Input.module.scss";
-
+  InputHTMLAttributes, 
+  SetStateAction,
+  useState} from "react";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   title: string;

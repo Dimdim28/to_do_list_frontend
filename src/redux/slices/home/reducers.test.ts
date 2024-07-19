@@ -1,20 +1,19 @@
 import {
   MOCK_OBJECT_ONE,
-  MOCK_OBJECT_TWO,
   MOCK_OBJECT_THREE,
+  MOCK_OBJECT_TWO,
 } from '../../../mocs/state';
+import { Status } from '../../../types/shared';
 
 import {
-  clearCategories,
-  updateCategoryInList,
   addCategoryToList,
-  removeCategoryFromList,
   clear,
+  clearCategories,
   homeReducer,
+  removeCategoryFromList,
+  updateCategoryInList,
 } from './home';
-
 import { HomeSliceState } from './types';
-import { Status } from '../../../types';
 
 const initialState: HomeSliceState = {
   category: {
@@ -22,13 +21,11 @@ const initialState: HomeSliceState = {
       {
         _id: '646b95736b2cb6353f4fd104',
         title: 'hello',
-        user: '63f6342acc86923016194255',
         color: '#d82222',
       },
       {
         _id: '646bbbaefedb212d312d0447',
         title: 'lalala',
-        user: '63f6342acc86923016194255',
         color: '#16a29f',
       },
     ],
@@ -40,6 +37,10 @@ const initialState: HomeSliceState = {
   task: {
     tasks: [],
     currentPage: 1,
+    date: 'all',
+    isCompleted: 'false',
+    activeCategories: [],
+    searchPattern: '',
     status: Status.LOADING,
     totalPages: 0,
   },
@@ -62,6 +63,10 @@ describe('Testing home slice reducers', () => {
         task: {
           tasks: [],
           currentPage: 1,
+          date: 'all',
+          isCompleted: 'false',
+          activeCategories: [],
+          searchPattern: '',
           status: Status.LOADING,
           totalPages: 0,
         },
@@ -84,6 +89,10 @@ describe('Testing home slice reducers', () => {
         task: {
           tasks: [],
           currentPage: 1,
+          date: 'all',
+          isCompleted: 'false',
+          activeCategories: [],
+          searchPattern: '',
           status: Status.LOADING,
           totalPages: 0,
         },
@@ -151,13 +160,11 @@ describe('Testing home slice reducers', () => {
     const updateFirstCategory = {
       _id: '646b95736b2cb6353f4fd104',
       title: 'hi',
-      user: '63f6342acc86923016194255',
       color: '#000000',
     };
     const prevSecondCategory = {
       _id: '646bbbaefedb212d312d0447',
       title: 'lalala',
-      user: '63f6342acc86923016194255',
       color: '#16a29f',
     };
     const updateCategoryInListAction = {
@@ -212,7 +219,6 @@ describe('Testing home slice reducers', () => {
     const firstCategory = {
       _id: '646b95736b2cb6353f4fd104',
       title: 'hello',
-      user: '63f6342acc86923016194255',
       color: '#d82222',
     };
 

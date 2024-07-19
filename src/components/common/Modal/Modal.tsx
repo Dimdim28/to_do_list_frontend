@@ -1,17 +1,16 @@
-import { useCallback, useEffect, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useEffect } from 'react';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Category } from '../../../api/categoryAPI';
+import { Category } from '../../../types/entities/Category';
 
 import styles from './Modal.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface ModalProps {
   active: boolean;
   setActive: Dispatch<SetStateAction<boolean>>;
   ChildComponent: any;
-  childProps: Category | {};
+  childProps: Category | object;
   zIndex?: number;
 }
 
@@ -45,24 +44,24 @@ export const Modal: FC<ModalProps> = ({
     <div
       style={{ zIndex }}
       role="dialog-wrapper"
-      className={active ? styles.modalActive : styles.modal}
+      className={`${active ? styles.modalActive : undefined} ${styles.modal}`}
     >
-      {active && (
-        <div
-          role="dialog"
-          data-testid="modal-content"
-          className={active ? styles.modalContentActive : styles.modalContent}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <FontAwesomeIcon
-            data-testid="modal-close-button"
-            icon={faCircleXmark}
-            className={styles.close}
-            onClick={() => setActive(false)}
-          />
-          <ChildComponent toggleActive={setActive} childProps={childProps} />
-        </div>
-      )}
+      <div
+        role="dialog"
+        data-testid="modal-content"
+        className={`${active ? styles.modalContentActive : undefined} ${
+          styles.modalContent
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <FontAwesomeIcon
+          data-testid="modal-close-button"
+          icon={faCircleXmark}
+          className={styles.close}
+          onClick={() => setActive(false)}
+        />
+        <ChildComponent toggleActive={setActive} childProps={childProps} />
+      </div>
     </div>
   );
 };

@@ -2,16 +2,9 @@ import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 
 import store from '../../../redux/store';
-import { TranslationKeys } from '../../../types';
-import FiltersBar from './FiltersBar';
+import { TranslationKeys } from '../../../types/shared';
 
-const mockDate = 'week';
-const mockSetDate = jest.fn();
-const mockIsCompleted = 'all';
-const mockSetIsCompleted = jest.fn();
-const mockCategories = ['1', '2'];
-const mockSetCategories = jest.fn();
-const mockTaskFetchingParams = {};
+import FiltersBar from './FiltersBar';
 
 jest.mock('react-i18next', () => ({
   ...jest.requireActual('react-i18next'),
@@ -27,15 +20,7 @@ describe('FiltersBar', () => {
   test('renders the FiltersBar component with categories and filters', () => {
     render(
       <Provider store={store}>
-        <FiltersBar
-          date={mockDate}
-          setDate={mockSetDate}
-          isCompleted={mockIsCompleted}
-          setIsCompleted={mockSetIsCompleted}
-          categories={mockCategories}
-          setCategories={mockSetCategories}
-          taskFetchingParams={mockTaskFetchingParams}
-        />
+        <FiltersBar />
       </Provider>,
     );
 

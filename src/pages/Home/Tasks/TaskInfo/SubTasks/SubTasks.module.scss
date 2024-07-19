@@ -128,7 +128,8 @@
 
 .subTaskRejected,
 .subTaskCompleted,
-.subtaskInProgress {
+.subTaskInProgress,
+.subTaskIgnored {
   white-space: nowrap;
 }
 
@@ -140,8 +141,12 @@
   color: $success-200;
 }
 
-.subtaskInProgress {
+.subTaskInProgress {
   color: $amber-200;
+}
+
+.subTaskIgnored {
+  color: $indigo-200;
 }
 
 .subTaskDescription {

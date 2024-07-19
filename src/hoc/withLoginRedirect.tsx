@@ -5,7 +5,8 @@ import { useAppSelector } from '../hooks';
 import { selectIsAuth, selectIsChecked } from '../redux/slices/auth/selectors';
 import ROUTES from '../routes';
 
-export const withLoginRedirect = (Component: FC<any>) => () => {
+// eslint-disable-next-line react/display-name
+export const withLoginRedirect = (Component: FC<unknown>) => () => {
   const isAuth = useAppSelector(selectIsAuth);
   const isChecked = useAppSelector(selectIsChecked);
   if (!isAuth && isChecked)
