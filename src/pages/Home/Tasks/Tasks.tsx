@@ -6,7 +6,6 @@ import Preloader from '../../../components/Preloader/Preloader';
 import { SearchTask } from '../../../components/SearchTask/SearchTask';
 import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
 import {
-  updateTaskCompletionStatus,
   updateTaskCurrentPage,
   updateTaskSearchPattern,
 } from '../../../redux/slices/home/home';

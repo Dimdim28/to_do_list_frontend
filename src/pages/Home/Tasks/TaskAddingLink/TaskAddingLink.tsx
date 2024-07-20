@@ -1,4 +1,4 @@
-import { Dispatch, FC,SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import subTasksAPI from '../../../../api/subTaskAPI';
@@ -27,10 +27,13 @@ const TaskAddingLink: FC<TaskAddingLinkProps> = ({
 }) => {
   const { _id, title, links, isForSubTask } = childProps;
 
-  console.log(childProps);
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
   const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    setUrl('');
+  }, [childProps]);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
