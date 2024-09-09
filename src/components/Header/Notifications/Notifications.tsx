@@ -1,4 +1,4 @@
-import { UIEvent, useEffect, useRef,useState } from 'react';
+import { UIEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -71,6 +71,7 @@ const Notifications = () => {
       setCurrentPage(+currentPage);
       setTotalPages(+totalPages);
       setErrorMessage('');
+      console.log(notifications);
     } else {
       setErrorMessage(errorMessage || 'Error');
     }
