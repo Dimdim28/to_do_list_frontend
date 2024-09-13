@@ -1,5 +1,7 @@
 import { io } from 'socket.io-client';
 
+import { NotificationClientEvents } from '../types/entities/Notification';
+
 class socketsAPIClass {
   private socket: any;
 
@@ -20,12 +22,18 @@ class socketsAPIClass {
     );
   }
 
-  public confirmSubtask(subtaskId: string) {
-    this.socket.emit('subtask:confirm', subtaskId);
+  public confirmSubtask(subtaskId: string, receiverId: string) {
+    this.socket.emit(NotificationClientEvents.SUBTASK_CONFIRM, {
+      subtaskId,
+      receiverId,
+    });
   }
 
-  public rejectSubtask(subtaskId: string) {
-    this.socket.emit('subtask:reject', subtaskId);
+  public rejectSubtask(subtaskId: string, receiverId: string) {
+    this.socket.emit(NotificationClientEvents.SUBTASK_REJECT, {
+      subtaskId,
+      receiverId,
+    });
   }
 
   public getSocket() {

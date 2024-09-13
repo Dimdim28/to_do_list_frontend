@@ -120,6 +120,8 @@ const UA = {
   ignored: 'Без відповіді',
   completedSub: 'Завершено',
   subtaskConfirmation: 'Запит на підтвердження завдання',
+  userAcceptedSubtask: 'Користувач прийняв вашу підзадачу',
+  userRejectedSubtask: 'Користувач відхилив вашу підзадачу',
   noNotifications: 'Нема сповіщень',
 };
 

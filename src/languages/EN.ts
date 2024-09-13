@@ -119,6 +119,8 @@ const EN = {
   ignored: 'No answer',
   completedSub: 'Completed',
   subtaskConfirmation: 'Accepting task request',
+  userAcceptedSubtask: 'User accepted your subtask',
+  userRejectedSubtask: 'User rejected your subtask',
   noNotifications: 'No notifications',
 };
 

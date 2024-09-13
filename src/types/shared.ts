@@ -120,9 +120,3 @@ export type User = {
   username: string;
   avatar: string;
 };
-
-export type OldUser = {
-  _id: string;
-  username: string;
-  avatar: Avatar;
-};
