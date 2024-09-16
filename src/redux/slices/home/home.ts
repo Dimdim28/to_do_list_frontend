@@ -96,7 +96,6 @@ const homeSlice = createSlice({
       state,
       action: PayloadAction<{ id: string; isCompleted: boolean }>,
     ) {
-      console.log(action.payload.isCompleted);
       const updatedTasks = state.task.tasks.map((el) =>
         el._id === action.payload.id
           ? { ...el, isCompleted: action.payload.isCompleted }

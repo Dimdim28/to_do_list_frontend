@@ -26,7 +26,6 @@ const UserConfirmNotification: FC<UserConfirmNotificationProps> = ({
   handleAcceptSubTask,
 }) => {
   const navigate = useNavigate();
-  console.log(notification.type);
 
   const goToProfile = (id: string) => {
     navigate(`${ROUTES.PROFILE}/${id}`);

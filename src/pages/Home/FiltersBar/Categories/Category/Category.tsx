@@ -48,7 +48,6 @@ const Category: FC<CategoryProps> = ({
     <div
       data-testid="category-element"
       onClick={() => {
-        console.log(activeCategories);
         if (isActive) {
           if (isForTask) {
             typedSetActiveCategories((prev) =>

@@ -14,6 +14,7 @@ export const TRANSLATION_NOTIFICATION_TYPES_COLLECTION: {
   'subtask-confirmation': 'subtaskConfirmation',
   subtaskConfirmed: 'userAcceptedSubtask',
   subtaskRejected: 'userRejectedSubtask',
+  subtaskCompleted: 'userCompletedSubtask',
 };
 
 export enum NotificationServerEvents {

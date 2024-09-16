@@ -226,7 +226,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
         const { status, task } = response;
 
         if (status === Status.SUCCESS && parentTaskId) {
-          console.log(task);
           const createdSubTask = task as SubTask;
 
           if (setSubTasksArray)
