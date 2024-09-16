@@ -75,7 +75,6 @@ const Notifications = () => {
       setCurrentPage(+currentPage);
       setTotalPages(+totalPages);
       setErrorMessage('');
-      console.log(notifications);
     } else {
       setErrorMessage(errorMessage || 'Error');
     }

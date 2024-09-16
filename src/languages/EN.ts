@@ -121,6 +121,7 @@ const EN = {
   subtaskConfirmation: 'Accepting task request',
   userAcceptedSubtask: 'User accepted your subtask',
   userRejectedSubtask: 'User rejected your subtask',
+  userCompletedSubtask: 'User completed your subtask',
   noNotifications: 'No notifications',
 };
 

@@ -122,6 +122,7 @@ const UA = {
   subtaskConfirmation: 'Запит на підтвердження завдання',
   userAcceptedSubtask: 'Користувач прийняв вашу підзадачу',
   userRejectedSubtask: 'Користувач відхилив вашу підзадачу',
+  userCompletedSubtask: 'Користувач виконав вашу підзадачу',
   noNotifications: 'Нема сповіщень',
 };
 
