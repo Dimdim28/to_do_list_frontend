@@ -1,5 +1,7 @@
 import { Language, Status, Theme } from '../../../types/shared';
 
+export type Roles = 'user' | 'admin';
+
 export type Profile = {
   _id: string;
   createdAt: string;
@@ -8,6 +10,8 @@ export type Profile = {
   updatedAt: string;
   username: string;
   avatar: string;
+  roles?: [Roles, Roles];
+  isBanned?: true;
 };
 
 export type ProfileResponse = {

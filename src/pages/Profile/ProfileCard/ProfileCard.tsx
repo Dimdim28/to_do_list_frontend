@@ -1,7 +1,11 @@
-import React, { FC,useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Button from '../../../components/common/Button/Button';
 import { Modal } from '../../../components/common/Modal/Modal';
+import { useAppSelector } from '../../../hooks';
+import { selectIsAdmin } from '../../../redux/slices/auth/selectors';
+import { selectIsUserBanned } from '../../../redux/slices/profile/selectors';
 import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 import Avatar from './Avatar/Avatar';
@@ -12,6 +16,7 @@ import Name from './Name/Name';
 import ProfileData from './ProfileData/ProfileData';
 
 import styles from './ProfileCard.module.scss';
+import adminAPI from '../../../api/adminApi';
 
 interface ProfileCardProps {
   isNameEditing: boolean;
@@ -44,6 +49,9 @@ const ProfileCard: FC<ProfileCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const isUserBanned = useAppSelector(selectIsUserBanned);
+  const areYouAdmin = useAppSelector(selectIsAdmin);
+
   // const [isIdShown, setIsIdShown] = useState(false);
   const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
 
@@ -59,6 +67,9 @@ const ProfileCard: FC<ProfileCardProps> = ({
   //   }
   // };
 
+  const banUserHandler = () => {
+    adminAPI.banUser(id, true);
+  };
   return (
     <div className={styles.row} data-testid="profile-card-container">
       <Avatar isOwner={!id || id === ownerId} />
@@ -92,6 +103,23 @@ const ProfileCard: FC<ProfileCardProps> = ({
         />
 
         {(!id || id === ownerId) && <ProfileData />}
+        {areYouAdmin && (
+          <>
+            {isUserBanned ? (
+              <Button
+                text={t('revokeUser')}
+                callback={banUserHandler}
+                class="submit"
+              ></Button>
+            ) : (
+              <Button
+                text={t('banUser')}
+                callback={banUserHandler}
+                class="cancel"
+              ></Button>
+            )}
+          </>
+        )}
       </div>
 
       {(!id || id === ownerId) && (

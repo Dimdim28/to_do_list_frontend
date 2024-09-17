@@ -124,6 +124,8 @@ const UA = {
   userRejectedSubtask: 'Користувач відхилив вашу підзадачу',
   userCompletedSubtask: 'Користувач виконав вашу підзадачу',
   noNotifications: 'Нема сповіщень',
+  banUser: 'Заблокувати',
+  revokeUser: 'Розблокувати',
 };
 
 export default UA;
