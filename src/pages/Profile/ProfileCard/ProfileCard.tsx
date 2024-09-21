@@ -105,7 +105,8 @@ const ProfileCard: FC<ProfileCardProps> = ({
         />
 
         {(!id || id === ownerId) && <ProfileData />}
-        {areYouAdmin && (
+
+        {!!id && areYouAdmin && id !== ownerId && (
           <>
             {isUserBanned ? (
               <Button
