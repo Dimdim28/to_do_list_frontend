@@ -4,6 +4,7 @@ import { Status } from '../../../types/shared';
 import { Profile } from '../auth/types';
 
 import {
+  banUser,
   changeAvatar,
   changeName,
   changePass,
@@ -117,6 +118,23 @@ const profileSlice = createSlice({
       state.stats = action.payload;
     });
     builder.addCase(getStats.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+    builder.addCase(banUser.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = '';
+    });
+    builder.addCase(banUser.fulfilled, (state, action) => {
+      state.status = Status.SUCCESS;
+      state.message = '';
+      if (action.payload.status === Status.SUCCESS) {
+        if (state?.data?.isBanned !== undefined) {
+          state.data.isBanned = action.payload.isBanned;
+        }
+      }
+    });
+    builder.addCase(banUser.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });

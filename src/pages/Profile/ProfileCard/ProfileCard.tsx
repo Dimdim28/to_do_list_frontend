@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../components/common/Button/Button';
 import { Modal } from '../../../components/common/Modal/Modal';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { selectIsAdmin } from '../../../redux/slices/auth/selectors';
 import { selectIsUserBanned } from '../../../redux/slices/profile/selectors';
+import { banUser } from '../../../redux/slices/profile/thunk';
 import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 import Avatar from './Avatar/Avatar';
@@ -16,7 +17,6 @@ import Name from './Name/Name';
 import ProfileData from './ProfileData/ProfileData';
 
 import styles from './ProfileCard.module.scss';
-import adminAPI from '../../../api/adminApi';
 
 interface ProfileCardProps {
   isNameEditing: boolean;
@@ -49,6 +49,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const dispatch = useAppDispatch();
   const isUserBanned = useAppSelector(selectIsUserBanned);
   const areYouAdmin = useAppSelector(selectIsAdmin);
 
@@ -67,9 +68,10 @@ const ProfileCard: FC<ProfileCardProps> = ({
   //   }
   // };
 
-  const banUserHandler = () => {
-    adminAPI.banUser(id, true);
+  const banUserHandler = (id: string, isBanned: boolean) => {
+    dispatch(banUser({ id, isBanned }));
   };
+
   return (
     <div className={styles.row} data-testid="profile-card-container">
       <Avatar isOwner={!id || id === ownerId} />
@@ -108,13 +110,13 @@ const ProfileCard: FC<ProfileCardProps> = ({
             {isUserBanned ? (
               <Button
                 text={t('revokeUser')}
-                callback={banUserHandler}
+                callback={() => banUserHandler(id, false)}
                 class="submit"
               ></Button>
             ) : (
               <Button
                 text={t('banUser')}
-                callback={banUserHandler}
+                callback={() => banUserHandler(id, true)}
                 class="cancel"
               ></Button>
             )}

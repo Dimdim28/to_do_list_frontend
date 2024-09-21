@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import adminAPI from '../../../api/adminApi';
 import instanse from '../../../axios';
+import { Status } from '../../../types/shared';
 import { Profile } from '../auth/types';
 
 import {
@@ -108,3 +110,15 @@ export const getStats = createAsyncThunk<DailyStats[]>(
     }
   },
 );
+
+export const banUser = createAsyncThunk<
+  { isBanned: boolean; status: Status },
+  { id: string; isBanned: boolean }
+>('admin/banUser', async ({ id, isBanned }, { rejectWithValue }) => {
+  try {
+    const recievedStats = await adminAPI.banUser(id, isBanned);
+    return { status: recievedStats.status, isBanned };
+  } catch (err: any) {
+    return rejectWithValue(err?.response?.data?.message || 'Error');
+  }
+});

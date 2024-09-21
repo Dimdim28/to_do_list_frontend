@@ -11,7 +11,7 @@ export type Profile = {
   username: string;
   avatar: string;
   roles?: [Roles, Roles];
-  isBanned?: true;
+  isBanned?: boolean;
 };
 
 export type ProfileResponse = {
