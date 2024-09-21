@@ -10,3 +10,5 @@ export const selectProfileMessage = (state: RootState): string | undefined =>
   state.profile.message;
 export const selectStats = (state: RootState): DailyStats[] =>
   state.profile.stats;
+export const selectIsUserBanned = (state: RootState) =>
+  state.profile.data?.isBanned;

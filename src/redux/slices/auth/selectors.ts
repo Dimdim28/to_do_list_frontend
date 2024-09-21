@@ -14,3 +14,5 @@ export const selectMessage = (state: RootState): string | undefined =>
   state.auth.message;
 export const selectTheme = (state: RootState): Theme => state.auth.theme;
 export const selectLanguage = (state: RootState) => state.auth.lang;
+export const selectIsAdmin = (state: RootState) =>
+  state.auth.profile?.roles?.includes('admin');

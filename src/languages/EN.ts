@@ -123,6 +123,8 @@ const EN = {
   userRejectedSubtask: 'User rejected your subtask',
   userCompletedSubtask: 'User completed your subtask',
   noNotifications: 'No notifications',
+  banUser: 'Ban User',
+  revokeUser: 'Revoke User',
 };
 
 export default EN;

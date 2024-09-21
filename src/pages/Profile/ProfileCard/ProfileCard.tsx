@@ -1,7 +1,12 @@
-import React, { FC,useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Button from '../../../components/common/Button/Button';
 import { Modal } from '../../../components/common/Modal/Modal';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { selectIsAdmin } from '../../../redux/slices/auth/selectors';
+import { selectIsUserBanned } from '../../../redux/slices/profile/selectors';
+import { banUser } from '../../../redux/slices/profile/thunk';
 import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 import Avatar from './Avatar/Avatar';
@@ -44,6 +49,10 @@ const ProfileCard: FC<ProfileCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const dispatch = useAppDispatch();
+  const isUserBanned = useAppSelector(selectIsUserBanned);
+  const areYouAdmin = useAppSelector(selectIsAdmin);
+
   // const [isIdShown, setIsIdShown] = useState(false);
   const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
 
@@ -58,6 +67,10 @@ const ProfileCard: FC<ProfileCardProps> = ({
   //     }, 5000);
   //   }
   // };
+
+  const banUserHandler = (id: string, isBanned: boolean) => {
+    dispatch(banUser({ id, isBanned }));
+  };
 
   return (
     <div className={styles.row} data-testid="profile-card-container">
@@ -92,6 +105,23 @@ const ProfileCard: FC<ProfileCardProps> = ({
         />
 
         {(!id || id === ownerId) && <ProfileData />}
+        {areYouAdmin && (
+          <>
+            {isUserBanned ? (
+              <Button
+                text={t('revokeUser')}
+                callback={() => banUserHandler(id, false)}
+                class="submit"
+              ></Button>
+            ) : (
+              <Button
+                text={t('banUser')}
+                callback={() => banUserHandler(id, true)}
+                class="cancel"
+              ></Button>
+            )}
+          </>
+        )}
       </div>
 
       {(!id || id === ownerId) && (
