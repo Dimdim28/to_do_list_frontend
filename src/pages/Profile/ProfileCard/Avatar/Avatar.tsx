@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect,useRef, useState } from 'react';
+import { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -64,7 +64,7 @@ const Avatar: FC<AvatarProps> = ({ isOwner }) => {
       )}
       <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
       {avatar ? (
-        <img src={avatar} alt="logo" />
+        <img src={avatar.url} alt="logo" />
       ) : (
         <img
           src={
