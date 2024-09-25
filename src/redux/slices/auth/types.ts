@@ -9,10 +9,7 @@ export type Profile = {
   token: string;
   updatedAt: string;
   username: string;
-  avatar: {
-    url: string;
-    public_id: string;
-  };
+  avatar: string;
   roles?: [Roles, Roles];
   isBanned?: boolean;
 };

@@ -64,7 +64,7 @@ const Avatar: FC<AvatarProps> = ({ isOwner }) => {
       )}
       <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
       {avatar ? (
-        <img src={avatar.url} alt="logo" />
+        <img src={avatar} alt="logo" />
       ) : (
         <img
           src={
