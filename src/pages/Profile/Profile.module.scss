@@ -8,6 +8,8 @@
   background-color: $background-dark-35;
   transition: background-color $transition-delay;
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 :global(.light_theme) .wrapper {
