@@ -9,6 +9,7 @@ import Buttons from "./Buttons";
 const setIsExitingMock = jest.fn();
 const setIspassEditingMock = jest.fn();
 const setIsAccountDeletingMock = jest.fn();
+const setIsAccountDeletingMock = jest.fn();
 
 const renderButtons = () => {
   render(
@@ -18,6 +19,7 @@ const renderButtons = () => {
           setIsExiting={setIsExitingMock}
           setIspassEditing={setIspassEditingMock}
           setIsAccountDeleting={setIsAccountDeletingMock}
+          setIsEffectModalOpened={setIsAccountDeletingMock}
         />
       </Router>
     </Provider>
