@@ -1,7 +1,9 @@
 @import 'src/styles/partials/theme';
 
 .row {
+  max-width: 500px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
@@ -12,30 +14,26 @@
   position: relative;
   background-color: $background-dark-10;
   transition: background-color $transition-delay;
+  position: relative;
+
+  .backgroundEffect {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    pointer-events: none;
+    border-radius: 15px;
+  }
 }
 
 :global(.light_theme) .row {
   background-color: $gray-600;
-}
-
-.changeEffect {
-  position: absolute;
-  left: 20px;
-  top: 0;
-  color: $white;
-  transition: color $transition-delay;
-
-  &:hover {
-    color: $warning-200;
-  }
-}
-
-:global(.light_theme) .changeEffect {
-  color: $black;
-
-  &:hover {
-    color: $warning-200;
-  }
 }
 
 .idWrapper {
@@ -68,10 +66,4 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-}
-
-@media screen and (max-width: 768px) {
-  .row {
-    flex-direction: column;
-  }
 }

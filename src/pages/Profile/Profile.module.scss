@@ -2,14 +2,14 @@
 
 .wrapper {
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   height: calc(100% - 80px);
   overflow-y: auto;
   background-color: $background-dark-35;
   transition: background-color $transition-delay;
-  padding-top: 20px;
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 :global(.light_theme) .wrapper {
@@ -19,11 +19,12 @@
 .profile {
   border-radius: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   width: 95%;
   position: relative;
   width: 100%;
-  margin-bottom: 40px;
+  gap: 40px;
 }
 
 .passwordWrapper {
@@ -55,14 +56,21 @@
 
 .statsWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 20px;
   gap: 40px;
   width: 100%;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
   }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
 }
 
 .chartWrapper {

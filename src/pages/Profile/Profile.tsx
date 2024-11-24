@@ -22,6 +22,10 @@ import ProfileCard from './ProfileCard/ProfileCard';
 
 import styles from './Profile.module.scss';
 
+import Buttons from './ProfileCard/Buttons/Buttons';
+import { ChangeAvatarEffect } from './ChangeEvatarEffect/ChangeAvatarEffect';
+import { Modal } from '../../components/common/Modal/Modal';
+
 ChartJS.register(...registerables);
 
 const Profile = () => {
@@ -32,6 +36,7 @@ const Profile = () => {
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
 
   const profile = useAppSelector(selectUserProfile) || {
     username: '',
@@ -70,47 +75,68 @@ const Profile = () => {
           setName={setName}
           id={id}
           setIsExiting={setIsExiting}
-          setIspassEditing={setIspassEditing}
           setIsAccountDeleting={setIsAccountDeleting}
           isAccountDeleting={isAccountDeleting}
           isExiting={isExiting}
           ownerId={ownerId}
         />
 
-        {isPassEditing && (!id || id === ownerId) && (
-          <div className={styles.passwordWrapper}>
-            <div className={styles.passEditing}>
-              <ChangePass id={id} />
-            </div>
-          </div>
-        )}
-        {status === 'error' && <p className={styles.error}>{message}</p>}
-      </div>
-      {profileStats.length > 0 && (
-        <div className={styles.statsWrapper}>
-          {(!id || id === ownerId) && (
-            <div className={styles.chartWrapper}>
-              <Bar data={getChartData(profileStats)} options={chartOptions} />
+        <div className={styles.column}>
+          {profileStats.length > 0 && (
+            <div className={styles.statsWrapper}>
+              {(!id || id === ownerId) && (
+                <div className={styles.chartWrapper}>
+                  <Bar
+                    data={getChartData(profileStats)}
+                    options={chartOptions}
+                  />
+                </div>
+              )}
+              <div className={styles.statsNumbers}>
+                <div className={styles.leftcol}>
+                  <span>76</span>
+                  <span>583</span>
+                  <span>1562</span>
+                  <span>435</span>
+                  <span>83</span>
+                </div>
+                <div className={styles.rightcol}>
+                  <span>Public groups</span>
+                  <span>Friends</span>
+                  <span>Tasks completed</span>
+                  <span>Tasks shared</span>
+                  <span>Projects</span>
+                </div>
+              </div>
             </div>
           )}
-          <div className={styles.statsNumbers}>
-            <div className={styles.leftcol}>
-              <span>76</span>
-              <span>583</span>
-              <span>1562</span>
-              <span>435</span>
-              <span>83</span>
-            </div>
-            <div className={styles.rightcol}>
-              <span>Public groups</span>
-              <span>Friends</span>
-              <span>Tasks completed</span>
-              <span>Tasks shared</span>
-              <span>Projects</span>
-            </div>
+
+          {(!id || id === ownerId) && (
+            <Buttons
+              setIsExiting={setIsExiting}
+              setIspassEditing={setIspassEditing}
+              setIsAccountDeleting={setIsAccountDeleting}
+              setIsEffectModalOpened={setIsEffectModalOpened}
+            />
+          )}
+        </div>
+      </div>
+
+      {isPassEditing && (!id || id === ownerId) && (
+        <div className={styles.passwordWrapper}>
+          <div className={styles.passEditing}>
+            <ChangePass id={id} />
           </div>
         </div>
       )}
+      {status === 'error' && <p className={styles.error}>{message}</p>}
+
+      <Modal
+        active={isEffectModalOpened}
+        setActive={setIsEffectModalOpened}
+        ChildComponent={ChangeAvatarEffect}
+        childProps={{ toggleActive: setIsEffectModalOpened }}
+      />
     </main>
   );
 };
