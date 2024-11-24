@@ -19,7 +19,6 @@
 .buttons {
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -68,6 +67,10 @@
       $error-300,
       $error-200
     );
+  }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
   }
 }
 

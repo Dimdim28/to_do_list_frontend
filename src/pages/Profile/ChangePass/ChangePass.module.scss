@@ -65,23 +65,17 @@
   .aside {
     .form {
       flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .aside {
-    .form {
+      align-items: center;
       .wrapper {
         flex-direction: column;
         width: 100%;
-        align-items: flex-start;
+        align-items: center;
         padding-right: 0;
 
         .fieldsWrapper {
           width: 100%;
           padding-right: 10px;
+          max-width: none;
         }
       }
     }

@@ -83,7 +83,7 @@ const Profile = () => {
 
         <div className={styles.column}>
           {profileStats.length > 0 && (
-            <div className={styles.statsWrapper}>
+            <>
               {(!id || id === ownerId) && (
                 <div className={styles.chartWrapper}>
                   <Bar
@@ -92,23 +92,7 @@ const Profile = () => {
                   />
                 </div>
               )}
-              <div className={styles.statsNumbers}>
-                <div className={styles.leftcol}>
-                  <span>76</span>
-                  <span>583</span>
-                  <span>1562</span>
-                  <span>435</span>
-                  <span>83</span>
-                </div>
-                <div className={styles.rightcol}>
-                  <span>Public groups</span>
-                  <span>Friends</span>
-                  <span>Tasks completed</span>
-                  <span>Tasks shared</span>
-                  <span>Projects</span>
-                </div>
-              </div>
-            </div>
+            </>
           )}
 
           {(!id || id === ownerId) && (
