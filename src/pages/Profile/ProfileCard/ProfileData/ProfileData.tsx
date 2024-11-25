@@ -32,10 +32,10 @@ const ProfileData: FC = () => {
   const date = new Date(createdAt).toLocaleDateString();
 
   return (
-    <div className={styles.profileData} data-testid="profile-data-container">
+    <>
       <DataLine label="email" value={email} />
       <DataLine label="registrationDate" value={date} />
-    </div>
+    </>
   );
 };
 

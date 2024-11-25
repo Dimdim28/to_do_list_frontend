@@ -64,7 +64,6 @@
 @media screen and (max-width: 1024px) {
   .aside {
     .form {
-      flex-direction: column;
       align-items: center;
       .wrapper {
         flex-direction: column;
@@ -77,6 +76,10 @@
           padding-right: 10px;
           max-width: none;
         }
+      }
+
+      @media screen and (max-width: 1024px) {
+        flex-direction: column;
       }
     }
   }
