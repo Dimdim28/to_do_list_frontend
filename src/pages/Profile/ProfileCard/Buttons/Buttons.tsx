@@ -11,6 +11,7 @@ interface ButtonsProps {
   setIspassEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAccountDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEffectModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsProfileEffectModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Buttons: FC<ButtonsProps> = ({
@@ -18,6 +19,7 @@ const Buttons: FC<ButtonsProps> = ({
   setIspassEditing,
   setIsAccountDeleting,
   setIsEffectModalOpened,
+  setIsProfileEffectModalOpened,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -64,6 +66,15 @@ const Buttons: FC<ButtonsProps> = ({
         }}
       >
         {t('changeAvatarEffect')}
+      </button>
+
+      <button
+        className={styles.changeProfileEffect}
+        onClick={() => {
+          setIsProfileEffectModalOpened(true);
+        }}
+      >
+        {t('changeProfileEffect')}
       </button>
     </div>
   );

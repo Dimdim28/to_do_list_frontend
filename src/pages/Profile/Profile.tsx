@@ -24,6 +24,8 @@ import styles from './Profile.module.scss';
 
 import Buttons from './ProfileCard/Buttons/Buttons';
 import { ChangeAvatarEffect } from './ChangeEvatarEffect/ChangeAvatarEffect';
+import { ChangeProfileEffect } from './ChangeProfileEffect/ChangeProfileEffect';
+
 import { Modal } from '../../components/common/Modal/Modal';
 
 ChartJS.register(...registerables);
@@ -37,6 +39,8 @@ const Profile = () => {
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
+  const [isProfileEffectModalOpened, setIsProfileEffectModalOpened] =
+    useState(false);
 
   const profile = useAppSelector(selectUserProfile) || {
     username: '',
@@ -101,6 +105,7 @@ const Profile = () => {
               setIspassEditing={setIspassEditing}
               setIsAccountDeleting={setIsAccountDeleting}
               setIsEffectModalOpened={setIsEffectModalOpened}
+              setIsProfileEffectModalOpened={setIsProfileEffectModalOpened}
             />
           )}
         </div>
@@ -120,6 +125,13 @@ const Profile = () => {
         setActive={setIsEffectModalOpened}
         ChildComponent={ChangeAvatarEffect}
         childProps={{ toggleActive: setIsEffectModalOpened }}
+      />
+
+      <Modal
+        active={isProfileEffectModalOpened}
+        setActive={setIsProfileEffectModalOpened}
+        ChildComponent={ChangeProfileEffect}
+        childProps={{ toggleActive: setIsProfileEffectModalOpened }}
       />
     </main>
   );

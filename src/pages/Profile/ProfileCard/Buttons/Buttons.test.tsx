@@ -10,6 +10,7 @@ const setIsExitingMock = jest.fn();
 const setIspassEditingMock = jest.fn();
 const setIsAccountDeletingMock = jest.fn();
 const setIsEffectModalOpened = jest.fn();
+const setIsProfileEffectModalOpened = jest.fn();
 
 const renderButtons = () => {
   render(
@@ -20,6 +21,7 @@ const renderButtons = () => {
           setIspassEditing={setIspassEditingMock}
           setIsAccountDeleting={setIsAccountDeletingMock}
           setIsEffectModalOpened={setIsEffectModalOpened}
+          setIsProfileEffectModalOpened={setIsProfileEffectModalOpened}
         />
       </Router>
     </Provider>,

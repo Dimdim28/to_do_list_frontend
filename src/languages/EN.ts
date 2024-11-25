@@ -22,6 +22,7 @@ const EN = {
   deleteAccount: 'Delete account',
   showMyId: 'Show my ID',
   changeAvatarEffect: 'Change avatar effect',
+  changeProfileEffect: 'Change profile effect',
   day: 'Day',
   week: 'Week',
   month: 'Month',

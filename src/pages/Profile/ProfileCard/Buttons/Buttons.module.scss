@@ -122,3 +122,20 @@
     color: $success-200;
   }
 }
+
+.changeProfileEffect {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $indigo-500;
+  }
+}
+
+:global(.light_theme) .changeProfileEffect {
+  color: $black;
+
+  &:hover {
+    color: $indigo-500;
+  }
+}

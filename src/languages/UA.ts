@@ -22,6 +22,7 @@ const UA = {
   deleteAccount: 'Видалити акаунт',
   showMyId: 'Показати мій ID',
   changeAvatarEffect: 'Змінити еффект аватару',
+  changeProfileEffect: 'Змінити еффект профілю ',
   day: 'День',
   week: 'Тиждень',
   month: 'Місяць',
