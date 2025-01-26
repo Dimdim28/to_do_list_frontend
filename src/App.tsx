@@ -27,6 +27,7 @@ const Profile = lazy(() => import('./pages/Profile/Profile'));
 const Home = lazy(() => import('./pages/Home/Home'));
 const FAQ = lazy(() => import('./pages/FAQ/FAQ'));
 const Board = lazy(() => import('./pages/Board/Board'));
+const CanBan = lazy(() => import('./pages/CanBan/CanBan'));
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem('lang') || Language.EN,
@@ -94,6 +95,7 @@ function App() {
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
             <Route path={ROUTES.BOARD} element={<Board />} />
+            <Route path={`${ROUTES.CanBan}/:id`} element={<CanBan />} />
           </Route>
           <Route path="" element={<PageLayout />}>
             <Route path={`${ROUTES.PROFILE}/:id`} element={<Profile />} />

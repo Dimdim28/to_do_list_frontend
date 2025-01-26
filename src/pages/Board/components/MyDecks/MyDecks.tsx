@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router';
 import styles from './MyDecks.module.scss';
+import ROUTES from '../../../../routes';
 
 const DATA = [
   {
@@ -125,11 +127,17 @@ const DATA = [
 ];
 
 const MyDecks = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
         {DATA.map((el) => (
-          <div className={styles.card} key={el.id}>
+          <div
+            className={styles.card}
+            key={el.id}
+            onClick={() => navigate(`${ROUTES.CanBan}/${el.id}`)}
+          >
             <div className={styles.title}>{el.title}</div>
             <div className={styles.description}>{el.description}</div>
             <div className={styles.members}>{el.membersCount} Members</div>
