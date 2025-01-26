@@ -7,17 +7,49 @@ const initialData = {
     'column-1': {
       id: 'column-1',
       title: 'To Do',
-      tasks: ['Task 1', 'Task 2', 'Task 3'],
+      tasks: [
+        {
+          id: 'task-1',
+          content: 'Task 1',
+          assignedTo: [
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+          ],
+        },
+        {
+          id: 'task-2',
+          content: 'Task 2',
+          assignedTo: [
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+          ],
+        },
+      ],
     },
     'column-2': {
       id: 'column-2',
       title: 'In Progress',
-      tasks: ['Task 4', 'Task 5'],
+      tasks: [
+        {
+          id: 'task-3',
+          content: 'Task 3',
+          assignedTo: [
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+          ],
+        },
+      ],
     },
     'column-3': {
       id: 'column-3',
       title: 'Done',
-      tasks: ['Task 6'],
+      tasks: [
+        {
+          id: 'task-4',
+          content: 'Task 4',
+          assignedTo: [
+            'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
+          ],
+        },
+      ],
     },
   },
   columnOrder: ['column-1', 'column-2', 'column-3'],
@@ -29,12 +61,9 @@ const CanBan = () => {
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
-    if (!destination) {
-      return; // Если элемент был сброшен вне колонок
-    }
+    if (!destination) return;
 
     if (source.droppableId === destination.droppableId) {
-      // Перемещение внутри одной колонки
       const column = data.columns[source.droppableId];
       const tasks = Array.from(column.tasks);
       const [removed] = tasks.splice(source.index, 1);
@@ -53,7 +82,6 @@ const CanBan = () => {
         },
       });
     } else {
-      // Перемещение между колонками
       const startColumn = data.columns[source.droppableId];
       const finishColumn = data.columns[destination.droppableId];
 
@@ -80,8 +108,54 @@ const CanBan = () => {
     }
   };
 
+  const addTask = (columnId) => {
+    const taskContent = prompt('Enter task content:');
+    if (!taskContent) return;
+
+    const newTask = {
+      id: `task-${Date.now()}`,
+      content: taskContent,
+      assignedTo: [],
+    };
+
+    const column = data.columns[columnId];
+    column.tasks.push(newTask);
+
+    setData({
+      ...data,
+      columns: {
+        ...data.columns,
+        [columnId]: column,
+      },
+    });
+  };
+
+  const addColumn = () => {
+    const columnName = prompt('Enter column name:');
+    if (!columnName) return;
+
+    const newColumnId = `column-${Date.now()}`;
+    const newColumn = {
+      id: newColumnId,
+      title: columnName,
+      tasks: [],
+    };
+
+    setData({
+      ...data,
+      columns: {
+        ...data.columns,
+        [newColumnId]: newColumn,
+      },
+      columnOrder: [...data.columnOrder, newColumnId],
+    });
+  };
+
   return (
     <div className={styles.wrapper}>
+      <button className={styles.addColumnButton} onClick={addColumn}>
+        Add Column
+      </button>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {data.columnOrder.map((columnId) => {
@@ -94,10 +168,22 @@ const CanBan = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <h3 className={styles.columnTitle}>{column.title}</h3>
+                    <div className={styles.columnHeader}>
+                      <h3 className={styles.columnTitle}>{column.title}</h3>
+                      <button
+                        className={styles.addTaskButton}
+                        onClick={() => addTask(column.id)}
+                      >
+                        + Add Item
+                      </button>
+                    </div>
                     <div className={styles.taskList}>
                       {column.tasks.map((task, index) => (
-                        <Draggable key={task} draggableId={task} index={index}>
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id}
+                          index={index}
+                        >
                           {(provided) => (
                             <div
                               className={styles.task}
@@ -105,7 +191,19 @@ const CanBan = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              {task}
+                              <div className={styles.taskContent}>
+                                {task.content}
+                              </div>
+                              <div className={styles.assignedUsers}>
+                                {task.assignedTo.map((user, idx) => (
+                                  <img
+                                    key={idx}
+                                    src={user}
+                                    alt="user"
+                                    className={styles.userAvatar}
+                                  />
+                                ))}
+                              </div>
                             </div>
                           )}
                         </Draggable>
