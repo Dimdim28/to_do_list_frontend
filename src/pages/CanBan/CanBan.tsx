@@ -130,6 +130,22 @@ const CanBan = () => {
     });
   };
 
+  const editColumn = (columnId) => {
+    const newTitle = prompt('Enter new column title:');
+    if (!newTitle) return;
+
+    const column = data.columns[columnId];
+    column.title = newTitle;
+
+    setData({
+      ...data,
+      columns: {
+        ...data.columns,
+        [columnId]: column,
+      },
+    });
+  };
+
   const addColumn = () => {
     const columnName = prompt('Enter column name:');
     if (!columnName) return;
@@ -161,23 +177,23 @@ const CanBan = () => {
           {data.columnOrder.map((columnId) => {
             const column = data.columns[columnId];
             return (
-              <Droppable key={column.id} droppableId={column.id}>
-                {(provided) => (
-                  <div
-                    className={styles.column}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
+              <div className={styles.column} key={column.id}>
+                <div className={styles.columnHeader}>
+                  <h3 className={styles.columnTitle}>{column.title}</h3>
+                  <button
+                    className={styles.editColumnButton}
+                    onClick={() => editColumn(column.id)}
                   >
-                    <div className={styles.columnHeader}>
-                      <h3 className={styles.columnTitle}>{column.title}</h3>
-                      <button
-                        className={styles.addTaskButton}
-                        onClick={() => addTask(column.id)}
-                      >
-                        + Add Item
-                      </button>
-                    </div>
-                    <div className={styles.taskList}>
+                    Edit
+                  </button>
+                </div>
+                <Droppable droppableId={column.id}>
+                  {(provided) => (
+                    <div
+                      className={styles.taskList}
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                    >
                       {column.tasks.map((task, index) => (
                         <Draggable
                           key={task.id}
@@ -210,9 +226,15 @@ const CanBan = () => {
                       ))}
                       {provided.placeholder}
                     </div>
-                  </div>
-                )}
-              </Droppable>
+                  )}
+                </Droppable>
+                <button
+                  className={styles.addTaskButton}
+                  onClick={() => addTask(column.id)}
+                >
+                  + Add Task
+                </button>
+              </div>
             );
           })}
         </div>
