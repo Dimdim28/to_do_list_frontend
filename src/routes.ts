@@ -7,6 +7,7 @@ enum ROUTES {
   FAQ = '/faq',
   FULLREGISTER = '/auth/register',
   FULLLOGIN = '/auth/login',
+  BOARD = '/board',
 }
 
 export default ROUTES;

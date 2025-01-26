@@ -26,6 +26,7 @@ const Register = lazy(() => import('./pages/Register/Register'));
 const Profile = lazy(() => import('./pages/Profile/Profile'));
 const Home = lazy(() => import('./pages/Home/Home'));
 const FAQ = lazy(() => import('./pages/FAQ/FAQ'));
+const Board = lazy(() => import('./pages/Board/Board'));
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem('lang') || Language.EN,
@@ -43,16 +44,16 @@ export const HEADER_LINKS: Link[] = [
     path: ROUTES.HOME,
     name: 'home',
   },
+  {
+    path: ROUTES.BOARD,
+    name: 'board',
+  },
 ];
 
 export const FOOTER_LINKS: Link[] = [
   {
     path: ROUTES.FAQ,
     name: 'faq',
-  },
-  {
-    path: ROUTES.HOME,
-    name: 'back',
   },
 ];
 
@@ -92,6 +93,7 @@ function App() {
           <Route path="" element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
+            <Route path={ROUTES.BOARD} element={<Board />} />
           </Route>
           <Route path="" element={<PageLayout />}>
             <Route path={`${ROUTES.PROFILE}/:id`} element={<Profile />} />

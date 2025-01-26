@@ -1,10 +1,10 @@
-import { FC,Suspense } from "react";
-import { Outlet } from "react-router";
+import { FC, Suspense } from 'react';
+import { Outlet } from 'react-router';
 
-import { HEADER_LINKS } from "../App";
-import Preloader from "../components/FallBackPreloader/FallBackPreloader";
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
+import { FOOTER_LINKS, HEADER_LINKS } from '../App';
+import Preloader from '../components/FallBackPreloader/FallBackPreloader';
+import Footer from '../components/Footer/Footer';
+import Header from '../components/Header/Header';
 
 const PageLayout: FC = () => {
   return (
@@ -13,7 +13,7 @@ const PageLayout: FC = () => {
       <Suspense fallback={<Preloader />}>
         <Outlet />
       </Suspense>
-      <Footer links={[]} />
+      <Footer links={FOOTER_LINKS} />
     </>
   );
 };

@@ -1,6 +1,7 @@
 const UA = {
   profile: 'Профіль',
   home: 'Головна',
+  board: 'Дошки',
   footer: 'MyTaskManager допоможе вам краще організувати свій час',
   serverError: 'Помилка серверу',
   categories: 'Категорії',

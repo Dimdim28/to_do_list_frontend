@@ -1,0 +1,76 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  background-color: $background-dark-0;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color $transition-delay;
+
+  &:hover {
+    background-color: $background-dark-50;
+  }
+}
+
+.title {
+  flex-grow: 1;
+  font-size: 24px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+  color: $warning-200;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  font-size: 16px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.members {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  color: $info-200;
+}
+
+:global(.light_theme) {
+  .card {
+    background-color: $gray-600;
+
+    &:hover {
+      background-color: $gray-400;
+    }
+  }
+
+  .description {
+    color: $black;
+  }
+}
