@@ -1,12 +1,18 @@
-import { useDispatch } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 
-import { authReducer } from "./slices/auth/auth";
-import { homeReducer } from "./slices/home/home";
-import { profileReducer } from "./slices/profile/profile";
+import { authReducer } from './slices/auth/auth';
+import { canBanReducer } from './slices/canban/canban';
+import { homeReducer } from './slices/home/home';
+import { profileReducer } from './slices/profile/profile';
 
 const store = configureStore({
-  reducer: { auth: authReducer, home: homeReducer, profile: profileReducer },
+  reducer: {
+    auth: authReducer,
+    home: homeReducer,
+    profile: profileReducer,
+    canban: canBanReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });

@@ -8,7 +8,6 @@
   flex-direction: column;
   padding: 20px;
   gap: 20px;
-  overflow-x: auto;
 }
 
 .addColumnButton {
@@ -20,6 +19,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color $transition-delay;
 
   &:hover {
     background-color: $amber-300;
@@ -30,6 +30,8 @@
   display: flex;
   gap: 20px;
   height: calc(100% - 44px);
+  width: 100%;
+  overflow-x: auto;
 }
 
 .column {
@@ -42,6 +44,7 @@
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  height: 100%;
 }
 
 .columnHeader {
@@ -76,6 +79,7 @@
   gap: 10px;
   min-height: 50px;
   flex-grow: 1;
+  overflow: auto;
 }
 
 .task {
@@ -87,10 +91,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all $transition-delay;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
 
   &:hover {
-    transform: scale(1.03);
     background-color: $success-100;
     color: $white;
   }

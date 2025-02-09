@@ -6,7 +6,6 @@ import { Status } from '../../../types/shared';
 import { Profile } from '../auth/types';
 
 import {
-  AvatarResponse,
   ChangeAvatarParams,
   ChangeName,
   ChangePassword,
@@ -15,6 +14,7 @@ import {
   GetProfileParams,
   Message,
   ProfileResponse,
+  PublicAvatarResponse,
   StatsResponse,
   UpdateProfileResponse,
 } from './types';
@@ -40,12 +40,12 @@ export const changeAvatar = createAsyncThunk<string, ChangeAvatarParams>(
   'profile/changeAvatar',
   async (params, { rejectWithValue }) => {
     try {
-      const response: AvatarResponse = await instanse.post(
+      const response: PublicAvatarResponse = await instanse.post(
         `/image/avatar`,
         params.image,
       );
-
-      return response.data;
+      console.log(response);
+      return response.data.url;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
