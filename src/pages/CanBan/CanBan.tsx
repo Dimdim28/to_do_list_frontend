@@ -1,25 +1,31 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
 import {
   moveTask,
   setChangeColumnNameModalOpen,
-  setEditingColumnData,
+  setDeleteColumnModalOpen,
+  setProcessingColumnData,
 } from '../../redux/slices/canban/canban';
 import {
   isChangeColumnNameModalOpen,
+  isDeleteColumnModalOpen,
   selectColumns,
 } from '../../redux/slices/canban/selectors';
 import { Column } from '../../redux/slices/canban/type';
 import ChangeColumnName from '../Board/components/ChangeColumnName/ChangeColumnName';
+import DeleteColumn from '../Board/components/DeleteColumModal/DeleteColumn';
 
 import styles from './CanBan.module.scss';
 
 const CanBan = () => {
   const dispatch = useDispatch();
   const columns = useSelector(selectColumns);
-  const isModalOpen = useSelector(isChangeColumnNameModalOpen);
+  const isEditColumnNameModalOpen = useSelector(isChangeColumnNameModalOpen);
+  const isDeleteModalOpened = useSelector(isDeleteColumnModalOpen);
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -36,15 +42,22 @@ const CanBan = () => {
   };
 
   const handleOpenAddColumnModal = () => {
-    dispatch(setEditingColumnData(null)); // Очищаем редактируемую колонку
+    dispatch(setProcessingColumnData(null));
     dispatch(setChangeColumnNameModalOpen(true));
   };
 
   const handleOpenEditColumnModal = (column: Column) => {
     dispatch(
-      setEditingColumnData({ columnId: column.id, title: column.title }),
+      setProcessingColumnData({ columnId: column.id, title: column.title }),
     );
     dispatch(setChangeColumnNameModalOpen(true));
+  };
+
+  const handleOpenDeleteColumnModal = (column: Column) => {
+    dispatch(
+      setProcessingColumnData({ columnId: column.id, title: column.title }),
+    );
+    dispatch(setDeleteColumnModalOpen(true));
   };
 
   return (
@@ -61,12 +74,28 @@ const CanBan = () => {
             <div className={styles.column} key={column.id}>
               <div className={styles.columnHeader}>
                 <h3 className={styles.columnTitle}>{column.title}</h3>
-                <button
-                  className={styles.editColumnButton}
-                  onClick={() => handleOpenEditColumnModal(column)}
-                >
-                  Edit
-                </button>
+
+                <div className={styles.icons}>
+                  <FontAwesomeIcon
+                    className={`${styles.icon} ${styles.pencil}`}
+                    onClick={(e) => {
+                      handleOpenEditColumnModal(column);
+
+                      e.stopPropagation();
+                    }}
+                    fontSize="15px"
+                    icon={faPencil}
+                  />
+                  <FontAwesomeIcon
+                    fontSize="15px"
+                    icon={faTrash}
+                    className={`${styles.icon} ${styles.trash}`}
+                    onClick={(e) => {
+                      handleOpenDeleteColumnModal(column);
+                      e.stopPropagation();
+                    }}
+                  />
+                </div>
               </div>
               <Droppable droppableId={column.id}>
                 {(provided) => (
@@ -117,14 +146,23 @@ const CanBan = () => {
         </div>
       </DragDropContext>
 
-      {isModalOpen && (
-        <Modal
-          active={isModalOpen}
-          setActive={() => dispatch(setChangeColumnNameModalOpen(false))}
-          ChildComponent={ChangeColumnName}
-          childProps={{}}
-        />
-      )}
+      <Modal
+        active={isEditColumnNameModalOpen}
+        setActive={() => {
+          dispatch(setChangeColumnNameModalOpen(false));
+        }}
+        ChildComponent={ChangeColumnName}
+        childProps={{}}
+      />
+
+      <Modal
+        active={isDeleteModalOpened}
+        setActive={() => {
+          dispatch(setDeleteColumnModalOpen(false));
+        }}
+        ChildComponent={DeleteColumn}
+        childProps={{}}
+      />
     </div>
   );
 };

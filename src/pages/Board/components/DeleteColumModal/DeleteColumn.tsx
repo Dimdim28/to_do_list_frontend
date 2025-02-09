@@ -1,26 +1,26 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 import Button from '../../../../components/common/Button/Button';
-import { Input } from '../../../../components/common/Input/Input';
+import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { addColumn, editColumn } from '../../../../redux/slices/canban/canban';
+import { deleteColumn } from '../../../../redux/slices/canban/canban';
 import {
   selectErrorMessage,
   selectProcessingColumnData,
 } from '../../../../redux/slices/canban/selectors';
 
-import styles from './ChangeColumnName.module.scss';
+import styles from './DeleteColumn.module.scss';
 
-interface ChangeColumnNameProps {
+interface DeleteColumnProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
 }
-const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
+const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
 
-  const [title, setTitle] = useState(editingData?.name || '');
+  const title = editingData?.name || '';
 
   const cancel = () => {
     toggleActive(false);
@@ -28,16 +28,18 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
 
   const submit = () => {
     if (editingData) {
-      dispatch(editColumn({ columnId: editingData.id, title }));
-    } else {
-      dispatch(addColumn(title));
+      dispatch(deleteColumn(editingData.id));
     }
     toggleActive(false);
   };
 
   return (
     <div className={styles.wrapper}>
-      <Input title={'title'} value={title} setValue={setTitle} type="text" />
+      <div className={styles.title}>
+        <p>Are you sure you want to delete column</p>
+        <h3>{truncate(title, 12)}</h3>
+      </div>
+
       <div className={styles.actions}>
         <Button text={'Cancel'} callback={cancel} class="cancel" />
         <Button
@@ -52,4 +54,4 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
   );
 };
 
-export default ChangeColumnName;
+export default DeleteColumn;

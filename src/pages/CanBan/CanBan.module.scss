@@ -53,17 +53,49 @@
   align-items: center;
 }
 
-.addTaskButton {
-  background-color: $success-200;
-  color: $white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
   cursor: pointer;
-  transition: background-color $transition-delay;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
 
   &:hover {
-    background-color: $success-300;
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .pencil {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .trash {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
   }
 }
 

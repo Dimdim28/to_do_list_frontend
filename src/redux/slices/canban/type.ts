@@ -10,10 +10,11 @@ export type CanBanState = {
   columns: Column[];
   selectedTask: Task | null;
   isChangeColumnNameModalOpen: boolean;
-  editingColumnData: {
+  processingColumnData: {
     name: string;
     id: string;
   } | null;
+  isDeleteColumnModalOpen: boolean;
 };
 
 export type Task = {

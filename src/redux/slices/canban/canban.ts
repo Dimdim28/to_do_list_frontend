@@ -69,7 +69,8 @@ const initialColumnsState: CanBanState = {
   ],
   selectedTask: null,
   isChangeColumnNameModalOpen: false,
-  editingColumnData: null,
+  isDeleteColumnModalOpen: false,
+  processingColumnData: null,
 };
 
 const initialState: CanBanSliceState = {
@@ -146,16 +147,16 @@ const canBanSlice = createSlice({
       }
     },
 
-    setEditingColumnData: (
+    setProcessingColumnData: (
       state,
       action: PayloadAction<{ columnId: string; title: string } | null>,
     ) => {
       if (!state.data) return;
       if (action.payload === null) {
-        state.data.editingColumnData = null;
+        state.data.processingColumnData = null;
       } else {
         const { columnId, title } = action.payload;
-        state.data.editingColumnData = { id: columnId, name: title };
+        state.data.processingColumnData = { id: columnId, name: title };
       }
     },
 
@@ -173,7 +174,15 @@ const canBanSlice = createSlice({
 
     setChangeColumnNameModalOpen: (state, action: PayloadAction<boolean>) => {
       if (!state.data) return;
+
+      console.log('action.payload', action.payload);
+
       state.data.isChangeColumnNameModalOpen = action.payload;
+    },
+
+    setDeleteColumnModalOpen: (state, action: PayloadAction<boolean>) => {
+      if (!state.data) return;
+      state.data.isDeleteColumnModalOpen = action.payload;
     },
 
     moveTask: (
@@ -213,6 +222,7 @@ export const {
   deleteColumn,
   setSelectedTask,
   setChangeColumnNameModalOpen,
-  setEditingColumnData,
+  setProcessingColumnData,
   moveTask,
+  setDeleteColumnModalOpen,
 } = canBanSlice.actions;
