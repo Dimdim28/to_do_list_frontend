@@ -2,6 +2,8 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { useAppDispatch } from '../../../../../hooks';
+import { updateTaskCurrentPage } from '../../../../../redux/slices/home/home';
 import { Category as CategoryType } from '../../../../../types/entities/Category';
 
 import styles from './Category.module.scss';
@@ -31,6 +33,7 @@ const Category: FC<CategoryProps> = ({
   ...props
 }) => {
   const [hover, setHover] = useState(false);
+  const dispatch = useAppDispatch();
 
   const typedSetActiveCategories = setActiveCategories as Dispatch<
     SetStateAction<CategoryType[]>
@@ -53,6 +56,7 @@ const Category: FC<CategoryProps> = ({
             typedSetActiveCategories((prev) =>
               prev.filter((el) => el._id !== props._id),
             );
+            dispatch(updateTaskCurrentPage(1));
           } else {
             setActiveCategories(
               activeCategories.filter((el) => el._id !== props._id),
@@ -64,6 +68,7 @@ const Category: FC<CategoryProps> = ({
               ...prev,
               { _id: props._id, color: props.color, title: props.title },
             ]);
+            dispatch(updateTaskCurrentPage(1));
           } else {
             setActiveCategories([
               ...activeCategories,

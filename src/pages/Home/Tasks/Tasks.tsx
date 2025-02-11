@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal } from '../../../components/common/Modal/Modal';
 import Preloader from '../../../components/Preloader/Preloader';
 import { SearchTask } from '../../../components/SearchTask/SearchTask';
-import { useAppDispatch, useAppSelector, usePrevious } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   updateTaskCurrentPage,
   updateTaskSearchPattern,
@@ -58,24 +58,14 @@ const Tasks: FC<TaskProps> = ({ isMobile }) => {
 
   const { page, isCompleted, deadline, categories } = taskFetchingParams;
 
-  const prevIsCompleted = usePrevious(isCompleted);
-  const prevDeadline = usePrevious(deadline);
-  const prevCategories = usePrevious(categories);
+  console.log('taskFetchingParams', taskFetchingParams);
 
   const updateSearchPattern = (value: string) => {
     dispatch(updateTaskSearchPattern(value));
   };
 
   useEffect(() => {
-    if (
-      isCompleted === prevIsCompleted &&
-      deadline === prevDeadline && // todo: maybe it is possible to rewrite without useprevious, just with  page changes listening
-      categories === prevCategories
-    ) {
-      dispatch(fetchTasks(taskFetchingParams));
-      return;
-    }
-    dispatch(fetchTasks({ ...taskFetchingParams, page: 1 }));
+    dispatch(fetchTasks(taskFetchingParams));
   }, [isCompleted, deadline, categories, page]);
 
   return (

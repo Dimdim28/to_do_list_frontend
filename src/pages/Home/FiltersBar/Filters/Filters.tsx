@@ -5,6 +5,7 @@ import i18next from 'i18next';
 import Select, { Item } from '../../../../components/common/Select/Select';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
+  updateTaskCurrentPage,
   updateTaskDate,
   updateTaskIsCompleted,
 } from '../../../../redux/slices/home/home';
@@ -50,10 +51,12 @@ const Filters: FC = () => {
 
   const setDate = (date: Date) => {
     dispatch(updateTaskDate(date));
+    dispatch(updateTaskCurrentPage(1));
   };
 
   const setIsCompleted = (isCompleted: IsCompleted) => {
     dispatch(updateTaskIsCompleted(isCompleted));
+    dispatch(updateTaskCurrentPage(1));
   };
 
   return (
