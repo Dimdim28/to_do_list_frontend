@@ -1,31 +1,36 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
+import { useAppSelector } from '../../hooks';
 import {
   moveTask,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
+  setIsTaskInfoModalOpened,
   setProcessingColumnData,
+  setSelectedTask,
 } from '../../redux/slices/canban/canban';
 import {
   isChangeColumnNameModalOpen,
   isDeleteColumnModalOpen,
   selectColumns,
 } from '../../redux/slices/canban/selectors';
-import { Column } from '../../redux/slices/canban/type';
-import ChangeColumnName from '../Board/components/ChangeColumnName/ChangeColumnName';
-import DeleteColumn from '../Board/components/DeleteColumModal/DeleteColumn';
+import { Column, Task } from '../../redux/slices/canban/type';
+
+import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
+import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
+import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 
 import styles from './CanBan.module.scss';
 
 const CanBan = () => {
   const dispatch = useDispatch();
-  const columns = useSelector(selectColumns);
-  const isEditColumnNameModalOpen = useSelector(isChangeColumnNameModalOpen);
-  const isDeleteModalOpened = useSelector(isDeleteColumnModalOpen);
+  const columns = useAppSelector(selectColumns);
+  const isEditColumnNameModalOpen = useAppSelector(isChangeColumnNameModalOpen);
+  const isDeleteModalOpened = useAppSelector(isDeleteColumnModalOpen);
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -58,6 +63,11 @@ const CanBan = () => {
       setProcessingColumnData({ columnId: column.id, title: column.title }),
     );
     dispatch(setDeleteColumnModalOpen(true));
+  };
+
+  const handleTaskClick = (task: Task | null) => {
+    dispatch(setIsTaskInfoModalOpened(true));
+    dispatch(setSelectedTask(task));
   };
 
   return (
@@ -112,6 +122,9 @@ const CanBan = () => {
                       >
                         {(provided) => (
                           <div
+                            onClick={() => {
+                              handleTaskClick(task);
+                            }}
                             className={styles.task}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -138,7 +151,12 @@ const CanBan = () => {
                   </div>
                 )}
               </Droppable>
-              <button className={styles.addTaskButton} onClick={() => {}}>
+              <button
+                className={styles.addTaskButton}
+                onClick={() => {
+                  handleTaskClick(null);
+                }}
+              >
                 + Add Task
               </button>
             </div>
@@ -163,6 +181,8 @@ const CanBan = () => {
         ChildComponent={DeleteColumn}
         childProps={{}}
       />
+
+      <TaskInfoSideBar />
     </div>
   );
 };

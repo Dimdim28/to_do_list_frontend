@@ -71,6 +71,7 @@ const initialColumnsState: CanBanState = {
   isChangeColumnNameModalOpen: false,
   isDeleteColumnModalOpen: false,
   processingColumnData: null,
+  isTaskInfoSideBarOpened: false,
 };
 
 const initialState: CanBanSliceState = {
@@ -209,6 +210,11 @@ const canBanSlice = createSlice({
       const [movedTask] = sourceColumn.tasks.splice(sourceIndex, 1);
       destinationColumn.tasks.splice(destinationIndex, 0, movedTask);
     },
+
+    setIsTaskInfoModalOpened: (state, action: PayloadAction<boolean>) => {
+      if (!state.data) return;
+      state.data.isTaskInfoSideBarOpened = action.payload;
+    },
   },
 });
 
@@ -225,4 +231,5 @@ export const {
   setProcessingColumnData,
   moveTask,
   setDeleteColumnModalOpen,
+  setIsTaskInfoModalOpened,
 } = canBanSlice.actions;

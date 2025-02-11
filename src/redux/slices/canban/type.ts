@@ -15,6 +15,7 @@ export type CanBanState = {
     id: string;
   } | null;
   isDeleteColumnModalOpen: boolean;
+  isTaskInfoSideBarOpened: boolean;
 };
 
 export type Task = {

@@ -13,3 +13,5 @@ export const isDeleteColumnModalOpen = (state: RootState) =>
 export const selectProcessingColumnData = (state: RootState) =>
   (state.canban.data as CanBanState).processingColumnData;
 export const selectErrorMessage = (state: RootState) => state.canban.message;
+export const selectIsTaskInfoSideBarOpened = (state: RootState) =>
+  state.canban.data?.isTaskInfoSideBarOpened;

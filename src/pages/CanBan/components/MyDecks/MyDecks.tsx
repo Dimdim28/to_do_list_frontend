@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router';
-import styles from './MyDecks.module.scss';
+
 import ROUTES from '../../../../routes';
+
+import styles from './MyDecks.module.scss';
 
 const DATA = [
   {

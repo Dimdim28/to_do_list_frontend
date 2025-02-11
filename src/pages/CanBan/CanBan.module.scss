@@ -20,9 +20,22 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
 
   &:hover {
     background-color: $amber-300;
+  }
+}
+
+.addTaskButton {
+  cursor: pointer;
+  transition: color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    color: $warning-200;
   }
 }
 
