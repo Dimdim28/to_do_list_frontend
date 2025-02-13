@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 @mixin style-button-color($default, $hover, $active, $focus) {
   background-color: $default;
@@ -39,5 +39,5 @@
 }
 
 .cancel {
-  @include style-button-color($red-200, $red-100, $red-logo, $red-400);
+  @include style-button-color($red-200, $red-25, $red-10, $red-100);
 }

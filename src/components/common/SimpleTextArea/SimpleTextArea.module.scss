@@ -1,0 +1,29 @@
+@import 'src/styles/partials/theme';
+
+.inputBox {
+  position: relative;
+  width: 100%;
+}
+
+.input,
+.activeInput {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: $white;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid $background-dark-200;
+  transition: border-bottom $transition-delay;
+  height: auto;
+  overflow: hidden;
+}
+
+.input:focus,
+.input:hover,
+.activeInput {
+  border-bottom: 2px solid $info-200;
+}

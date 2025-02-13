@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
 
-import { CanBanSliceState, CanBanState, Task } from './type';
+import { CanBanSliceState, CanBanState, SelectedTaskInfo } from './type';
 
 const initialColumnsState: CanBanState = {
   columns: [
@@ -12,7 +12,8 @@ const initialColumnsState: CanBanState = {
       tasks: [
         {
           id: 'task-1',
-          content: 'Task 1',
+          title: 'Task 1',
+          description: 'Task 1',
           assignedTo: [
             'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
             'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
@@ -20,7 +21,8 @@ const initialColumnsState: CanBanState = {
         },
         {
           id: 'task-2',
-          content: 'Task 2',
+          title: 'Task 2',
+          description: 'Task 2',
           assignedTo: [],
         },
       ],
@@ -31,14 +33,16 @@ const initialColumnsState: CanBanState = {
       tasks: [
         {
           id: 'task-3',
-          content: 'Task 3',
+          title: 'Task 3',
+          description: 'Task 3',
           assignedTo: [
             'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
           ],
         },
         {
           id: 'task-5',
-          content: 'Task 5',
+          title: 'Task 5',
+          description: 'Task 5',
           assignedTo: [
             'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
             'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
@@ -52,14 +56,16 @@ const initialColumnsState: CanBanState = {
       tasks: [
         {
           id: 'task-4',
-          content: 'Task 4',
+          title: 'Task 4',
+          description: 'Task 4',
           assignedTo: [
             'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
           ],
         },
         {
           id: 'task-6',
-          content: 'Task 6',
+          title: 'Task 6',
+          description: 'Task 6',
           assignedTo: [
             'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
           ],
@@ -67,7 +73,7 @@ const initialColumnsState: CanBanState = {
       ],
     },
   ],
-  selectedTask: null,
+  selectedTask: { task: null },
   isChangeColumnNameModalOpen: false,
   isDeleteColumnModalOpen: false,
   processingColumnData: null,
@@ -85,7 +91,11 @@ const canBanSlice = createSlice({
   reducers: {
     addTask: (
       state,
-      action: PayloadAction<{ columnId: string; content: string }>,
+      action: PayloadAction<{
+        columnId: string;
+        title: string;
+        description: string;
+      }>,
     ) => {
       if (!state.data) return;
 
@@ -95,7 +105,8 @@ const canBanSlice = createSlice({
       if (column) {
         column.tasks.push({
           id: `task-${Date.now()}`,
-          content: action.payload.content,
+          title: action.payload.title,
+          description: action.payload.description,
           assignedTo: [],
         });
       }
@@ -103,14 +114,20 @@ const canBanSlice = createSlice({
 
     editTask: (
       state,
-      action: PayloadAction<{ taskId: string; content: string }>,
+      action: PayloadAction<{
+        taskId: string;
+        title: string;
+        description: string;
+      }>,
     ) => {
       if (!state.data) return;
 
       for (const column of state.data.columns) {
         const task = column.tasks.find((t) => t.id === action.payload.taskId);
         if (task) {
-          task.content = action.payload.content;
+          task.title = action.payload.title;
+          task.description = action.payload.description;
+
           break;
         }
       }
@@ -168,7 +185,7 @@ const canBanSlice = createSlice({
       );
     },
 
-    setSelectedTask: (state, action: PayloadAction<Task | null>) => {
+    setSelectedTask: (state, action: PayloadAction<SelectedTaskInfo>) => {
       if (!state.data) return;
       state.data.selectedTask = action.payload;
     },

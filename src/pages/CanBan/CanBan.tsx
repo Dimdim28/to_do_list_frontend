@@ -18,7 +18,7 @@ import {
   isDeleteColumnModalOpen,
   selectColumns,
 } from '../../redux/slices/canban/selectors';
-import { Column, Task } from '../../redux/slices/canban/type';
+import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
 
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
@@ -65,7 +65,7 @@ const CanBan = () => {
     dispatch(setDeleteColumnModalOpen(true));
   };
 
-  const handleTaskClick = (task: Task | null) => {
+  const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
   };
@@ -123,7 +123,10 @@ const CanBan = () => {
                         {(provided) => (
                           <div
                             onClick={() => {
-                              handleTaskClick(task);
+                              handleTaskClick({
+                                task: task,
+                                columnId: column.id,
+                              });
                             }}
                             className={styles.task}
                             ref={provided.innerRef}
@@ -131,7 +134,7 @@ const CanBan = () => {
                             {...provided.dragHandleProps}
                           >
                             <div className={styles.taskContent}>
-                              {task.content}
+                              {task.title}
                             </div>
                             <div className={styles.assignedUsers}>
                               {task.assignedTo.map((user, idx) => (
@@ -154,7 +157,7 @@ const CanBan = () => {
               <button
                 className={styles.addTaskButton}
                 onClick={() => {
-                  handleTaskClick(null);
+                  handleTaskClick({ task: null, columnId: column.id });
                 }}
               >
                 + Add Task

@@ -1,13 +1,21 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import Button from '../../../../components/common/Button/Button';
+import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
+import { SimpleTextArea } from '../../../../components/common/SimpleTextArea/SimpleTextArea';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
+  addTask,
+  editTask,
   setIsTaskInfoModalOpened,
   setSelectedTask,
 } from '../../../../redux/slices/canban/canban';
-import { selectIsTaskInfoSideBarOpened } from '../../../../redux/slices/canban/selectors';
+import {
+  selectIsTaskInfoSideBarOpened,
+  selectSelectedTask,
+} from '../../../../redux/slices/canban/selectors';
 
 import styles from './TaskInfoSideBar.module.scss';
 
@@ -17,21 +25,44 @@ const KEY_EVENT_TYPE = 'keyup';
 const TaskInfoSideBar = () => {
   const dispatch = useAppDispatch();
   const isSideBarOpened = useAppSelector(selectIsTaskInfoSideBarOpened);
+  const taskInfo = useAppSelector(selectSelectedTask);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleCLoseSideBar = () => {
     dispatch(setIsTaskInfoModalOpened(false));
-    dispatch(setSelectedTask(null));
+    dispatch(setSelectedTask({ task: null }));
   };
 
   const handleEscKey = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === KEY_NAME_ESC) {
         dispatch(setIsTaskInfoModalOpened(false));
-        dispatch(setSelectedTask(null));
+        dispatch(setSelectedTask({ task: null }));
       }
     },
     [dispatch],
   );
+
+  const handleSubmit = () => {
+    if (!taskInfo.columnId) {
+      return handleCLoseSideBar();
+    }
+    if (taskInfo.task) {
+      dispatch(editTask({ taskId: taskInfo.task.id, description, title }));
+
+      //after success
+
+      handleCLoseSideBar();
+    } else {
+      dispatch(addTask({ title, description, columnId: taskInfo.columnId }));
+
+      //after success
+
+      handleCLoseSideBar();
+    }
+  };
 
   useEffect(() => {
     document.addEventListener(KEY_EVENT_TYPE, handleEscKey);
@@ -40,15 +71,25 @@ const TaskInfoSideBar = () => {
     };
   }, [handleEscKey]);
 
+  useEffect(() => {
+    if (!taskInfo.task) {
+      setTitle('');
+      setDescription('');
+    } else {
+      setTitle(taskInfo.task.title);
+      setDescription(taskInfo.task.description);
+    }
+  }, [taskInfo]);
+
   return (
     <div
-      className={`${styles.wrapper} ${
+      className={`${styles.blur} ${
         isSideBarOpened ? styles.active : undefined
       }`}
       onClick={handleCLoseSideBar}
     >
       <div
-        className={styles.content}
+        className={styles.wrapper}
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -58,6 +99,40 @@ const TaskInfoSideBar = () => {
           className={styles.closeIcon}
           onClick={handleCLoseSideBar}
         />
+
+        <div className={styles.content}>
+          <div className={styles.block}>
+            <div className={styles.title}>Title</div>
+            <SimpleInput
+              placeholder="enter title"
+              setValue={setTitle}
+              type="text"
+              value={title}
+            />
+          </div>
+
+          <div className={styles.block}>
+            <div className={styles.title}>Description</div>
+            <SimpleTextArea
+              value={description}
+              setValue={setDescription}
+              placeholder="enter description"
+            />
+          </div>
+
+          <div className={styles.buttons}>
+            <Button
+              text="Cancel"
+              class="cancel"
+              callback={handleCLoseSideBar}
+            ></Button>
+            <Button
+              text="Submit"
+              class="submit"
+              callback={handleSubmit}
+            ></Button>
+          </div>
+        </div>
       </div>
     </div>
   );

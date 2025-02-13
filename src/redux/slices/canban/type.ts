@@ -6,9 +6,15 @@ export type CanBanSliceState = {
   message?: string;
 };
 
+export type SelectedTaskInfo = {
+  task: Task | null;
+  columnId?: string;
+  indexInColumn?: number;
+};
+
 export type CanBanState = {
   columns: Column[];
-  selectedTask: Task | null;
+  selectedTask: SelectedTaskInfo;
   isChangeColumnNameModalOpen: boolean;
   processingColumnData: {
     name: string;
@@ -20,7 +26,8 @@ export type CanBanState = {
 
 export type Task = {
   id: string;
-  content: string;
+  title: string;
+  description: string;
   assignedTo: string[];
 };
 
