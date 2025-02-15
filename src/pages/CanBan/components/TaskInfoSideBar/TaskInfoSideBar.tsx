@@ -86,14 +86,8 @@ const TaskInfoSideBar = () => {
       className={`${styles.blur} ${
         isSideBarOpened ? styles.active : undefined
       }`}
-      onClick={handleCLoseSideBar}
     >
-      <div
-        className={styles.wrapper}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
+      <div className={styles.wrapper}>
         <FontAwesomeIcon
           icon={faXmark}
           className={styles.closeIcon}
