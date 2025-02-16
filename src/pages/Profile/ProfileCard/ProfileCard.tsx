@@ -34,6 +34,8 @@ interface ProfileCardProps {
   isExiting: boolean;
 }
 
+const NO_EFFECT_ID = '67b1ec027db000d397abed1f';
+
 const ProfileCard: FC<ProfileCardProps> = ({
   isNameEditing,
   setIsNameEditing,
@@ -55,7 +57,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
 
   const [avatarEffectStatus, setAvatarEffectStatus] = useState<
     'intro' | 'loop' | 'no'
-  >('intro');
+  >('no');
 
   const effectsImages = {
     intro: profileData?.profileEffect.intro,
@@ -65,6 +67,18 @@ const ProfileCard: FC<ProfileCardProps> = ({
   const banUserHandler = (id: string, isBanned: boolean) => {
     dispatch(banUser({ id, isBanned }));
   };
+
+  useEffect(() => {
+    const id = profileData?.profileEffect?._id;
+
+    if (id) {
+      if (id === NO_EFFECT_ID) {
+        setAvatarEffectStatus('no');
+        return;
+      }
+      setAvatarEffectStatus('intro');
+    }
+  }, [profileData?.profileEffect._id]);
 
   useEffect(() => {
     if (avatarEffectStatus === 'intro') {
@@ -79,7 +93,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
       {avatarEffectStatus !== 'no' ? (
         <img
           className={styles.backgroundEffect}
-          src={effectsImages[avatarEffectStatus]}
+          src={effectsImages[avatarEffectStatus] || effectsImages.loop}
         />
       ) : null}
 

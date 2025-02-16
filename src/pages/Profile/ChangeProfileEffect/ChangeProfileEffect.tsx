@@ -10,6 +10,8 @@ import { ProfileEffect, Status } from '../../../types/shared';
 
 import styles from './ChangeProfileEffect.module.scss';
 
+const NO_EFFECT_ID = '67b1ec027db000d397abed1f';
+
 interface ChangeAvatarEffectProps {
   childProps: {
     toggleActive: (value: boolean) => void;
@@ -26,8 +28,8 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
   const profile = useAppSelector(selectUserProfile);
 
   const [allEffects, setAllEffects] = useState<ProfileEffect[]>([]);
-  const [activeAvatar, setActiveAvatar] = useState<string | null>(
-    profile?.profileEffect?._id || null,
+  const [activeAvatar, setActiveAvatar] = useState<string>(
+    profile?.profileEffect?._id || NO_EFFECT_ID,
   );
   const [hoveredAvatar, setHoveredAvatar] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +67,7 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
       const data = await userAPI.getAllProfileEffects();
 
       if (data.effects) {
-        setAllEffects(data.effects);
+        setAllEffects(data.effects.filter((el) => el._id !== NO_EFFECT_ID));
       }
 
       if (data.status === Status.ERROR) {
@@ -109,10 +111,10 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
             <div className={styles.avatarsList}>
               <div
                 className={`${styles.avatarElement} ${
-                  '' === activeAvatar ? styles.activeAvatar : ''
+                  NO_EFFECT_ID === activeAvatar ? styles.activeAvatar : ''
                 }`}
                 onClick={() => {
-                  setActiveAvatar('');
+                  setActiveAvatar(NO_EFFECT_ID);
                 }}
                 onMouseEnter={() => setHoveredAvatar(null)}
                 onMouseLeave={() => setHoveredAvatar(null)}
@@ -167,7 +169,7 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
             <div className={styles.column}>
               <div className={styles.row}>
                 <div className={styles.effectPreview}>
-                  {!!activeAvatar && (
+                  {activeAvatar !== NO_EFFECT_ID && (
                     <img
                       src={
                         activeProfileEffect?.intro || activeProfileEffect?.sides
@@ -178,7 +180,7 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
                   )}
                 </div>
                 <div className={styles.effectPreview}>
-                  {!!activeAvatar && (
+                  {activeAvatar !== NO_EFFECT_ID && (
                     <img
                       src={activeProfileEffect?.sides}
                       className={styles.avatarEffect}
