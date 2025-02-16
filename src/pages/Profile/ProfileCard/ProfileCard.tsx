@@ -5,7 +5,10 @@ import Button from '../../../components/common/Button/Button';
 import { Modal } from '../../../components/common/Modal/Modal';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { selectIsAdmin } from '../../../redux/slices/auth/selectors';
-import { selectIsUserBanned } from '../../../redux/slices/profile/selectors';
+import {
+  selectIsUserBanned,
+  selectUserProfile,
+} from '../../../redux/slices/profile/selectors';
 import { banUser } from '../../../redux/slices/profile/thunk';
 
 import Avatar from './Avatar/Avatar';
@@ -15,9 +18,6 @@ import Name from './Name/Name';
 import ProfileData from './ProfileData/ProfileData';
 
 import styles from './ProfileCard.module.scss';
-
-import imageIntro from '../../../assets/4effectintro.png';
-import imageLoop from '../../../assets/4effectsides.png';
 
 interface ProfileCardProps {
   isNameEditing: boolean;
@@ -51,14 +51,15 @@ const ProfileCard: FC<ProfileCardProps> = ({
   const dispatch = useAppDispatch();
   const isUserBanned = useAppSelector(selectIsUserBanned);
   const areYouAdmin = useAppSelector(selectIsAdmin);
+  const profileData = useAppSelector(selectUserProfile);
 
   const [avatarEffectStatus, setAvatarEffectStatus] = useState<
     'intro' | 'loop' | 'no'
   >('intro');
 
   const effectsImages = {
-    intro: imageIntro,
-    loop: imageLoop,
+    intro: profileData?.profileEffect.intro,
+    loop: profileData?.profileEffect.sides,
   };
 
   const banUserHandler = (id: string, isBanned: boolean) => {

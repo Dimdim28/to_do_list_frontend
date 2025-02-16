@@ -120,3 +120,12 @@ export type User = {
   username: string;
   avatar: string;
 };
+
+export type ProfileEffect = {
+  title: string;
+  intro?: string;
+  preview: string;
+  sides: string;
+  top?: string;
+  _id: string;
+};

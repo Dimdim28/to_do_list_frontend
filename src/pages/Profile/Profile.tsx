@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Chart as ChartJS, registerables } from 'chart.js';
 
+import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
 import { chartOptions, getChartData } from '../../helpers/stats';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
@@ -17,16 +18,13 @@ import {
 } from '../../redux/slices/profile/selectors';
 import { fetchUserProfile, getStats } from '../../redux/slices/profile/thunk';
 
+import { ChangeAvatarEffect } from './ChangeEvatarEffect/ChangeAvatarEffect';
 import { ChangePass } from './ChangePass/ChangePass';
+import { ChangeProfileEffect } from './ChangeProfileEffect/ChangeProfileEffect';
+import Buttons from './ProfileCard/Buttons/Buttons';
 import ProfileCard from './ProfileCard/ProfileCard';
 
 import styles from './Profile.module.scss';
-
-import Buttons from './ProfileCard/Buttons/Buttons';
-import { ChangeAvatarEffect } from './ChangeEvatarEffect/ChangeAvatarEffect';
-import { ChangeProfileEffect } from './ChangeProfileEffect/ChangeProfileEffect';
-
-import { Modal } from '../../components/common/Modal/Modal';
 
 ChartJS.register(...registerables);
 
@@ -131,7 +129,10 @@ const Profile = () => {
         active={isProfileEffectModalOpened}
         setActive={setIsProfileEffectModalOpened}
         ChildComponent={ChangeProfileEffect}
-        childProps={{ toggleActive: setIsProfileEffectModalOpened }}
+        childProps={{
+          toggleActive: setIsProfileEffectModalOpened,
+          isActive: isProfileEffectModalOpened,
+        }}
       />
     </main>
   );

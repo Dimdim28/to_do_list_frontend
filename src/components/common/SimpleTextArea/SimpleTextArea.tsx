@@ -13,23 +13,17 @@ export const SimpleTextArea: FC<SimpleTextAreaProps> = ({
   placeholder,
   setValue,
 }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-
-    requestAnimationFrame(() => {
-      e.target.style.height = 'auto'; // Сброс высоты перед пересчетом
-      //e.target.style.height = `${Math.min(e.target.scrollHeight, 400)}px`;
-      e.target.style.height = `${e.target.scrollHeight}px`;
-    });
-  };
   return (
     <div className={styles.inputBox}>
-      <textarea
+      <div
         className={value ? styles.activeInput : styles.input}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-      />
+        contentEditable
+        role="textbox"
+        aria-placeholder={placeholder}
+        onInput={(e) => setValue(e.currentTarget.textContent || '')}
+      >
+        {value}
+      </div>
     </div>
   );
 };

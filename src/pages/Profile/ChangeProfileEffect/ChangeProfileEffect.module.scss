@@ -20,6 +20,7 @@
   display: flex;
   justify-content: space-between;
   gap: 40px;
+  position: relative;
 }
 
 .buttons {
@@ -137,4 +138,28 @@
 
 :global(.light_theme) .effectPreview {
   background-color: $gray-600;
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 40px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.effectTitle {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
