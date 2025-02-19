@@ -11,21 +11,25 @@
   position: relative;
   width: 100%;
   background: transparent;
+  border: none;
   outline: none;
   color: $white;
   font-size: 16px;
   line-height: 20px;
   letter-spacing: 0.05em;
+  resize: none;
+  overflow: hidden;
   border-bottom: 2px solid $background-dark-200;
-  transition: border-bottom $transition-delay;
+  transition:
+    border-bottom $transition-delay,
+    height $transition-delay;
   padding-bottom: 5px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
 
-  height: auto;
-  max-height: 200px;
-  overflow-y: auto;
-
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  min-height: 50px; // Начальная высота
+.input:focus,
+.input:hover,
+.activeInput {
+  border-bottom: 2px solid $info-200;
 }

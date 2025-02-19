@@ -18,6 +18,7 @@
   letter-spacing: 0.05em;
   border-bottom: 2px solid $background-dark-200;
   transition: border-bottom $transition-delay;
+  padding-bottom: 5px;
 }
 
 .input:focus,

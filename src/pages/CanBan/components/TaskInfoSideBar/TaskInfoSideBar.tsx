@@ -111,6 +111,7 @@ const TaskInfoSideBar = () => {
               value={description}
               setValue={setDescription}
               placeholder="enter description"
+              currentTaskId={taskInfo.task?.id || ''}
             />
           </div>
 
