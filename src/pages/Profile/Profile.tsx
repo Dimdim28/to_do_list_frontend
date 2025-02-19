@@ -122,7 +122,10 @@ const Profile = () => {
         active={isEffectModalOpened}
         setActive={setIsEffectModalOpened}
         ChildComponent={ChangeAvatarEffect}
-        childProps={{ toggleActive: setIsEffectModalOpened }}
+        childProps={{
+          toggleActive: setIsEffectModalOpened,
+          isActive: isEffectModalOpened,
+        }}
       />
 
       <Modal

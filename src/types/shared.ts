@@ -129,3 +129,10 @@ export type ProfileEffect = {
   top?: string;
   _id: string;
 };
+
+export type AvatarEffect = {
+  _id: string;
+  title: string;
+  preview: string;
+  animated: string;
+};

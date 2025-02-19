@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
-import { avatarsEffectsList } from '../../pages/Profile/ChangeEvatarEffect/ChangeAvatarEffect';
 import { User } from '../../types/shared';
 
 import styles from './UserImage.module.scss';
@@ -20,16 +19,7 @@ const UserImage: FC<UserImageProps> = ({
   additionalClassname,
   onAvatarClick,
 }) => {
-  const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
-
-  useEffect(() => {
-    const avatarEffect = (
-      avatarsEffectsList[
-        Math.floor(Math.random() * avatarsEffectsList.length)
-      ] || avatarsEffectsList[0]
-    ).animation;
-    setEffectUrl(avatarEffect);
-  }, []);
+  console.log(user);
 
   return (
     <div
@@ -53,7 +43,7 @@ const UserImage: FC<UserImageProps> = ({
         }
         alt={user?.username || 'User'}
       />
-      <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
+      {/* <img src={effectUrl} className={styles.avatarEffect} alt="effect" /> */}
     </div>
   );
 };

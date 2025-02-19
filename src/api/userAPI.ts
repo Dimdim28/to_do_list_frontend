@@ -1,5 +1,5 @@
 import instanse from '../axios';
-import { ProfileEffect, Status, User } from '../types/shared';
+import { AvatarEffect, ProfileEffect, Status, User } from '../types/shared';
 
 export type FetchUsersResponse = {
   status: number;
@@ -25,14 +25,25 @@ export type UpdateUserProfileEffectResponse = {
     username: string;
     email: string;
     avatar: string;
-    profileEffect: {
-      _id: string;
-      intro?: string;
-      preview: string;
-      sides: string;
-      top?: string;
-      title: string;
-    };
+    profileEffect: ProfileEffect;
+  };
+};
+
+export type FetchAvatarEffectsResponse = {
+  status: number;
+  statusText: string;
+  data: AvatarEffect[];
+};
+
+export type UpdateUserAvatarEffectResponse = {
+  status: number;
+  statusText: string;
+  data: {
+    _id: string;
+    username: string;
+    email: string;
+    avatar: string;
+    avatarEffect: AvatarEffect;
   };
 };
 
@@ -87,6 +98,43 @@ class userAPIClass {
         `/user`,
         {
           profileEffectId: id,
+        },
+      );
+      return {
+        newEffect: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
+
+  public async getAllUserAvatarEffects() {
+    try {
+      const response: FetchAvatarEffectsResponse = await instanse.get(
+        `/image/user-avatar-effect`,
+      );
+      return {
+        effects: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
+
+  public async updateUserAvatarEffect(id: string) {
+    try {
+      const response: UpdateUserAvatarEffectResponse = await instanse.patch(
+        `/user`,
+        {
+          avatarEffectId: id,
         },
       );
       return {

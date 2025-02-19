@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ProfileEffect, Status } from '../../../types/shared';
+import { AvatarEffect, ProfileEffect, Status } from '../../../types/shared';
 import { Profile } from '../auth/types';
 
 import {
@@ -34,6 +34,12 @@ const profileSlice = createSlice({
       if (!state.data) return;
 
       state.data.profileEffect = action.payload;
+    },
+
+    updateUserAvatarEffect(state, action: PayloadAction<AvatarEffect>) {
+      if (!state.data) return;
+
+      state.data.avatarEffect = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -147,5 +153,9 @@ const profileSlice = createSlice({
 });
 
 export const profileReducer = profileSlice.reducer;
-export const { exit, clearProfileErrorMessage, updateProfileEffect } =
-  profileSlice.actions;
+export const {
+  exit,
+  clearProfileErrorMessage,
+  updateProfileEffect,
+  updateUserAvatarEffect,
+} = profileSlice.actions;

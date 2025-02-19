@@ -1,4 +1,10 @@
-import { Language, ProfileEffect, Status, Theme } from '../../../types/shared';
+import {
+  AvatarEffect,
+  Language,
+  ProfileEffect,
+  Status,
+  Theme,
+} from '../../../types/shared';
 
 export type Roles = 'user' | 'admin';
 
@@ -13,6 +19,7 @@ export type Profile = {
   roles?: [Roles, Roles];
   isBanned?: boolean;
   profileEffect: ProfileEffect;
+  avatarEffect: AvatarEffect;
 };
 
 export type ProfileResponse = {

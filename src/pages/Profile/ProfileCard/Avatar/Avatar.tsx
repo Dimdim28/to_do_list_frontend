@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+import { FC, FormEvent, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectUserProfile } from '../../../../redux/slices/profile/selectors';
 import { changeAvatar } from '../../../../redux/slices/profile/thunk';
-import { avatarsEffectsList } from '../../ChangeEvatarEffect/ChangeAvatarEffect';
 
 import styles from './Avatar.module.scss';
 
@@ -16,23 +15,9 @@ interface AvatarProps {
 const Avatar: FC<AvatarProps> = ({ isOwner }) => {
   const dispatch = useAppDispatch();
 
-  const [effectUrl, setEffectUrl] = useState(avatarsEffectsList[0].animation);
-
-  useEffect(() => {
-    const avatarEffect = (
-      avatarsEffectsList[
-        Math.floor(Math.random() * avatarsEffectsList.length)
-      ] || avatarsEffectsList[0]
-    ).animation;
-    setEffectUrl(avatarEffect);
-  }, []);
+  const profile = useAppSelector(selectUserProfile);
 
   const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const profile = useAppSelector(selectUserProfile) || {
-    avatar: null,
-  };
-  const { avatar } = profile;
 
   const handleChangeFile = async (event: FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
@@ -62,9 +47,16 @@ const Avatar: FC<AvatarProps> = ({ isOwner }) => {
           data-testid="file-input-component"
         />
       )}
-      <img src={effectUrl} className={styles.avatarEffect} alt="effect" />
-      {avatar ? (
-        <img src={avatar} alt="logo" />
+      {profile?.avatarEffect?.animated ? (
+        <img
+          src={profile.avatarEffect.animated}
+          className={styles.avatarEffect}
+          alt="effect"
+        />
+      ) : null}
+
+      {profile?.avatar ? (
+        <img src={profile.avatar} alt="logo" />
       ) : (
         <img
           src={
