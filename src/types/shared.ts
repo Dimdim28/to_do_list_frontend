@@ -119,6 +119,7 @@ export type User = {
   _id: string;
   username: string;
   avatar: string;
+  avatarEffect?: AvatarEffect;
 };
 
 export type ProfileEffect = {

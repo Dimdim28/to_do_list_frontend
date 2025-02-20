@@ -43,7 +43,13 @@ const UserImage: FC<UserImageProps> = ({
         }
         alt={user?.username || 'User'}
       />
-      {/* <img src={effectUrl} className={styles.avatarEffect} alt="effect" /> */}
+      {user.avatarEffect ? (
+        <img
+          src={user.avatarEffect.animated}
+          className={styles.avatarEffect}
+          alt="effect"
+        />
+      ) : null}
     </div>
   );
 };

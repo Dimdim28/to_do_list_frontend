@@ -94,7 +94,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const avatar =
     profile?.avatar ||
     'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg';
-
+  const avatarEffect = profile?.avatarEffect;
   const username = profile?.username || '';
 
   const submit = async () => {
@@ -177,6 +177,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                   _id: typedAssigner._id,
                   avatar: typedAssigner.avatar || '',
                   username: typedAssigner.username,
+                  avatarEffect: typedAssigner.avatarEffect,
                 },
               },
             }),
@@ -204,6 +205,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                         _id: typedAssigner._id,
                         avatar: typedAssigner.avatar || '',
                         username: typedAssigner.username,
+                        avatarEffect: typedAssigner.avatarEffect,
                       },
                     }
                   : el,
@@ -344,6 +346,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                       _id: userId,
                       avatar,
                       username,
+                      avatarEffect,
                     });
                   }}
                 >
