@@ -1,4 +1,4 @@
-import MyDecks from '../CanBan/components/MyDecks/MyDecks';
+import MyDecks from './components/MyDecks/MyDecks';
 
 import styles from './Board.module.scss';
 

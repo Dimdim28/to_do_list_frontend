@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
@@ -19,6 +19,10 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
+
+  useEffect(() => {
+    setTitle(editingData?.name || '');
+  }, [editingData?.name]);
 
   const [title, setTitle] = useState(editingData?.name || '');
 

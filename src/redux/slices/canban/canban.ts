@@ -78,6 +78,7 @@ const initialColumnsState: CanBanState = {
   isDeleteColumnModalOpen: false,
   processingColumnData: null,
   isTaskInfoSideBarOpened: false,
+  isProjectSettingsOpened: false,
 };
 
 const initialState: CanBanSliceState = {
@@ -192,15 +193,17 @@ const canBanSlice = createSlice({
 
     setChangeColumnNameModalOpen: (state, action: PayloadAction<boolean>) => {
       if (!state.data) return;
-
-      console.log('action.payload', action.payload);
-
       state.data.isChangeColumnNameModalOpen = action.payload;
     },
 
     setDeleteColumnModalOpen: (state, action: PayloadAction<boolean>) => {
       if (!state.data) return;
       state.data.isDeleteColumnModalOpen = action.payload;
+    },
+
+    setEditProjectModalOpened: (state, action: PayloadAction<boolean>) => {
+      if (!state.data) return;
+      state.data.isProjectSettingsOpened = action.payload;
     },
 
     moveTask: (
@@ -249,4 +252,5 @@ export const {
   moveTask,
   setDeleteColumnModalOpen,
   setIsTaskInfoModalOpened,
+  setEditProjectModalOpened,
 } = canBanSlice.actions;

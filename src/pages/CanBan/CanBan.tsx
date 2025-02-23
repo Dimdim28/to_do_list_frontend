@@ -1,6 +1,6 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
@@ -9,6 +9,7 @@ import {
   moveTask,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
+  setEditProjectModalOpened,
   setIsTaskInfoModalOpened,
   setProcessingColumnData,
   setSelectedTask,
@@ -17,11 +18,13 @@ import {
   isChangeColumnNameModalOpen,
   isDeleteColumnModalOpen,
   selectColumns,
+  selectIsProjectSettingsOpened,
 } from '../../redux/slices/canban/selectors';
 import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
 
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
+import EditProjectInfo from './components/EditProjectInfo/EditProjectInfo';
 import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 
 import styles from './CanBan.module.scss';
@@ -31,6 +34,7 @@ const CanBan = () => {
   const columns = useAppSelector(selectColumns);
   const isEditColumnNameModalOpen = useAppSelector(isChangeColumnNameModalOpen);
   const isDeleteModalOpened = useAppSelector(isDeleteColumnModalOpen);
+  const isProjectSettingsOpened = useAppSelector(selectIsProjectSettingsOpened);
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -65,6 +69,10 @@ const CanBan = () => {
     dispatch(setDeleteColumnModalOpen(true));
   };
 
+  const handleEditProjectSettingsModal = () => {
+    dispatch(setEditProjectModalOpened(true));
+  };
+
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
@@ -72,12 +80,21 @@ const CanBan = () => {
 
   return (
     <div className={styles.wrapper}>
-      <button
-        className={styles.addColumnButton}
-        onClick={handleOpenAddColumnModal}
-      >
-        Add Column
-      </button>
+      <div className={styles.line}>
+        <button
+          className={styles.addColumnButton}
+          onClick={handleOpenAddColumnModal}
+        >
+          Add Column
+        </button>
+        <FontAwesomeIcon
+          className={styles.gear}
+          onClick={handleEditProjectSettingsModal}
+          fontSize="20px"
+          icon={faGear}
+        />
+      </div>
+
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {columns.map((column) => (
@@ -182,6 +199,15 @@ const CanBan = () => {
           dispatch(setDeleteColumnModalOpen(false));
         }}
         ChildComponent={DeleteColumn}
+        childProps={{}}
+      />
+
+      <Modal
+        active={isProjectSettingsOpened}
+        setActive={() => {
+          dispatch(setEditProjectModalOpened(false));
+        }}
+        ChildComponent={EditProjectInfo}
         childProps={{}}
       />
 

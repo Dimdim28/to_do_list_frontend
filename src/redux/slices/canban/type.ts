@@ -22,6 +22,7 @@ export type CanBanState = {
   } | null;
   isDeleteColumnModalOpen: boolean;
   isTaskInfoSideBarOpened: boolean;
+  isProjectSettingsOpened: boolean;
 };
 
 export type Task = {

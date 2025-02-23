@@ -10,9 +10,16 @@
   gap: 20px;
 }
 
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .addColumnButton {
   align-self: flex-start;
-  margin-bottom: 20px;
   background-color: $info-200;
   color: $white;
   padding: 10px 15px;
@@ -25,6 +32,18 @@
 
   &:hover {
     background-color: $amber-300;
+  }
+}
+
+.gear {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
   }
 }
 
