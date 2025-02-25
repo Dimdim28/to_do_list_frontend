@@ -7,16 +7,17 @@ import {
   useRef,
 } from 'react';
 
-import styles from './SimpleTextArea.module.scss';
+import styles from './TaskDescriptionTextArea.module.scss';
 
-interface SimpleTextAreaProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TaskDescriptionTextAreaProps
+  extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
   currentTaskId: string;
 }
 
-export const SimpleTextArea: FC<SimpleTextAreaProps> = ({
+export const TaskDescriptionTextArea: FC<TaskDescriptionTextAreaProps> = ({
   value,
   placeholder,
   setValue,

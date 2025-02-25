@@ -1,3 +1,5 @@
+import withLoginRedirect from '../../hoc/withLoginRedirect';
+
 import MyDecks from './components/MyDecks/MyDecks';
 
 import styles from './Board.module.scss';
@@ -10,4 +12,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default withLoginRedirect(Board);

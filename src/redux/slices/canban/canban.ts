@@ -73,12 +73,19 @@ const initialColumnsState: CanBanState = {
       ],
     },
   ],
+  members: [],
   selectedTask: { task: null },
   isChangeColumnNameModalOpen: false,
   isDeleteColumnModalOpen: false,
   processingColumnData: null,
   isTaskInfoSideBarOpened: false,
   isProjectSettingsOpened: false,
+  info: {
+    id: 'fsdsf323324324dsfd',
+    title: 'deck one',
+    description: 'the best canban',
+  },
+  tags: {},
 };
 
 const initialState: CanBanSliceState = {
@@ -235,6 +242,20 @@ const canBanSlice = createSlice({
       if (!state.data) return;
       state.data.isTaskInfoSideBarOpened = action.payload;
     },
+
+    setProjectInfo: (
+      state,
+      action: PayloadAction<{ title?: string; description?: string }>,
+    ) => {
+      if (!state.data) return;
+
+      if (action.payload.title) {
+        state.data.info.title = action.payload.title;
+      }
+      if (action.payload.description) {
+        state.data.info.description = action.payload.description;
+      }
+    },
   },
 });
 
@@ -253,4 +274,5 @@ export const {
   setDeleteColumnModalOpen,
   setIsTaskInfoModalOpened,
   setEditProjectModalOpened,
+  setProjectInfo,
 } = canBanSlice.actions;

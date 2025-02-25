@@ -1,4 +1,4 @@
-import { Status } from '../../../types/shared';
+import { Status, User } from '../../../types/shared';
 
 export type CanBanSliceState = {
   data: CanBanState | null;
@@ -23,6 +23,13 @@ export type CanBanState = {
   isDeleteColumnModalOpen: boolean;
   isTaskInfoSideBarOpened: boolean;
   isProjectSettingsOpened: boolean;
+  members: User[];
+  info: {
+    id: string;
+    title: string;
+    description: string;
+  };
+  tags: { [key: string]: { label: string; color: string; id: string } };
 };
 
 export type Task = {

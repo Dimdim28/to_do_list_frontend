@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '../../../../components/common/Button/Button';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
-import { SimpleTextArea } from '../../../../components/common/SimpleTextArea/SimpleTextArea';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addTask,
@@ -16,6 +15,8 @@ import {
   selectIsTaskInfoSideBarOpened,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
+
+import { TaskDescriptionTextArea } from './SimpleTextArea/TaskDescriptionTextArea';
 
 import styles from './TaskInfoSideBar.module.scss';
 
@@ -107,7 +108,7 @@ const TaskInfoSideBar = () => {
 
           <div className={styles.block}>
             <div className={styles.title}>Description</div>
-            <SimpleTextArea
+            <TaskDescriptionTextArea
               value={description}
               setValue={setDescription}
               placeholder="enter description"

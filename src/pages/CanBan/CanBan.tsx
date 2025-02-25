@@ -4,6 +4,7 @@ import { faGear, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
+import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppSelector } from '../../hooks';
 import {
   moveTask,
@@ -216,4 +217,4 @@ const CanBan = () => {
   );
 };
 
-export default CanBan;
+export default withLoginRedirect(CanBan);
