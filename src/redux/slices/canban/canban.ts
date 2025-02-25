@@ -80,6 +80,7 @@ const initialColumnsState: CanBanState = {
   processingColumnData: null,
   isTaskInfoSideBarOpened: false,
   isProjectSettingsOpened: false,
+  isAddUserToProjectModalOpened: false,
   info: {
     id: 'fsdsf323324324dsfd',
     title: 'deck one',
@@ -243,6 +244,14 @@ const canBanSlice = createSlice({
       state.data.isTaskInfoSideBarOpened = action.payload;
     },
 
+    setIsAddUserToProjectModalOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      if (!state.data) return;
+      state.data.isAddUserToProjectModalOpened = action.payload;
+    },
+
     setProjectInfo: (
       state,
       action: PayloadAction<{ title?: string; description?: string }>,
@@ -275,4 +284,5 @@ export const {
   setIsTaskInfoModalOpened,
   setEditProjectModalOpened,
   setProjectInfo,
+  setIsAddUserToProjectModalOpened,
 } = canBanSlice.actions;

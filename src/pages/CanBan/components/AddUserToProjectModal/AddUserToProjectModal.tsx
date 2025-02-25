@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../../../../components/common/Button/Button';
-import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   setEditProjectModalOpened,
@@ -11,12 +11,12 @@ import {
   selectIsProjectInfo,
   selectIsProjectSettingsOpened,
 } from '../../../../redux/slices/canban/selectors';
+import { User } from '../../../../types/shared';
+import ChosenUser from '../../../Home/Tasks/ChosenUser/ChosenUser';
 
-import { ProjectDescriptionTextArea } from './components/ProjectDescriptionTextArea/ProjectDescriptionTextArea';
+import styles from './AddUserToProjectModal.module.scss';
 
-import styles from './EditProjectInfo.module.scss';
-
-const EditProjectInfo = () => {
+const AddUserToProjectModal = () => {
   const projectInfo = useAppSelector(selectIsProjectInfo);
   const isOpened = useAppSelector(selectIsProjectSettingsOpened);
 
@@ -24,6 +24,7 @@ const EditProjectInfo = () => {
 
   const [title, setTitle] = useState(projectInfo.title);
   const [description, setDescription] = useState(projectInfo.description);
+  const [assigner, setAssigner] = useState<User | null>(null);
 
   const handleClose = () => {
     dispatch(setEditProjectModalOpened(false));
@@ -45,24 +46,22 @@ const EditProjectInfo = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.block}>
-        <div className={styles.title}>Title</div>
-        <SimpleInput
-          value={title}
-          setValue={setTitle}
-          placeholder="project title"
-          type="text"
-        />
-      </div>
-
-      <div className={styles.block}>
-        <div className={styles.title}>Description</div>
-        <ProjectDescriptionTextArea
-          value={description}
-          setValue={setDescription}
-          placeholder="project description"
-          type="text"
-        />
+      <div className={styles.content}>
+        {assigner ? (
+          <ChosenUser
+            user={assigner}
+            removeUser={() => {
+              setAssigner(null);
+            }}
+            isForCreation={!!assigner}
+          />
+        ) : (
+          <SearchUser
+            handleUserClick={(user: User) => {
+              setAssigner(user);
+            }}
+          />
+        )}
       </div>
 
       <div className={styles.buttons}>
@@ -73,4 +72,4 @@ const EditProjectInfo = () => {
   );
 };
 
-export default EditProjectInfo;
+export default AddUserToProjectModal;

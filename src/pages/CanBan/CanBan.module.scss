@@ -35,6 +35,12 @@
   }
 }
 
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .gear {
   width: 20px;
   height: 20px;
@@ -44,6 +50,30 @@
 
   &:hover {
     color: $warning-200;
+  }
+}
+
+.user {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $info-200;
+  }
+}
+
+.addUser {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $success-200;
   }
 }
 

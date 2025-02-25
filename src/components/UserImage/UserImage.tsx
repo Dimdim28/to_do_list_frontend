@@ -19,8 +19,6 @@ const UserImage: FC<UserImageProps> = ({
   additionalClassname,
   onAvatarClick,
 }) => {
-  console.log(user);
-
   return (
     <div
       className={`${styles.userImageWrapper} ${

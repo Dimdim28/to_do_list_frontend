@@ -23,3 +23,5 @@ export const selectIsProjectInfo = (state: RootState) =>
   (state.canban.data as CanBanState).info;
 export const selectIsProjectTags = (state: RootState) =>
   (state.canban.data as CanBanState).info;
+export const selectIsAddUserProjectModalOpened = (state: RootState) =>
+  (state.canban.data as CanBanState).isAddUserToProjectModalOpened;
