@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Status } from '../../../types/shared';
+import { Status, User } from '../../../types/shared';
 
 import { CanBanSliceState, CanBanState, SelectedTaskInfo } from './type';
 
@@ -265,6 +265,20 @@ const canBanSlice = createSlice({
         state.data.info.description = action.payload.description;
       }
     },
+
+    addUserToProject: (state, action: PayloadAction<User>) => {
+      if (!state.data) return;
+
+      state.data.members = [...state.data.members, action.payload];
+    },
+
+    removeUserFromProject: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+
+      state.data.members = state.data.members.filter(
+        (user) => user._id !== action.payload,
+      );
+    },
   },
 });
 
@@ -285,4 +299,6 @@ export const {
   setEditProjectModalOpened,
   setProjectInfo,
   setIsAddUserToProjectModalOpened,
+  addUserToProject,
+  removeUserFromProject,
 } = canBanSlice.actions;

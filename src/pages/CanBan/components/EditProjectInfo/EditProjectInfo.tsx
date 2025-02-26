@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '../../../../components/common/Button/Button';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
+import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
+  removeUserFromProject,
   setEditProjectModalOpened,
   setProjectInfo,
 } from '../../../../redux/slices/canban/canban';
 import {
   selectIsProjectInfo,
   selectIsProjectSettingsOpened,
+  selectProjectMembers,
 } from '../../../../redux/slices/canban/selectors';
+import ROUTES from '../../../../routes';
 
 import { ProjectDescriptionTextArea } from './components/ProjectDescriptionTextArea/ProjectDescriptionTextArea';
 
@@ -19,8 +25,12 @@ import styles from './EditProjectInfo.module.scss';
 const EditProjectInfo = () => {
   const projectInfo = useAppSelector(selectIsProjectInfo);
   const isOpened = useAppSelector(selectIsProjectSettingsOpened);
-
+  const members = useAppSelector(selectProjectMembers);
   const dispatch = useAppDispatch();
+
+  const goToProfile = (id: string) => {
+    window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
+  };
 
   const [title, setTitle] = useState(projectInfo.title);
   const [description, setDescription] = useState(projectInfo.description);
@@ -63,6 +73,28 @@ const EditProjectInfo = () => {
           placeholder="project description"
           type="text"
         />
+      </div>
+
+      <div className={styles.members}>
+        {members.map((el) => (
+          <div className={styles.user} key={el._id}>
+            <UserImage
+              user={el}
+              onAvatarClick={(user) => goToProfile(user._id)}
+            />
+            <p className={styles.text}>{el.username}</p>
+
+            <FontAwesomeIcon
+              fontSize="15px"
+              icon={faTrash}
+              className={styles.trash}
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(removeUserFromProject(el._id));
+              }}
+            />
+          </div>
+        ))}
       </div>
 
       <div className={styles.buttons}>

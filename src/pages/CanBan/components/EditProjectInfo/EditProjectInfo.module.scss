@@ -36,3 +36,38 @@
   justify-content: space-around;
   padding-bottom: 20px;
 }
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: $gray-10;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .user {
+  background: $gray-500;
+}
+
+.user:hover {
+  background: $gray-25;
+}
+
+.trash {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}

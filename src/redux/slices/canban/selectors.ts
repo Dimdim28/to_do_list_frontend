@@ -17,7 +17,7 @@ export const selectIsTaskInfoSideBarOpened = (state: RootState) =>
   state.canban.data?.isTaskInfoSideBarOpened;
 export const selectIsProjectSettingsOpened = (state: RootState) =>
   (state.canban.data as CanBanState).isProjectSettingsOpened;
-export const selectIsProjectMembers = (state: RootState) =>
+export const selectProjectMembers = (state: RootState) =>
   (state.canban.data as CanBanState).members;
 export const selectIsProjectInfo = (state: RootState) =>
   (state.canban.data as CanBanState).info;
