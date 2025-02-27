@@ -15,8 +15,20 @@ const initialColumnsState: CanBanState = {
           title: 'Task 1',
           description: 'Task 1',
           assignedTo: [
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
+            {
+              _id: '65267f5fa923db8ef582f46b',
+              username: 'dench1',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
+              avatarEffect: {
+                _id: '67b626a880f532b43c4dfc50',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
+                title: '1212',
+              },
+            },
           ],
         },
         {
@@ -36,7 +48,20 @@ const initialColumnsState: CanBanState = {
           title: 'Task 3',
           description: 'Task 3',
           assignedTo: [
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+            {
+              _id: '65267f5fa923db8ef582f46b',
+              username: 'dench1',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
+              avatarEffect: {
+                _id: '67b626a880f532b43c4dfc50',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
+                title: '1212',
+              },
+            },
           ],
         },
         {
@@ -44,8 +69,34 @@ const initialColumnsState: CanBanState = {
           title: 'Task 5',
           description: 'Task 5',
           assignedTo: [
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+            {
+              _id: '6526f0c30683003f3a049272',
+              username: 'Dimdim28',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
+              avatarEffect: {
+                _id: '67b6311a7cb726da1a20a524',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
+                title: '34435',
+              },
+            },
+            {
+              _id: '65267f5fa923db8ef582f46b',
+              username: 'dench1',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
+              avatarEffect: {
+                _id: '67b626a880f532b43c4dfc50',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
+                title: '1212',
+              },
+            },
           ],
         },
       ],
@@ -59,7 +110,20 @@ const initialColumnsState: CanBanState = {
           title: 'Task 4',
           description: 'Task 4',
           assignedTo: [
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1726510901/1726510900129-avatar.jpg',
+            {
+              _id: '6526f0c30683003f3a049272',
+              username: 'Dimdim28',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
+              avatarEffect: {
+                _id: '67b6311a7cb726da1a20a524',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
+                title: '34435',
+              },
+            },
           ],
         },
         {
@@ -67,7 +131,20 @@ const initialColumnsState: CanBanState = {
           title: 'Task 6',
           description: 'Task 6',
           assignedTo: [
-            'https://res.cloudinary.com/dmbythxia/image/upload/v1704405267/1704405266565-avatar.jpg',
+            {
+              _id: '6526f0c30683003f3a049272',
+              username: 'Dimdim28',
+              avatar:
+                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
+              avatarEffect: {
+                _id: '67b6311a7cb726da1a20a524',
+                preview:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
+                animated:
+                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
+                title: '34435',
+              },
+            },
           ],
         },
       ],
@@ -104,6 +181,7 @@ const canBanSlice = createSlice({
         columnId: string;
         title: string;
         description: string;
+        assigners: User[];
       }>,
     ) => {
       if (!state.data) return;
@@ -116,7 +194,7 @@ const canBanSlice = createSlice({
           id: `task-${Date.now()}`,
           title: action.payload.title,
           description: action.payload.description,
-          assignedTo: [],
+          assignedTo: action.payload.assigners,
         });
       }
     },
@@ -127,6 +205,7 @@ const canBanSlice = createSlice({
         taskId: string;
         title: string;
         description: string;
+        assigners: User[];
       }>,
     ) => {
       if (!state.data) return;
@@ -136,8 +215,7 @@ const canBanSlice = createSlice({
         if (task) {
           task.title = action.payload.title;
           task.description = action.payload.description;
-
-          break;
+          task.assignedTo = action.payload.assigners;
         }
       }
     },

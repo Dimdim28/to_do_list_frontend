@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUserMinus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '../../../../components/common/Button/Button';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
+import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addTask,
@@ -15,6 +16,7 @@ import {
   selectIsTaskInfoSideBarOpened,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
+import { User } from '../../../../types/shared';
 
 import { TaskDescriptionTextArea } from './SimpleTextArea/TaskDescriptionTextArea';
 
@@ -30,6 +32,7 @@ const TaskInfoSideBar = () => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [assigners, setAssigners] = useState<User[]>([]);
 
   const handleCLoseSideBar = () => {
     dispatch(setIsTaskInfoModalOpened(false));
@@ -51,13 +54,17 @@ const TaskInfoSideBar = () => {
       return handleCLoseSideBar();
     }
     if (taskInfo.task) {
-      dispatch(editTask({ taskId: taskInfo.task.id, description, title }));
+      dispatch(
+        editTask({ taskId: taskInfo.task.id, description, title, assigners }),
+      );
 
       //after success
 
       handleCLoseSideBar();
     } else {
-      dispatch(addTask({ title, description, columnId: taskInfo.columnId }));
+      dispatch(
+        addTask({ title, description, columnId: taskInfo.columnId, assigners }),
+      );
 
       //after success
 
@@ -76,9 +83,11 @@ const TaskInfoSideBar = () => {
     if (!taskInfo.task) {
       setTitle('');
       setDescription('');
+      setAssigners([]);
     } else {
       setTitle(taskInfo.task.title);
       setDescription(taskInfo.task.description);
+      setAssigners(taskInfo.task.assignedTo);
     }
   }, [taskInfo]);
 
@@ -115,6 +124,34 @@ const TaskInfoSideBar = () => {
               currentTaskId={taskInfo.task?.id || ''}
             />
           </div>
+
+          {assigners.length > 0 ? (
+            <div className={styles.block}>
+              <div className={styles.title}>Assigners</div>
+              <div className={styles.assigners}>
+                {assigners.map((user) => (
+                  <div className={styles.assigner} key={user._id}>
+                    <UserImage
+                      additionalClassname={styles.userImage}
+                      user={user}
+                    />
+                    <p className={styles.userName}>{user.username}</p>
+                    <FontAwesomeIcon
+                      className={styles.removeIcon}
+                      icon={faUserMinus}
+                      onClick={() => {
+                        setAssigners((prevAssigners) =>
+                          prevAssigners.filter(
+                            (prevAssigner) => prevAssigner._id !== user._id,
+                          ),
+                        );
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className={styles.buttons}>
             <Button

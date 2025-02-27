@@ -91,3 +91,39 @@
   font-size: 20px;
   font-weight: 700;
 }
+
+.assigners {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.assigner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .userImage {
+    width: 30px;
+    height: 30px;
+  }
+
+  .userName {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .removeIcon {
+    cursor: pointer;
+    color: $white;
+    transition: color $transition-delay;
+    width: 20px;
+    height: 20px;
+    display: block;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+}

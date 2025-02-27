@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
+import UserImage from '../../components/UserImage/UserImage';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppSelector } from '../../hooks';
 import {
@@ -178,12 +179,11 @@ const CanBan = () => {
                               {task.title}
                             </div>
                             <div className={styles.assignedUsers}>
-                              {task.assignedTo.map((user, idx) => (
-                                <img
-                                  key={idx}
-                                  src={user}
-                                  alt="user"
-                                  className={styles.userAvatar}
+                              {task.assignedTo.slice(0, 3).map((user) => (
+                                <UserImage
+                                  key={user._id}
+                                  additionalClassname={styles.userAvatar}
+                                  user={user}
                                 />
                               ))}
                             </div>

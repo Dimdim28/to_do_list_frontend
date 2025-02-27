@@ -37,7 +37,7 @@ export type Task = {
   id: string;
   title: string;
   description: string;
-  assignedTo: string[];
+  assignedTo: User[];
 };
 
 export type Column = {
