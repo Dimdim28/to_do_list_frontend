@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { faUserMinus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUserMinus,
+  faUserPlus,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '../../../../components/common/Button/Button';
@@ -14,6 +18,7 @@ import {
 } from '../../../../redux/slices/canban/canban';
 import {
   selectIsTaskInfoSideBarOpened,
+  selectProjectMembers,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
 import { User } from '../../../../types/shared';
@@ -29,10 +34,12 @@ const TaskInfoSideBar = () => {
   const dispatch = useAppDispatch();
   const isSideBarOpened = useAppSelector(selectIsTaskInfoSideBarOpened);
   const taskInfo = useAppSelector(selectSelectedTask);
+  const members = useAppSelector(selectProjectMembers);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [assigners, setAssigners] = useState<User[]>([]);
+  const [isAddAssignerMenuOpened, setIsAddAssignerMenuOpened] = useState(false);
 
   const handleCLoseSideBar = () => {
     dispatch(setIsTaskInfoModalOpened(false));
@@ -89,6 +96,7 @@ const TaskInfoSideBar = () => {
       setDescription(taskInfo.task.description);
       setAssigners(taskInfo.task.assignedTo);
     }
+    setIsAddAssignerMenuOpened(false);
   }, [taskInfo]);
 
   return (
@@ -125,33 +133,72 @@ const TaskInfoSideBar = () => {
             />
           </div>
 
-          {assigners.length > 0 ? (
-            <div className={styles.block}>
-              <div className={styles.title}>Assigners</div>
-              <div className={styles.assigners}>
-                {assigners.map((user) => (
-                  <div className={styles.assigner} key={user._id}>
-                    <UserImage
-                      additionalClassname={styles.userImage}
-                      user={user}
-                    />
-                    <p className={styles.userName}>{user.username}</p>
-                    <FontAwesomeIcon
-                      className={styles.removeIcon}
-                      icon={faUserMinus}
+          <div className={styles.block}>
+            <div className={styles.title}>Assigners</div>
+
+            <div className={styles.assigners}>
+              {assigners.map((user) => (
+                <div className={styles.assigner} key={user._id}>
+                  <UserImage
+                    additionalClassname={styles.userImage}
+                    user={user}
+                  />
+                  <p className={styles.userName}>{user.username}</p>
+                  <FontAwesomeIcon
+                    className={styles.removeIcon}
+                    icon={faUserMinus}
+                    onClick={() => {
+                      setAssigners((prevAssigners) =>
+                        prevAssigners.filter(
+                          (prevAssigner) => prevAssigner._id !== user._id,
+                        ),
+                      );
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.addMembersLine}>
+              <FontAwesomeIcon
+                icon={faUserPlus}
+                className={styles.addUserIcon}
+                onClick={() => {
+                  setIsAddAssignerMenuOpened((prev) => !prev);
+                }}
+              />
+              <div
+                className={`${styles.addAssignerMenu} ${
+                  isAddAssignerMenuOpened ? styles.opened : undefined
+                }`}
+              >
+                {members
+                  .filter(
+                    (user) =>
+                      !assigners.find((assigner) => assigner._id === user._id),
+                  )
+                  .map((member) => (
+                    <div
+                      className={styles.member}
+                      key={member._id}
                       onClick={() => {
-                        setAssigners((prevAssigners) =>
-                          prevAssigners.filter(
-                            (prevAssigner) => prevAssigner._id !== user._id,
-                          ),
-                        );
+                        setAssigners((prevAssigners) => [
+                          ...prevAssigners,
+                          member,
+                        ]);
+                        setIsAddAssignerMenuOpened(false);
                       }}
-                    />
-                  </div>
-                ))}
+                    >
+                      <UserImage
+                        user={member}
+                        additionalClassname={styles.memberImage}
+                      />
+                      <p className={styles.memberName}>{member.username}</p>
+                    </div>
+                  ))}
               </div>
             </div>
-          ) : null}
+          </div>
 
           <div className={styles.buttons}>
             <Button
