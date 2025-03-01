@@ -230,6 +230,11 @@ const initialColumnsState: CanBanState = {
       text: 'ui',
       color: '#fff700',
     },
+    {
+      id: '6',
+      text: 'back',
+      color: '#faf700',
+    },
   ],
 };
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  faFolderPlus,
   faUserMinus,
   faUserPlus,
   faXmark,
@@ -19,10 +20,12 @@ import {
 import {
   selectIsTaskInfoSideBarOpened,
   selectProjectMembers,
+  selectProjectTags,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
 import { Tag } from '../../../../redux/slices/canban/type';
 import { User } from '../../../../types/shared';
+import TagComponent from '../Tag/Tag';
 
 import { TaskDescriptionTextArea } from './SimpleTextArea/TaskDescriptionTextArea';
 
@@ -36,6 +39,7 @@ const TaskInfoSideBar = () => {
   const isSideBarOpened = useAppSelector(selectIsTaskInfoSideBarOpened);
   const taskInfo = useAppSelector(selectSelectedTask);
   const members = useAppSelector(selectProjectMembers);
+  const allTags = useAppSelector(selectProjectTags);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -43,6 +47,7 @@ const TaskInfoSideBar = () => {
   const [tags, setTags] = useState<Tag[]>([]);
 
   const [isAddAssignerMenuOpened, setIsAddAssignerMenuOpened] = useState(false);
+  const [isAddTagMenuOpened, setIsAddTagMenuOpened] = useState(false);
 
   const handleCLoseSideBar = () => {
     dispatch(setIsTaskInfoModalOpened(false));
@@ -139,7 +144,6 @@ const TaskInfoSideBar = () => {
               value={title}
             />
           </div>
-
           <div className={styles.block}>
             <div className={styles.title}>Description</div>
             <TaskDescriptionTextArea
@@ -149,7 +153,6 @@ const TaskInfoSideBar = () => {
               currentTaskId={taskInfo.task?.id || ''}
             />
           </div>
-
           <div className={styles.block}>
             <div className={styles.title}>Assigners</div>
 
@@ -212,6 +215,39 @@ const TaskInfoSideBar = () => {
                       />
                       <p className={styles.memberName}>{member.username}</p>
                     </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+          <div className={styles.block}>
+            <div className={styles.title}>Tags</div>
+
+            <div className={styles.tags}>
+              {tags.map((tag) => (
+                <TagComponent tag={tag} key={tag.id} />
+              ))}
+            </div>
+
+            <div className={styles.addTagLine}>
+              <FontAwesomeIcon
+                icon={faFolderPlus}
+                className={styles.addTagIcon}
+                onClick={() => {
+                  setIsAddTagMenuOpened((prev) => !prev);
+                }}
+              />
+              <div
+                className={`${styles.addTagMenu} ${
+                  isAddTagMenuOpened ? styles.opened : undefined
+                }`}
+              >
+                {allTags
+                  .filter(
+                    (tagFromAllTags) =>
+                      !tags.find((tag) => tagFromAllTags.id === tag.id),
+                  )
+                  .map((tag) => (
+                    <TagComponent tag={tag} key={tag.id} />
                   ))}
               </div>
             </div>
