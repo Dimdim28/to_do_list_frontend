@@ -119,6 +119,7 @@ const TaskInfoSideBar = () => {
       setTags(taskInfo.task.tags);
     }
     setIsAddAssignerMenuOpened(false);
+    setIsAddTagMenuOpened(false);
   }, [taskInfo]);
 
   return (
@@ -224,7 +225,15 @@ const TaskInfoSideBar = () => {
 
             <div className={styles.tags}>
               {tags.map((tag) => (
-                <TagComponent tag={tag} key={tag.id} />
+                <TagComponent
+                  tag={tag}
+                  key={tag.id}
+                  tagClick={(activeTag) => {
+                    setTags((prevTags) =>
+                      prevTags.filter((tag) => tag.id !== activeTag.id),
+                    );
+                  }}
+                />
               ))}
             </div>
 
@@ -247,7 +256,13 @@ const TaskInfoSideBar = () => {
                       !tags.find((tag) => tagFromAllTags.id === tag.id),
                   )
                   .map((tag) => (
-                    <TagComponent tag={tag} key={tag.id} />
+                    <TagComponent
+                      tag={tag}
+                      key={tag.id}
+                      tagClick={(activeTag) => {
+                        setTags((prevTags) => [...prevTags, activeTag]);
+                      }}
+                    />
                   ))}
               </div>
             </div>

@@ -13,7 +13,7 @@ const Tag: FC<TagProps> = ({ tag, tagClick }) => {
   return (
     <div
       style={{ borderColor: tag.color }}
-      className={styles.tag}
+      className={`${styles.tag} ${tagClick ? styles.hoverable : undefined}`}
       onClick={() => {
         if (tagClick) tagClick(tag);
       }}

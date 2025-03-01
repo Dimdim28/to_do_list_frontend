@@ -6,3 +6,15 @@
   border: 2px solid $warning-200;
   text-align: center;
 }
+
+.hoverable {
+  transition:
+    border-color $transition-delay,
+    color $transition-delay;
+  cursor: pointer;
+
+  &:hover {
+    color: $warning-200;
+    border-color: $warning-200 !important;
+  }
+}
