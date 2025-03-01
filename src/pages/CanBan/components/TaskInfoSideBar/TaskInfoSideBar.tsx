@@ -21,6 +21,7 @@ import {
   selectProjectMembers,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
+import { Tag } from '../../../../redux/slices/canban/type';
 import { User } from '../../../../types/shared';
 
 import { TaskDescriptionTextArea } from './SimpleTextArea/TaskDescriptionTextArea';
@@ -39,6 +40,8 @@ const TaskInfoSideBar = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [assigners, setAssigners] = useState<User[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+
   const [isAddAssignerMenuOpened, setIsAddAssignerMenuOpened] = useState(false);
 
   const handleCLoseSideBar = () => {
@@ -62,7 +65,13 @@ const TaskInfoSideBar = () => {
     }
     if (taskInfo.task) {
       dispatch(
-        editTask({ taskId: taskInfo.task.id, description, title, assigners }),
+        editTask({
+          taskId: taskInfo.task.id,
+          description,
+          title,
+          assigners,
+          tags,
+        }),
       );
 
       //after success
@@ -70,7 +79,13 @@ const TaskInfoSideBar = () => {
       handleCLoseSideBar();
     } else {
       dispatch(
-        addTask({ title, description, columnId: taskInfo.columnId, assigners }),
+        addTask({
+          title,
+          description,
+          columnId: taskInfo.columnId,
+          assigners,
+          tags,
+        }),
       );
 
       //after success
@@ -91,10 +106,12 @@ const TaskInfoSideBar = () => {
       setTitle('');
       setDescription('');
       setAssigners([]);
+      setTags([]);
     } else {
       setTitle(taskInfo.task.title);
       setDescription(taskInfo.task.description);
       setAssigners(taskInfo.task.assignedTo);
+      setTags(taskInfo.task.tags);
     }
     setIsAddAssignerMenuOpened(false);
   }, [taskInfo]);

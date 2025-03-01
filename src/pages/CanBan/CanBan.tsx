@@ -35,6 +35,7 @@ import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToP
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
 import EditProjectInfo from './components/EditProjectInfo/EditProjectInfo';
+import Tag from './components/Tag/Tag';
 import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 
 import styles from './CanBan.module.scss';
@@ -176,15 +177,21 @@ const CanBan = () => {
                             {...provided.dragHandleProps}
                           >
                             <div className={styles.taskContent}>
-                              {task.title}
+                              <div className={styles.title}>{task.title}</div>
+                              <div className={styles.assignedUsers}>
+                                {task.assignedTo.slice(0, 3).map((user) => (
+                                  <UserImage
+                                    key={user._id}
+                                    additionalClassname={styles.userAvatar}
+                                    user={user}
+                                  />
+                                ))}
+                              </div>
                             </div>
-                            <div className={styles.assignedUsers}>
-                              {task.assignedTo.slice(0, 3).map((user) => (
-                                <UserImage
-                                  key={user._id}
-                                  additionalClassname={styles.userAvatar}
-                                  user={user}
-                                />
+
+                            <div className={styles.tags}>
+                              {task.tags.map((tag) => (
+                                <Tag tag={tag} key={tag.id} />
                               ))}
                             </div>
                           </div>
@@ -207,7 +214,6 @@ const CanBan = () => {
           ))}
         </div>
       </DragDropContext>
-
       <Modal
         active={isEditColumnNameModalOpen}
         setActive={() => {
@@ -216,7 +222,6 @@ const CanBan = () => {
         ChildComponent={ChangeColumnName}
         childProps={{}}
       />
-
       <Modal
         active={isDeleteModalOpened}
         setActive={() => {
@@ -225,7 +230,6 @@ const CanBan = () => {
         ChildComponent={DeleteColumn}
         childProps={{}}
       />
-
       <Modal
         active={isProjectSettingsOpened}
         setActive={() => {
@@ -234,7 +238,6 @@ const CanBan = () => {
         ChildComponent={EditProjectInfo}
         childProps={{}}
       />
-
       <Modal
         active={isAddUserToProjectModalOpened}
         setActive={() => {
@@ -243,7 +246,6 @@ const CanBan = () => {
         ChildComponent={AddUserToProjectModal}
         childProps={{}}
       />
-
       <TaskInfoSideBar />
     </div>
   );

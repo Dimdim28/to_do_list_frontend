@@ -12,6 +12,12 @@ export type SelectedTaskInfo = {
   indexInColumn?: number;
 };
 
+export type Tag = {
+  id: string;
+  text: string;
+  color: string;
+};
+
 export type CanBanState = {
   columns: Column[];
   selectedTask: SelectedTaskInfo;
@@ -25,12 +31,12 @@ export type CanBanState = {
   isProjectSettingsOpened: boolean;
   isAddUserToProjectModalOpened: boolean;
   members: User[];
+  tags: Tag[];
   info: {
     id: string;
     title: string;
     description: string;
   };
-  tags: { [key: string]: { label: string; color: string; id: string } };
 };
 
 export type Task = {
@@ -38,6 +44,7 @@ export type Task = {
   title: string;
   description: string;
   assignedTo: User[];
+  tags: Tag[];
 };
 
 export type Column = {

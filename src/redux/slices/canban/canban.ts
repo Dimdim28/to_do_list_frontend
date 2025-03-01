@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status, User } from '../../../types/shared';
 
-import { CanBanSliceState, CanBanState, SelectedTaskInfo } from './type';
+import { CanBanSliceState, CanBanState, SelectedTaskInfo, Tag } from './type';
 
 const initialColumnsState: CanBanState = {
   columns: [
@@ -12,8 +12,13 @@ const initialColumnsState: CanBanState = {
       tasks: [
         {
           id: 'task-1',
-          title: 'Task 1',
-          description: 'Task 1',
+          title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
+          description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis atque
+          assumenda ut labore consequatur rem neque molestias accusamus quibusdam!
+          Deleniti, excepturi voluptas! Eligendi suscipit consectetur libero
+          deserunt debitis vitae illo eos quod dolorem nesciunt. Reprehenderit
+          inventore accusamus ducimus facere maiores dolor, laudantium sapiente
+          optio quo magnam iure quibusdam officiis. `,
           assignedTo: [
             {
               _id: '65267f5fa923db8ef582f46b',
@@ -30,12 +35,20 @@ const initialColumnsState: CanBanState = {
               },
             },
           ],
+          tags: [],
         },
         {
           id: 'task-2',
           title: 'Task 2',
           description: 'Task 2',
           assignedTo: [],
+          tags: [
+            {
+              id: '5',
+              text: 'ui',
+              color: '#fff700',
+            },
+          ],
         },
       ],
     },
@@ -61,6 +74,13 @@ const initialColumnsState: CanBanState = {
                   'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
                 title: '1212',
               },
+            },
+          ],
+          tags: [
+            {
+              id: '3',
+              text: 'docs',
+              color: '#13318b',
             },
           ],
         },
@@ -98,6 +118,13 @@ const initialColumnsState: CanBanState = {
               },
             },
           ],
+          tags: [
+            {
+              id: '2',
+              text: 'feature',
+              color: '#00ff4c',
+            },
+          ],
         },
       ],
     },
@@ -125,6 +152,13 @@ const initialColumnsState: CanBanState = {
               },
             },
           ],
+          tags: [
+            {
+              id: '4',
+              text: 'refactor',
+              color: '#c01180',
+            },
+          ],
         },
         {
           id: 'task-6',
@@ -146,6 +180,13 @@ const initialColumnsState: CanBanState = {
               },
             },
           ],
+          tags: [
+            {
+              id: '1',
+              text: 'bug',
+              color: '#e33131',
+            },
+          ],
         },
       ],
     },
@@ -163,7 +204,33 @@ const initialColumnsState: CanBanState = {
     title: 'deck one',
     description: 'the best canban',
   },
-  tags: {},
+  tags: [
+    {
+      id: '1',
+      text: 'bug',
+      color: '#e33131',
+    },
+    {
+      id: '2',
+      text: 'feature',
+      color: '#00ff4c',
+    },
+    {
+      id: '3',
+      text: 'docs',
+      color: '#13318b',
+    },
+    {
+      id: '4',
+      text: 'refactor',
+      color: '#c01180',
+    },
+    {
+      id: '5',
+      text: 'ui',
+      color: '#fff700',
+    },
+  ],
 };
 
 const initialState: CanBanSliceState = {
@@ -182,6 +249,7 @@ const canBanSlice = createSlice({
         title: string;
         description: string;
         assigners: User[];
+        tags: Tag[];
       }>,
     ) => {
       if (!state.data) return;
@@ -195,6 +263,7 @@ const canBanSlice = createSlice({
           title: action.payload.title,
           description: action.payload.description,
           assignedTo: action.payload.assigners,
+          tags: action.payload.tags,
         });
       }
     },
@@ -206,6 +275,7 @@ const canBanSlice = createSlice({
         title: string;
         description: string;
         assigners: User[];
+        tags: Tag[];
       }>,
     ) => {
       if (!state.data) return;
@@ -216,6 +286,7 @@ const canBanSlice = createSlice({
           task.title = action.payload.title;
           task.description = action.payload.description;
           task.assignedTo = action.payload.assigners;
+          task.tags = action.payload.tags;
         }
       }
     },
