@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import {
+  faFolderPlus,
   faGear,
   faPencil,
   faTrash,
@@ -17,20 +19,24 @@ import {
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
   setEditProjectModalOpened,
+  setIsAddTagToProjectModalOpened,
   setIsAddUserToProjectModalOpened,
   setIsTaskInfoModalOpened,
   setProcessingColumnData,
+  setProjectInfo,
   setSelectedTask,
 } from '../../redux/slices/canban/canban';
 import {
   isChangeColumnNameModalOpen,
   isDeleteColumnModalOpen,
   selectColumns,
+  selectIsAddTagProjectModalOpened,
   selectIsAddUserProjectModalOpened,
   selectIsProjectSettingsOpened,
 } from '../../redux/slices/canban/selectors';
 import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
 
+import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
 import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToProjectModal';
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
@@ -48,6 +54,9 @@ const CanBan = () => {
   const isProjectSettingsOpened = useAppSelector(selectIsProjectSettingsOpened);
   const isAddUserToProjectModalOpened = useAppSelector(
     selectIsAddUserProjectModalOpened,
+  );
+  const isAddTagToProjectModalOpened = useAppSelector(
+    selectIsAddTagProjectModalOpened,
   );
 
   const onDragEnd = (result: any) => {
@@ -91,10 +100,24 @@ const CanBan = () => {
     dispatch(setIsAddUserToProjectModalOpened(true));
   };
 
+  const handleAddTagToProjectModal = () => {
+    dispatch(setIsAddTagToProjectModalOpened(true));
+  };
+
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
   };
+
+  useEffect(() => {
+    dispatch(
+      setProjectInfo({
+        id: '21331221',
+        description: 'description',
+        title: 'title',
+      }),
+    );
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -117,6 +140,12 @@ const CanBan = () => {
             onClick={handleAddUserToProjectModal}
             fontSize="20px"
             icon={faUser}
+          />
+          <FontAwesomeIcon
+            className={styles.tag}
+            onClick={handleAddTagToProjectModal}
+            fontSize="20px"
+            icon={faFolderPlus}
           />
         </div>
       </div>
@@ -244,6 +273,14 @@ const CanBan = () => {
           dispatch(setIsAddUserToProjectModalOpened(false));
         }}
         ChildComponent={AddUserToProjectModal}
+        childProps={{}}
+      />
+      <Modal
+        active={isAddTagToProjectModalOpened}
+        setActive={() => {
+          dispatch(setIsAddTagToProjectModalOpened(false));
+        }}
+        ChildComponent={AddTagToProgectModal}
         childProps={{}}
       />
       <TaskInfoSideBar />

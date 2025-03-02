@@ -30,13 +30,15 @@ export type CanBanState = {
   isTaskInfoSideBarOpened: boolean;
   isProjectSettingsOpened: boolean;
   isAddUserToProjectModalOpened: boolean;
+  isAddTagToProjectModalOpened: boolean;
+  selectedTag: { tag: Tag | null };
   members: User[];
   tags: Tag[];
   info: {
     id: string;
     title: string;
     description: string;
-  };
+  } | null;
 };
 
 export type Task = {

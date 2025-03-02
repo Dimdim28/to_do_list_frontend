@@ -65,7 +65,7 @@
   }
 }
 
-.addUser {
+.tag {
   width: 20px;
   height: 20px;
   z-index: 3;
@@ -73,7 +73,7 @@
   transition: color $transition-delay;
 
   &:hover {
-    color: $success-200;
+    color: $amber-200;
   }
 }
 

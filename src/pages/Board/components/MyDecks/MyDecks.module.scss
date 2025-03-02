@@ -6,6 +6,23 @@
   overflow: auto;
 }
 
+.line {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 20px;
+}
+.addIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

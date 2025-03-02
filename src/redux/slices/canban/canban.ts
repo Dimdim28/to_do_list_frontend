@@ -199,11 +199,9 @@ const initialColumnsState: CanBanState = {
   isTaskInfoSideBarOpened: false,
   isProjectSettingsOpened: false,
   isAddUserToProjectModalOpened: false,
-  info: {
-    id: 'fsdsf323324324dsfd',
-    title: 'deck one',
-    description: 'the best canban',
-  },
+  isAddTagToProjectModalOpened: false,
+  selectedTag: { tag: null },
+  info: null,
   tags: [
     {
       id: '1',
@@ -406,18 +404,25 @@ const canBanSlice = createSlice({
       state.data.isAddUserToProjectModalOpened = action.payload;
     },
 
+    setIsAddTagToProjectModalOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      if (!state.data) return;
+      state.data.isAddTagToProjectModalOpened = action.payload;
+    },
+
     setProjectInfo: (
       state,
-      action: PayloadAction<{ title?: string; description?: string }>,
+      action: PayloadAction<{
+        title: string;
+        description: string;
+        id: string;
+      } | null>,
     ) => {
       if (!state.data) return;
 
-      if (action.payload.title) {
-        state.data.info.title = action.payload.title;
-      }
-      if (action.payload.description) {
-        state.data.info.description = action.payload.description;
-      }
+      state.data.info = action.payload;
     },
 
     addUserToProject: (state, action: PayloadAction<User>) => {
@@ -432,6 +437,28 @@ const canBanSlice = createSlice({
       state.data.members = state.data.members.filter(
         (user) => user._id !== action.payload,
       );
+    },
+
+    addTagToList: (state, action: PayloadAction<Tag>) => {
+      if (!state.data) return;
+
+      state.data.tags = [...state.data.tags, action.payload];
+    },
+
+    updateTagInList: (state, action: PayloadAction<Tag>) => {
+      if (!state.data) return;
+
+      if (action.payload) {
+        state.data.tags = state.data.tags.filter((tag) =>
+          tag.id === action.payload.id
+            ? {
+                id: tag.id,
+                text: action.payload.text,
+                color: action.payload.color,
+              }
+            : tag,
+        );
+      }
     },
   },
 });
@@ -455,4 +482,7 @@ export const {
   setIsAddUserToProjectModalOpened,
   addUserToProject,
   removeUserFromProject,
+  setIsAddTagToProjectModalOpened,
+  addTagToList,
+  updateTagInList,
 } = canBanSlice.actions;

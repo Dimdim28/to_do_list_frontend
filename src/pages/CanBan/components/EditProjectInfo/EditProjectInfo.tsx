@@ -32,8 +32,10 @@ const EditProjectInfo = () => {
     window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
   };
 
-  const [title, setTitle] = useState(projectInfo.title);
-  const [description, setDescription] = useState(projectInfo.description);
+  const [title, setTitle] = useState(projectInfo?.title || '');
+  const [description, setDescription] = useState(
+    projectInfo?.description || '',
+  );
 
   const handleClose = () => {
     dispatch(setEditProjectModalOpened(false));
@@ -45,12 +47,18 @@ const EditProjectInfo = () => {
 
   const handleSubmit = () => {
     handleClose();
-    dispatch(setProjectInfo({ title, description }));
+    dispatch(
+      setProjectInfo({
+        id: projectInfo?.id || `${Math.random() * 1000}`,
+        title,
+        description,
+      }),
+    );
   };
 
   useEffect(() => {
-    setTitle(projectInfo.title);
-    setDescription(projectInfo.description);
+    setTitle(projectInfo?.title || '');
+    setDescription(projectInfo?.description || '');
   }, [projectInfo, isOpened]);
 
   return (
