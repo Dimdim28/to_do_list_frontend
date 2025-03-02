@@ -39,6 +39,12 @@ export type CanBanState = {
     title: string;
     description: string;
   } | null;
+  allProjects: {
+    id: string;
+    title: string;
+    description: string;
+    membersCount: number;
+  }[];
 };
 
 export type Task = {

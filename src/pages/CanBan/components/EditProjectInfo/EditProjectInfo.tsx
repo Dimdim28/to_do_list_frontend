@@ -7,6 +7,7 @@ import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInp
 import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
+  addProjectToList,
   removeUserFromProject,
   setEditProjectModalOpened,
   setProjectInfo,
@@ -46,14 +47,26 @@ const EditProjectInfo = () => {
   };
 
   const handleSubmit = () => {
+    if (!projectInfo) {
+      dispatch(
+        addProjectToList({
+          title,
+          description,
+          id: `${Math.random() * 1000}`,
+          membersCount: 0,
+        }),
+      );
+    } else {
+      dispatch(
+        setProjectInfo({
+          id: projectInfo?.id || `${Math.random() * 1000}`,
+          title,
+          description,
+        }),
+      );
+    }
+
     handleClose();
-    dispatch(
-      setProjectInfo({
-        id: projectInfo?.id || `${Math.random() * 1000}`,
-        title,
-        description,
-      }),
-    );
   };
 
   useEffect(() => {
