@@ -9,7 +9,9 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addProjectToList,
   setEditProjectModalOpened,
+  setIsAddTagToProjectModalOpened,
   setProjectInfo,
+  setSelectedTag,
   updateUsersInProject,
 } from '../../../../redux/slices/canban/canban';
 import {
@@ -135,7 +137,8 @@ const EditProjectInfo = () => {
             key={tag.id}
             tag={tag}
             editTag={(tag) => {
-              console.log(tag);
+              dispatch(setIsAddTagToProjectModalOpened(true));
+              dispatch(setSelectedTag(tag)); //update tags by useffect from selector
             }}
             removeTag={(tag) => {
               setCurrentTags((tags) =>

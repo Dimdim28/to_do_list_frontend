@@ -540,6 +540,10 @@ const canBanSlice = createSlice({
       }
       state.data.allProjects = [...state.data.allProjects, action.payload];
     },
+    setSelectedTag: (state, action: PayloadAction<Tag | null>) => {
+      if (!state.data) return;
+      state.data.selectedTag = { tag: action.payload };
+    },
   },
 });
 
@@ -567,4 +571,5 @@ export const {
   addProjectToList,
   updateTags,
   updateUsersInProject,
+  setSelectedTag,
 } = canBanSlice.actions;

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
@@ -22,6 +22,8 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
 
   const currentTag = useAppSelector(selectSelectedTag);
 
+  console.log(currentTag);
+
   const [color, setColor] = useState(currentTag.tag?.color || '#ffffff');
   const [text, setText] = useState(currentTag.tag?.text || '');
 
@@ -37,6 +39,14 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
   const cancel = () => {
     toggleActive(false);
   };
+
+  useEffect(() => {
+    const tag = currentTag?.tag;
+    if (tag) {
+      setColor(tag.color);
+      setText(tag.text);
+    }
+  }, [currentTag?.tag?.id]);
 
   return (
     <div className={styles.wrapper}>

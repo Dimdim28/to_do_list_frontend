@@ -24,6 +24,7 @@ import {
   setIsTaskInfoModalOpened,
   setProcessingColumnData,
   setProjectInfo,
+  setSelectedTag,
   setSelectedTask,
 } from '../../redux/slices/canban/canban';
 import {
@@ -101,6 +102,7 @@ const CanBan = () => {
   };
 
   const handleAddTagToProjectModal = () => {
+    dispatch(setSelectedTag(null));
     dispatch(setIsAddTagToProjectModalOpened(true));
   };
 
