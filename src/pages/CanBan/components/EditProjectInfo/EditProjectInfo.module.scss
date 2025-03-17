@@ -43,6 +43,12 @@
   gap: 10px;
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 30px;
+}
+
 .user {
   display: flex;
   justify-content: space-between;

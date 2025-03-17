@@ -8,16 +8,18 @@ import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addProjectToList,
-  removeUserFromProject,
   setEditProjectModalOpened,
   setProjectInfo,
+  updateUsersInProject,
 } from '../../../../redux/slices/canban/canban';
 import {
   selectIsProjectInfo,
   selectIsProjectSettingsOpened,
   selectProjectMembers,
+  selectProjectTags,
 } from '../../../../redux/slices/canban/selectors';
 import ROUTES from '../../../../routes';
+import Tag from '../Tag/Tag';
 
 import { ProjectDescriptionTextArea } from './components/ProjectDescriptionTextArea/ProjectDescriptionTextArea';
 
@@ -27,6 +29,8 @@ const EditProjectInfo = () => {
   const projectInfo = useAppSelector(selectIsProjectInfo);
   const isOpened = useAppSelector(selectIsProjectSettingsOpened);
   const members = useAppSelector(selectProjectMembers);
+  const tags = useAppSelector(selectProjectTags);
+
   const dispatch = useAppDispatch();
 
   const goToProfile = (id: string) => {
@@ -37,6 +41,8 @@ const EditProjectInfo = () => {
   const [description, setDescription] = useState(
     projectInfo?.description || '',
   );
+  const [currentMembers, setCurrentMembers] = useState(members);
+  const [currentTags, setCurrentTags] = useState(tags);
 
   const handleClose = () => {
     dispatch(setEditProjectModalOpened(false));
@@ -64,6 +70,7 @@ const EditProjectInfo = () => {
           description,
         }),
       );
+      dispatch(updateUsersInProject(currentMembers));
     }
 
     handleClose();
@@ -72,7 +79,9 @@ const EditProjectInfo = () => {
   useEffect(() => {
     setTitle(projectInfo?.title || '');
     setDescription(projectInfo?.description || '');
-  }, [projectInfo, isOpened]);
+    setCurrentMembers(members);
+    setCurrentTags(tags);
+  }, [projectInfo, isOpened, members, tags]);
 
   return (
     <div className={styles.wrapper}>
@@ -97,7 +106,7 @@ const EditProjectInfo = () => {
       </div>
 
       <div className={styles.members}>
-        {members.map((el) => (
+        {currentMembers.map((el) => (
           <div className={styles.user} key={el._id}>
             <UserImage
               user={el}
@@ -111,10 +120,29 @@ const EditProjectInfo = () => {
               className={styles.trash}
               onClick={(e) => {
                 e.stopPropagation();
-                dispatch(removeUserFromProject(el._id));
+                setCurrentMembers((members) =>
+                  members.filter((user) => user._id !== el._id),
+                );
               }}
             />
           </div>
+        ))}
+      </div>
+
+      <div className={styles.tags}>
+        {currentTags.map((tag) => (
+          <Tag
+            key={tag.id}
+            tag={tag}
+            editTag={(tag) => {
+              console.log(tag);
+            }}
+            removeTag={(tag) => {
+              setCurrentTags((tags) =>
+                tags.filter((curentTag) => curentTag.id !== tag.id),
+              );
+            }}
+          />
         ))}
       </div>
 

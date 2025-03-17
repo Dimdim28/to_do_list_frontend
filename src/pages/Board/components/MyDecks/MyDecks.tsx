@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   setEditProjectModalOpened,
   setProjectInfo,
+  updateTags,
+  updateUsersInProject,
 } from '../../../../redux/slices/canban/canban';
 import {
   selectAllProjects,
@@ -27,6 +29,8 @@ const MyDecks = () => {
   const handleEditProjectSettingsModal = () => {
     dispatch(setProjectInfo(null));
     dispatch(setEditProjectModalOpened(true));
+    dispatch(updateTags([]));
+    dispatch(updateUsersInProject([]));
   };
 
   return (

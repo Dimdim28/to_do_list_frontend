@@ -493,12 +493,10 @@ const canBanSlice = createSlice({
       state.data.members = [...state.data.members, action.payload];
     },
 
-    removeUserFromProject: (state, action: PayloadAction<string>) => {
+    updateUsersInProject: (state, action: PayloadAction<User[]>) => {
       if (!state.data) return;
 
-      state.data.members = state.data.members.filter(
-        (user) => user._id !== action.payload,
-      );
+      state.data.members = action.payload;
     },
 
     addTagToList: (state, action: PayloadAction<Tag>) => {
@@ -521,6 +519,11 @@ const canBanSlice = createSlice({
             : tag,
         );
       }
+    },
+
+    updateTags: (state, action: PayloadAction<Tag[]>) => {
+      if (!state.data) return;
+      state.data.tags = action.payload;
     },
 
     addProjectToList: (
@@ -558,9 +561,10 @@ export const {
   setProjectInfo,
   setIsAddUserToProjectModalOpened,
   addUserToProject,
-  removeUserFromProject,
   setIsAddTagToProjectModalOpened,
   addTagToList,
   updateTagInList,
   addProjectToList,
+  updateTags,
+  updateUsersInProject,
 } = canBanSlice.actions;
