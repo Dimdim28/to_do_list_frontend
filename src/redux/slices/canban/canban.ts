@@ -544,6 +544,43 @@ const canBanSlice = createSlice({
       if (!state.data) return;
       state.data.selectedTag = { tag: action.payload };
     },
+    deleteUserFromColumns: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+      state.data.columns = state.data.columns.map((column) => ({
+        ...column,
+        tasks: column.tasks.map((task) => ({
+          ...task,
+          assignedTo: task.assignedTo.filter(
+            (user) => user._id !== action.payload,
+          ),
+        })),
+      }));
+    },
+
+    deleteTagFromColumns: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+      state.data.columns = state.data.columns.map((column) => ({
+        ...column,
+        tasks: column.tasks.map((task) => ({
+          ...task,
+          tags: task.tags.filter((tag) => tag.id !== action.payload),
+        })),
+      }));
+    },
+
+    editTagInColumns: (state, action: PayloadAction<Tag>) => {
+      if (!state.data) return;
+
+      state.data.columns = state.data.columns.map((column) => ({
+        ...column,
+        tasks: column.tasks.map((task) => ({
+          ...task,
+          tags: task.tags.map((tag) =>
+            tag.id === action.payload.id ? action.payload : tag,
+          ),
+        })),
+      }));
+    },
   },
 });
 
@@ -572,4 +609,7 @@ export const {
   updateTags,
   updateUsersInProject,
   setSelectedTag,
+  deleteUserFromColumns,
+  deleteTagFromColumns,
+  editTagInColumns,
 } = canBanSlice.actions;

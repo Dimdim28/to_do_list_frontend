@@ -14,9 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addTask,
   editTask,
-  setIsAddTagToProjectModalOpened,
   setIsTaskInfoModalOpened,
-  setSelectedTag,
   setSelectedTask,
 } from '../../../../redux/slices/canban/canban';
 import {
@@ -230,10 +228,6 @@ const TaskInfoSideBar = () => {
                 <TagComponent
                   tag={tag}
                   key={tag.id}
-                  editTag={(tag) => {
-                    dispatch(setIsAddTagToProjectModalOpened(true));
-                    dispatch(setSelectedTag(tag));
-                  }} //либо z-index modal ставить 6 либо переделівать модалку
                   tagClick={(activeTag) => {
                     setTags((prevTags) =>
                       prevTags.filter((tag) => tag.id !== activeTag.id),

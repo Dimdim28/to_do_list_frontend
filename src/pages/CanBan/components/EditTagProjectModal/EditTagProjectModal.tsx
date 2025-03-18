@@ -2,35 +2,29 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import {
-  addTagToList,
-  updateTagInList,
-} from '../../../../redux/slices/canban/canban';
-import { selectSelectedTag } from '../../../../redux/slices/canban/selectors';
+import { Tag } from '../../../../redux/slices/canban/type';
 
-import styles from './AddTagToProjectModal.module.scss';
+import styles from './EditTagProjectModal.module.scss';
 
-interface AddTagToProgectModalProps {
+interface EditTagProjectModalProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { tag: Tag; updateTag: (tag: Tag) => void };
 }
 
-const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
+const EditTagProjectModal: FC<EditTagProjectModalProps> = ({
   toggleActive,
+  childProps,
 }) => {
-  const dispatch = useAppDispatch();
+  const currentTag = childProps.tag;
+  const updateTag = childProps.updateTag;
 
-  const currentTag = useAppSelector(selectSelectedTag);
-
-  const [color, setColor] = useState(currentTag.tag?.color || '#ffffff');
-  const [text, setText] = useState(currentTag.tag?.text || '');
+  const [color, setColor] = useState(currentTag?.color || '#ffffff');
+  const [text, setText] = useState(currentTag?.text || '');
 
   const submit = async () => {
     toggleActive(false);
-    if (currentTag.tag) {
-      dispatch(updateTagInList({ id: currentTag.tag.id, text, color }));
-    } else {
-      dispatch(addTagToList({ id: `${Math.random() * 1000}`, text, color }));
+    if (currentTag) {
+      updateTag({ id: currentTag.id, text, color });
     }
   };
 
@@ -39,12 +33,12 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
   };
 
   useEffect(() => {
-    const tag = currentTag?.tag;
+    const tag = currentTag;
     if (tag) {
       setColor(tag.color);
       setText(tag.text);
     }
-  }, [currentTag?.tag?.id]);
+  }, [currentTag?.id]);
 
   return (
     <div className={styles.wrapper}>
@@ -71,4 +65,4 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
   );
 };
 
-export default AddTagToProgectModal;
+export default EditTagProjectModal;

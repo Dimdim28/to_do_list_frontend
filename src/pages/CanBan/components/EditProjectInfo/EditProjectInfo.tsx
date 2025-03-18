@@ -3,15 +3,18 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '../../../../components/common/Button/Button';
+import { Modal } from '../../../../components/common/Modal/Modal';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
 import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addProjectToList,
+  deleteTagFromColumns,
+  deleteUserFromColumns,
+  editTagInColumns,
   setEditProjectModalOpened,
-  setIsAddTagToProjectModalOpened,
   setProjectInfo,
-  setSelectedTag,
+  updateTags,
   updateUsersInProject,
 } from '../../../../redux/slices/canban/canban';
 import {
@@ -20,7 +23,9 @@ import {
   selectProjectMembers,
   selectProjectTags,
 } from '../../../../redux/slices/canban/selectors';
+import { Tag as TagType } from '../../../../redux/slices/canban/type';
 import ROUTES from '../../../../routes';
+import EditTagProjectModal from '../EditTagProjectModal/EditTagProjectModal';
 import Tag from '../Tag/Tag';
 
 import { ProjectDescriptionTextArea } from './components/ProjectDescriptionTextArea/ProjectDescriptionTextArea';
@@ -45,6 +50,10 @@ const EditProjectInfo = () => {
   );
   const [currentMembers, setCurrentMembers] = useState(members);
   const [currentTags, setCurrentTags] = useState(tags);
+
+  const [editingTag, setEditingTag] = useState<TagType | null>(null);
+  const [editingTagModalOpened, setEditingTagModalOpened] =
+    useState<boolean>(false);
 
   const handleClose = () => {
     dispatch(setEditProjectModalOpened(false));
@@ -73,9 +82,54 @@ const EditProjectInfo = () => {
         }),
       );
       dispatch(updateUsersInProject(currentMembers));
+      dispatch(updateTags(currentTags));
+
+      const deletedMembers = members.filter(
+        (member) =>
+          !currentMembers.some(
+            (currentMember) => currentMember._id === member._id,
+          ),
+      );
+      deletedMembers
+        .map((member) => member._id)
+        .forEach((memberId) => {
+          dispatch(deleteUserFromColumns(memberId));
+        });
     }
+    const deletedTags: string[] = [];
+    const editadTags: TagType[] = [];
+
+    tags.forEach((tag) => {
+      const tagInCurrentTags = currentTags.find(
+        (currTag) => currTag.id === tag.id,
+      );
+      if (tagInCurrentTags) {
+        if (
+          tag.color !== tagInCurrentTags.color ||
+          tag.text !== tagInCurrentTags.text
+        ) {
+          editadTags.push(tagInCurrentTags);
+        }
+      } else {
+        deletedTags.push(tag.id);
+      }
+    });
+
+    deletedTags.forEach((deletedTag) => {
+      dispatch(deleteTagFromColumns(deletedTag));
+    });
+
+    editadTags.forEach((editedTag) => {
+      dispatch(editTagInColumns(editedTag));
+    });
 
     handleClose();
+  };
+
+  const updateTag = (tag: TagType) => {
+    setCurrentTags((tags) =>
+      tags.map((currentTag) => (currentTag.id === tag.id ? tag : currentTag)),
+    );
   };
 
   useEffect(() => {
@@ -137,12 +191,12 @@ const EditProjectInfo = () => {
             key={tag.id}
             tag={tag}
             editTag={(tag) => {
-              dispatch(setIsAddTagToProjectModalOpened(true));
-              dispatch(setSelectedTag(tag)); //update tags by useffect from selector
+              setEditingTag(tag);
+              setEditingTagModalOpened(true);
             }}
             removeTag={(tag) => {
               setCurrentTags((tags) =>
-                tags.filter((curentTag) => curentTag.id !== tag.id),
+                tags.filter((currentTag) => currentTag.id !== tag.id),
               );
             }}
           />
@@ -153,6 +207,15 @@ const EditProjectInfo = () => {
         <Button text="Cancel" class="cancel" callback={handleCancel}></Button>
         <Button text="Submit" class="submit" callback={handleSubmit}></Button>
       </div>
+      <Modal
+        active={editingTagModalOpened}
+        setActive={() => {
+          setEditingTagModalOpened(false);
+          setEditingTag(null);
+        }}
+        ChildComponent={EditTagProjectModal}
+        childProps={{ tag: editingTag, updateTag }}
+      />
     </div>
   );
 };
