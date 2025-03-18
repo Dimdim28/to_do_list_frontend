@@ -33,6 +33,8 @@ describe('Testing profile slice selectors', () => {
       updatedAt: '2024',
       avatar: 'link',
       token: '01032004hahathisismytoken',
+      avatarEffect: { _id: '1', animated: '', preview: '', title: '' },
+      profileEffect: { _id: '1', preview: '', title: '', sides: '' },
     });
     expect(recievedThirdState).toBe(null);
   });

@@ -43,6 +43,8 @@ describe('Testing auth slice selectors', () => {
       token: '01032004hahathisismytoken',
       username: 'DimonTheBest',
       avatar: 'link',
+      avatarEffect: { _id: '1', animated: '', preview: '', title: '' },
+      profileEffect: { _id: '1', preview: '', title: '', sides: '' },
     });
 
     expect(recievedSecondState).toBe(null);

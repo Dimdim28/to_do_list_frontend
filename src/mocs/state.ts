@@ -12,6 +12,8 @@ export const MOCK_OBJECT_ONE: RootState = {
       token: '01032004hahathisismytoken',
       username: 'DimonTheBest',
       avatar: 'link',
+      avatarEffect: { _id: '1', animated: '', preview: '', title: '' },
+      profileEffect: { _id: '1', preview: '', title: '', sides: '' },
     },
     theme: Theme.DARK,
     lang: Language.EN,
@@ -53,6 +55,10 @@ export const MOCK_OBJECT_ONE: RootState = {
     data: null,
     status: Status.LOADING,
     message: '',
+  },
+  canban: {
+    data: null,
+    status: Status.LOADING,
   },
 };
 
@@ -97,9 +103,15 @@ export const MOCK_OBJECT_TWO: RootState = {
       createdAt: '2023',
       updatedAt: '2024',
       avatar: 'link',
+      avatarEffect: { _id: '1', animated: '', preview: '', title: '' },
+      profileEffect: { _id: '1', preview: '', title: '', sides: '' },
     },
     status: Status.SUCCESS,
     message: '',
+  },
+  canban: {
+    data: null,
+    status: Status.LOADING,
   },
 };
 
@@ -135,5 +147,9 @@ export const MOCK_OBJECT_THREE: RootState = {
     data: null,
     status: Status.ERROR,
     message: 'Error',
+  },
+  canban: {
+    data: null,
+    status: Status.LOADING,
   },
 };
