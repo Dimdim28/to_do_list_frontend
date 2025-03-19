@@ -60,6 +60,10 @@ export const MOCK_OBJECT_ONE: RootState = {
     data: null,
     status: Status.LOADING,
   },
+  roadmap: {
+    data: null,
+    status: Status.LOADING,
+  },
 };
 
 export const MOCK_OBJECT_TWO: RootState = {
@@ -113,6 +117,10 @@ export const MOCK_OBJECT_TWO: RootState = {
     data: null,
     status: Status.LOADING,
   },
+  roadmap: {
+    data: null,
+    status: Status.LOADING,
+  },
 };
 
 export const MOCK_OBJECT_THREE: RootState = {
@@ -149,6 +157,10 @@ export const MOCK_OBJECT_THREE: RootState = {
     message: 'Error',
   },
   canban: {
+    data: null,
+    status: Status.LOADING,
+  },
+  roadmap: {
     data: null,
     status: Status.LOADING,
   },
