@@ -9,6 +9,7 @@ enum ROUTES {
   FULLLOGIN = '/auth/login',
   BOARD = '/board',
   CanBan = '/canban',
+  ROADMAP = '/roadmap',
 }
 
 export default ROUTES;

@@ -5,6 +5,7 @@ import { authReducer } from './slices/auth/auth';
 import { canBanReducer } from './slices/canban/canban';
 import { homeReducer } from './slices/home/home';
 import { profileReducer } from './slices/profile/profile';
+import { roadmapReducer } from './slices/roadmap/roadmap';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     home: homeReducer,
     profile: profileReducer,
     canban: canBanReducer,
+    roadmap: roadmapReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

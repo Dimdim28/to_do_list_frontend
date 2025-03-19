@@ -1,0 +1,123 @@
+.wrapper {
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.projectTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 20px;
+}
+
+.lineWrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.category {
+  display: flex;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.blocks {
+  display: flex;
+  flex-grow: 1;
+}
+
+.quarteers {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.quarteer {
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.milestonesRow {
+  display: flex;
+  background-color: #eceeee;
+  width: 100%;
+  position: relative;
+
+  .quarteer {
+    color: #3b3d3e;
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #3b3d3e;
+  }
+}
+
+.rows {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  flex-direction: column;
+
+  .row {
+    background-color: #eceeee;
+    height: 40px;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+
+    .task {
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+
+      .taskTitle {
+        width: 100%;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 8px;
+      }
+    }
+  }
+}
+
+.quarterLines {
+  position: absolute;
+  top: 0;
+  left: 210px;
+  width: calc(100% - 210px);
+  height: 100%;
+  pointer-events: none;
+}
+
+.quarterLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #ccc;
+}

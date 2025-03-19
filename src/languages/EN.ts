@@ -2,6 +2,7 @@ const EN = {
   profile: 'Profile',
   home: 'Home',
   board: 'Boards',
+  roadmap: 'Roadmap',
   footer: 'MyTaskManager will help you to manage your time',
   serverError: 'Server error',
   categories: 'Categories',

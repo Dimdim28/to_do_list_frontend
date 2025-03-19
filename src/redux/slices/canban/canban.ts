@@ -304,7 +304,7 @@ const initialState: CanBanSliceState = {
 };
 
 const canBanSlice = createSlice({
-  name: 'profile',
+  name: 'canban',
   initialState,
   reducers: {
     addTask: (

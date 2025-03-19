@@ -28,6 +28,7 @@ const Home = lazy(() => import('./pages/Home/Home'));
 const FAQ = lazy(() => import('./pages/FAQ/FAQ'));
 const Board = lazy(() => import('./pages/Board/Board'));
 const CanBan = lazy(() => import('./pages/CanBan/CanBan'));
+const Roadmap = lazy(() => import('./pages/Roadmap'));
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem('lang') || Language.EN,
@@ -48,6 +49,10 @@ export const HEADER_LINKS: Link[] = [
   {
     path: ROUTES.BOARD,
     name: 'board',
+  },
+  {
+    path: ROUTES.ROADMAP,
+    name: 'roadmap',
   },
 ];
 
@@ -96,6 +101,8 @@ function App() {
             <Route path={ROUTES.FAQ} element={<FAQ />} />
             <Route path={ROUTES.BOARD} element={<Board />} />
             <Route path={`${ROUTES.CanBan}/:id`} element={<CanBan />} />
+            <Route path={`${ROUTES.ROADMAP}/:id`} element={<Roadmap />} />
+            <Route path={`${ROUTES.ROADMAP}`} element={<Roadmap />} />
           </Route>
           <Route path="" element={<PageLayout />}>
             <Route path={`${ROUTES.PROFILE}/:id`} element={<Profile />} />
