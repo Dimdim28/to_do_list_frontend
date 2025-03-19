@@ -13,6 +13,8 @@
   gap: 40px;
   width: 90vw;
   max-width: 400px;
+  color: white;
+  transition: color $transition-delay;
 }
 
 .block {
@@ -75,5 +77,24 @@
 
   &:hover {
     color: $error-200;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    color: black;
+  }
+  .user {
+    background: $gray-500;
+    &:hover {
+      background: $gray-400;
+    }
+  }
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
   }
 }

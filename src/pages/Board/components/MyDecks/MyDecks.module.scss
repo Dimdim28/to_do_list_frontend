@@ -4,6 +4,8 @@
   height: 100%;
   width: 100%;
   overflow: auto;
+  background-color: $background-dark-35;
+  transition: background-color $transition-delay;
 }
 
 .line {
@@ -79,6 +81,9 @@
 }
 
 :global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+  }
   .card {
     background-color: $gray-600;
 

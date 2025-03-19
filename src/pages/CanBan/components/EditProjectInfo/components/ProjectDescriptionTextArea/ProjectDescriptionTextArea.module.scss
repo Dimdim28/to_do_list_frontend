@@ -22,7 +22,8 @@
   border-bottom: 2px solid $background-dark-200;
   transition:
     border-bottom $transition-delay,
-    height $transition-delay;
+    height $transition-delay,
+    color $transition-delay;
   padding-bottom: 5px;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -32,4 +33,11 @@
 .input:hover,
 .activeInput {
   border-bottom: 2px solid $info-200;
+}
+
+:global(.light_theme) {
+  .input,
+  .activeInput {
+    color: black;
+  }
 }

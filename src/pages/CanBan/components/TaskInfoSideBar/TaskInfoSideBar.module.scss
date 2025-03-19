@@ -12,7 +12,8 @@
   background-color: $gray-25;
   transition:
     width $transition-delay,
-    transform $transition-delay;
+    transform $transition-delay,
+    background-color $transition-delay;
 
   .closeIcon {
     display: none;
@@ -217,6 +218,7 @@
   }
 
   .addTagMenu {
+    overflow-y: hidden;
     height: fit-content;
     opacity: 0;
     max-height: 0px;
@@ -232,6 +234,43 @@
       opacity: 1;
       max-height: 100vh;
       pointer-events: all;
+    }
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-600;
+    color: black;
+  }
+
+  .addTagLine {
+    .addTagIcon {
+      color: $black;
+
+      &:hover {
+        color: $info-200;
+      }
+    }
+  }
+
+  .assigner {
+    .removeIcon {
+      color: $black;
+
+      &:hover {
+        color: $warning-200;
+      }
+    }
+  }
+
+  .addMembersLine {
+    .addUserIcon {
+      color: $black;
+
+      &:hover {
+        color: $info-200;
+      }
     }
   }
 }

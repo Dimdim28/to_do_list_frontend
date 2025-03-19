@@ -1,6 +1,7 @@
 @import 'src/styles/partials/theme';
 
 .wrapper {
+  color: white;
   height: calc(100% - 80px);
   width: 100%;
   background-color: $background-dark-35;
@@ -8,6 +9,10 @@
   flex-direction: column;
   padding: 20px;
   gap: 20px;
+  background-color: $background-dark-35;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
 }
 
 .line {
@@ -42,6 +47,7 @@
 }
 
 .gear {
+  color: white;
   width: 20px;
   height: 20px;
   z-index: 3;
@@ -54,6 +60,7 @@
 }
 
 .user {
+  color: white;
   width: 20px;
   height: 20px;
   z-index: 3;
@@ -66,6 +73,7 @@
 }
 
 .tag {
+  color: white;
   width: 20px;
   height: 20px;
   z-index: 3;
@@ -78,6 +86,7 @@
 }
 
 .addTaskButton {
+  color: white;
   cursor: pointer;
   transition: color $transition-delay;
   font-weight: bold;
@@ -98,6 +107,7 @@
 
 .column {
   background-color: $background-dark-10;
+  transition: background-color $transition-delay;
   border-radius: 8px;
   padding: 10px;
   width: 300px;
@@ -179,9 +189,9 @@
 .task {
   gap: 10px;
   background-color: $background-dark-0;
+  color: white;
   border-radius: 4px;
   padding: 10px;
-  color: $gray-100;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -193,7 +203,6 @@
 
   &:hover {
     background-color: $success-100;
-    color: $white;
   }
 }
 
@@ -231,4 +240,49 @@
   justify-content: start;
   gap: 5px;
   width: 100%;
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+    color: black;
+  }
+  .column {
+    background-color: $gray-600;
+  }
+  .addTaskButton {
+    color: black;
+  }
+  .task {
+    background-color: $gray-500;
+    color: black;
+    &:hover {
+      background-color: $success-500;
+    }
+  }
+
+  .gear {
+    color: black;
+    width: 20px;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .user {
+    color: black;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .tag {
+    color: black;
+
+    &:hover {
+      color: $amber-200;
+    }
+  }
 }

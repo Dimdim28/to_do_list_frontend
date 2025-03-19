@@ -17,7 +17,9 @@
   line-height: 20px;
   letter-spacing: 0.05em;
   border-bottom: 2px solid $background-dark-200;
-  transition: border-bottom $transition-delay;
+  transition:
+    border-bottom $transition-delay,
+    color $transition-delay;
   padding-bottom: 5px;
 }
 
@@ -25,4 +27,11 @@
 .input:hover,
 .activeInput {
   border-bottom: 2px solid $info-200;
+}
+
+:global(.light_theme) {
+  .input,
+  .activeInput {
+    color: black;
+  }
 }
