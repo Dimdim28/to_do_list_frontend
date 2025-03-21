@@ -51,4 +51,7 @@ export type RoadmapSliceState = {
   data: RoadmapData | null;
   status: Status;
   message?: string;
+  currentCategory: Category | null;
+  isDeletingCategoryOpened: boolean;
+  isEditingCategoryOpened: boolean;
 };

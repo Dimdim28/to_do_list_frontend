@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
 
-import { RoadmapData, RoadmapSliceState } from './type';
+import { Category, RoadmapData, RoadmapSliceState } from './type';
 
 export const initialData: RoadmapData = {
   id: 'roadmap-1',
@@ -381,15 +381,66 @@ export const initialData: RoadmapData = {
 const initialState: RoadmapSliceState = {
   data: initialData,
   status: Status.SUCCESS,
+  currentCategory: null,
+  isDeletingCategoryOpened: false,
+  isEditingCategoryOpened: false,
 };
 
 const canBanSlice = createSlice({
   name: 'roadmap',
   initialState,
-  reducers: {},
+  reducers: {
+    setRoadmapCurrentCategory: (
+      state,
+      action: PayloadAction<Category | null>,
+    ) => {
+      state.currentCategory = action.payload;
+    },
+    setRoadmapIsDeletingCategoryOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isDeletingCategoryOpened = action.payload;
+    },
+    setRoadmapIsEditingCategoryOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isEditingCategoryOpened = action.payload;
+    },
+
+    editRoadmapCategory: (
+      state,
+      action: PayloadAction<{ id: string; color: string; title: string }>,
+    ) => {
+      if (!state.data) return;
+
+      state.data.categories = state.data.categories.map((category) =>
+        category.id === action.payload.id
+          ? {
+              ...category,
+              color: action.payload.color,
+              title: action.payload.title,
+            }
+          : category,
+      );
+    },
+
+    deleteRoadmapCategory: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+
+      state.data.categories = state.data.categories.filter(
+        (category) => category.id !== action.payload,
+      );
+    },
+  },
 });
 
 export const roadmapReducer = canBanSlice.reducer;
-// export const {
-
-// } = canBanSlice.actions;
+export const {
+  setRoadmapCurrentCategory,
+  setRoadmapIsDeletingCategoryOpened,
+  setRoadmapIsEditingCategoryOpened,
+  editRoadmapCategory,
+  deleteRoadmapCategory,
+} = canBanSlice.actions;
