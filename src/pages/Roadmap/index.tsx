@@ -26,7 +26,10 @@ const RoadMap = () => {
     <div className={styles.wrapper}>
       <h1 className={styles.projectTitle}>{title}</h1>
 
-      <div className={styles.roadmap}>
+      <div
+        className={styles.roadmap}
+        style={{ minWidth: `${210 + totalQuarters * 300}px` }}
+      >
         <div className={styles.quarterLines}>
           {quarters.map((quarter, index) =>
             index > 0 ? (
@@ -71,7 +74,7 @@ const RoadMap = () => {
               {milestones.map((milestone) => (
                 <div
                   key={milestone.id}
-                  className={styles.quarteer}
+                  className={styles.milestone}
                   style={{ left: `${milestone.position / totalQuarters}%` }}
                 >
                   {milestone.title}
@@ -108,6 +111,10 @@ const RoadMap = () => {
                       }}
                     >
                       <div className={styles.taskTitle}> {task.title}</div>
+                      <div
+                        className={styles.taskProgress}
+                        style={{ width: `${task.progress}%` }}
+                      ></div>
                     </div>
                   ))}
                 </div>

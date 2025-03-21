@@ -1,6 +1,8 @@
 @import 'src/styles/partials/theme';
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: calc(100% - 80px);
   overflow-y: auto;
@@ -14,6 +16,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 40px;
+  line-height: 30px;
 }
 
 .roadmap {
@@ -67,7 +70,10 @@
   position: relative;
   transition: background-color $transition-delay;
 
-  .quarteer {
+  .milestone {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
     font-size: 12px;
     position: absolute;
     top: 0;
@@ -110,6 +116,18 @@
         text-overflow: ellipsis;
         padding: 0 8px;
         color: white;
+        position: relative;
+        z-index: 2;
+      }
+
+      .taskProgress {
+        border-radius: 2px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 1;
       }
     }
   }
