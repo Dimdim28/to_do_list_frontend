@@ -102,6 +102,22 @@
   position: relative;
 }
 
+.addQuarterIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .quarteer {
   padding: 5px;
   text-align: center;
@@ -135,6 +151,7 @@
   gap: 2px;
   width: 100%;
   flex-direction: column;
+  position: relative;
 
   .row {
     background-color: $background-dark-100;
@@ -176,6 +193,34 @@
         background: rgba(0, 0, 0, 0.2);
         z-index: 1;
       }
+    }
+  }
+}
+
+.addRowIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition:
+    color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateY(50%);
+  opacity: 0;
+  pointer-events: none;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+.rows {
+  &:hover {
+    .addRowIcon {
+      opacity: 1;
+      pointer-events: all;
     }
   }
 }

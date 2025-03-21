@@ -6,6 +6,8 @@ import Preloader from '../../components/Preloader/Preloader';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
+  addRoadmapNewLineToCategory,
+  addRoadmapNewQuarter,
   setRoadmapCurrentCategory,
   setRoadmapIsDeletingCategoryOpened,
   setRoadmapIsEditingCategoryOpened,
@@ -93,6 +95,13 @@ const RoadMap = () => {
                   {quarteer.title}
                 </div>
               ))}
+
+              <FontAwesomeIcon
+                className={styles.addQuarterIcon}
+                onClick={() => dispatch(addRoadmapNewQuarter())}
+                fontSize="20px"
+                icon={faPlus}
+              />
             </div>
           </div>
         </div>
@@ -178,6 +187,23 @@ const RoadMap = () => {
                   ))}
                 </div>
               ))}
+
+              <FontAwesomeIcon
+                className={styles.addRowIcon}
+                onClick={() => {
+                  dispatch(
+                    addRoadmapNewLineToCategory({
+                      rowId: `${
+                        Math.random() * 1000 + 'category' + Math.random() * 100
+                      }`,
+                      categoryId: category.id,
+                      title: '',
+                    }),
+                  );
+                }}
+                fontSize="20px"
+                icon={faPlus}
+              />
             </div>
           </div>
         ))}

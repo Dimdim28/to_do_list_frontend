@@ -60,7 +60,13 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
           color,
           title,
           id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
-          rows: [],
+          rows: [
+            {
+              id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
+              tasks: [],
+              title: 'row',
+            },
+          ],
         }),
       );
     }
