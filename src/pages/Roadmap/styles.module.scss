@@ -185,7 +185,7 @@
   top: 0;
   left: 210px;
   width: calc(100% - 210px);
-  height: 100%;
+  height: calc(100% - 80px);
   pointer-events: none;
 }
 
@@ -196,6 +196,25 @@
   width: 2px;
   background-color: white;
   transition: background-color $transition-delay;
+}
+
+.line {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 20px;
+}
+
+.addIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
 }
 
 :global(.light_theme) {

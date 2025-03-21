@@ -433,6 +433,12 @@ const canBanSlice = createSlice({
         (category) => category.id !== action.payload,
       );
     },
+
+    addRoadmapCategory: (state, action: PayloadAction<Category>) => {
+      if (!state.data) return;
+
+      state.data.categories = [...state.data.categories, action.payload];
+    },
   },
 });
 
@@ -443,4 +449,5 @@ export const {
   setRoadmapIsEditingCategoryOpened,
   editRoadmapCategory,
   deleteRoadmapCategory,
+  addRoadmapCategory,
 } = canBanSlice.actions;

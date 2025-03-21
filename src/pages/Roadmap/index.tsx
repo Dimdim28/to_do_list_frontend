@@ -1,4 +1,4 @@
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
@@ -52,6 +52,11 @@ const RoadMap = () => {
   const handleOpenDeleteColumnModal = (category: Category) => {
     dispatch(setRoadmapCurrentCategory(category));
     dispatch(setRoadmapIsDeletingCategoryOpened(true));
+  };
+
+  const handleEditProjectSettingsModal = () => {
+    dispatch(setRoadmapCurrentCategory(null));
+    dispatch(setRoadmapIsEditingCategoryOpened(true));
   };
 
   return (
@@ -176,6 +181,14 @@ const RoadMap = () => {
             </div>
           </div>
         ))}
+        <div className={styles.line}>
+          <FontAwesomeIcon
+            className={styles.addIcon}
+            onClick={handleEditProjectSettingsModal}
+            fontSize="20px"
+            icon={faPlus}
+          />
+        </div>
       </div>
 
       <Modal

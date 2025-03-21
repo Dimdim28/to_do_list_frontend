@@ -5,7 +5,10 @@ import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
 import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { editRoadmapCategory } from '../../../../redux/slices/roadmap/roadmap';
+import {
+  addRoadmapCategory,
+  editRoadmapCategory,
+} from '../../../../redux/slices/roadmap/roadmap';
 import { selectRoadmapCurrentCategory } from '../../../../redux/slices/roadmap/selectors';
 import { Status } from '../../../../types/shared';
 
@@ -33,7 +36,6 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
   }, [currentCategory?.id]);
 
   const submit = async () => {
-    if (!currentCategory) return;
     // setStatus(Status.LOADING);
     // const result = _id
     //   ? await categoryAPI.editCategory({ _id, title, color })
@@ -50,8 +52,18 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
     //     dispatch(addCategoryToList(category));
     //   }
     // }
-
-    dispatch(editRoadmapCategory({ color, title, id: currentCategory.id }));
+    if (currentCategory) {
+      dispatch(editRoadmapCategory({ color, title, id: currentCategory.id }));
+    } else {
+      dispatch(
+        addRoadmapCategory({
+          color,
+          title,
+          id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
+          rows: [],
+        }),
+      );
+    }
   };
 
   const cancel = () => {
