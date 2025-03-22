@@ -182,6 +182,7 @@
         color: white;
         position: relative;
         z-index: 2;
+        pointer-events: none;
       }
 
       .taskProgress {
@@ -192,9 +193,32 @@
         left: 0;
         background: rgba(0, 0, 0, 0.2);
         z-index: 1;
+
+        &:hover {
+          .progressHandle {
+            opacity: 1;
+          }
+        }
       }
     }
   }
+}
+
+.progressHandle {
+  transition:
+    background-color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 5px;
+  height: 100%;
+  background-color: $black;
+  cursor: ew-resize;
+  z-index: 3;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  opacity: 0;
 }
 
 .resizeLeft,
@@ -327,5 +351,8 @@
   .resizeLeft,
   .resizeRight {
     background-color: $black;
+  }
+  .progressHandle {
+    background-color: $white;
   }
 }

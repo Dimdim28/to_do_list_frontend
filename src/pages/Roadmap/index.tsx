@@ -39,6 +39,16 @@ const RoadMap = () => {
     side: 'start' | 'end';
     initialX: number;
     initialValue: number;
+    isResizing: boolean;
+  } | null>(null);
+
+  const progressResizingRef = useRef<{
+    taskId: string;
+    categoryId: string;
+    rowId: string;
+    initialX: number;
+    initialProgress: number;
+    isResizing: boolean;
   } | null>(null);
 
   const data = useAppSelector(selectRoadmapData);
@@ -79,6 +89,7 @@ const RoadMap = () => {
     side: 'start' | 'end',
   ) => {
     e.stopPropagation();
+    e.preventDefault();
 
     const row = categories
       .find((c) => c.id === categoryId)
@@ -93,6 +104,7 @@ const RoadMap = () => {
       side,
       initialX: e.clientX,
       initialValue: task[side],
+      isResizing: true,
     };
 
     document.addEventListener('mousemove', onResizeMove);
@@ -101,7 +113,9 @@ const RoadMap = () => {
 
   const onResizeMove = (e: MouseEvent) => {
     const info = resizingRef.current;
-    if (!info) return;
+    if (!info || !info.isResizing) return;
+
+    e.preventDefault();
 
     const deltaPx = e.clientX - info.initialX;
     const roadmapWidth = 300 * totalQuarters;
@@ -110,21 +124,17 @@ const RoadMap = () => {
     const category = categories.find((c) => c.id === info.categoryId);
     const row = category?.rows.find((r) => r.id === info.rowId);
     const task = row?.tasks.find((t) => t.id === info.taskId);
-
     if (!task) return;
 
-    const newValue = Math.round(info.initialValue + deltaValue);
     const maxValue = totalQuarters * 100;
+    const newValue = Math.round(info.initialValue + deltaValue);
 
     if (newValue < 0 || newValue > maxValue) return;
-
     if (info.side === 'start') {
-      if (newValue >= task.end) return;
-      if (task.end - newValue < 10) return;
+      if (newValue >= task.end || task.end - newValue < 10) return;
     }
     if (info.side === 'end') {
-      if (newValue <= task.start) return;
-      if (newValue - task.start < 10) return;
+      if (newValue <= task.start || newValue - task.start < 10) return;
     }
 
     dispatch(
@@ -140,9 +150,76 @@ const RoadMap = () => {
   };
 
   const onResizeEnd = () => {
-    resizingRef.current = null;
+    if (resizingRef.current) {
+      resizingRef.current.isResizing = false;
+    }
+
     document.removeEventListener('mousemove', onResizeMove);
     document.removeEventListener('mouseup', onResizeEnd);
+  };
+
+  const onProgressResizeStart = (
+    e: React.MouseEvent,
+    task: Task,
+    categoryId: string,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const row = categories
+      .find((c) => c.id === categoryId)
+      ?.rows.find((r) => r.tasks.some((t) => t.id === task.id));
+
+    if (!row) return;
+
+    progressResizingRef.current = {
+      taskId: task.id,
+      categoryId,
+      rowId: row.id,
+      initialX: e.clientX,
+      initialProgress: task.progress,
+      isResizing: true,
+    };
+
+    document.addEventListener('mousemove', onProgressResizeMove);
+    document.addEventListener('mouseup', onProgressResizeEnd);
+  };
+
+  const onProgressResizeMove = (e: MouseEvent) => {
+    const info = progressResizingRef.current;
+    if (!info || !info.isResizing) return;
+
+    const deltaPx = e.clientX - info.initialX;
+
+    const category = categories.find((c) => c.id === info.categoryId);
+    const row = category?.rows.find((r) => r.id === info.rowId);
+    const task = row?.tasks.find((t) => t.id === info.taskId);
+    if (!task) return;
+
+    const taskWidthPx =
+      ((task.end - task.start) / (totalQuarters * 100)) * (300 * totalQuarters);
+
+    const deltaProgress = (deltaPx / taskWidthPx) * 100;
+    let newProgress = Math.round(info.initialProgress + deltaProgress);
+
+    newProgress = Math.min(100, Math.max(0, newProgress)); // [0, 100]
+
+    dispatch(
+      updateTaskInCategory({
+        categoryId: info.categoryId,
+        rowId: info.rowId,
+        taskId: info.taskId,
+        updates: { progress: newProgress },
+      }),
+    );
+  };
+
+  const onProgressResizeEnd = () => {
+    if (progressResizingRef.current) {
+      progressResizingRef.current.isResizing = false;
+    }
+    document.removeEventListener('mousemove', onProgressResizeMove);
+    document.removeEventListener('mouseup', onProgressResizeEnd);
   };
 
   return (
@@ -278,7 +355,14 @@ const RoadMap = () => {
                       <div
                         className={styles.taskProgress}
                         style={{ width: `${task.progress}%` }}
-                      ></div>
+                      >
+                        <div
+                          className={styles.progressHandle}
+                          onMouseDown={(e) =>
+                            onProgressResizeStart(e, task, category.id)
+                          }
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
