@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
 
-import { Category, RoadmapData, RoadmapSliceState } from './type';
+import { Category, RoadmapData, RoadmapSliceState, Task } from './type';
 
 export const initialData: RoadmapData = {
   id: 'roadmap-1',
@@ -483,7 +483,7 @@ const canBanSlice = createSlice({
       );
     },
 
-    updateTaskInCategory: (
+    updateRoadmapTaskInCategory: (
       state,
       action: PayloadAction<{
         categoryId: string;
@@ -507,6 +507,53 @@ const canBanSlice = createSlice({
 
       Object.assign(task, updates);
     },
+
+    moveRoadmapTask: (
+      state,
+      action: PayloadAction<{
+        fromCategoryId: string;
+        fromRowId: string;
+        toCategoryId: string;
+        toRowId: string;
+        task: Task;
+      }>,
+    ) => {
+      const { fromCategoryId, fromRowId, toCategoryId, toRowId, task } =
+        action.payload;
+
+      if (!state.data) return;
+      if (fromCategoryId === toCategoryId && fromRowId === toRowId) return;
+
+      state.data.categories = state.data.categories.map((category) => {
+        let modified = false;
+
+        const newRows = category.rows.map((row) => {
+          if (
+            category.id === fromCategoryId &&
+            row.id === fromRowId &&
+            (fromCategoryId !== toCategoryId || fromRowId !== toRowId)
+          ) {
+            modified = true;
+            return {
+              ...row,
+              tasks: row.tasks.filter((t) => t.id !== task.id),
+            };
+          }
+
+          if (category.id === toCategoryId && row.id === toRowId) {
+            modified = true;
+            return {
+              ...row,
+              tasks: [...row.tasks, task],
+            };
+          }
+
+          return row;
+        });
+
+        return modified ? { ...category, rows: newRows } : category;
+      });
+    },
   },
 });
 
@@ -520,5 +567,6 @@ export const {
   addRoadmapCategory,
   addRoadmapNewQuarter,
   addRoadmapNewLineToCategory,
-  updateTaskInCategory,
+  updateRoadmapTaskInCategory,
+  moveRoadmapTask,
 } = canBanSlice.actions;

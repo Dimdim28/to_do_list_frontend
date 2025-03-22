@@ -1,3 +1,4 @@
+import { DragEvent } from 'react';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -8,9 +9,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   addRoadmapNewLineToCategory,
   addRoadmapNewQuarter,
+  moveRoadmapTask,
   setRoadmapCurrentCategory,
   setRoadmapIsDeletingCategoryOpened,
   setRoadmapIsEditingCategoryOpened,
+  updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
   selectRoadmapData,
@@ -19,7 +22,7 @@ import {
   selectRoadmapMessage,
   selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
-import { Category } from '../../redux/slices/roadmap/type';
+import { Category, Row } from '../../redux/slices/roadmap/type';
 import { Status } from '../../types/shared';
 
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
@@ -60,6 +63,74 @@ const RoadMap = () => {
   const handleEditProjectSettingsModal = () => {
     dispatch(setRoadmapCurrentCategory(null));
     dispatch(setRoadmapIsEditingCategoryOpened(true));
+  };
+
+  const handleTaskDrop = (
+    e: DragEvent<HTMLDivElement>,
+    row: Row,
+    category: Category,
+  ) => {
+    if (!e.dataTransfer) return;
+    const raw = e.dataTransfer.getData('application/json');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    const dropX = e.clientX;
+    const roadmapWidth = 300 * totalQuarters;
+    const timelineWidth = totalQuarters * 100;
+
+    const deltaPx = dropX - data.offsetX;
+    const deltaValue = (deltaPx / roadmapWidth) * timelineWidth;
+
+    const newStart = Math.round(data.start + deltaValue);
+    const newEnd = Math.round(data.end + deltaValue);
+
+    const isSameRow = data.rowId === row.id && data.categoryId === category.id;
+
+    if (newStart < 0 || newEnd > timelineWidth || newEnd - newStart < 10)
+      return;
+
+    if (isSameRow) {
+      // Просто двигаем таску по оси X
+      dispatch(
+        updateRoadmapTaskInCategory({
+          categoryId: category.id,
+          rowId: row.id,
+          taskId: data.taskId,
+          updates: {
+            start: newStart,
+            end: newEnd,
+          },
+        }),
+      );
+
+      // TODO: API для позиции
+      // await api.updateTask(data.taskId, { start: newStart, end: newEnd });
+    } else {
+      console.log(data);
+
+      const task = {
+        id: data.taskId,
+        title: data.title,
+        start: newStart,
+        end: newEnd,
+        progress: data.progress,
+        status: data.status,
+      };
+
+      dispatch(
+        moveRoadmapTask({
+          fromCategoryId: data.categoryId,
+          fromRowId: data.rowId,
+          toCategoryId: category.id,
+          toRowId: row.id,
+          task,
+        }),
+      );
+
+      // TODO: API для перемещения
+      // await api.moveTask({ taskId: data.taskId, toRowId: row.id, start: newStart, end: newEnd });
+    }
   };
 
   return (
@@ -166,7 +237,12 @@ const RoadMap = () => {
 
             <div className={`${styles.blocks} ${styles.rows}`}>
               {category.rows.map((row) => (
-                <div key={row.id} className={styles.row}>
+                <div
+                  key={row.id}
+                  className={styles.row}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => handleTaskDrop(e, row, category)}
+                >
                   {row.tasks.map((task) => (
                     <TaskComponent
                       task={task}

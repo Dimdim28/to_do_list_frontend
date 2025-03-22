@@ -1,7 +1,7 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { useAppDispatch } from '../../../../hooks';
-import { updateTaskInCategory } from '../../../../redux/slices/roadmap/roadmap';
+import { updateRoadmapTaskInCategory } from '../../../../redux/slices/roadmap/roadmap';
 import { Task } from '../../../../redux/slices/roadmap/type';
 
 import styles from './styles.module.scss';
@@ -24,6 +24,7 @@ const TaskComponent: FC<TaskProps> = ({
   const dispatch = useAppDispatch();
 
   const [localTask, setLocalTask] = useState(task);
+  const localTaskRef = useRef(task);
 
   const resizingRef = useRef<{
     side: 'start' | 'end';
@@ -77,7 +78,11 @@ const TaskComponent: FC<TaskProps> = ({
         return;
     }
 
-    setLocalTask((prev) => ({ ...prev, [info.side]: newValue }));
+    setLocalTask((prev) => {
+      const updated = { ...prev, [info.side]: newValue };
+      localTaskRef.current = updated;
+      return updated;
+    });
   };
 
   const onResizeEnd = () => {
@@ -90,13 +95,13 @@ const TaskComponent: FC<TaskProps> = ({
 
     // ✅ Один раз отправляем в Redux и можно сделать API-запрос
     dispatch(
-      updateTaskInCategory({
+      updateRoadmapTaskInCategory({
         categoryId,
         rowId,
         taskId: localTask.id,
         updates: {
-          start: localTask.start,
-          end: localTask.end,
+          start: localTaskRef.current.start,
+          end: localTaskRef.current.end,
         },
       }),
     );
@@ -132,7 +137,11 @@ const TaskComponent: FC<TaskProps> = ({
     let newProgress = Math.round(info.initialProgress + deltaProgress);
     newProgress = Math.min(100, Math.max(0, newProgress));
 
-    setLocalTask((prev) => ({ ...prev, progress: newProgress }));
+    setLocalTask((prev) => {
+      const updated = { ...prev, progress: newProgress };
+      localTaskRef.current = updated;
+      return updated;
+    });
   };
 
   const onProgressResizeEnd = () => {
@@ -145,12 +154,12 @@ const TaskComponent: FC<TaskProps> = ({
 
     // ✅ Один раз отправляем прогресс в Redux и можно сделать API-запрос
     dispatch(
-      updateTaskInCategory({
+      updateRoadmapTaskInCategory({
         categoryId,
         rowId,
         taskId: localTask.id,
         updates: {
-          progress: localTask.progress,
+          progress: localTaskRef.current.progress,
         },
       }),
     );
@@ -159,13 +168,32 @@ const TaskComponent: FC<TaskProps> = ({
     // await api.updateTask(localTask.id, { progress: localTask.progress });
   };
 
+  useEffect(() => {
+    setLocalTask(task);
+  }, [task]);
+
   return (
     <div
       className={styles.task}
+      draggable
       style={{
         backgroundColor: categoryColor,
         left: `${localTask.start / totalQuarters}%`,
         right: `${(totalQuarters * 100 - localTask.end) / totalQuarters}%`,
+      }}
+      onDragStart={(e) => {
+        const dragData = JSON.stringify({
+          taskId: localTask.id,
+          categoryId,
+          rowId,
+          start: localTask.start,
+          end: localTask.end,
+          progress: localTask.progress,
+          offsetX: e.clientX,
+          title: localTask.title,
+          status: localTask.status,
+        });
+        e.dataTransfer.setData('application/json', dragData);
       }}
     >
       <div

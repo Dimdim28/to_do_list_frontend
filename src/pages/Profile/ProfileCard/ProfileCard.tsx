@@ -60,8 +60,8 @@ const ProfileCard: FC<ProfileCardProps> = ({
   >('no');
 
   const effectsImages = {
-    intro: profileData?.profileEffect.intro,
-    loop: profileData?.profileEffect.sides,
+    intro: profileData?.profileEffect?.intro,
+    loop: profileData?.profileEffect?.sides,
   };
 
   const banUserHandler = (id: string, isBanned: boolean) => {
@@ -78,7 +78,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
       }
       setAvatarEffectStatus('intro');
     }
-  }, [profileData?.profileEffect._id]);
+  }, [profileData?.profileEffect?._id]);
 
   useEffect(() => {
     if (avatarEffectStatus === 'intro') {
