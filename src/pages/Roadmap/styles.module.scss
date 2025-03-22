@@ -197,6 +197,47 @@
   }
 }
 
+.resizeLeft,
+.resizeRight {
+  transition:
+    background-color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  z-index: 3;
+  background-color: $white;
+  cursor: ew-resize;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resizeLeft {
+  left: 0;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  transform: translateX(-100%);
+}
+
+.resizeRight {
+  right: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  transform: translateX(100%);
+}
+
+.task:hover {
+  .resizeLeft,
+  .resizeRight {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
 .addRowIcon {
   width: 20px;
   height: 20px;
@@ -281,5 +322,10 @@
   }
   .quarterLine {
     background-color: black;
+  }
+
+  .resizeLeft,
+  .resizeRight {
+    background-color: $black;
   }
 }

@@ -33,7 +33,7 @@ export const initialData: RoadmapData = {
           tasks: [
             {
               id: 'task-1',
-              title: 'Two-Factor Authen...',
+              title: 'Two-Factor Authentefication',
               progress: 100,
               start: 10,
               end: 50,
@@ -72,7 +72,7 @@ export const initialData: RoadmapData = {
             },
             {
               id: 'task-7',
-              title: 'Multi-Account Mana...',
+              title: 'Multi-Account Management',
               progress: 10,
               start: 270,
               end: 350,
@@ -482,6 +482,31 @@ const canBanSlice = createSlice({
           : category,
       );
     },
+
+    updateTaskInCategory: (
+      state,
+      action: PayloadAction<{
+        categoryId: string;
+        rowId: string;
+        taskId: string;
+        updates: Partial<{
+          start: number;
+          end: number;
+          progress: number;
+          title: string;
+        }>;
+      }>,
+    ) => {
+      const { categoryId, rowId, taskId, updates } = action.payload;
+      const category = state.data?.categories.find((c) => c.id === categoryId);
+      if (!category) return;
+      const row = category.rows.find((r) => r.id === rowId);
+      if (!row) return;
+      const task = row.tasks.find((t) => t.id === taskId);
+      if (!task) return;
+
+      Object.assign(task, updates);
+    },
   },
 });
 
@@ -495,4 +520,5 @@ export const {
   addRoadmapCategory,
   addRoadmapNewQuarter,
   addRoadmapNewLineToCategory,
+  updateTaskInCategory,
 } = canBanSlice.actions;

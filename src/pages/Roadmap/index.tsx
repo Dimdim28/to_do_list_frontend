@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,6 +12,7 @@ import {
   setRoadmapCurrentCategory,
   setRoadmapIsDeletingCategoryOpened,
   setRoadmapIsEditingCategoryOpened,
+  updateTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
   selectRoadmapData,
@@ -19,7 +21,7 @@ import {
   selectRoadmapMessage,
   selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
-import { Category } from '../../redux/slices/roadmap/type';
+import { Category, Task } from '../../redux/slices/roadmap/type';
 import { Status } from '../../types/shared';
 
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
@@ -29,6 +31,15 @@ import styles from './styles.module.scss';
 
 const RoadMap = () => {
   const dispatch = useAppDispatch();
+
+  const resizingRef = useRef<{
+    taskId: string;
+    categoryId: string;
+    rowId: string;
+    side: 'start' | 'end';
+    initialX: number;
+    initialValue: number;
+  } | null>(null);
 
   const data = useAppSelector(selectRoadmapData);
   const status = useAppSelector(selectRoadmapStatus);
@@ -59,6 +70,79 @@ const RoadMap = () => {
   const handleEditProjectSettingsModal = () => {
     dispatch(setRoadmapCurrentCategory(null));
     dispatch(setRoadmapIsEditingCategoryOpened(true));
+  };
+
+  const onResizeStart = (
+    e: React.MouseEvent,
+    task: Task,
+    categoryId: string,
+    side: 'start' | 'end',
+  ) => {
+    e.stopPropagation();
+
+    const row = categories
+      .find((c) => c.id === categoryId)
+      ?.rows.find((r) => r.tasks.some((t) => t.id === task.id));
+
+    if (!row) return;
+
+    resizingRef.current = {
+      taskId: task.id,
+      categoryId,
+      rowId: row.id,
+      side,
+      initialX: e.clientX,
+      initialValue: task[side],
+    };
+
+    document.addEventListener('mousemove', onResizeMove);
+    document.addEventListener('mouseup', onResizeEnd);
+  };
+
+  const onResizeMove = (e: MouseEvent) => {
+    const info = resizingRef.current;
+    if (!info) return;
+
+    const deltaPx = e.clientX - info.initialX;
+    const roadmapWidth = 300 * totalQuarters;
+    const deltaValue = (deltaPx / roadmapWidth) * (totalQuarters * 100);
+
+    const category = categories.find((c) => c.id === info.categoryId);
+    const row = category?.rows.find((r) => r.id === info.rowId);
+    const task = row?.tasks.find((t) => t.id === info.taskId);
+
+    if (!task) return;
+
+    const newValue = Math.round(info.initialValue + deltaValue);
+    const maxValue = totalQuarters * 100;
+
+    if (newValue < 0 || newValue > maxValue) return;
+
+    if (info.side === 'start') {
+      if (newValue >= task.end) return;
+      if (task.end - newValue < 10) return;
+    }
+    if (info.side === 'end') {
+      if (newValue <= task.start) return;
+      if (newValue - task.start < 10) return;
+    }
+
+    dispatch(
+      updateTaskInCategory({
+        categoryId: info.categoryId,
+        rowId: info.rowId,
+        taskId: info.taskId,
+        updates: {
+          [info.side]: newValue,
+        },
+      }),
+    );
+  };
+
+  const onResizeEnd = () => {
+    resizingRef.current = null;
+    document.removeEventListener('mousemove', onResizeMove);
+    document.removeEventListener('mouseup', onResizeEnd);
   };
 
   return (
@@ -178,7 +262,19 @@ const RoadMap = () => {
                         }%`,
                       }}
                     >
+                      <div
+                        className={styles.resizeLeft}
+                        onMouseDown={(e) =>
+                          onResizeStart(e, task, category.id, 'start')
+                        }
+                      ></div>
                       <div className={styles.taskTitle}> {task.title}</div>
+                      <div
+                        className={styles.resizeRight}
+                        onMouseDown={(e) =>
+                          onResizeStart(e, task, category.id, 'end')
+                        }
+                      ></div>
                       <div
                         className={styles.taskProgress}
                         style={{ width: `${task.progress}%` }}
