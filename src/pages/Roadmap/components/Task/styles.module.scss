@@ -1,0 +1,108 @@
+@import 'src/styles/partials/theme';
+
+.task {
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  height: 100%;
+
+  .taskTitle {
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+    color: white;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .taskProgress {
+    border-radius: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    &:hover {
+      .progressHandle {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.resizeLeft,
+.resizeRight {
+  transition:
+    background-color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  z-index: 3;
+  background-color: $white;
+  cursor: ew-resize;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resizeLeft {
+  left: 0;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  transform: translateX(-100%);
+}
+
+.resizeRight {
+  right: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  transform: translateX(100%);
+}
+
+.task:hover {
+  .resizeLeft,
+  .resizeRight {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.progressHandle {
+  transition:
+    background-color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 5px;
+  height: 100%;
+  background-color: $black;
+  cursor: ew-resize;
+  z-index: 3;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  opacity: 0;
+}
+
+:global(.light_theme) {
+  .resizeLeft,
+  .resizeRight {
+    background-color: $black;
+  }
+  .progressHandle {
+    background-color: $white;
+  }
+}
