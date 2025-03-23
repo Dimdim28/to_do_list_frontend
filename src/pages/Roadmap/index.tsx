@@ -15,12 +15,15 @@ import {
   setRoadmapCurrentMilestone,
   setRoadmapCurrentQuarter,
   setRoadmapCurrentRow,
+  setRoadmapCurrentTask,
   setRoadmapIsDeletingCategoryOpened,
   setRoadmapIsDeletingMilestoneOpened,
   setRoadmapIsDeletingQuarterOpened,
   setRoadmapIsDeletingRowOpened,
+  setRoadmapIsDeletingTaskOpened,
   setRoadmapIsEditingCategoryOpened,
   setRoadmapIsEditingMilestoneOpened,
+  setRoadmapIsEditingTaskOpened,
   updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
@@ -29,8 +32,10 @@ import {
   selectRoadmapIsDeletingMilestoneModalOpened,
   selectRoadmapIsDeletingQuarterOpened,
   selectRoadmapIsDeletingRowOpened,
+  selectRoadmapIsDeletingTaskModalOpened,
   selectRoadmapIsEditingCategoryOpened,
   selectRoadmapIsEditingMilestoneModalOpened,
+  selectRoadmapIsEditingTaskModalOpened,
   selectRoadmapMessage,
   selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
@@ -45,6 +50,8 @@ import MilestoneForm from './components/MilestoneForm/MilestoneForm';
 import { QuarterDeleting } from './components/QuarterDeleting/QuarterDeleting';
 import { RowDeleting } from './components/RowDeleting/RowDeleting';
 import TaskComponent from './components/Task';
+import { TaskDeleting } from './components/TaskDeleting/TaskDeleting';
+import TaskForm from './components/TaskForm/TaskForm';
 
 import styles from './styles.module.scss';
 
@@ -69,6 +76,9 @@ const RoadMap = () => {
   const milestoneDeleting = useAppSelector(
     selectRoadmapIsDeletingMilestoneModalOpened,
   );
+
+  const taskEditing = useAppSelector(selectRoadmapIsEditingTaskModalOpened);
+  const taskDeleting = useAppSelector(selectRoadmapIsDeletingTaskModalOpened);
 
   if (status === Status.LOADING) return <Preloader />;
   if (!data) return <div className={styles.error}>{message}</div>;
@@ -303,9 +313,8 @@ const RoadMap = () => {
                       task={task}
                       totalQuarters={totalQuarters}
                       key={task.id}
-                      categoryId={category.id}
-                      rowId={row.id}
-                      categoryColor={category.color}
+                      category={category}
+                      row={row}
                     />
                   ))}
 
@@ -407,6 +416,30 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingMilestoneOpened(false));
         }}
         ChildComponent={MilestoneDeleting}
+        childProps={{}}
+      />
+
+      <Modal
+        active={taskEditing}
+        setActive={() => {
+          dispatch(setRoadmapCurrentTask(null));
+          dispatch(setRoadmapIsEditingTaskOpened(false));
+          dispatch(setRoadmapCurrentCategory(null));
+          dispatch(setRoadmapCurrentRow(null));
+        }}
+        ChildComponent={TaskForm}
+        childProps={{}}
+      />
+
+      <Modal
+        active={taskDeleting}
+        setActive={() => {
+          dispatch(setRoadmapCurrentTask(null));
+          dispatch(setRoadmapIsDeletingTaskOpened(false));
+          dispatch(setRoadmapCurrentCategory(null));
+          dispatch(setRoadmapCurrentRow(null));
+        }}
+        ChildComponent={TaskDeleting}
         childProps={{}}
       />
     </div>

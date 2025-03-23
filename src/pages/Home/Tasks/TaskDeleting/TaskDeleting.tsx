@@ -73,7 +73,7 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
         <>
           <div className={styles.modalContent}>
             <p>{isForSubTask ? t('reallyRejectSubTask') : t('reallyTask')}</p>
-            <h3>{truncate(title, 12)}</h3>
+            <h3>{truncate(title, 12)}?</h3>
           </div>
           <div className={styles.actions}>
             <Button text={t('no')} callback={cancel} class="cancel" />

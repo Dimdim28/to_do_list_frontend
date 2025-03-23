@@ -54,10 +54,13 @@ export type RoadmapSliceState = {
   currentRow: Row | null;
   currentQuarter: Quarter | null;
   currentMilestone: Milestone | null;
+  currentTask: Task | null;
   isDeletingCategoryOpened: boolean;
   isEditingCategoryOpened: boolean;
   isDeletingRowOpened: boolean;
   isDeletingQuarterModalOpened: boolean;
   isEditingMilestoneModalOpened: boolean;
   isDeletingMilestoneModalOpened: boolean;
+  isEditingTaskModalOpened: boolean;
+  isDeletingTaskModalOpened: boolean;
 };

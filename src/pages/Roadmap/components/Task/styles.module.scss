@@ -97,12 +97,74 @@
   opacity: 0;
 }
 
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 5px;
+  transition: opacity $transition-delay;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+  z-index: 4;
+}
+
+.task:hover {
+  .icons {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
 :global(.light_theme) {
   .resizeLeft,
   .resizeRight {
     background-color: $black;
   }
+
   .progressHandle {
     background-color: $white;
+  }
+
+  .pencil {
+    color: $black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
   }
 }

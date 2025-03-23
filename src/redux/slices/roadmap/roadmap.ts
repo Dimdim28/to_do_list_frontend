@@ -393,12 +393,15 @@ const initialState: RoadmapSliceState = {
   currentRow: null,
   currentMilestone: null,
   currentQuarter: null,
+  currentTask: null,
   isDeletingCategoryOpened: false,
   isEditingCategoryOpened: false,
   isDeletingRowOpened: false,
   isDeletingQuarterModalOpened: false,
   isEditingMilestoneModalOpened: false,
   isDeletingMilestoneModalOpened: false,
+  isEditingTaskModalOpened: false,
+  isDeletingTaskModalOpened: false,
 };
 
 const canBanSlice = createSlice({
@@ -699,6 +702,105 @@ const canBanSlice = createSlice({
 
       state.data.milestones = [...state.data.milestones, action.payload];
     },
+
+    setRoadmapCurrentTask: (state, action: PayloadAction<Task | null>) => {
+      state.currentTask = action.payload;
+    },
+
+    setRoadmapIsEditingTaskOpened: (state, action: PayloadAction<boolean>) => {
+      state.isEditingTaskModalOpened = action.payload;
+    },
+
+    setRoadmapIsDeletingTaskOpened: (state, action: PayloadAction<boolean>) => {
+      state.isDeletingTaskModalOpened = action.payload;
+    },
+
+    deleteRoadmapTask: (
+      state,
+      action: PayloadAction<{
+        categoryId: string;
+        rowId: string;
+        taskId: string;
+      }>,
+    ) => {
+      if (!state.data) return;
+
+      const { categoryId, rowId, taskId } = action.payload;
+
+      state.data.categories = state.data.categories.map((category) => {
+        if (category.id !== categoryId) return category;
+
+        return {
+          ...category,
+          rows: category.rows.map((row) => {
+            if (row.id !== rowId) return row;
+
+            return {
+              ...row,
+              tasks: row.tasks.filter((task) => task.id !== taskId),
+            };
+          }),
+        };
+      });
+    },
+
+    editRoadmapTask: (
+      state,
+      action: PayloadAction<{
+        categoryId: string;
+        rowId: string;
+        task: Task;
+      }>,
+    ) => {
+      if (!state.data) return;
+
+      const { categoryId, rowId, task } = action.payload;
+
+      state.data.categories = state.data.categories.map((category) => {
+        if (category.id !== categoryId) return category;
+
+        return {
+          ...category,
+          rows: category.rows.map((row) => {
+            if (row.id !== rowId) return row;
+
+            return {
+              ...row,
+              tasks: row.tasks.map((t) => (t.id === task.id ? task : t)),
+            };
+          }),
+        };
+      });
+    },
+
+    addRoadmapTask: (
+      state,
+      action: PayloadAction<{
+        categoryId: string;
+        rowId: string;
+        task: Task;
+      }>,
+    ) => {
+      if (!state.data) return;
+
+      const { categoryId, rowId, task } = action.payload;
+
+      state.data.categories = state.data.categories.map((category) => {
+        if (category.id !== categoryId) return category;
+
+        return {
+          ...category,
+          rows: category.rows.map((row) => {
+            if (row.id !== rowId) return row;
+
+            return {
+              ...row,
+              tasks: [...row.tasks, task],
+            };
+          }),
+        };
+      });
+    },
   },
 });
 
@@ -727,4 +829,10 @@ export const {
   deleteRoadmapMilestone,
   editRoadmapMilestone,
   addRoadmapMilestone,
+  setRoadmapCurrentTask,
+  setRoadmapIsEditingTaskOpened,
+  setRoadmapIsDeletingTaskOpened,
+  deleteRoadmapTask,
+  addRoadmapTask,
+  editRoadmapTask,
 } = canBanSlice.actions;

@@ -73,6 +73,9 @@ export const MOCK_OBJECT_ONE: RootState = {
     currentMilestone: null,
     isEditingMilestoneModalOpened: false,
     isDeletingMilestoneModalOpened: false,
+    currentTask: null,
+    isEditingTaskModalOpened: false,
+    isDeletingTaskModalOpened: false,
   },
 };
 
@@ -140,6 +143,9 @@ export const MOCK_OBJECT_TWO: RootState = {
     currentMilestone: null,
     isEditingMilestoneModalOpened: false,
     isDeletingMilestoneModalOpened: false,
+    currentTask: null,
+    isEditingTaskModalOpened: false,
+    isDeletingTaskModalOpened: false,
   },
 };
 
@@ -193,5 +199,8 @@ export const MOCK_OBJECT_THREE: RootState = {
     currentMilestone: null,
     isEditingMilestoneModalOpened: false,
     isDeletingMilestoneModalOpened: false,
+    currentTask: null,
+    isEditingTaskModalOpened: false,
+    isDeletingTaskModalOpened: false,
   },
 };

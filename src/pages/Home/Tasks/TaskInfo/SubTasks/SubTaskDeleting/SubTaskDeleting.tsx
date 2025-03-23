@@ -66,7 +66,7 @@ const SubTaskDeleting: FC<SubTaskDeletingProps> = ({
         <>
           <div className={styles.modalContent}>
             <p>{t('reallySubTask')}</p>
-            <h3>{truncate(title, 12)}</h3>
+            <h3>{truncate(title, 12)}?</h3>
           </div>
           <div className={styles.actions}>
             <Button text={t('no')} callback={cancel} class="cancel" />

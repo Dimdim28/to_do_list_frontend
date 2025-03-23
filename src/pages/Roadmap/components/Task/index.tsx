@@ -1,26 +1,33 @@
 import { FC, useEffect, useRef, useState } from 'react';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch } from '../../../../hooks';
-import { updateRoadmapTaskInCategory } from '../../../../redux/slices/roadmap/roadmap';
-import { Task } from '../../../../redux/slices/roadmap/type';
+import {
+  setRoadmapCurrentCategory,
+  setRoadmapCurrentRow,
+  setRoadmapCurrentTask,
+  setRoadmapIsDeletingTaskOpened,
+  setRoadmapIsEditingTaskOpened,
+  updateRoadmapTaskInCategory,
+} from '../../../../redux/slices/roadmap/roadmap';
+import { Category, Row, Task } from '../../../../redux/slices/roadmap/type';
 
 import styles from './styles.module.scss';
 
 interface TaskProps {
   totalQuarters: number;
   task: Task;
-  categoryId: string;
-  rowId: string;
-  categoryColor: string;
+  category: Category;
+  row: Row;
   allTasksInRow: Task[];
 }
 
 const TaskComponent: FC<TaskProps> = ({
   totalQuarters,
   task,
-  categoryId,
-  rowId,
-  categoryColor,
+  row,
+  category,
   allTasksInRow,
 }) => {
   const dispatch = useAppDispatch();
@@ -42,6 +49,9 @@ const TaskComponent: FC<TaskProps> = ({
   } | null>(null);
 
   const roadmapWidth = 300 * totalQuarters;
+  const categoryId = category.id;
+  const categoryColor = category.color;
+  const rowId = row.id;
 
   const onResizeStart = (e: React.MouseEvent, side: 'start' | 'end') => {
     e.stopPropagation();
@@ -178,6 +188,20 @@ const TaskComponent: FC<TaskProps> = ({
     // await api.updateTask(localTask.id, { progress: localTask.progress });
   };
 
+  const handleOpenEditTaskModal = (task: Task) => {
+    dispatch(setRoadmapCurrentTask(task));
+    dispatch(setRoadmapIsEditingTaskOpened(true));
+    dispatch(setRoadmapCurrentCategory(category));
+    dispatch(setRoadmapCurrentRow(row));
+  };
+
+  const handleOpenDeleteTaskModal = (task: Task) => {
+    dispatch(setRoadmapCurrentTask(task));
+    dispatch(setRoadmapIsDeletingTaskOpened(true));
+    dispatch(setRoadmapCurrentCategory(category));
+    dispatch(setRoadmapCurrentRow(row));
+  };
+
   useEffect(() => {
     setLocalTask(task);
   }, [task]);
@@ -222,6 +246,27 @@ const TaskComponent: FC<TaskProps> = ({
         <div
           className={styles.progressHandle}
           onMouseDown={onProgressResizeStart}
+        />
+      </div>
+
+      <div className={styles.icons}>
+        <FontAwesomeIcon
+          className={`${styles.icon} ${styles.pencil}`}
+          onClick={(e) => {
+            handleOpenEditTaskModal(task);
+            e.stopPropagation();
+          }}
+          fontSize="15px"
+          icon={faPencil}
+        />
+        <FontAwesomeIcon
+          fontSize="15px"
+          icon={faTrash}
+          className={`${styles.icon} ${styles.trash}`}
+          onClick={(e) => {
+            handleOpenDeleteTaskModal(task);
+            e.stopPropagation();
+          }}
         />
       </div>
     </div>
