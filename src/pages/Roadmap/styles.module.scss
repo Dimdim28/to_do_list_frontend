@@ -127,23 +127,12 @@
 }
 
 .milestonesRow {
+  overflow-x: hidden;
   display: flex;
   background-color: $background-dark-100;
   width: 100%;
   position: relative;
   transition: background-color $transition-delay;
-
-  .milestone {
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    border-left: 1px solid white;
-    transition: border-color $transition-delay;
-  }
 }
 
 .rows {

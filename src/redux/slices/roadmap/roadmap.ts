@@ -554,6 +554,24 @@ const canBanSlice = createSlice({
         return modified ? { ...category, rows: newRows } : category;
       });
     },
+
+    updateMilestonePosition: (
+      state,
+      action: PayloadAction<{ id: string; position: number }>,
+    ) => {
+      if (!state.data) return;
+
+      const { id, position } = action.payload;
+
+      state.data.milestones = state.data.milestones.map((milestone) =>
+        milestone.id === id
+          ? {
+              ...milestone,
+              position,
+            }
+          : milestone,
+      );
+    },
   },
 });
 
@@ -569,4 +587,5 @@ export const {
   addRoadmapNewLineToCategory,
   updateRoadmapTaskInCategory,
   moveRoadmapTask,
+  updateMilestonePosition,
 } = canBanSlice.actions;

@@ -27,6 +27,7 @@ import { Status } from '../../types/shared';
 
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
 import CategoryForm from './components/CategoryForm/CategoryForm';
+import MilestoneComponent from './components/Milestone';
 import TaskComponent from './components/Task';
 
 import styles from './styles.module.scss';
@@ -196,13 +197,11 @@ const RoadMap = () => {
           <div className={styles.blocks}>
             <div className={styles.milestonesRow}>
               {milestones.map((milestone) => (
-                <div
+                <MilestoneComponent
+                  totalQuarters={totalQuarters}
+                  milestone={milestone}
                   key={milestone.id}
-                  className={styles.milestone}
-                  style={{ left: `${milestone.position / totalQuarters}%` }}
-                >
-                  {milestone.title}
-                </div>
+                />
               ))}
             </div>
           </div>
