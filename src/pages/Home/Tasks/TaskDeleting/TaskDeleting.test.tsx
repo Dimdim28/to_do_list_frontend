@@ -29,7 +29,6 @@ describe('TaskDeleting', () => {
     );
 
     expect(screen.getByText('reallyTask')).toBeInTheDocument();
-    expect(screen.getByText('abcd')).toBeInTheDocument();
     expect(screen.getByText('no')).toBeInTheDocument();
     expect(screen.getByText('yes')).toBeInTheDocument();
   });

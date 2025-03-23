@@ -76,6 +76,7 @@ export const MOCK_OBJECT_ONE: RootState = {
     currentTask: null,
     isEditingTaskModalOpened: false,
     isDeletingTaskModalOpened: false,
+    clickPosition: 0,
   },
 };
 
@@ -146,6 +147,7 @@ export const MOCK_OBJECT_TWO: RootState = {
     currentTask: null,
     isEditingTaskModalOpened: false,
     isDeletingTaskModalOpened: false,
+    clickPosition: 0,
   },
 };
 
@@ -202,5 +204,6 @@ export const MOCK_OBJECT_THREE: RootState = {
     currentTask: null,
     isEditingTaskModalOpened: false,
     isDeletingTaskModalOpened: false,
+    clickPosition: 0,
   },
 };
