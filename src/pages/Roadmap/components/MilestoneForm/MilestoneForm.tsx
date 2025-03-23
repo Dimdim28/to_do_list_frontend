@@ -9,7 +9,10 @@ import {
   addRoadmapMilestone,
   editRoadmapMilestone,
 } from '../../../../redux/slices/roadmap/roadmap';
-import { selectRoadmapCurrentMilestone } from '../../../../redux/slices/roadmap/selectors';
+import {
+  selectRoadmapClickPosition,
+  selectRoadmapCurrentMilestone,
+} from '../../../../redux/slices/roadmap/selectors';
 import { Status } from '../../../../types/shared';
 
 import styles from './MilestoneForm.module.scss';
@@ -23,6 +26,7 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
   const { t } = useTranslation();
 
   const currentMilestone = useAppSelector(selectRoadmapCurrentMilestone);
+  const clickPosition = useAppSelector(selectRoadmapClickPosition);
 
   const [status] = useState(Status.SUCCESS);
   const [categoryError] = useState('');
@@ -53,13 +57,16 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
     if (currentMilestone) {
       dispatch(editRoadmapMilestone({ ...currentMilestone, title }));
     } else {
+      const start = clickPosition || 0;
+
       dispatch(
         addRoadmapMilestone({
-          position: 0,
+          position: start,
           title,
           id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
         }),
       );
+      setTittle('');
     }
   };
 

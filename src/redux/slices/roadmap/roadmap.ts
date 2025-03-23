@@ -402,6 +402,7 @@ const initialState: RoadmapSliceState = {
   isDeletingMilestoneModalOpened: false,
   isEditingTaskModalOpened: false,
   isDeletingTaskModalOpened: false,
+  clickPosition: 0,
 };
 
 const canBanSlice = createSlice({
@@ -801,6 +802,10 @@ const canBanSlice = createSlice({
         };
       });
     },
+
+    setRoadmapClickPosition: (state, action: PayloadAction<number>) => {
+      state.clickPosition = action.payload;
+    },
   },
 });
 
@@ -835,4 +840,5 @@ export const {
   deleteRoadmapTask,
   addRoadmapTask,
   editRoadmapTask,
+  setRoadmapClickPosition,
 } = canBanSlice.actions;

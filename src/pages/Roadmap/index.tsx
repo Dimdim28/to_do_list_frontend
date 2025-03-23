@@ -11,6 +11,7 @@ import {
   addRoadmapNewLineToCategory,
   addRoadmapNewQuarter,
   moveRoadmapTask,
+  setRoadmapClickPosition,
   setRoadmapCurrentCategory,
   setRoadmapCurrentMilestone,
   setRoadmapCurrentQuarter,
@@ -111,6 +112,69 @@ const RoadMap = () => {
   const handleOpenDeleteQuarteerModal = (quarter: Quarter) => {
     dispatch(setRoadmapCurrentQuarter(quarter));
     dispatch(setRoadmapIsDeletingQuarterOpened(true));
+  };
+
+  const handleRowDoubleClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    row: Row,
+    category: Category,
+  ) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const rowWidth = rect.width;
+
+    const timelineWidth = totalQuarters * 100;
+    const timelineValue = Math.round((clickX / rowWidth) * timelineWidth);
+
+    const taskLength = 12;
+    const buffer = 2;
+
+    const newStart = timelineValue;
+    const newEnd = newStart + taskLength;
+
+    const hasOverlap = row.tasks.some(
+      (task) =>
+        !(task.end + buffer <= newStart || task.start >= newEnd + buffer),
+    );
+
+    const outOfBounds = newEnd > timelineWidth || newStart < 0;
+
+    if (hasOverlap || outOfBounds) {
+      return;
+    }
+
+    dispatch(setRoadmapClickPosition(newStart));
+    dispatch(setRoadmapCurrentCategory(category));
+    dispatch(setRoadmapCurrentRow(row));
+    dispatch(setRoadmapCurrentTask(null));
+    dispatch(setRoadmapIsEditingTaskOpened(true));
+  };
+
+  const handleMilestoneDoubleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+
+    const clickX = e.clientX - rect.left;
+    const percent = clickX / rect.width;
+
+    const timelineValue = Math.round(percent * totalQuarters * 100);
+    const maxPosition = totalQuarters * 100;
+
+    const minDistance = 10;
+
+    const isTooClose = milestones.some(
+      (m) => Math.abs(m.position - timelineValue) < minDistance,
+    );
+
+    const outOfBounds = timelineValue < 5 || timelineValue > maxPosition - 10;
+
+    if (isTooClose || outOfBounds) {
+      return;
+    }
+
+    dispatch(setRoadmapClickPosition(timelineValue));
+    dispatch(setRoadmapCurrentMilestone(null));
+    dispatch(setRoadmapIsEditingMilestoneOpened(true));
   };
 
   const handleTaskDrop = (
@@ -254,7 +318,10 @@ const RoadMap = () => {
             {t('milestones')}
           </div>
           <div className={styles.blocks}>
-            <div className={styles.milestonesRow}>
+            <div
+              className={styles.milestonesRow}
+              onDoubleClick={handleMilestoneDoubleClick}
+            >
               {milestones.map((milestone) => (
                 <MilestoneComponent
                   totalQuarters={totalQuarters}
@@ -302,6 +369,7 @@ const RoadMap = () => {
             <div className={`${styles.blocks} ${styles.rows}`}>
               {category.rows.map((row) => (
                 <div
+                  onDoubleClick={(e) => handleRowDoubleClick(e, row, category)}
                   key={row.id}
                   className={styles.row}
                   onDragOver={(e) => e.preventDefault()}
@@ -404,6 +472,7 @@ const RoadMap = () => {
         setActive={() => {
           dispatch(setRoadmapCurrentMilestone(null));
           dispatch(setRoadmapIsEditingMilestoneOpened(false));
+          dispatch(setRoadmapClickPosition(0));
         }}
         ChildComponent={MilestoneForm}
         childProps={{}}
@@ -426,6 +495,7 @@ const RoadMap = () => {
           dispatch(setRoadmapIsEditingTaskOpened(false));
           dispatch(setRoadmapCurrentCategory(null));
           dispatch(setRoadmapCurrentRow(null));
+          dispatch(setRoadmapClickPosition(0));
         }}
         ChildComponent={TaskForm}
         childProps={{}}

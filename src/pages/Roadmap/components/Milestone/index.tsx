@@ -56,7 +56,7 @@ const MilestoneComponent: FC<MilestoneProps> = ({
     const deltaValue = (deltaPx / roadmapWidth) * maxPosition;
     const newPos = Math.round(dragStateRef.current.startPosition + deltaValue);
 
-    if (newPos >= 0 && newPos <= maxPosition - 1) {
+    if (newPos >= 5 && newPos <= maxPosition - 1) {
       setPosition(newPos);
     }
   };

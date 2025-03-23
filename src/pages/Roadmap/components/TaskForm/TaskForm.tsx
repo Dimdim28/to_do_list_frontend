@@ -10,6 +10,7 @@ import {
   editRoadmapTask,
 } from '../../../../redux/slices/roadmap/roadmap';
 import {
+  selectRoadmapClickPosition,
   selectRoadmapCurrentCategory,
   selectRoadmapCurrentRow,
   selectRoadmapCurrentTask,
@@ -29,6 +30,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
   const currentTask = useAppSelector(selectRoadmapCurrentTask);
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
   const currentRow = useAppSelector(selectRoadmapCurrentRow);
+  const clickPosition = useAppSelector(selectRoadmapClickPosition);
 
   const [status] = useState(Status.SUCCESS);
   const [categoryError] = useState('');
@@ -66,13 +68,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
         }),
       );
     } else {
+      const start = clickPosition || 0;
       dispatch(
         addRoadmapTask({
           task: {
             status: 'in_progress',
             progress: 0,
-            start: 0,
-            end: 10,
+            start: start,
+            end: start + 10,
             title,
             id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
           },
@@ -80,6 +83,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
           rowId: currentRow.id,
         }),
       );
+      setTittle('');
     }
   };
 

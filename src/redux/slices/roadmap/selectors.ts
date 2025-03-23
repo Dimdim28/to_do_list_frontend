@@ -13,6 +13,8 @@ export const selectRoadmapCurrentMilestone = (state: RootState) =>
   state.roadmap.currentMilestone;
 export const selectRoadmapCurrentTask = (state: RootState) =>
   state.roadmap.currentTask;
+export const selectRoadmapClickPosition = (state: RootState) =>
+  state.roadmap.clickPosition;
 export const selectRoadmapIsEditingCategoryOpened = (state: RootState) =>
   state.roadmap.isEditingCategoryOpened;
 export const selectRoadmapIsDeletingCategoryOpened = (state: RootState) =>
