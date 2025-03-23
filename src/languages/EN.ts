@@ -41,6 +41,7 @@ const EN = {
   reallyСategory: 'Do you really want to delete category',
   reallyRow: 'Do you really want to delete row from',
   reallyQuarter: 'Do you really want to delete quarter?',
+  reallyMilestone: 'Do you really want to delete milestone',
   description: 'Description',
   taskHasDeadline: 'Task has deadline?',
   taskCompleted: 'Task completed?',
@@ -130,6 +131,7 @@ const EN = {
   noNotifications: 'No notifications',
   banUser: 'Ban User',
   revokeUser: 'Revoke User',
+  milestones: 'Milestones',
 };
 
 export default EN;

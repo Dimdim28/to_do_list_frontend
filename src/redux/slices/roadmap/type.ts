@@ -34,8 +34,7 @@ export type Quarter = {
 export type Milestone = {
   id: string;
   title: string;
-  position: number; // Например, 150 — середина Q2
-  icon?: string; // Иконка для отображения (если нужна)
+  position: number;
 };
 
 export type RoadmapData = {
@@ -54,8 +53,11 @@ export type RoadmapSliceState = {
   currentCategory: Category | null;
   currentRow: Row | null;
   currentQuarter: Quarter | null;
+  currentMilestone: Milestone | null;
   isDeletingCategoryOpened: boolean;
   isEditingCategoryOpened: boolean;
   isDeletingRowOpened: boolean;
   isDeletingQuarterModalOpened: boolean;
+  isEditingMilestoneModalOpened: boolean;
+  isDeletingMilestoneModalOpened: boolean;
 };

@@ -41,6 +41,7 @@ const UA = {
   reallyСategory: 'Ви дійсно хочете видалити категорію',
   reallyRow: 'Ви дійсно хочете видалити рядок з',
   reallyQuarter: 'Ви дійсно хочете видалити квартал?',
+  reallyMilestone: 'Ви дійсно хочете видалити віху',
   description: 'Опис',
   taskHasDeadline: 'Завдання має строк?',
   taskCompleted: 'Завдання виконано?',
@@ -131,6 +132,7 @@ const UA = {
   noNotifications: 'Нема сповіщень',
   banUser: 'Заблокувати',
   revokeUser: 'Розблокувати',
+  milestones: 'Віхи',
 };
 
 export default UA;

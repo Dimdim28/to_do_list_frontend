@@ -1,7 +1,14 @@
 import { FC, useRef, useState } from 'react';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch } from '../../../../hooks';
-import { updateMilestonePosition } from '../../../../redux/slices/roadmap/roadmap';
+import {
+  setRoadmapCurrentMilestone,
+  setRoadmapIsDeletingMilestoneOpened,
+  setRoadmapIsEditingMilestoneOpened,
+  updateMilestonePosition,
+} from '../../../../redux/slices/roadmap/roadmap';
 import { Milestone } from '../../../../redux/slices/roadmap/type';
 
 import styles from './styles.module.scss';
@@ -49,7 +56,7 @@ const MilestoneComponent: FC<MilestoneProps> = ({
     const deltaValue = (deltaPx / roadmapWidth) * maxPosition;
     const newPos = Math.round(dragStateRef.current.startPosition + deltaValue);
 
-    if (newPos >= 0 && newPos <= maxPosition) {
+    if (newPos >= 0 && newPos <= maxPosition - 1) {
       setPosition(newPos);
     }
   };
@@ -66,6 +73,16 @@ const MilestoneComponent: FC<MilestoneProps> = ({
     document.removeEventListener('mouseup', onMouseUp);
   };
 
+  const handleEditMilestoneOpenModal = (milestone: Milestone) => {
+    dispatch(setRoadmapCurrentMilestone(milestone));
+    dispatch(setRoadmapIsEditingMilestoneOpened(true));
+  };
+
+  const handleDeleteMilestoneOpenModal = (milestone: Milestone) => {
+    dispatch(setRoadmapCurrentMilestone(milestone));
+    dispatch(setRoadmapIsDeletingMilestoneOpened(true));
+  };
+
   return (
     <div
       className={styles.milestone}
@@ -74,6 +91,26 @@ const MilestoneComponent: FC<MilestoneProps> = ({
       <div className={styles.milestoneContent}>
         <div className={styles.dragHandle} onMouseDown={onMouseDown} />
         <p>{milestone.title}</p>
+      </div>
+      <div className={styles.icons}>
+        <FontAwesomeIcon
+          className={`${styles.icon} ${styles.pencil}`}
+          onClick={(e) => {
+            handleEditMilestoneOpenModal(milestone);
+            e.stopPropagation();
+          }}
+          fontSize="15px"
+          icon={faPencil}
+        />
+        <FontAwesomeIcon
+          fontSize="15px"
+          icon={faTrash}
+          className={`${styles.icon} ${styles.trash}`}
+          onClick={(e) => {
+            handleDeleteMilestoneOpenModal(milestone);
+            e.stopPropagation();
+          }}
+        />
       </div>
     </div>
   );

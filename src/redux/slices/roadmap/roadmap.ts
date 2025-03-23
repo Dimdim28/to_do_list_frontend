@@ -4,6 +4,7 @@ import { Status } from '../../../types/shared';
 
 import {
   Category,
+  Milestone,
   Quarter,
   RoadmapData,
   RoadmapSliceState,
@@ -390,11 +391,14 @@ const initialState: RoadmapSliceState = {
   status: Status.SUCCESS,
   currentCategory: null,
   currentRow: null,
+  currentMilestone: null,
+  currentQuarter: null,
   isDeletingCategoryOpened: false,
   isEditingCategoryOpened: false,
   isDeletingRowOpened: false,
-  currentQuarter: null,
   isDeletingQuarterModalOpened: false,
+  isEditingMilestoneModalOpened: false,
+  isDeletingMilestoneModalOpened: false,
 };
 
 const canBanSlice = createSlice({
@@ -652,6 +656,49 @@ const canBanSlice = createSlice({
         })),
       }));
     },
+
+    setRoadmapCurrentMilestone: (
+      state,
+      action: PayloadAction<Milestone | null>,
+    ) => {
+      state.currentMilestone = action.payload;
+    },
+
+    setRoadmapIsEditingMilestoneOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isEditingMilestoneModalOpened = action.payload;
+    },
+
+    setRoadmapIsDeletingMilestoneOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isDeletingMilestoneModalOpened = action.payload;
+    },
+
+    deleteRoadmapMilestone: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+
+      state.data.milestones = state.data.milestones.filter(
+        (milestone) => milestone.id !== action.payload,
+      );
+    },
+
+    editRoadmapMilestone: (state, action: PayloadAction<Milestone>) => {
+      if (!state.data) return;
+
+      state.data.milestones = state.data.milestones.map((milestone) =>
+        milestone.id === action.payload.id ? action.payload : milestone,
+      );
+    },
+
+    addRoadmapMilestone: (state, action: PayloadAction<Milestone>) => {
+      if (!state.data) return;
+
+      state.data.milestones = [...state.data.milestones, action.payload];
+    },
   },
 });
 
@@ -674,4 +721,10 @@ export const {
   setRoadmapCurrentQuarter,
   setRoadmapIsDeletingQuarterOpened,
   deleteRoadmapQuarter,
+  setRoadmapCurrentMilestone,
+  setRoadmapIsEditingMilestoneOpened,
+  setRoadmapIsDeletingMilestoneOpened,
+  deleteRoadmapMilestone,
+  editRoadmapMilestone,
+  addRoadmapMilestone,
 } = canBanSlice.actions;

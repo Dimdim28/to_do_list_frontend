@@ -70,6 +70,9 @@ export const MOCK_OBJECT_ONE: RootState = {
     isDeletingRowOpened: false,
     currentQuarter: null,
     isDeletingQuarterModalOpened: false,
+    currentMilestone: null,
+    isEditingMilestoneModalOpened: false,
+    isDeletingMilestoneModalOpened: false,
   },
 };
 
@@ -134,6 +137,9 @@ export const MOCK_OBJECT_TWO: RootState = {
     isDeletingRowOpened: false,
     currentQuarter: null,
     isDeletingQuarterModalOpened: false,
+    currentMilestone: null,
+    isEditingMilestoneModalOpened: false,
+    isDeletingMilestoneModalOpened: false,
   },
 };
 
@@ -184,5 +190,8 @@ export const MOCK_OBJECT_THREE: RootState = {
     isDeletingRowOpened: false,
     currentQuarter: null,
     isDeletingQuarterModalOpened: false,
+    currentMilestone: null,
+    isEditingMilestoneModalOpened: false,
+    isDeletingMilestoneModalOpened: false,
   },
 };

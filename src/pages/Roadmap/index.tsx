@@ -1,4 +1,5 @@
 import { DragEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,20 +12,25 @@ import {
   addRoadmapNewQuarter,
   moveRoadmapTask,
   setRoadmapCurrentCategory,
+  setRoadmapCurrentMilestone,
   setRoadmapCurrentQuarter,
   setRoadmapCurrentRow,
   setRoadmapIsDeletingCategoryOpened,
+  setRoadmapIsDeletingMilestoneOpened,
   setRoadmapIsDeletingQuarterOpened,
   setRoadmapIsDeletingRowOpened,
   setRoadmapIsEditingCategoryOpened,
+  setRoadmapIsEditingMilestoneOpened,
   updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
   selectRoadmapData,
   selectRoadmapIsDeletingCategoryOpened,
+  selectRoadmapIsDeletingMilestoneModalOpened,
   selectRoadmapIsDeletingQuarterOpened,
   selectRoadmapIsDeletingRowOpened,
   selectRoadmapIsEditingCategoryOpened,
+  selectRoadmapIsEditingMilestoneModalOpened,
   selectRoadmapMessage,
   selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
@@ -34,6 +40,8 @@ import { Status } from '../../types/shared';
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
 import CategoryForm from './components/CategoryForm/CategoryForm';
 import MilestoneComponent from './components/Milestone';
+import { MilestoneDeleting } from './components/MilestoneDeleting/MilestoneDeleting';
+import MilestoneForm from './components/MilestoneForm/MilestoneForm';
 import { QuarterDeleting } from './components/QuarterDeleting/QuarterDeleting';
 import { RowDeleting } from './components/RowDeleting/RowDeleting';
 import TaskComponent from './components/Task';
@@ -42,6 +50,7 @@ import styles from './styles.module.scss';
 
 const RoadMap = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const data = useAppSelector(selectRoadmapData);
   const status = useAppSelector(selectRoadmapStatus);
@@ -53,6 +62,13 @@ const RoadMap = () => {
   );
   const rowDeleting = useAppSelector(selectRoadmapIsDeletingRowOpened);
   const quarterDeleting = useAppSelector(selectRoadmapIsDeletingQuarterOpened);
+
+  const milestoneEditing = useAppSelector(
+    selectRoadmapIsEditingMilestoneModalOpened,
+  );
+  const milestoneDeleting = useAppSelector(
+    selectRoadmapIsDeletingMilestoneModalOpened,
+  );
 
   if (status === Status.LOADING) return <Preloader />;
   if (!data) return <div className={styles.error}>{message}</div>;
@@ -225,7 +241,7 @@ const RoadMap = () => {
               backgroundColor: '#4066FE',
             }}
           >
-            Milestones
+            {t('milestones')}
           </div>
           <div className={styles.blocks}>
             <div className={styles.milestonesRow}>
@@ -371,6 +387,26 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingQuarterOpened(false));
         }}
         ChildComponent={QuarterDeleting}
+        childProps={{}}
+      />
+
+      <Modal
+        active={milestoneEditing}
+        setActive={() => {
+          dispatch(setRoadmapCurrentMilestone(null));
+          dispatch(setRoadmapIsEditingMilestoneOpened(false));
+        }}
+        ChildComponent={MilestoneForm}
+        childProps={{}}
+      />
+
+      <Modal
+        active={milestoneDeleting}
+        setActive={() => {
+          dispatch(setRoadmapCurrentMilestone(null));
+          dispatch(setRoadmapIsDeletingMilestoneOpened(false));
+        }}
+        ChildComponent={MilestoneDeleting}
         childProps={{}}
       />
     </div>
