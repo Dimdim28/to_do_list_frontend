@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
 
-import { Category, RoadmapData, RoadmapSliceState, Task } from './type';
+import { Category, RoadmapData, RoadmapSliceState, Row, Task } from './type';
 
 export const initialData: RoadmapData = {
   id: 'roadmap-1',
@@ -382,8 +382,10 @@ const initialState: RoadmapSliceState = {
   data: initialData,
   status: Status.SUCCESS,
   currentCategory: null,
+  currentRow: null,
   isDeletingCategoryOpened: false,
   isEditingCategoryOpened: false,
+  isDeletingRowOpened: false,
 };
 
 const canBanSlice = createSlice({
@@ -407,6 +409,14 @@ const canBanSlice = createSlice({
       action: PayloadAction<boolean>,
     ) => {
       state.isEditingCategoryOpened = action.payload;
+    },
+
+    setRoadmapCurrentRow: (state, action: PayloadAction<Row | null>) => {
+      state.currentRow = action.payload;
+    },
+
+    setRoadmapIsDeletingRowOpened: (state, action: PayloadAction<boolean>) => {
+      state.isDeletingRowOpened = action.payload;
     },
 
     editRoadmapCategory: (
@@ -572,6 +582,24 @@ const canBanSlice = createSlice({
           : milestone,
       );
     },
+
+    deleteRoadmapRow: (
+      state,
+      action: PayloadAction<{ rowId: string; categoryId: string }>,
+    ) => {
+      if (!state.data) return;
+
+      state.data.categories = state.data.categories.map((category) =>
+        category.id === action.payload.categoryId
+          ? {
+              ...category,
+              rows: category.rows.filter(
+                (row) => row.id !== action.payload.rowId,
+              ),
+            }
+          : category,
+      );
+    },
   },
 });
 
@@ -588,4 +616,7 @@ export const {
   updateRoadmapTaskInCategory,
   moveRoadmapTask,
   updateMilestonePosition,
+  setRoadmapCurrentRow,
+  setRoadmapIsDeletingRowOpened,
+  deleteRoadmapRow,
 } = canBanSlice.actions;

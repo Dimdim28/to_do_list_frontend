@@ -1,4 +1,4 @@
-import { Dispatch, FC,SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import categoryAPI from '../../../../../api/categoryAPI';
@@ -57,7 +57,7 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
         <>
           <div className={styles.modalContent}>
             <p>{t('reallyСategory')}</p>
-            <h3 style={{ color }}>{truncate(title, 12)}</h3>
+            <h3 style={{ color }}>{truncate(title, 12)}?</h3>
           </div>
           <div className={styles.buttons}>
             <Button text={t('no')} callback={cancel} class="cancel" />

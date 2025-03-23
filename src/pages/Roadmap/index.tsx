@@ -11,13 +11,16 @@ import {
   addRoadmapNewQuarter,
   moveRoadmapTask,
   setRoadmapCurrentCategory,
+  setRoadmapCurrentRow,
   setRoadmapIsDeletingCategoryOpened,
+  setRoadmapIsDeletingRowOpened,
   setRoadmapIsEditingCategoryOpened,
   updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
   selectRoadmapData,
   selectRoadmapIsDeletingCategoryOpened,
+  selectRoadmapIsDeletingRowOpened,
   selectRoadmapIsEditingCategoryOpened,
   selectRoadmapMessage,
   selectRoadmapStatus,
@@ -28,6 +31,7 @@ import { Status } from '../../types/shared';
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
 import CategoryForm from './components/CategoryForm/CategoryForm';
 import MilestoneComponent from './components/Milestone';
+import { RowDeleting } from './components/RowDeleting/RowDeleting';
 import TaskComponent from './components/Task';
 
 import styles from './styles.module.scss';
@@ -43,6 +47,7 @@ const RoadMap = () => {
   const categoryDeleting = useAppSelector(
     selectRoadmapIsDeletingCategoryOpened,
   );
+  const rowDeleting = useAppSelector(selectRoadmapIsDeletingRowOpened);
 
   if (status === Status.LOADING) return <Preloader />;
   if (!data) return <div className={styles.error}>{message}</div>;
@@ -64,6 +69,12 @@ const RoadMap = () => {
   const handleEditProjectSettingsModal = () => {
     dispatch(setRoadmapCurrentCategory(null));
     dispatch(setRoadmapIsEditingCategoryOpened(true));
+  };
+
+  const handleOpenDeleteRowModal = (row: Row, category: Category) => {
+    dispatch(setRoadmapCurrentRow(row));
+    dispatch(setRoadmapCurrentCategory(category));
+    dispatch(setRoadmapIsDeletingRowOpened(true));
   };
 
   const handleTaskDrop = (
@@ -259,6 +270,16 @@ const RoadMap = () => {
                       categoryColor={category.color}
                     />
                   ))}
+
+                  <FontAwesomeIcon
+                    fontSize="15px"
+                    icon={faTrash}
+                    className={styles.removeRowIcon}
+                    onClick={(e) => {
+                      handleOpenDeleteRowModal(row, category);
+                      e.stopPropagation();
+                    }}
+                  />
                 </div>
               ))}
 
@@ -296,6 +317,7 @@ const RoadMap = () => {
         setActive={() => {
           dispatch(setRoadmapCurrentCategory(null));
           dispatch(setRoadmapIsEditingCategoryOpened(false));
+          dispatch(setRoadmapCurrentCategory(null));
         }}
         ChildComponent={CategoryForm}
         childProps={{}}
@@ -307,6 +329,16 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingCategoryOpened(false));
         }}
         ChildComponent={CategoryDeleting}
+        childProps={{}}
+      />
+
+      <Modal
+        active={rowDeleting}
+        setActive={() => {
+          dispatch(setRoadmapCurrentRow(null));
+          dispatch(setRoadmapIsDeletingRowOpened(false));
+        }}
+        ChildComponent={RowDeleting}
         childProps={{}}
       />
     </div>

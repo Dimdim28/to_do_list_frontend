@@ -5,29 +5,31 @@ import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { deleteRoadmapCategory } from '../../../../redux/slices/roadmap/roadmap';
-import { selectRoadmapCurrentCategory } from '../../../../redux/slices/roadmap/selectors';
+import { deleteRoadmapRow } from '../../../../redux/slices/roadmap/roadmap';
+import {
+  selectRoadmapCurrentCategory,
+  selectRoadmapCurrentRow,
+} from '../../../../redux/slices/roadmap/selectors';
 import { Status } from '../../../../types/shared';
 
-import styles from './CategoryDeleting.module.scss';
+import styles from './RowDeleting.module.scss';
 
-interface CategoryDeletingProps {
+interface RowDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
 }
 
-export const CategoryDeleting: FC<CategoryDeletingProps> = ({
-  toggleActive,
-}) => {
+export const RowDeleting: FC<RowDeletingProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const currentRow = useAppSelector(selectRoadmapCurrentRow);
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
 
   const [status] = useState(Status.SUCCESS);
   const [categoryError] = useState('');
 
   const submit = async () => {
-    if (!currentCategory) return;
+    if (!currentRow || !currentCategory) return;
     // setStatus(Status.LOADING);
     // const result = await categoryAPI.deleteCategory(_id);
     // const { message, status } = result;
@@ -38,7 +40,12 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
     //   dispatch(removeCategoryFromTasksList(_id));
     toggleActive(false);
     // }
-    dispatch(deleteRoadmapCategory(currentCategory.id));
+    dispatch(
+      deleteRoadmapRow({
+        rowId: currentRow.id,
+        categoryId: currentCategory.id,
+      }),
+    );
   };
 
   const cancel = () => {
@@ -52,7 +59,7 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
       ) : (
         <>
           <div className={styles.modalContent}>
-            <p>{t('reallyСategory')}</p>
+            <p>{t('reallyRow')}</p>
             <h3 style={{ color: currentCategory?.color }}>
               {truncate(currentCategory?.title || '', 12)}?
             </h3>

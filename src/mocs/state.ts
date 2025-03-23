@@ -66,6 +66,8 @@ export const MOCK_OBJECT_ONE: RootState = {
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
+    currentRow: null,
+    isDeletingRowOpened: false,
   },
 };
 
@@ -126,6 +128,8 @@ export const MOCK_OBJECT_TWO: RootState = {
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
+    currentRow: null,
+    isDeletingRowOpened: false,
   },
 };
 
@@ -172,5 +176,7 @@ export const MOCK_OBJECT_THREE: RootState = {
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
+    currentRow: null,
+    isDeletingRowOpened: false,
   },
 };

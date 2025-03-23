@@ -52,6 +52,8 @@ export type RoadmapSliceState = {
   status: Status;
   message?: string;
   currentCategory: Category | null;
+  currentRow: Row | null;
   isDeletingCategoryOpened: boolean;
   isEditingCategoryOpened: boolean;
+  isDeletingRowOpened: boolean;
 };

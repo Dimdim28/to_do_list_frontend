@@ -219,6 +219,39 @@
   }
 }
 
+.removeRowIcon {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(100%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  color: $white;
+  transition:
+    opacity $transition-delay,
+    color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .removeRowIcon {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.row:hover {
+  .removeRowIcon {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
 :global(.light_theme) {
   .wrapper {
     color: black;
