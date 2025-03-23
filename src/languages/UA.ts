@@ -40,6 +40,7 @@ const UA = {
   submit: 'Підтвердити',
   reallyСategory: 'Ви дійсно хочете видалити категорію',
   reallyRow: 'Ви дійсно хочете видалити рядок з',
+  reallyQuarter: 'Ви дійсно хочете видалити квартал?',
   description: 'Опис',
   taskHasDeadline: 'Завдання має строк?',
   taskCompleted: 'Завдання виконано?',

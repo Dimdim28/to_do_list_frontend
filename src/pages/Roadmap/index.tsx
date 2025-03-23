@@ -11,8 +11,10 @@ import {
   addRoadmapNewQuarter,
   moveRoadmapTask,
   setRoadmapCurrentCategory,
+  setRoadmapCurrentQuarter,
   setRoadmapCurrentRow,
   setRoadmapIsDeletingCategoryOpened,
+  setRoadmapIsDeletingQuarterOpened,
   setRoadmapIsDeletingRowOpened,
   setRoadmapIsEditingCategoryOpened,
   updateRoadmapTaskInCategory,
@@ -20,17 +22,19 @@ import {
 import {
   selectRoadmapData,
   selectRoadmapIsDeletingCategoryOpened,
+  selectRoadmapIsDeletingQuarterOpened,
   selectRoadmapIsDeletingRowOpened,
   selectRoadmapIsEditingCategoryOpened,
   selectRoadmapMessage,
   selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
-import { Category, Row } from '../../redux/slices/roadmap/type';
+import { Category, Quarter, Row } from '../../redux/slices/roadmap/type';
 import { Status } from '../../types/shared';
 
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
 import CategoryForm from './components/CategoryForm/CategoryForm';
 import MilestoneComponent from './components/Milestone';
+import { QuarterDeleting } from './components/QuarterDeleting/QuarterDeleting';
 import { RowDeleting } from './components/RowDeleting/RowDeleting';
 import TaskComponent from './components/Task';
 
@@ -48,6 +52,7 @@ const RoadMap = () => {
     selectRoadmapIsDeletingCategoryOpened,
   );
   const rowDeleting = useAppSelector(selectRoadmapIsDeletingRowOpened);
+  const quarterDeleting = useAppSelector(selectRoadmapIsDeletingQuarterOpened);
 
   if (status === Status.LOADING) return <Preloader />;
   if (!data) return <div className={styles.error}>{message}</div>;
@@ -75,6 +80,11 @@ const RoadMap = () => {
     dispatch(setRoadmapCurrentRow(row));
     dispatch(setRoadmapCurrentCategory(category));
     dispatch(setRoadmapIsDeletingRowOpened(true));
+  };
+
+  const handleOpenDeleteQuarteerModal = (quarter: Quarter) => {
+    dispatch(setRoadmapCurrentQuarter(quarter));
+    dispatch(setRoadmapIsDeletingQuarterOpened(true));
   };
 
   const handleTaskDrop = (
@@ -176,13 +186,25 @@ const RoadMap = () => {
           <div className={styles.category}></div>
           <div className={styles.blocks}>
             <div className={styles.quarteers}>
-              {quarters.map((quarteer) => (
+              {quarters.map((quarteer, id) => (
                 <div
                   key={quarteer.id}
                   className={styles.quarteer}
                   style={{ width: `${100 / totalQuarters}%` }}
                 >
                   {quarteer.title}
+
+                  {id === quarters.length - 1 ? (
+                    <FontAwesomeIcon
+                      fontSize="15px"
+                      icon={faTrash}
+                      className={styles.removeQuarterIcon}
+                      onClick={(e) => {
+                        handleOpenDeleteQuarteerModal(quarteer);
+                        e.stopPropagation();
+                      }}
+                    />
+                  ) : null}
                 </div>
               ))}
 
@@ -339,6 +361,16 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingRowOpened(false));
         }}
         ChildComponent={RowDeleting}
+        childProps={{}}
+      />
+
+      <Modal
+        active={quarterDeleting}
+        setActive={() => {
+          dispatch(setRoadmapCurrentQuarter(null));
+          dispatch(setRoadmapIsDeletingQuarterOpened(false));
+        }}
+        ChildComponent={QuarterDeleting}
         childProps={{}}
       />
     </div>

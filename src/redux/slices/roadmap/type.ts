@@ -53,7 +53,9 @@ export type RoadmapSliceState = {
   message?: string;
   currentCategory: Category | null;
   currentRow: Row | null;
+  currentQuarter: Quarter | null;
   isDeletingCategoryOpened: boolean;
   isEditingCategoryOpened: boolean;
   isDeletingRowOpened: boolean;
+  isDeletingQuarterModalOpened: boolean;
 };

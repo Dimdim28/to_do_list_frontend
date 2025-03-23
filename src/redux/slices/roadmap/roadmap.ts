@@ -2,7 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status } from '../../../types/shared';
 
-import { Category, RoadmapData, RoadmapSliceState, Row, Task } from './type';
+import {
+  Category,
+  Quarter,
+  RoadmapData,
+  RoadmapSliceState,
+  Row,
+  Task,
+} from './type';
 
 export const initialData: RoadmapData = {
   id: 'roadmap-1',
@@ -386,6 +393,8 @@ const initialState: RoadmapSliceState = {
   isDeletingCategoryOpened: false,
   isEditingCategoryOpened: false,
   isDeletingRowOpened: false,
+  currentQuarter: null,
+  isDeletingQuarterModalOpened: false,
 };
 
 const canBanSlice = createSlice({
@@ -600,6 +609,49 @@ const canBanSlice = createSlice({
           : category,
       );
     },
+
+    setRoadmapCurrentQuarter: (
+      state,
+      action: PayloadAction<Quarter | null>,
+    ) => {
+      state.currentQuarter = action.payload;
+    },
+
+    setRoadmapIsDeletingQuarterOpened: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isDeletingQuarterModalOpened = action.payload;
+    },
+
+    deleteRoadmapQuarter: (state, action: PayloadAction<Quarter>) => {
+      if (!state.data) return;
+
+      const quarter = action.payload;
+      const { id, start, end } = quarter;
+
+      state.data.quarters = state.data.quarters.filter((q) => q.id !== id);
+
+      state.data.milestones = state.data.milestones.filter(
+        (m) => m.position < start || m.position >= end,
+      );
+
+      state.data.categories = state.data.categories.map((category) => ({
+        ...category,
+        rows: category.rows.map((row) => ({
+          ...row,
+          tasks: row.tasks.filter((task) => {
+            if (task.start >= start - 10) return false;
+
+            if (task.end > start) {
+              task.end = start;
+            }
+
+            return true;
+          }),
+        })),
+      }));
+    },
   },
 });
 
@@ -619,4 +671,7 @@ export const {
   setRoadmapCurrentRow,
   setRoadmapIsDeletingRowOpened,
   deleteRoadmapRow,
+  setRoadmapCurrentQuarter,
+  setRoadmapIsDeletingQuarterOpened,
+  deleteRoadmapQuarter,
 } = canBanSlice.actions;

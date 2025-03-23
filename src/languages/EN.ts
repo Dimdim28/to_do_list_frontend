@@ -40,6 +40,7 @@ const EN = {
   submit: 'Submit',
   reallyСategory: 'Do you really want to delete category',
   reallyRow: 'Do you really want to delete row from',
+  reallyQuarter: 'Do you really want to delete quarter?',
   description: 'Description',
   taskHasDeadline: 'Task has deadline?',
   taskCompleted: 'Task completed?',

@@ -7,9 +7,13 @@ export const selectRoadmapCurrentCategory = (state: RootState) =>
   state.roadmap.currentCategory;
 export const selectRoadmapCurrentRow = (state: RootState) =>
   state.roadmap.currentRow;
+export const selectRoadmapCurrentQuarter = (state: RootState) =>
+  state.roadmap.currentQuarter;
 export const selectRoadmapIsEditingCategoryOpened = (state: RootState) =>
   state.roadmap.isEditingCategoryOpened;
 export const selectRoadmapIsDeletingCategoryOpened = (state: RootState) =>
   state.roadmap.isDeletingCategoryOpened;
 export const selectRoadmapIsDeletingRowOpened = (state: RootState) =>
   state.roadmap.isDeletingRowOpened;
+export const selectRoadmapIsDeletingQuarterOpened = (state: RootState) =>
+  state.roadmap.isDeletingQuarterModalOpened;
