@@ -12,6 +12,7 @@ interface TaskProps {
   categoryId: string;
   rowId: string;
   categoryColor: string;
+  allTasksInRow: Task[];
 }
 
 const TaskComponent: FC<TaskProps> = ({
@@ -20,6 +21,7 @@ const TaskComponent: FC<TaskProps> = ({
   categoryId,
   rowId,
   categoryColor,
+  allTasksInRow,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -77,6 +79,14 @@ const TaskComponent: FC<TaskProps> = ({
       if (newValue <= localTask.start || newValue - localTask.start < 10)
         return;
     }
+
+    const overlap = allTasksInRow.some(
+      (t) =>
+        t.id !== localTask.id &&
+        !(newValue <= t.start - 2 || newValue >= t.end + 2),
+    );
+
+    if (overlap) return;
 
     setLocalTask((prev) => {
       const updated = { ...prev, [info.side]: newValue };

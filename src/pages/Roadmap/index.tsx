@@ -72,6 +72,7 @@ const RoadMap = () => {
   ) => {
     if (!e.dataTransfer) return;
     const raw = e.dataTransfer.getData('application/json');
+
     if (!raw) return;
     const data = JSON.parse(raw);
 
@@ -87,8 +88,15 @@ const RoadMap = () => {
 
     const isSameRow = data.rowId === row.id && data.categoryId === category.id;
 
-    if (newStart < 0 || newEnd > timelineWidth || newEnd - newStart < 10)
-      return;
+    if (newStart < 0 || newEnd > timelineWidth) return;
+
+    const overlap = row.tasks.some(
+      (t) =>
+        t.id !== data.taskId &&
+        !(newEnd + 2 <= t.start || newStart >= t.end + 2),
+    );
+
+    if (overlap) return;
 
     if (isSameRow) {
       // Просто двигаем таску по оси X
@@ -107,8 +115,6 @@ const RoadMap = () => {
       // TODO: API для позиции
       // await api.updateTask(data.taskId, { start: newStart, end: newEnd });
     } else {
-      console.log(data);
-
       const task = {
         id: data.taskId,
         title: data.title,
@@ -245,6 +251,7 @@ const RoadMap = () => {
                 >
                   {row.tasks.map((task) => (
                     <TaskComponent
+                      allTasksInRow={row.tasks}
                       task={task}
                       totalQuarters={totalQuarters}
                       key={task.id}
