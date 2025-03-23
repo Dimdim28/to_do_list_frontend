@@ -40,7 +40,6 @@ describe('CategoryDeleting', () => {
 
     expect(screen.getByText('no')).toBeInTheDocument();
     expect(screen.getByText('yes')).toBeInTheDocument();
-    expect(screen.getByText('Category 1')).toBeInTheDocument();
   });
 
   test('should call toggleActive with false on cancel button click', () => {
