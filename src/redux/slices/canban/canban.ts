@@ -2,202 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Status, User } from '../../../types/shared';
 
-import { createCanBanBoard, fetchAllCanBanBoards } from './thunk';
 import {
-  CanBanSliceState,
-  CanBanState,
-  ProjectShortInfo,
-  SelectedTaskInfo,
-  Tag,
-} from './type';
+  createCanBanBoard,
+  fetchAllCanBanBoards,
+  fetchCanBanBoardById,
+} from './thunk';
+import { CanBanSliceState, CanBanState, SelectedTaskInfo, Tag } from './type';
 
 const initialColumnsState: CanBanState = {
-  columns: [
-    {
-      id: 'column-1',
-      title: 'To Do',
-      tasks: [
-        {
-          id: 'task-1',
-          title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
-          description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis atque
-          assumenda ut labore consequatur rem neque molestias accusamus quibusdam!
-          Deleniti, excepturi voluptas! Eligendi suscipit consectetur libero
-          deserunt debitis vitae illo eos quod dolorem nesciunt. Reprehenderit
-          inventore accusamus ducimus facere maiores dolor, laudantium sapiente
-          optio quo magnam iure quibusdam officiis. `,
-          assignedTo: [
-            {
-              _id: '65267f5fa923db8ef582f46b',
-              username: 'dench1',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
-              avatarEffect: {
-                _id: '67b626a880f532b43c4dfc50',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
-                title: '1212',
-              },
-            },
-          ],
-          tags: [],
-        },
-        {
-          id: 'task-2',
-          title: 'Task 2',
-          description: 'Task 2',
-          assignedTo: [],
-          tags: [
-            {
-              id: '5',
-              text: 'ui',
-              color: '#fff700',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'column-2',
-      title: 'In Progress',
-      tasks: [
-        {
-          id: 'task-3',
-          title: 'Task 3',
-          description: 'Task 3',
-          assignedTo: [
-            {
-              _id: '65267f5fa923db8ef582f46b',
-              username: 'dench1',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
-              avatarEffect: {
-                _id: '67b626a880f532b43c4dfc50',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
-                title: '1212',
-              },
-            },
-          ],
-          tags: [
-            {
-              id: '3',
-              text: 'docs',
-              color: '#13318b',
-            },
-          ],
-        },
-        {
-          id: 'task-5',
-          title: 'Task 5',
-          description: 'Task 5',
-          assignedTo: [
-            {
-              _id: '6526f0c30683003f3a049272',
-              username: 'Dimdim28',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
-              avatarEffect: {
-                _id: '67b6311a7cb726da1a20a524',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
-                title: '34435',
-              },
-            },
-            {
-              _id: '65267f5fa923db8ef582f46b',
-              username: 'dench1',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739642767/1739642766454-avatar.png',
-              avatarEffect: {
-                _id: '67b626a880f532b43c4dfc50',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990694/1739990693822-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739990695/1739990695246-user-avatar-effect.png',
-                title: '1212',
-              },
-            },
-          ],
-          tags: [
-            {
-              id: '2',
-              text: 'feature',
-              color: '#00ff4c',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'column-3',
-      title: 'Done',
-      tasks: [
-        {
-          id: 'task-4',
-          title: 'Task 4',
-          description: 'Task 4',
-          assignedTo: [
-            {
-              _id: '6526f0c30683003f3a049272',
-              username: 'Dimdim28',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
-              avatarEffect: {
-                _id: '67b6311a7cb726da1a20a524',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
-                title: '34435',
-              },
-            },
-          ],
-          tags: [
-            {
-              id: '4',
-              text: 'refactor',
-              color: '#c01180',
-            },
-          ],
-        },
-        {
-          id: 'task-6',
-          title: 'Task 6',
-          description: 'Task 6',
-          assignedTo: [
-            {
-              _id: '6526f0c30683003f3a049272',
-              username: 'Dimdim28',
-              avatar:
-                'https://res.cloudinary.com/dmbythxia/image/upload/v1739107529/1739107526478-avatar.png',
-              avatarEffect: {
-                _id: '67b6311a7cb726da1a20a524',
-                preview:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993368/1739993368180-user-avatar-effect.png',
-                animated:
-                  'https://res.cloudinary.com/dmbythxia/image/upload/v1739993369/1739993369474-user-avatar-effect.png',
-                title: '34435',
-              },
-            },
-          ],
-          tags: [
-            {
-              id: '1',
-              text: 'bug',
-              color: '#e33131',
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  columns: [],
   members: [],
   selectedTask: { task: null },
   isChangeColumnNameModalOpen: false,
@@ -209,38 +22,7 @@ const initialColumnsState: CanBanState = {
   isAddTagToProjectModalOpened: false,
   selectedTag: { tag: null },
   info: null,
-  tags: [
-    {
-      id: '1',
-      text: 'bug',
-      color: '#e33131',
-    },
-    {
-      id: '2',
-      text: 'feature',
-      color: '#00ff4c',
-    },
-    {
-      id: '3',
-      text: 'docs',
-      color: '#13318b',
-    },
-    {
-      id: '4',
-      text: 'refactor',
-      color: '#c01180',
-    },
-    {
-      id: '5',
-      text: 'ui',
-      color: '#fff700',
-    },
-    {
-      id: '6',
-      text: 'back',
-      color: '#faf700',
-    },
-  ],
+  tags: [],
   allProjects: [],
 };
 
@@ -472,12 +254,6 @@ const canBanSlice = createSlice({
       state.data.tags = action.payload;
     },
 
-    addProjectToList: (state, action: PayloadAction<ProjectShortInfo>) => {
-      if (!state.data) {
-        return;
-      }
-      state.data.allProjects = [...state.data.allProjects, action.payload];
-    },
     setSelectedTag: (state, action: PayloadAction<Tag | null>) => {
       if (!state.data) return;
       state.data.selectedTag = { tag: action.payload };
@@ -546,6 +322,36 @@ const canBanSlice = createSlice({
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });
+    builder.addCase(fetchCanBanBoardById.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = '';
+    });
+    builder.addCase(fetchCanBanBoardById.fulfilled, (state, action) => {
+      if (!state.data) return;
+
+      const project = action.payload;
+
+      state.data.columns = project.columns;
+      state.data.members = project.userIds.map((id) => ({
+        _id: id,
+        name: '',
+        email: '',
+        username: '',
+        avatar: '',
+      }));
+      state.data.tags = project.tags;
+      state.data.info = {
+        id: project._id,
+        title: project.title,
+        description: project.description,
+      };
+      state.status = Status.SUCCESS;
+      state.message = '';
+    });
+    builder.addCase(fetchCanBanBoardById.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
   },
 });
 
@@ -570,7 +376,6 @@ export const {
   setIsAddTagToProjectModalOpened,
   addTagToList,
   updateTagInList,
-  addProjectToList,
   updateTags,
   updateUsersInProject,
   setSelectedTag,

@@ -1,5 +1,5 @@
 import instanse from '../axios';
-import { Column, ProjectShortInfo, Tag } from '../redux/slices/canban/type';
+import { ProjectFullInfo, ProjectShortInfo } from '../redux/slices/canban/type';
 import { Status } from '../types/shared';
 
 type GetBoardsApiResponse = {
@@ -14,38 +14,41 @@ type GetBoardsResponse = {
   status: Status;
 };
 
+type GetBoardApiResponse = {
+  data: ProjectFullInfo;
+  status: number;
+  statusText: string;
+};
+
+export type GetBoardResponseSuccess = {
+  status: Status.SUCCESS;
+  data: ProjectFullInfo;
+};
+
+export type GetBoardResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 export type CreateBoardPayload = {
   title: string;
   description: string;
   userIds?: string[];
 };
 
-type CreateBoardResponseData = {
-  _id: string;
-  title: string;
-  description: string;
-  userId: string;
-  userIds: string[];
-  tags: Tag[];
-  createdAt: string;
-  updatedAt: string;
-  columns: Column[];
-};
-
 type CreateBoardApiResponse = {
-  data: CreateBoardResponseData;
+  data: ProjectFullInfo;
   status: number;
   statusText: string;
 };
 
-export type CreateBoardResponseSuccess = {
+type CreateBoardResponseSuccess = {
   status: Status.SUCCESS;
-  data: CreateBoardResponseData;
+  data: ProjectFullInfo;
 };
 
-export type CreateBoardResponseFail = {
+type CreateBoardResponseFail = {
   status: Status.ERROR;
-  data?: CreateBoardResponseData;
   message: string;
 };
 
@@ -63,17 +66,25 @@ class canbanAPIClass {
     }
   }
 
-  //   public async getBoard(boardId: string): Promise<getBoardsResponse> {
-  //     try {
-  //       await instanse.get(`board/${boardId}`);
-  //       return { status: Status.SUCCESS };
-  //     } catch (err: any) {
-  //       return {
-  //         message: err?.response?.data?.message || 'Error',
-  //         status: Status.ERROR,
-  //       };
-  //     }
-  //   }
+  public async getBoard(
+    boardId: string,
+  ): Promise<GetBoardResponseSuccess | CreateBoardResponseFail> {
+    try {
+      const response: GetBoardApiResponse = await instanse.get(
+        `board/${boardId}`,
+      );
+
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
 
   public async createBoard(
     payload: CreateBoardPayload,

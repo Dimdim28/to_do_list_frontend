@@ -65,3 +65,15 @@ export type Column = {
   title: string;
   tasks: Task[];
 };
+
+export type ProjectFullInfo = {
+  _id: string;
+  title: string;
+  description: string;
+  userId: string;
+  userIds: string[];
+  tags: Tag[];
+  createdAt: string;
+  updatedAt: string;
+  columns: Column[];
+};

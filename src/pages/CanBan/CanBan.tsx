@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import {
   faFolderPlus,
   faGear,
@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from '../../components/common/Modal/Modal';
 import UserImage from '../../components/UserImage/UserImage';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   moveTask,
   setChangeColumnNameModalOpen,
@@ -23,7 +23,6 @@ import {
   setIsAddUserToProjectModalOpened,
   setIsTaskInfoModalOpened,
   setProcessingColumnData,
-  setProjectInfo,
   setSelectedTag,
   setSelectedTask,
 } from '../../redux/slices/canban/canban';
@@ -35,6 +34,7 @@ import {
   selectIsAddUserProjectModalOpened,
   selectIsProjectSettingsOpened,
 } from '../../redux/slices/canban/selectors';
+import { fetchCanBanBoardById } from '../../redux/slices/canban/thunk';
 import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
 
 import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
@@ -48,7 +48,7 @@ import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 import styles from './CanBan.module.scss';
 
 const CanBan = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const columns = useAppSelector(selectColumns);
   const isEditColumnNameModalOpen = useAppSelector(isChangeColumnNameModalOpen);
   const isDeleteModalOpened = useAppSelector(isDeleteColumnModalOpen);
@@ -59,6 +59,8 @@ const CanBan = () => {
   const isAddTagToProjectModalOpened = useAppSelector(
     selectIsAddTagProjectModalOpened,
   );
+
+  const { id: boardId } = useParams();
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -112,14 +114,10 @@ const CanBan = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      setProjectInfo({
-        id: '21331221',
-        description: 'description',
-        title: 'title',
-      }),
-    );
-  }, []);
+    if (boardId) {
+      dispatch(fetchCanBanBoardById(boardId));
+    }
+  }, [dispatch, boardId]);
 
   return (
     <div className={styles.wrapper}>
