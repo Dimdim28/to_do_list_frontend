@@ -47,7 +47,7 @@ export const HEADER_LINKS: Link[] = [
     name: 'home',
   },
   {
-    path: ROUTES.BOARD,
+    path: ROUTES.CanBan,
     name: 'board',
   },
   {
@@ -99,8 +99,8 @@ function App() {
           <Route path="" element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
-            <Route path={ROUTES.BOARD} element={<Board />} />
             <Route path={`${ROUTES.CanBan}/:id`} element={<CanBan />} />
+            <Route path={ROUTES.CanBan} element={<Board />} />
             <Route path={`${ROUTES.ROADMAP}/:id`} element={<Roadmap />} />
             <Route path={`${ROUTES.ROADMAP}`} element={<Roadmap />} />
           </Route>

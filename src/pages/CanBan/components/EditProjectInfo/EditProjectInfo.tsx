@@ -8,7 +8,6 @@ import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInp
 import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
-  addProjectToList,
   deleteTagFromColumns,
   deleteUserFromColumns,
   editTagInColumns,
@@ -23,6 +22,7 @@ import {
   selectProjectMembers,
   selectProjectTags,
 } from '../../../../redux/slices/canban/selectors';
+import { createCanBanBoard } from '../../../../redux/slices/canban/thunk';
 import { Tag as TagType } from '../../../../redux/slices/canban/type';
 import ROUTES from '../../../../routes';
 import EditTagProjectModal from '../EditTagProjectModal/EditTagProjectModal';
@@ -66,11 +66,9 @@ const EditProjectInfo = () => {
   const handleSubmit = () => {
     if (!projectInfo) {
       dispatch(
-        addProjectToList({
+        createCanBanBoard({
           title,
           description,
-          id: `${Math.random() * 1000}`,
-          membersCount: 0,
         }),
       );
     } else {

@@ -133,6 +133,7 @@ const UA = {
   banUser: 'Заблокувати',
   revokeUser: 'Розблокувати',
   milestones: 'Віхи',
+  noCanBanBoards: 'У вас нема Канбан дошок',
 };
 
 export default UA;

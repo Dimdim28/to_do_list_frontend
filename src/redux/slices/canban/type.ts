@@ -1,7 +1,7 @@
 import { Status, User } from '../../../types/shared';
 
 export type CanBanSliceState = {
-  data: CanBanState | null;
+  data: CanBanState;
   status: Status;
   message?: string;
 };
@@ -16,6 +16,16 @@ export type Tag = {
   id: string;
   text: string;
   color: string;
+};
+
+export type ProjectShortInfo = {
+  _id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  isOwner: boolean;
+  membersCount: number;
 };
 
 export type CanBanState = {
@@ -39,12 +49,7 @@ export type CanBanState = {
     title: string;
     description: string;
   } | null;
-  allProjects: {
-    id: string;
-    title: string;
-    description: string;
-    membersCount: number;
-  }[];
+  allProjects: ProjectShortInfo[];
 };
 
 export type Task = {

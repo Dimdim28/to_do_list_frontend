@@ -6,6 +6,7 @@
   overflow: auto;
   background-color: $background-dark-35;
   transition: background-color $transition-delay;
+  position: relative;
 }
 
 .line {
@@ -95,4 +96,15 @@
   .description {
     color: $black;
   }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+.info {
+  width: 100%;
+  text-align: center;
 }
