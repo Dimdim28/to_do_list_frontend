@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -39,6 +40,7 @@ const EditProjectInfo = () => {
   const tags = useAppSelector(selectProjectTags);
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const goToProfile = (id: string) => {
     window.open(`${ROUTES.PROFILE}/${id}`, '_blank');
@@ -140,21 +142,21 @@ const EditProjectInfo = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.block}>
-        <div className={styles.title}>Title</div>
+        <div className={styles.title}>{t('title')}</div>
         <SimpleInput
           value={title}
           setValue={setTitle}
-          placeholder="project title"
+          placeholder={t('projectTitle')}
           type="text"
         />
       </div>
 
       <div className={styles.block}>
-        <div className={styles.title}>Description</div>
+        <div className={styles.title}>{t('description')}</div>
         <ProjectDescriptionTextArea
           value={description}
           setValue={setDescription}
-          placeholder="project description"
+          placeholder={t('projectDescription')}
           type="text"
         />
       </div>
@@ -202,8 +204,16 @@ const EditProjectInfo = () => {
       </div>
 
       <div className={styles.buttons}>
-        <Button text="Cancel" class="cancel" callback={handleCancel}></Button>
-        <Button text="Submit" class="submit" callback={handleSubmit}></Button>
+        <Button
+          text={t('cancel')}
+          class="cancel"
+          callback={handleCancel}
+        ></Button>
+        <Button
+          text={t('submit')}
+          class="submit"
+          callback={handleSubmit}
+        ></Button>
       </div>
       <Modal
         active={editingTagModalOpened}

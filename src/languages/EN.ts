@@ -133,6 +133,9 @@ const EN = {
   revokeUser: 'Revoke User',
   milestones: 'Milestones',
   noCanBanBoards: 'You have no CanBan boards',
+  members: 'Members',
+  projectTitle: 'project title',
+  projectDescription: 'project description',
 };
 
 export default EN;

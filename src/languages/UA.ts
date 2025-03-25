@@ -134,6 +134,9 @@ const UA = {
   revokeUser: 'Розблокувати',
   milestones: 'Віхи',
   noCanBanBoards: 'У вас нема Канбан дошок',
+  members: 'Користувачів',
+  projectTitle: 'назва проекту',
+  projectDescription: 'опис проекту',
 };
 
 export default UA;

@@ -76,7 +76,9 @@ const MyDecks = () => {
             >
               <div className={styles.title}>{el.title}</div>
               <div className={styles.description}>{el.description}</div>
-              <div className={styles.members}>{el.membersCount} Members</div>
+              <div className={styles.members}>
+                {t('members')}: {el.membersCount || 1}
+              </div>
             </div>
           ))}
         </div>
