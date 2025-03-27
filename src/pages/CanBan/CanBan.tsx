@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import {
   faFolderPlus,
@@ -11,9 +12,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../components/common/Modal/Modal';
+import Preloader from '../../components/Preloader/Preloader';
 import UserImage from '../../components/UserImage/UserImage';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectProfile } from '../../redux/slices/auth/selectors';
 import {
   moveTask,
   setChangeColumnNameModalOpen,
@@ -29,13 +32,17 @@ import {
 import {
   isChangeColumnNameModalOpen,
   isDeleteColumnModalOpen,
+  selectCanBanCreatorId,
   selectColumns,
+  selectErrorMessage,
   selectIsAddTagProjectModalOpened,
   selectIsAddUserProjectModalOpened,
   selectIsProjectSettingsOpened,
+  selectStatus,
 } from '../../redux/slices/canban/selectors';
 import { fetchCanBanBoardById } from '../../redux/slices/canban/thunk';
 import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
+import { Status } from '../../types/shared';
 
 import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
 import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToProjectModal';
@@ -49,6 +56,10 @@ import styles from './CanBan.module.scss';
 
 const CanBan = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const errorMessage = useAppSelector(selectErrorMessage);
+  const canBanStatus = useAppSelector(selectStatus);
   const columns = useAppSelector(selectColumns);
   const isEditColumnNameModalOpen = useAppSelector(isChangeColumnNameModalOpen);
   const isDeleteModalOpened = useAppSelector(isDeleteColumnModalOpen);
@@ -59,6 +70,9 @@ const CanBan = () => {
   const isAddTagToProjectModalOpened = useAppSelector(
     selectIsAddTagProjectModalOpened,
   );
+
+  const currentUserProfile = useAppSelector(selectProfile);
+  const creatorId = useAppSelector(selectCanBanCreatorId);
 
   const { id: boardId } = useParams();
 
@@ -119,37 +133,42 @@ const CanBan = () => {
     }
   }, [dispatch, boardId]);
 
+  if (canBanStatus === Status.LOADING) {
+    return <Preloader />;
+  }
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.line}>
-        <button
-          className={styles.addColumnButton}
-          onClick={handleOpenAddColumnModal}
-        >
-          Add Column
-        </button>
-        <div className={styles.options}>
-          <FontAwesomeIcon
-            className={styles.gear}
-            onClick={handleEditProjectSettingsModal}
-            fontSize="20px"
-            icon={faGear}
-          />
-          <FontAwesomeIcon
-            className={styles.user}
-            onClick={handleAddUserToProjectModal}
-            fontSize="20px"
-            icon={faUser}
-          />
-          <FontAwesomeIcon
-            className={styles.tag}
-            onClick={handleAddTagToProjectModal}
-            fontSize="20px"
-            icon={faFolderPlus}
-          />
+      {currentUserProfile?._id === creatorId ? (
+        <div className={styles.line}>
+          <button
+            className={styles.addColumnButton}
+            onClick={handleOpenAddColumnModal}
+          >
+            {t('addColumn')}
+          </button>
+          <div className={styles.options}>
+            <FontAwesomeIcon
+              className={styles.gear}
+              onClick={handleEditProjectSettingsModal}
+              fontSize="20px"
+              icon={faGear}
+            />
+            <FontAwesomeIcon
+              className={styles.user}
+              onClick={handleAddUserToProjectModal}
+              fontSize="20px"
+              icon={faUser}
+            />
+            <FontAwesomeIcon
+              className={styles.tag}
+              onClick={handleAddTagToProjectModal}
+              fontSize="20px"
+              icon={faFolderPlus}
+            />
+          </div>
         </div>
-      </div>
-
+      ) : null}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {columns.map((column) => (
@@ -157,27 +176,29 @@ const CanBan = () => {
               <div className={styles.columnHeader}>
                 <h3 className={styles.columnTitle}>{column.title}</h3>
 
-                <div className={styles.icons}>
-                  <FontAwesomeIcon
-                    className={`${styles.icon} ${styles.pencil}`}
-                    onClick={(e) => {
-                      handleOpenEditColumnModal(column);
+                {currentUserProfile?._id === creatorId ? (
+                  <div className={styles.icons}>
+                    <FontAwesomeIcon
+                      className={`${styles.icon} ${styles.pencil}`}
+                      onClick={(e) => {
+                        handleOpenEditColumnModal(column);
 
-                      e.stopPropagation();
-                    }}
-                    fontSize="15px"
-                    icon={faPencil}
-                  />
-                  <FontAwesomeIcon
-                    fontSize="15px"
-                    icon={faTrash}
-                    className={`${styles.icon} ${styles.trash}`}
-                    onClick={(e) => {
-                      handleOpenDeleteColumnModal(column);
-                      e.stopPropagation();
-                    }}
-                  />
-                </div>
+                        e.stopPropagation();
+                      }}
+                      fontSize="15px"
+                      icon={faPencil}
+                    />
+                    <FontAwesomeIcon
+                      fontSize="15px"
+                      icon={faTrash}
+                      className={`${styles.icon} ${styles.trash}`}
+                      onClick={(e) => {
+                        handleOpenDeleteColumnModal(column);
+                        e.stopPropagation();
+                      }}
+                    />
+                  </div>
+                ) : null}
               </div>
               <Droppable droppableId={column.id}>
                 {(provided) => (
@@ -237,11 +258,14 @@ const CanBan = () => {
                   handleTaskClick({ task: null, columnId: column.id });
                 }}
               >
-                + Add Task
+                + {t('addCanBanTask')}
               </button>
             </div>
           ))}
         </div>
+        {columns.length === 0 ? (
+          <div className={styles.noColumns}>{t('noColumns')}</div>
+        ) : null}
       </DragDropContext>
       <Modal
         active={isEditColumnNameModalOpen}
@@ -284,6 +308,8 @@ const CanBan = () => {
         childProps={{}}
       />
       <TaskInfoSideBar />
+
+      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
     </div>
   );
 };

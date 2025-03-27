@@ -137,6 +137,15 @@ const UA = {
   members: 'Користувачів',
   projectTitle: 'назва проекту',
   projectDescription: 'опис проекту',
+  sureDeleteColumn: 'Ви впевнені, що хочете видалити колонку',
+  tagColor: 'Колір тегу',
+  addColumn: 'Додати колонку',
+  addCanBanTask: 'Додати задачу',
+  enterTitle: 'введіть назву',
+  enterDescription: 'введіть опис',
+  assigners: 'Відповідальні',
+  tags: 'Теги',
+  noColumns: 'У проекті зараз немає колонок',
 };
 
 export default UA;

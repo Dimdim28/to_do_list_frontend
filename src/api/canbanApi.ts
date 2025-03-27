@@ -33,18 +33,18 @@ export type GetBoardResponseFail = {
 export type CreateBoardPayload = {
   title: string;
   description: string;
-  userIds?: string[];
+  creatorId: string;
 };
 
 type CreateBoardApiResponse = {
-  data: ProjectFullInfo;
+  data: ProjectShortInfo;
   status: number;
   statusText: string;
 };
 
 type CreateBoardResponseSuccess = {
   status: Status.SUCCESS;
-  data: ProjectFullInfo;
+  data: ProjectShortInfo;
 };
 
 type CreateBoardResponseFail = {

@@ -32,3 +32,5 @@ export const selectSelectedTag = (state: RootState) =>
   (state.canban.data as CanBanState).selectedTag;
 export const selectAllProjects = (state: RootState) =>
   (state.canban.data as CanBanState).allProjects;
+export const selectCanBanCreatorId = (state: RootState) =>
+  (state.canban.data as CanBanState).creatorId;

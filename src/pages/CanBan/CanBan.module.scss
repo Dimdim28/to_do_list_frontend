@@ -286,3 +286,15 @@
     }
   }
 }
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+.noColumns {
+  color: $warning-200;
+  text-align: center;
+  width: 100%;
+}

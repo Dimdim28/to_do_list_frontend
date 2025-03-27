@@ -136,6 +136,15 @@ const EN = {
   members: 'Members',
   projectTitle: 'project title',
   projectDescription: 'project description',
+  sureDeleteColumn: 'Are you sure you want to delete column',
+  tagColor: 'Tag color',
+  addColumn: 'Add Column',
+  addCanBanTask: 'Add Task',
+  enterTitle: 'enter title',
+  enterDescription: 'enter description',
+  assigners: 'Assigners',
+  tags: 'Tags',
+  noColumns: 'There are no columns in project right now',
 };
 
 export default EN;

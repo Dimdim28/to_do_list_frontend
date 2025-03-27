@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
@@ -16,6 +17,7 @@ interface ChangeColumnNameProps {
 }
 const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
@@ -41,11 +43,11 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      <Input title={'title'} value={title} setValue={setTitle} type="text" />
+      <Input title={t('title')} value={title} setValue={setTitle} type="text" />
       <div className={styles.actions}>
-        <Button text={'Cancel'} callback={cancel} class="cancel" />
+        <Button text={t('cancel')} callback={cancel} class="cancel" />
         <Button
-          text={'Submit'}
+          text={t('submit')}
           callback={submit}
           class="submit"
           disabled={title.length < 3}

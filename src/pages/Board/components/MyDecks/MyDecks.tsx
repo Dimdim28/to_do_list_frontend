@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import {
   setEditProjectModalOpened,
   setProjectInfo,
@@ -32,7 +33,7 @@ const MyDecks = () => {
   const allProjects = useAppSelector(selectAllProjects);
   const errorMessage = useAppSelector(selectErrorMessage);
   const status = useAppSelector(selectStatus);
-
+  const currentUserProfile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -70,7 +71,11 @@ const MyDecks = () => {
         <div className={styles.cards}>
           {allProjects.map((el) => (
             <div
-              className={styles.card}
+              className={`${styles.card} ${
+                currentUserProfile?._id === el.creatorId
+                  ? styles.ownerCard
+                  : null
+              }`}
               key={el._id}
               onClick={() => navigate(`${ROUTES.CanBan}/${el._id}`)}
             >
@@ -79,6 +84,7 @@ const MyDecks = () => {
               <div className={styles.members}>
                 {t('members')}: {el.membersCount || 1}
               </div>
+              <FontAwesomeIcon className={styles.crown} icon={faCrown} />
             </div>
           ))}
         </div>

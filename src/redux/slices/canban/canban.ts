@@ -24,6 +24,7 @@ const initialColumnsState: CanBanState = {
   info: null,
   tags: [],
   allProjects: [],
+  creatorId: null,
 };
 
 const initialState: CanBanSliceState = {
@@ -332,7 +333,7 @@ const canBanSlice = createSlice({
       const project = action.payload;
 
       state.data.columns = project.columns;
-      state.data.members = project.userIds.map((id) => ({
+      state.data.members = project.memberIds.map((id) => ({
         _id: id,
         name: '',
         email: '',
@@ -340,6 +341,7 @@ const canBanSlice = createSlice({
         avatar: '',
       }));
       state.data.tags = project.tags;
+      state.data.creatorId = project.creatorId;
       state.data.info = {
         id: project._id,
         title: project.title,

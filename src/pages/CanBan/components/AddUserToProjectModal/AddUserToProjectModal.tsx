@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import SearchUser from '../../../../components/SearchUser/SearchUser';
@@ -17,6 +18,7 @@ const AddUserToProjectModal = () => {
   const isOpened = useAppSelector(selectIsAddUserProjectModalOpened);
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [assigner, setAssigner] = useState<User | null>(null);
 
@@ -59,8 +61,16 @@ const AddUserToProjectModal = () => {
       </div>
 
       <div className={styles.buttons}>
-        <Button text="Cancel" class="cancel" callback={handleCancel}></Button>
-        <Button text="Submit" class="submit" callback={handleSubmit}></Button>
+        <Button
+          text={t('cancel')}
+          class="cancel"
+          callback={handleCancel}
+        ></Button>
+        <Button
+          text={t('submit')}
+          class="submit"
+          callback={handleSubmit}
+        ></Button>
       </div>
     </div>
   );

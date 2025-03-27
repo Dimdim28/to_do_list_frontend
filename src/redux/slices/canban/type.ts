@@ -24,7 +24,7 @@ export type ProjectShortInfo = {
   description: string;
   createdAt: string;
   updatedAt: string;
-  isOwner: boolean;
+  creatorId: string;
   membersCount: number;
 };
 
@@ -50,6 +50,7 @@ export type CanBanState = {
     description: string;
   } | null;
   allProjects: ProjectShortInfo[];
+  creatorId: string | null;
 };
 
 export type Task = {
@@ -70,8 +71,8 @@ export type ProjectFullInfo = {
   _id: string;
   title: string;
   description: string;
-  userId: string;
-  userIds: string[];
+  creatorId: string;
+  memberIds: string[];
   tags: Tag[];
   createdAt: string;
   updatedAt: string;

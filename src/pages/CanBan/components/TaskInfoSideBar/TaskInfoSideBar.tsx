@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   faFolderPlus,
   faUserMinus,
@@ -36,6 +37,8 @@ const KEY_EVENT_TYPE = 'keyup';
 
 const TaskInfoSideBar = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
   const isSideBarOpened = useAppSelector(selectIsTaskInfoSideBarOpened);
   const taskInfo = useAppSelector(selectSelectedTask);
   const members = useAppSelector(selectProjectMembers);
@@ -137,25 +140,25 @@ const TaskInfoSideBar = () => {
 
         <div className={styles.content}>
           <div className={styles.block}>
-            <div className={styles.title}>Title</div>
+            <div className={styles.title}>{t('title')}</div>
             <SimpleInput
-              placeholder="enter title"
+              placeholder={t('enterTitle')}
               setValue={setTitle}
               type="text"
               value={title}
             />
           </div>
           <div className={styles.block}>
-            <div className={styles.title}>Description</div>
+            <div className={styles.title}>{t('description')}</div>
             <TaskDescriptionTextArea
               value={description}
               setValue={setDescription}
-              placeholder="enter description"
+              placeholder={t('enterDescription')}
               currentTaskId={taskInfo.task?.id || ''}
             />
           </div>
           <div className={styles.block}>
-            <div className={styles.title}>Assigners</div>
+            <div className={styles.title}>{t('assigners')}</div>
 
             <div className={styles.assigners}>
               {assigners.map((user) => (
@@ -221,7 +224,7 @@ const TaskInfoSideBar = () => {
             </div>
           </div>
           <div className={styles.block}>
-            <div className={styles.title}>Tags</div>
+            <div className={styles.title}>{t('tags')}</div>
 
             <div className={styles.tags}>
               {tags.map((tag) => (
@@ -270,12 +273,12 @@ const TaskInfoSideBar = () => {
 
           <div className={styles.buttons}>
             <Button
-              text="Cancel"
+              text={t('cancel')}
               class="cancel"
               callback={handleCLoseSideBar}
             ></Button>
             <Button
-              text="Submit"
+              text={t('submit')}
               class="submit"
               callback={handleSubmit}
             ></Button>

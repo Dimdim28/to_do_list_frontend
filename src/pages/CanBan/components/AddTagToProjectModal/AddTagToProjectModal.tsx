@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
@@ -19,6 +20,7 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
   toggleActive,
 }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const currentTag = useAppSelector(selectSelectedTag);
 
@@ -48,7 +50,7 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>{'Color'}</h3>
+      <h3 className={styles.title}>{t('tagColor')}</h3>
       <input
         data-testid="color-input"
         className={styles.chooseColor}
@@ -56,12 +58,12 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
-      <Input title={'title'} value={text} setValue={setText} type="text" />
+      <Input title={t('title')} value={text} setValue={setText} type="text" />
 
       <div className={styles.buttons}>
-        <Button text={'Cancel'} callback={cancel} class="cancel" />
+        <Button text={t('cancel')} callback={cancel} class="cancel" />
         <Button
-          text={'Submit'}
+          text={t('submit')}
           callback={submit}
           class="submit"
           disabled={text.length < 3}

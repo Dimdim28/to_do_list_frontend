@@ -8,6 +8,7 @@ import { Modal } from '../../../../components/common/Modal/Modal';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
 import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import {
   deleteTagFromColumns,
   deleteUserFromColumns,
@@ -38,6 +39,7 @@ const EditProjectInfo = () => {
   const isOpened = useAppSelector(selectIsProjectSettingsOpened);
   const members = useAppSelector(selectProjectMembers);
   const tags = useAppSelector(selectProjectTags);
+  const currentUserProfile = useAppSelector(selectProfile);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -71,6 +73,7 @@ const EditProjectInfo = () => {
         createCanBanBoard({
           title,
           description,
+          creatorId: currentUserProfile?._id || '',
         }),
       );
     } else {

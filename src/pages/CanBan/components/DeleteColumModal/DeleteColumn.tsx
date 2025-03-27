@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import { truncate } from '../../../../helpers/string';
@@ -16,6 +17,7 @@ interface DeleteColumnProps {
 }
 const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
@@ -36,14 +38,14 @@ const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <p>Are you sure you want to delete column</p>
-        <h3>{truncate(title, 12)}</h3>
+        <p>{t('sureDeleteColumn')}</p>
+        <h3>{truncate(title, 12)}?</h3>
       </div>
 
       <div className={styles.actions}>
-        <Button text={'Cancel'} callback={cancel} class="cancel" />
+        <Button text={t('cancel')} callback={cancel} class="cancel" />
         <Button
-          text={'Submit'}
+          text={t('submit')}
           callback={submit}
           class="submit"
           disabled={title.length < 3}

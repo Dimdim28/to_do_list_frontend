@@ -45,7 +45,7 @@ export const createCanBanBoard = createAsyncThunk<
 >('canban/createBoard', async (payload, { rejectWithValue }) => {
   try {
     const response = await canbanAPI.createBoard(payload);
-
+    console.log(response);
     if (response.status === Status.SUCCESS) {
       const newBoard = response.data;
 
@@ -53,10 +53,10 @@ export const createCanBanBoard = createAsyncThunk<
         _id: newBoard._id,
         title: newBoard.title,
         description: newBoard.description,
-        membersCount: newBoard.userIds.length,
+        membersCount: newBoard.membersCount,
         createdAt: newBoard.createdAt,
         updatedAt: newBoard.updatedAt,
-        isOwner: true,
+        creatorId: payload.creatorId,
       };
     } else {
       return rejectWithValue(response.message || 'Unknown error');
