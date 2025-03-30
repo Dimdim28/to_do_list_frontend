@@ -333,13 +333,7 @@ const canBanSlice = createSlice({
       const project = action.payload;
 
       state.data.columns = project.columns;
-      state.data.members = project.memberIds.map((id) => ({
-        _id: id,
-        name: '',
-        email: '',
-        username: '',
-        avatar: '',
-      }));
+      state.data.members = project.members;
       state.data.tags = project.tags;
       state.data.creatorId = project.creatorId;
       state.data.info = {

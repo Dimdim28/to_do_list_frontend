@@ -56,7 +56,7 @@ export const createCanBanBoard = createAsyncThunk<
         membersCount: newBoard.membersCount,
         createdAt: newBoard.createdAt,
         updatedAt: newBoard.updatedAt,
-        creatorId: payload.creatorId,
+        creatorId: newBoard.creatorId,
       };
     } else {
       return rejectWithValue(response.message || 'Unknown error');

@@ -72,9 +72,9 @@ export type ProjectFullInfo = {
   title: string;
   description: string;
   creatorId: string;
-  memberIds: string[];
   tags: Tag[];
   createdAt: string;
   updatedAt: string;
   columns: Column[];
+  members: User[];
 };

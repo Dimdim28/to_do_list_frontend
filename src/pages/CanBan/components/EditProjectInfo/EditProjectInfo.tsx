@@ -73,7 +73,6 @@ const EditProjectInfo = () => {
         createCanBanBoard({
           title,
           description,
-          creatorId: currentUserProfile?._id || '',
         }),
       );
     } else {
@@ -172,18 +171,19 @@ const EditProjectInfo = () => {
               onAvatarClick={(user) => goToProfile(user._id)}
             />
             <p className={styles.text}>{el.username}</p>
-
-            <FontAwesomeIcon
-              fontSize="15px"
-              icon={faTrash}
-              className={styles.trash}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentMembers((members) =>
-                  members.filter((user) => user._id !== el._id),
-                );
-              }}
-            />
+            {currentUserProfile?._id !== el._id ? (
+              <FontAwesomeIcon
+                fontSize="15px"
+                icon={faTrash}
+                className={styles.trash}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentMembers((members) =>
+                    members.filter((user) => user._id !== el._id),
+                  );
+                }}
+              />
+            ) : null}
           </div>
         ))}
       </div>

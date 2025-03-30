@@ -33,7 +33,6 @@ export type GetBoardResponseFail = {
 export type CreateBoardPayload = {
   title: string;
   description: string;
-  creatorId: string;
 };
 
 type CreateBoardApiResponse = {
