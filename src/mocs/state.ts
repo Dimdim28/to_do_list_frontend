@@ -58,6 +58,7 @@ export const MOCK_OBJECT_ONE: RootState = {
   },
   canban: {
     data: {
+      creatorId: '',
       columns: [],
       members: [],
       selectedTask: { task: null },
@@ -144,6 +145,7 @@ export const MOCK_OBJECT_TWO: RootState = {
   },
   canban: {
     data: {
+      creatorId: '',
       columns: [],
       members: [],
       selectedTask: { task: null },
@@ -216,6 +218,7 @@ export const MOCK_OBJECT_THREE: RootState = {
   },
   canban: {
     data: {
+      creatorId: '',
       columns: [],
       members: [],
       selectedTask: { task: null },
