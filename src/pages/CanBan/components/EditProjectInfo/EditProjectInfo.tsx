@@ -103,17 +103,17 @@ const EditProjectInfo = () => {
 
     tags.forEach((tag) => {
       const tagInCurrentTags = currentTags.find(
-        (currTag) => currTag.id === tag.id,
+        (currTag) => currTag._id === tag._id,
       );
       if (tagInCurrentTags) {
         if (
           tag.color !== tagInCurrentTags.color ||
-          tag.text !== tagInCurrentTags.text
+          tag.title !== tagInCurrentTags.title
         ) {
           editadTags.push(tagInCurrentTags);
         }
       } else {
-        deletedTags.push(tag.id);
+        deletedTags.push(tag._id);
       }
     });
 
@@ -130,7 +130,7 @@ const EditProjectInfo = () => {
 
   const updateTag = (tag: TagType) => {
     setCurrentTags((tags) =>
-      tags.map((currentTag) => (currentTag.id === tag.id ? tag : currentTag)),
+      tags.map((currentTag) => (currentTag._id === tag._id ? tag : currentTag)),
     );
   };
 
@@ -191,7 +191,7 @@ const EditProjectInfo = () => {
       <div className={styles.tags}>
         {currentTags.map((tag) => (
           <Tag
-            key={tag.id}
+            key={tag._id}
             tag={tag}
             editTag={(tag) => {
               setEditingTag(tag);
@@ -199,7 +199,7 @@ const EditProjectInfo = () => {
             }}
             removeTag={(tag) => {
               setCurrentTags((tags) =>
-                tags.filter((currentTag) => currentTag.id !== tag.id),
+                tags.filter((currentTag) => currentTag._id !== tag._id),
               );
             }}
           />

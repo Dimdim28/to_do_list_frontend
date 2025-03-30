@@ -241,7 +241,7 @@ const CanBan = () => {
 
                             <div className={styles.tags}>
                               {task.tags.map((tag) => (
-                                <Tag tag={tag} key={tag.id} />
+                                <Tag tag={tag} key={tag._id} />
                               ))}
                             </div>
                           </div>

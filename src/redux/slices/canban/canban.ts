@@ -213,10 +213,10 @@ const canBanSlice = createSlice({
 
       if (action.payload) {
         state.data.tags = state.data.tags.filter((tag) =>
-          tag.id === action.payload.id
+          tag._id === action.payload._id
             ? {
-                id: tag.id,
-                text: action.payload.text,
+                id: tag._id,
+                text: action.payload.title,
                 color: action.payload.color,
               }
             : tag,
@@ -252,7 +252,7 @@ const canBanSlice = createSlice({
         ...column,
         tasks: column.tasks.map((task) => ({
           ...task,
-          tags: task.tags.filter((tag) => tag.id !== action.payload),
+          tags: task.tags.filter((tag) => tag._id !== action.payload),
         })),
       }));
     },
@@ -265,7 +265,7 @@ const canBanSlice = createSlice({
         tasks: column.tasks.map((task) => ({
           ...task,
           tags: task.tags.map((tag) =>
-            tag.id === action.payload.id ? action.payload : tag,
+            tag._id === action.payload._id ? action.payload : tag,
           ),
         })),
       }));

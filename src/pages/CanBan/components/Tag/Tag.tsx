@@ -22,7 +22,7 @@ const Tag: FC<TagProps> = ({ tag, tagClick, editTag, removeTag }) => {
         if (tagClick) tagClick(tag);
       }}
     >
-      {tag.text}
+      {tag.title}
 
       <div className={styles.icons}>
         {editTag ? (

@@ -3,6 +3,7 @@ import {
   Column,
   ProjectFullInfo,
   ProjectShortInfo,
+  Tag,
 } from '../redux/slices/canban/type';
 import { Status } from '../types/shared';
 
@@ -120,6 +121,121 @@ type DeleteColumnResponseFail = {
   message: string;
 };
 
+export type CreateTaskPayload = {
+  boardId: string;
+  columnId: string;
+  title: string;
+  description?: string;
+  assigneeId?: string;
+  tagIds?: string[];
+};
+
+type CreateTaskApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type CreateTaskResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type CreateTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type UpdateTaskPayload = {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+  title?: string;
+  description?: string;
+  assigneeId?: string;
+  tagIds?: string[];
+};
+
+type UpdateTaskApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type UpdateTaskResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type UpdateTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type AddUserPayload = {
+  boardId: string;
+  targetUserId: string;
+};
+
+type AddUserApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type AddUserResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type AddUserResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type RemoveUserPayload = {
+  boardId: string;
+  targetUserId: string;
+};
+
+type RemoveUserApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type RemoveUserResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type RemoveUserResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type CreateTagPayload = {
+  boardId: string;
+  title: string;
+  color: string;
+};
+
+type CreateTagApiResponse = {
+  data: Tag;
+  status: number;
+  statusText: string;
+};
+
+type CreateTagResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Tag;
+};
+
+type CreateTagResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class canbanAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -211,6 +327,87 @@ class canbanAPIClass {
     try {
       const response: DeleteColumnApiResponse = await instanse.delete(
         `board/${payload.boardId}/column/${payload.columnId}`,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async createTask(
+    payload: CreateTaskPayload,
+  ): Promise<CreateTaskResponseSuccess | CreateTaskResponseFail> {
+    try {
+      const response: CreateTaskApiResponse = await instanse.post(
+        `board/${payload.boardId}/column/${payload.columnId}/task`,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async updateTask(
+    payload: UpdateTaskPayload,
+  ): Promise<UpdateTaskResponseSuccess | UpdateTaskResponseFail> {
+    try {
+      const response: UpdateTaskApiResponse = await instanse.patch(
+        `board/${payload.boardId}/column/${payload.columnId}/task/${payload.taskId}`,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async addUser(
+    payload: AddUserPayload,
+  ): Promise<AddUserResponseSuccess | AddUserResponseFail> {
+    try {
+      const response: AddUserApiResponse = await instanse.post(
+        `board/${payload.boardId}/add-user/${payload.targetUserId}`,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async removeUser(
+    payload: RemoveUserPayload,
+  ): Promise<RemoveUserResponseSuccess | RemoveUserResponseFail> {
+    try {
+      const response: RemoveUserApiResponse = await instanse.post(
+        `board/${payload.boardId}/remove-user/${payload.targetUserId}`,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async createTag(
+    payload: CreateTagPayload,
+  ): Promise<CreateTagResponseSuccess | CreateTagResponseFail> {
+    try {
+      const response: CreateTagApiResponse = await instanse.post(
+        `board/${payload.boardId}/tag`,
+        { title: payload.title, color: payload.color },
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

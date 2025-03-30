@@ -21,12 +21,12 @@ const EditTagProjectModal: FC<EditTagProjectModalProps> = ({
   const { t } = useTranslation();
 
   const [color, setColor] = useState(currentTag?.color || '#ffffff');
-  const [text, setText] = useState(currentTag?.text || '');
+  const [text, setText] = useState(currentTag?.title || '');
 
   const submit = async () => {
     toggleActive(false);
     if (currentTag) {
-      updateTag({ id: currentTag.id, text, color });
+      updateTag({ _id: currentTag._id, title: text, color });
     }
   };
 
@@ -38,9 +38,9 @@ const EditTagProjectModal: FC<EditTagProjectModalProps> = ({
     const tag = currentTag;
     if (tag) {
       setColor(tag.color);
-      setText(tag.text);
+      setText(tag.title);
     }
-  }, [currentTag?.id]);
+  }, [currentTag?._id]);
 
   return (
     <div className={styles.wrapper}>

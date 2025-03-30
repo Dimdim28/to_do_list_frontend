@@ -13,8 +13,8 @@ export type SelectedTaskInfo = {
 };
 
 export type Tag = {
-  id: string;
-  text: string;
+  _id: string;
+  title: string;
   color: string;
 };
 
