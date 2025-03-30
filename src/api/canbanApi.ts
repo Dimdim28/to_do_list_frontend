@@ -126,19 +126,41 @@ export type CreateTaskPayload = {
   columnId: string;
   title: string;
   description?: string;
-  assigneeId?: string;
+  assigneeIds?: string[];
   tagIds?: string[];
 };
 
 type CreateTaskApiResponse = {
-  data: { success: true };
+  data: {
+    _id: string;
+    title: string;
+    description: string;
+    assignees?: {
+      _id: string;
+    }[];
+    tags?: {
+      _id: string;
+    }[];
+    order?: number;
+  };
   status: number;
   statusText: string;
 };
 
 type CreateTaskResponseSuccess = {
   status: Status.SUCCESS;
-  data: { success: true };
+  data: {
+    _id: string;
+    title: string;
+    description: string;
+    assignees?: {
+      _id: string;
+    }[];
+    tags?: {
+      _id: string;
+    }[];
+    order?: number;
+  };
 };
 
 type CreateTaskResponseFail = {
@@ -152,7 +174,7 @@ export type UpdateTaskPayload = {
   taskId: string;
   title?: string;
   description?: string;
-  assigneeId?: string;
+  assigneeIds?: string[];
   tagIds?: string[];
 };
 
@@ -343,6 +365,12 @@ class canbanAPIClass {
     try {
       const response: CreateTaskApiResponse = await instanse.post(
         `board/${payload.boardId}/column/${payload.columnId}/task`,
+        {
+          title: payload.title,
+          description: payload.description,
+          assigneeIds: payload.assigneeIds,
+          tagIds: payload.tagIds,
+        },
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {
@@ -359,6 +387,12 @@ class canbanAPIClass {
     try {
       const response: UpdateTaskApiResponse = await instanse.patch(
         `board/${payload.boardId}/column/${payload.columnId}/task/${payload.taskId}`,
+        {
+          title: payload.title,
+          description: payload.description,
+          assigneeIds: payload.assigneeIds,
+          tagIds: payload.tagIds,
+        },
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

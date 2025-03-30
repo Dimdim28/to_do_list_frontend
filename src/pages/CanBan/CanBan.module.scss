@@ -240,6 +240,7 @@
   justify-content: start;
   gap: 5px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 :global(.light_theme) {

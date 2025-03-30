@@ -54,10 +54,10 @@ export type CanBanState = {
 };
 
 export type Task = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
-  assignedTo: User[];
+  assignees: User[];
   tags: Tag[];
 };
 

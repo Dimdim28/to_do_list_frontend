@@ -209,8 +209,8 @@ const CanBan = () => {
                   >
                     {column.tasks.map((task, index) => (
                       <Draggable
-                        key={task.id}
-                        draggableId={task.id}
+                        key={task._id}
+                        draggableId={task._id}
                         index={index}
                       >
                         {(provided) => (
@@ -229,13 +229,15 @@ const CanBan = () => {
                             <div className={styles.taskContent}>
                               <div className={styles.title}>{task.title}</div>
                               <div className={styles.assignedUsers}>
-                                {task.assignedTo.slice(0, 3).map((user) => (
-                                  <UserImage
-                                    key={user._id}
-                                    additionalClassname={styles.userAvatar}
-                                    user={user}
-                                  />
-                                ))}
+                                {task.assignees
+                                  ?.slice(0, 3)
+                                  .map((user) => (
+                                    <UserImage
+                                      key={user._id}
+                                      additionalClassname={styles.userAvatar}
+                                      user={user}
+                                    />
+                                  ))}
                               </div>
                             </div>
 

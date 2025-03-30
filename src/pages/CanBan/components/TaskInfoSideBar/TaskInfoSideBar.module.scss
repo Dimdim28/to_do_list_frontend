@@ -238,6 +238,12 @@
   }
 }
 
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
 :global(.light_theme) {
   .wrapper {
     background: $gray-600;

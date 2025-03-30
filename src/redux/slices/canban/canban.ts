@@ -47,6 +47,7 @@ const canBanSlice = createSlice({
         description: string;
         assigners: User[];
         tags: Tag[];
+        taskId: string;
       }>,
     ) => {
       if (!state.data) return;
@@ -56,10 +57,10 @@ const canBanSlice = createSlice({
       );
       if (column) {
         column.tasks.push({
-          id: `task-${Date.now()}`,
+          _id: action.payload.taskId,
           title: action.payload.title,
           description: action.payload.description,
-          assignedTo: action.payload.assigners,
+          assignees: action.payload.assigners || [],
           tags: action.payload.tags,
         });
       }
@@ -78,11 +79,11 @@ const canBanSlice = createSlice({
       if (!state.data) return;
 
       for (const column of state.data.columns) {
-        const task = column.tasks.find((t) => t.id === action.payload.taskId);
+        const task = column.tasks.find((t) => t._id === action.payload.taskId);
         if (task) {
           task.title = action.payload.title;
           task.description = action.payload.description;
-          task.assignedTo = action.payload.assigners;
+          task.assignees = action.payload.assigners;
           task.tags = action.payload.tags;
         }
       }
@@ -93,7 +94,7 @@ const canBanSlice = createSlice({
 
       for (const column of state.data.columns) {
         column.tasks = column.tasks.filter(
-          (task) => task.id !== action.payload,
+          (task) => task._id !== action.payload,
         );
       }
     },
@@ -239,7 +240,7 @@ const canBanSlice = createSlice({
         ...column,
         tasks: column.tasks.map((task) => ({
           ...task,
-          assignedTo: task.assignedTo.filter(
+          assignees: task.assignees.filter(
             (user) => user._id !== action.payload,
           ),
         })),
