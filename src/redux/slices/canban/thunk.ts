@@ -1,9 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import canbanAPI, { CreateBoardPayload } from '../../../api/canbanApi';
+import canbanAPI, {
+  CreateBoardPayload,
+  CreateColumnPayload,
+  DeleteColumnPayload,
+  UpdateColumnPayload,
+} from '../../../api/canbanApi';
 import { Status } from '../../../types/shared';
 
-import { ProjectFullInfo, ProjectShortInfo } from './type';
+import { Column, ProjectFullInfo, ProjectShortInfo } from './type';
 
 export const fetchAllCanBanBoards = createAsyncThunk<ProjectShortInfo[]>(
   'canban/fetchBoards',
@@ -45,7 +50,7 @@ export const createCanBanBoard = createAsyncThunk<
 >('canban/createBoard', async (payload, { rejectWithValue }) => {
   try {
     const response = await canbanAPI.createBoard(payload);
-    console.log(response);
+
     if (response.status === Status.SUCCESS) {
       const newBoard = response.data;
 
@@ -65,3 +70,61 @@ export const createCanBanBoard = createAsyncThunk<
     return rejectWithValue(err?.response?.data?.message || 'Error');
   }
 });
+
+export const createCanBanColumn = createAsyncThunk<Column, CreateColumnPayload>(
+  'canban/createColumn',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await canbanAPI.createColumn(payload);
+
+      if (response.status === Status.SUCCESS) {
+        const data = response.data;
+
+        return data;
+      } else {
+        return rejectWithValue(response.message || 'Unknown error');
+      }
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data?.message || 'Error');
+    }
+  },
+);
+
+export const updateCanBanColumn = createAsyncThunk<Column, UpdateColumnPayload>(
+  'canban/updateColumn',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await canbanAPI.updateColumn(payload);
+
+      if (response.status === Status.SUCCESS) {
+        return {
+          _id: payload.columnId,
+          order: 0,
+          tasks: [],
+          title: payload.title,
+        };
+      } else {
+        return rejectWithValue(response.message || 'Unknown error');
+      }
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data?.message || 'Error');
+    }
+  },
+);
+
+export const deleteCanBanColumn = createAsyncThunk<string, DeleteColumnPayload>(
+  'canban/deleteColumn',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await canbanAPI.deleteColumn(payload);
+
+      if (response.status === Status.SUCCESS) {
+        return payload.columnId;
+      } else {
+        return rejectWithValue(response.message || 'Unknown error');
+      }
+    } catch (err: any) {
+      return rejectWithValue(err?.response?.data?.message || 'Error');
+    }
+  },
+);

@@ -97,14 +97,14 @@ const CanBan = () => {
 
   const handleOpenEditColumnModal = (column: Column) => {
     dispatch(
-      setProcessingColumnData({ columnId: column.id, title: column.title }),
+      setProcessingColumnData({ columnId: column._id, title: column.title }),
     );
     dispatch(setChangeColumnNameModalOpen(true));
   };
 
   const handleOpenDeleteColumnModal = (column: Column) => {
     dispatch(
-      setProcessingColumnData({ columnId: column.id, title: column.title }),
+      setProcessingColumnData({ columnId: column._id, title: column.title }),
     );
     dispatch(setDeleteColumnModalOpen(true));
   };
@@ -172,7 +172,7 @@ const CanBan = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {columns.map((column) => (
-            <div className={styles.column} key={column.id}>
+            <div className={styles.column} key={column._id}>
               <div className={styles.columnHeader}>
                 <h3 className={styles.columnTitle}>{column.title}</h3>
 
@@ -200,7 +200,7 @@ const CanBan = () => {
                   </div>
                 ) : null}
               </div>
-              <Droppable droppableId={column.id}>
+              <Droppable droppableId={column._id}>
                 {(provided) => (
                   <div
                     className={styles.taskList}
@@ -218,7 +218,7 @@ const CanBan = () => {
                             onClick={() => {
                               handleTaskClick({
                                 task: task,
-                                columnId: column.id,
+                                columnId: column._id,
                               });
                             }}
                             className={styles.task}
@@ -255,7 +255,7 @@ const CanBan = () => {
               <button
                 className={styles.addTaskButton}
                 onClick={() => {
-                  handleTaskClick({ task: null, columnId: column.id });
+                  handleTaskClick({ task: null, columnId: column._id });
                 }}
               >
                 + {t('addCanBanTask')}

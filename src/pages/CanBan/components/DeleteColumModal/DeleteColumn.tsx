@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../components/common/Button/Button';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { deleteColumn } from '../../../../redux/slices/canban/canban';
 import {
   selectErrorMessage,
+  selectIsProjectInfo,
   selectProcessingColumnData,
 } from '../../../../redux/slices/canban/selectors';
+import { deleteCanBanColumn } from '../../../../redux/slices/canban/thunk';
 
 import styles from './DeleteColumn.module.scss';
 
@@ -21,6 +22,7 @@ const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
+  const projectInfo = useAppSelector(selectIsProjectInfo);
 
   const title = editingData?.name || '';
 
@@ -29,8 +31,15 @@ const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
   };
 
   const submit = () => {
+    if (!projectInfo?.id) return;
+
     if (editingData) {
-      dispatch(deleteColumn(editingData.id));
+      dispatch(
+        deleteCanBanColumn({
+          columnId: editingData.id,
+          boardId: projectInfo.id,
+        }),
+      );
     }
     toggleActive(false);
   };

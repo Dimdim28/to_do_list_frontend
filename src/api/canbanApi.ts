@@ -1,5 +1,9 @@
 import instanse from '../axios';
-import { ProjectFullInfo, ProjectShortInfo } from '../redux/slices/canban/type';
+import {
+  Column,
+  ProjectFullInfo,
+  ProjectShortInfo,
+} from '../redux/slices/canban/type';
 import { Status } from '../types/shared';
 
 type GetBoardsApiResponse = {
@@ -51,6 +55,71 @@ type CreateBoardResponseFail = {
   message: string;
 };
 
+export type CreateColumnPayload = {
+  title: string;
+  boardId: string;
+};
+
+type CreateColumnApiResponse = {
+  data: Column;
+  status: number;
+  statusText: string;
+};
+
+type CreateColumnResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Column;
+};
+
+type CreateColumnResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type UpdateColumnPayload = {
+  title: string;
+  boardId: string;
+  columnId: string;
+  order?: number;
+};
+
+type UpdateColumnApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type UpdateColumnResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type UpdateColumnResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type DeleteColumnPayload = {
+  boardId: string;
+  columnId: string;
+};
+
+type DeleteColumnApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type DeleteColumnResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type DeleteColumnResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class canbanAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -92,6 +161,56 @@ class canbanAPIClass {
       const response: CreateBoardApiResponse = await instanse.post(
         `board`,
         payload,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async createColumn(
+    payload: CreateColumnPayload,
+  ): Promise<CreateColumnResponseSuccess | CreateColumnResponseFail> {
+    try {
+      const response: CreateColumnApiResponse = await instanse.post(
+        `board/${payload.boardId}/column`,
+        { title: payload.title },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async updateColumn(
+    payload: UpdateColumnPayload,
+  ): Promise<UpdateColumnResponseSuccess | UpdateColumnResponseFail> {
+    try {
+      const response: UpdateColumnApiResponse = await instanse.patch(
+        `board/${payload.boardId}/column/${payload.columnId}`,
+        { title: payload.title },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async deleteColumn(
+    payload: DeleteColumnPayload,
+  ): Promise<DeleteColumnResponseSuccess | DeleteColumnResponseFail> {
+    try {
+      const response: DeleteColumnApiResponse = await instanse.delete(
+        `board/${payload.boardId}/column/${payload.columnId}`,
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

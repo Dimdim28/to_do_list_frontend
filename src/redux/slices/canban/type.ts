@@ -62,9 +62,10 @@ export type Task = {
 };
 
 export type Column = {
-  id: string;
+  _id: string;
   title: string;
   tasks: Task[];
+  order: number;
 };
 
 export type ProjectFullInfo = {

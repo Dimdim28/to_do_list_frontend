@@ -4,11 +4,15 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { addColumn, editColumn } from '../../../../redux/slices/canban/canban';
 import {
   selectErrorMessage,
+  selectIsProjectInfo,
   selectProcessingColumnData,
 } from '../../../../redux/slices/canban/selectors';
+import {
+  createCanBanColumn,
+  updateCanBanColumn,
+} from '../../../../redux/slices/canban/thunk';
 
 import styles from './ChangeColumnName.module.scss';
 
@@ -21,6 +25,7 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
 
   const editingData = useAppSelector(selectProcessingColumnData);
   const errorMessage = useAppSelector(selectErrorMessage);
+  const projectInfo = useAppSelector(selectIsProjectInfo);
 
   useEffect(() => {
     setTitle(editingData?.name || '');
@@ -33,10 +38,18 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
   };
 
   const submit = () => {
+    if (!projectInfo?.id) return;
+
     if (editingData) {
-      dispatch(editColumn({ columnId: editingData.id, title }));
+      dispatch(
+        updateCanBanColumn({
+          columnId: editingData.id,
+          title,
+          boardId: projectInfo.id,
+        }),
+      );
     } else {
-      dispatch(addColumn(title));
+      dispatch(createCanBanColumn({ title, boardId: projectInfo.id }));
     }
     toggleActive(false);
   };

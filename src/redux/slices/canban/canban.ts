@@ -4,8 +4,11 @@ import { Status, User } from '../../../types/shared';
 
 import {
   createCanBanBoard,
+  createCanBanColumn,
+  deleteCanBanColumn,
   fetchAllCanBanBoards,
   fetchCanBanBoardById,
+  updateCanBanColumn,
 } from './thunk';
 import { CanBanSliceState, CanBanState, SelectedTaskInfo, Tag } from './type';
 
@@ -49,7 +52,7 @@ const canBanSlice = createSlice({
       if (!state.data) return;
 
       const column = state.data.columns.find(
-        (col) => col.id === action.payload.columnId,
+        (col) => col._id === action.payload.columnId,
       );
       if (column) {
         column.tasks.push({
@@ -95,28 +98,6 @@ const canBanSlice = createSlice({
       }
     },
 
-    addColumn: (state, action: PayloadAction<string>) => {
-      if (!state.data) return;
-      state.data.columns.push({
-        id: `column-${Date.now()}`,
-        title: action.payload,
-        tasks: [],
-      });
-    },
-
-    editColumn: (
-      state,
-      action: PayloadAction<{ columnId: string; title: string }>,
-    ) => {
-      if (!state.data) return;
-      const column = state.data.columns.find(
-        (col) => col.id === action.payload.columnId,
-      );
-      if (column) {
-        column.title = action.payload.title;
-      }
-    },
-
     setProcessingColumnData: (
       state,
       action: PayloadAction<{ columnId: string; title: string } | null>,
@@ -128,13 +109,6 @@ const canBanSlice = createSlice({
         const { columnId, title } = action.payload;
         state.data.processingColumnData = { id: columnId, name: title };
       }
-    },
-
-    deleteColumn: (state, action: PayloadAction<string>) => {
-      if (!state.data) return;
-      state.data.columns = state.data.columns.filter(
-        (col) => col.id !== action.payload,
-      );
     },
 
     setSelectedTask: (state, action: PayloadAction<SelectedTaskInfo>) => {
@@ -170,10 +144,10 @@ const canBanSlice = createSlice({
       const { sourceIndex, destinationIndex, sourceColId, destColId } =
         action.payload;
       const sourceColumn = state.data.columns.find(
-        (col) => col.id === sourceColId,
+        (col) => col._id === sourceColId,
       );
       const destinationColumn = state.data.columns.find(
-        (col) => col.id === destColId,
+        (col) => col._id === destColId,
       );
 
       if (!sourceColumn || !destinationColumn) return;
@@ -318,6 +292,7 @@ const canBanSlice = createSlice({
       if (!state.data) return;
       state.data.allProjects.push(action.payload);
       state.status = Status.SUCCESS;
+      state.message = '';
     });
     builder.addCase(createCanBanBoard.rejected, (state, action) => {
       state.status = Status.ERROR;
@@ -348,6 +323,52 @@ const canBanSlice = createSlice({
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });
+    builder.addCase(createCanBanColumn.pending, (state) => {
+      state.status = Status.LOADING;
+    });
+    builder.addCase(createCanBanColumn.fulfilled, (state, action) => {
+      if (!state.data) return;
+      state.data.columns = [...state.data.columns, action.payload];
+      state.status = Status.SUCCESS;
+      state.message = '';
+    });
+    builder.addCase(createCanBanColumn.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+    builder.addCase(updateCanBanColumn.pending, (state) => {
+      state.status = Status.LOADING;
+    });
+    builder.addCase(updateCanBanColumn.fulfilled, (state, action) => {
+      if (!state.data) return;
+      state.data.columns = state.data.columns.map((column) =>
+        column._id === action.payload._id
+          ? { ...column, title: action.payload.title }
+          : column,
+      );
+      state.status = Status.SUCCESS;
+      state.message = '';
+    });
+    builder.addCase(updateCanBanColumn.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
+
+    builder.addCase(deleteCanBanColumn.pending, (state) => {
+      state.status = Status.LOADING;
+    });
+    builder.addCase(deleteCanBanColumn.fulfilled, (state, action) => {
+      if (!state.data) return;
+      state.data.columns = state.data.columns.filter(
+        (column) => column._id !== action.payload,
+      );
+      state.status = Status.SUCCESS;
+      state.message = '';
+    });
+    builder.addCase(deleteCanBanColumn.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
   },
 });
 
@@ -356,9 +377,6 @@ export const {
   addTask,
   editTask,
   deleteTask,
-  addColumn,
-  editColumn,
-  deleteColumn,
   setSelectedTask,
   setChangeColumnNameModalOpen,
   setProcessingColumnData,
