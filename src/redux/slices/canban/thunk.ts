@@ -101,7 +101,7 @@ export const updateCanBanColumn = createAsyncThunk<Column, UpdateColumnPayload>(
           _id: payload.columnId,
           order: 0,
           tasks: [],
-          title: payload.title,
+          title: payload.title || '',
         };
       } else {
         return rejectWithValue(response.message || 'Unknown error');

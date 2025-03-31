@@ -56,6 +56,28 @@ type CreateBoardResponseFail = {
   message: string;
 };
 
+export type UpdateBoardPayload = {
+  boardId: string;
+  title: string;
+  description: string;
+};
+
+type UpdateBoardApiResponse = {
+  data: ProjectShortInfo;
+  status: number;
+  statusText: string;
+};
+
+type UpdateBoardResponseSuccess = {
+  status: Status.SUCCESS;
+  data: ProjectShortInfo;
+};
+
+type UpdateBoardResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 export type DeleteBoardPayload = string;
 
 type DeleteBoardApiResponse = {
@@ -323,6 +345,50 @@ type CreateTagResponseFail = {
   message: string;
 };
 
+export type UpdateTagPayload = {
+  boardId: string;
+  tagId: string;
+  title: string;
+  color: string;
+};
+
+type UpdateTagApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type UpdateTagResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type UpdateTagResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type DeleteTagPayload = {
+  boardId: string;
+  tagId: string;
+};
+
+type DeleteTagApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type DeleteTagResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type DeleteTagResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class canbanAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -364,6 +430,23 @@ class canbanAPIClass {
       const response: CreateBoardApiResponse = await instanse.post(
         `board`,
         payload,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async updateBoard(
+    payload: UpdateBoardPayload,
+  ): Promise<UpdateBoardResponseSuccess | UpdateBoardResponseFail> {
+    try {
+      const response: UpdateBoardApiResponse = await instanse.patch(
+        `board/${payload.boardId}`,
+        { title: payload.title, description: payload.description },
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {
@@ -562,6 +645,39 @@ class canbanAPIClass {
       const response: CreateTagApiResponse = await instanse.post(
         `board/${payload.boardId}/tag`,
         { title: payload.title, color: payload.color },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async updateTag(
+    payload: UpdateTagPayload,
+  ): Promise<UpdateTagResponseSuccess | UpdateTagResponseFail> {
+    try {
+      const response: UpdateTagApiResponse = await instanse.patch(
+        `board/${payload.boardId}/tag/${payload.tagId}`,
+        { title: payload.title, color: payload.color },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async deleteTag(
+    payload: DeleteTagPayload,
+  ): Promise<DeleteTagResponseSuccess | DeleteTagResponseFail> {
+    try {
+      const response: DeleteTagApiResponse = await instanse.delete(
+        `board/${payload.boardId}/tag/${payload.tagId}`,
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

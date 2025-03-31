@@ -140,6 +140,8 @@ const UA = {
   sureDeleteColumn: 'Ви впевнені, що хочете видалити колонку',
   sureDeleteTask: 'Ви впевнені, що хочете видалити задачу',
   sureDeleteProject: 'Ви впевнені, що хочете видалити проект',
+  sureDeleteTag: 'Ви впевнені, що хочете видалити тег',
+  sureDeleteUser: 'Ви впевнені, що хочете видалити користувача',
   tagColor: 'Колір тегу',
   addColumn: 'Додати колонку',
   addCanBanTask: 'Додати задачу',

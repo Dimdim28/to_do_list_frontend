@@ -3,20 +3,19 @@ import { useTranslation } from 'react-i18next';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import canbanAPI from '../../../../api/canbanApi';
 import Button from '../../../../components/common/Button/Button';
 import { Modal } from '../../../../components/common/Modal/Modal';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
+import Preloader from '../../../../components/Preloader/Preloader';
 import UserImage from '../../../../components/UserImage/UserImage';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import {
-  deleteTagFromColumns,
-  deleteUserFromColumns,
-  editTagInColumns,
+  removeTagFromList,
+  removeUserFromProject,
   setEditProjectModalOpened,
   setProjectInfo,
-  updateTags,
-  updateUsersInProject,
 } from '../../../../redux/slices/canban/canban';
 import {
   selectIsProjectInfo,
@@ -27,6 +26,9 @@ import {
 import { createCanBanBoard } from '../../../../redux/slices/canban/thunk';
 import { Tag as TagType } from '../../../../redux/slices/canban/type';
 import ROUTES from '../../../../routes';
+import { Status, User } from '../../../../types/shared';
+import DeleteTag from '../DeleteTagModal/DeleteTag';
+import DeleteUser from '../DeleteUserModal/DeleteUser';
 import EditTagProjectModal from '../EditTagProjectModal/EditTagProjectModal';
 import Tag from '../Tag/Tag';
 
@@ -58,6 +60,13 @@ const EditProjectInfo = () => {
   const [editingTag, setEditingTag] = useState<TagType | null>(null);
   const [editingTagModalOpened, setEditingTagModalOpened] =
     useState<boolean>(false);
+  const [deletingTagModalOpened, setDeletingTagModalOpened] =
+    useState<boolean>(false);
+  const [deletingUser, setDeletingUser] = useState<User | null>(null);
+  const [deletingUserModalOpened, setDeletingUserModalOpened] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleClose = () => {
     dispatch(setEditProjectModalOpened(false));
@@ -67,7 +76,7 @@ const EditProjectInfo = () => {
     handleClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!projectInfo) {
       dispatch(
         createCanBanBoard({
@@ -76,56 +85,29 @@ const EditProjectInfo = () => {
         }),
       );
     } else {
-      dispatch(
-        setProjectInfo({
-          id: projectInfo?.id || `${Math.random() * 1000}`,
-          title,
-          description,
-        }),
-      );
-      dispatch(updateUsersInProject(currentMembers));
-      dispatch(updateTags(currentTags));
+      setIsLoading(true);
+      const result = await canbanAPI.updateBoard({
+        boardId: projectInfo.id,
+        description,
+        title,
+      });
 
-      const deletedMembers = members.filter(
-        (member) =>
-          !currentMembers.some(
-            (currentMember) => currentMember._id === member._id,
-          ),
-      );
-      deletedMembers
-        .map((member) => member._id)
-        .forEach((memberId) => {
-          dispatch(deleteUserFromColumns(memberId));
-        });
-    }
-    const deletedTags: string[] = [];
-    const editadTags: TagType[] = [];
-
-    tags.forEach((tag) => {
-      const tagInCurrentTags = currentTags.find(
-        (currTag) => currTag._id === tag._id,
-      );
-      if (tagInCurrentTags) {
-        if (
-          tag.color !== tagInCurrentTags.color ||
-          tag.title !== tagInCurrentTags.title
-        ) {
-          editadTags.push(tagInCurrentTags);
-        }
+      if (result.status === Status.SUCCESS) {
+        dispatch(
+          setProjectInfo({
+            id: projectInfo?.id || `${Math.random() * 1000}`,
+            title,
+            description,
+          }),
+        );
+        setError('');
+        setIsLoading(false);
+        handleClose();
       } else {
-        deletedTags.push(tag._id);
+        setError(result.message);
+        setIsLoading(false);
       }
-    });
-
-    deletedTags.forEach((deletedTag) => {
-      dispatch(deleteTagFromColumns(deletedTag));
-    });
-
-    editadTags.forEach((editedTag) => {
-      dispatch(editTagInColumns(editedTag));
-    });
-
-    handleClose();
+    }
   };
 
   const updateTag = (tag: TagType) => {
@@ -134,12 +116,28 @@ const EditProjectInfo = () => {
     );
   };
 
+  const deleteTag = (tag: TagType) => {
+    setCurrentTags((tags) =>
+      tags.filter((currentTag) => currentTag._id !== tag._id),
+    );
+    dispatch(removeTagFromList(tag._id));
+  };
+
+  const deleteUser = (currentUser: User) => {
+    setCurrentMembers((members) =>
+      members.filter((user) => user._id !== currentUser._id),
+    );
+    dispatch(removeUserFromProject(currentUser._id));
+  };
+
   useEffect(() => {
     setTitle(projectInfo?.title || '');
     setDescription(projectInfo?.description || '');
     setCurrentMembers(members);
     setCurrentTags(tags);
   }, [projectInfo, isOpened, members, tags]);
+
+  if (isLoading) return <Preloader />;
 
   return (
     <div className={styles.wrapper}>
@@ -178,9 +176,8 @@ const EditProjectInfo = () => {
                 className={styles.trash}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setCurrentMembers((members) =>
-                    members.filter((user) => user._id !== el._id),
-                  );
+                  setDeletingUser(el);
+                  setDeletingUserModalOpened(true);
                 }}
               />
             ) : null}
@@ -198,9 +195,8 @@ const EditProjectInfo = () => {
               setEditingTagModalOpened(true);
             }}
             removeTag={(tag) => {
-              setCurrentTags((tags) =>
-                tags.filter((currentTag) => currentTag._id !== tag._id),
-              );
+              setDeletingTagModalOpened(true);
+              setEditingTag(tag);
             }}
           />
         ))}
@@ -227,6 +223,27 @@ const EditProjectInfo = () => {
         ChildComponent={EditTagProjectModal}
         childProps={{ tag: editingTag, updateTag }}
       />
+
+      <Modal
+        active={deletingTagModalOpened}
+        setActive={() => {
+          setDeletingTagModalOpened(false);
+          setEditingTag(null);
+        }}
+        ChildComponent={DeleteTag}
+        childProps={{ tag: editingTag, deleteTag }}
+      />
+
+      <Modal
+        active={deletingUserModalOpened}
+        setActive={() => {
+          setDeletingUserModalOpened(false);
+          setDeletingUser(null);
+        }}
+        ChildComponent={DeleteUser}
+        childProps={{ user: deletingUser, deleteUser }}
+      />
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };
