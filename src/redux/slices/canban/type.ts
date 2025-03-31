@@ -59,6 +59,7 @@ export type Task = {
   description: string;
   assignees: User[];
   tags: Tag[];
+  order: number;
 };
 
 export type Column = {

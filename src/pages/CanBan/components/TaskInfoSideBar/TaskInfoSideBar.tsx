@@ -126,6 +126,7 @@ const TaskInfoSideBar = () => {
             columnId: taskInfo.columnId,
             assigners,
             tags,
+            orderId: result.data.order,
           }),
         );
 

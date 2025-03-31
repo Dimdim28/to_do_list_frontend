@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import canbanAPI from '../../api/canbanApi';
 import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
 import UserImage from '../../components/UserImage/UserImage';
@@ -76,8 +77,8 @@ const CanBan = () => {
 
   const { id: boardId } = useParams();
 
-  const onDragEnd = (result: any) => {
-    const { source, destination } = result;
+  const onDragEnd = async (result: any) => {
+    const { source, destination, draggableId } = result;
     if (!destination) return;
 
     dispatch(
@@ -88,6 +89,19 @@ const CanBan = () => {
         destColId: destination.droppableId,
       }),
     );
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index !== destination.index &&
+      boardId
+    ) {
+      await handleTaskReorder({
+        taskId: draggableId,
+        boardId,
+        columnId: source.droppableId,
+        newOrder: destination.index,
+      });
+    }
   };
 
   const handleOpenAddColumnModal = () => {
@@ -125,6 +139,29 @@ const CanBan = () => {
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
+  };
+
+  const handleTaskReorder = async ({
+    taskId,
+    boardId,
+    columnId,
+    newOrder,
+  }: {
+    taskId: string;
+    boardId: string;
+    columnId: string;
+    newOrder: number;
+  }) => {
+    try {
+      await canbanAPI.updateTask({
+        taskId,
+        boardId,
+        columnId,
+        order: newOrder,
+      });
+    } catch (err) {
+      console.error('Failed to update task order', err);
+    }
   };
 
   useEffect(() => {

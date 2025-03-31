@@ -141,7 +141,7 @@ type CreateTaskApiResponse = {
     tags?: {
       _id: string;
     }[];
-    order?: number;
+    order: number;
   };
   status: number;
   statusText: string;
@@ -159,7 +159,7 @@ type CreateTaskResponseSuccess = {
     tags?: {
       _id: string;
     }[];
-    order?: number;
+    order: number;
   };
 };
 
@@ -176,6 +176,7 @@ export type UpdateTaskPayload = {
   description?: string;
   assigneeIds?: string[];
   tagIds?: string[];
+  order?: number;
 };
 
 type UpdateTaskApiResponse = {
@@ -392,6 +393,7 @@ class canbanAPIClass {
           description: payload.description,
           assigneeIds: payload.assigneeIds,
           tagIds: payload.tagIds,
+          order: payload.order,
         },
       );
       return { status: Status.SUCCESS, data: response.data };

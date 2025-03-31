@@ -48,6 +48,7 @@ const canBanSlice = createSlice({
         assigners: User[];
         tags: Tag[];
         taskId: string;
+        orderId: number;
       }>,
     ) => {
       if (!state.data) return;
@@ -62,6 +63,7 @@ const canBanSlice = createSlice({
           description: action.payload.description,
           assignees: action.payload.assigners || [],
           tags: action.payload.tags,
+          order: action.payload.orderId,
         });
       }
     },
