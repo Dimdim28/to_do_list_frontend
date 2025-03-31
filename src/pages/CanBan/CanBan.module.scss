@@ -123,6 +123,55 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+}
+
+.arrows {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity $transition-delay,
+    transform $transition-delay;
+}
+
+.columnHeader:hover {
+  .arrows {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+}
+.arrow {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.arrow {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .arrow {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
 }
 
 .icons {

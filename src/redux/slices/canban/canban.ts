@@ -283,6 +283,38 @@ const canBanSlice = createSlice({
         })),
       }));
     },
+    reorderColumns: (
+      state,
+      action: PayloadAction<{ columnId: string; direction: 'left' | 'right' }>,
+    ) => {
+      if (!state.data) return;
+
+      const columns = state.data.columns;
+      const currentIndex = columns.findIndex(
+        (col) => col._id === action.payload.columnId,
+      );
+
+      const targetIndex =
+        action.payload.direction === 'left'
+          ? currentIndex - 1
+          : currentIndex + 1;
+
+      if (
+        currentIndex < 0 ||
+        targetIndex < 0 ||
+        targetIndex >= columns.length
+      ) {
+        return;
+      }
+
+      const tempOrder = columns[currentIndex].order;
+      columns[currentIndex].order = columns[targetIndex].order;
+      columns[targetIndex].order = tempOrder;
+
+      const temp = columns[currentIndex];
+      columns[currentIndex] = columns[targetIndex];
+      columns[targetIndex] = temp;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllCanBanBoards.pending, (state) => {
@@ -410,4 +442,5 @@ export const {
   deleteTagFromColumns,
   editTagInColumns,
   setDeleteTaskModalOpen,
+  reorderColumns,
 } = canBanSlice.actions;

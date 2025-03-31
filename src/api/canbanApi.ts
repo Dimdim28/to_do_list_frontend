@@ -78,7 +78,7 @@ type CreateColumnResponseFail = {
 };
 
 export type UpdateColumnPayload = {
-  title: string;
+  title?: string;
   boardId: string;
   columnId: string;
   order?: number;
@@ -379,7 +379,7 @@ class canbanAPIClass {
     try {
       const response: UpdateColumnApiResponse = await instanse.patch(
         `board/${payload.boardId}/column/${payload.columnId}`,
-        { title: payload.title },
+        { title: payload.title, order: payload.order },
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

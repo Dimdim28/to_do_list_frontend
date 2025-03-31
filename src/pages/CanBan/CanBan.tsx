@@ -3,6 +3,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import {
+  faArrowLeft,
+  faArrowRight,
   faFolderPlus,
   faGear,
   faPencil,
@@ -20,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectProfile } from '../../redux/slices/auth/selectors';
 import {
   moveTask,
+  reorderColumns,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
   setDeleteTaskModalOpen,
@@ -161,6 +164,38 @@ const CanBan = () => {
     );
   };
 
+  const handleMoveColumn = async (
+    column: Column,
+    direction: 'left' | 'right',
+  ) => {
+    if (!boardId) return;
+
+    const currentIndex = columns.findIndex((col) => col._id === column._id);
+    const targetIndex =
+      direction === 'left' ? currentIndex - 1 : currentIndex + 1;
+
+    if (targetIndex < 0 || targetIndex >= columns.length) return;
+
+    const targetOrder = columns[targetIndex].order;
+
+    const result = await canbanAPI.updateColumn({
+      boardId,
+      columnId: column._id,
+      order: targetOrder,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      dispatch(
+        reorderColumns({
+          columnId: column._id,
+          direction,
+        }),
+      );
+    } else {
+      console.error('Failed to move column:', result.message);
+    }
+  };
+
   useEffect(() => {
     if (boardId) {
       dispatch(fetchCanBanBoardById(boardId));
@@ -205,11 +240,26 @@ const CanBan = () => {
       ) : null}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
-          {columns.map((column) => (
+          {columns.map((column, index) => (
             <div className={styles.column} key={column._id}>
               <div className={styles.columnHeader}>
+                <div className={styles.arrows}>
+                  {index > 0 && (
+                    <FontAwesomeIcon
+                      onClick={() => handleMoveColumn(column, 'left')}
+                      icon={faArrowLeft}
+                      className={styles.arrow}
+                    />
+                  )}
+                  {index < columns.length - 1 && (
+                    <FontAwesomeIcon
+                      onClick={() => handleMoveColumn(column, 'right')}
+                      icon={faArrowRight}
+                      className={styles.arrow}
+                    />
+                  )}
+                </div>
                 <h3 className={styles.columnTitle}>{column.title}</h3>
-
                 {currentUserProfile?._id === creatorId ? (
                   <div className={styles.icons}>
                     <FontAwesomeIcon
