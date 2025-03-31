@@ -37,6 +37,7 @@ export type CanBanState = {
     id: string;
   } | null;
   isDeleteColumnModalOpen: boolean;
+  isDeleteTaskModalOpen: boolean;
   isTaskInfoSideBarOpened: boolean;
   isProjectSettingsOpened: boolean;
   isAddUserToProjectModalOpened: boolean;

@@ -10,6 +10,8 @@ export const isChangeColumnNameModalOpen = (state: RootState) =>
   (state.canban.data as CanBanState).isChangeColumnNameModalOpen;
 export const isDeleteColumnModalOpen = (state: RootState) =>
   (state.canban.data as CanBanState).isDeleteColumnModalOpen;
+export const isDeleteTaskModalOpen = (state: RootState) =>
+  (state.canban.data as CanBanState).isDeleteTaskModalOpen;
 export const selectProcessingColumnData = (state: RootState) =>
   (state.canban.data as CanBanState).processingColumnData;
 export const selectErrorMessage = (state: RootState) => state.canban.message;

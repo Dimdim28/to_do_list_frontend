@@ -171,6 +171,41 @@
   }
 }
 
+.deleteTaskIcon {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  right: 2px;
+  bottom: 2px;
+  transform: translateX(100%);
+  transition:
+    color $transition-delay,
+    opacity $transition-delay,
+    transform $transition-delay;
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .deleteTaskIcon {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.task:hover {
+  .deleteTaskIcon {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0%);
+  }
+}
+
 .columnTitle {
   font-size: 18px;
   font-weight: bold;
@@ -187,6 +222,8 @@
 }
 
 .task {
+  position: relative;
+  overflow-x: hidden;
   gap: 10px;
   background-color: $background-dark-0;
   color: white;

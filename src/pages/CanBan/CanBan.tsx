@@ -22,6 +22,7 @@ import {
   moveTask,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
+  setDeleteTaskModalOpen,
   setEditProjectModalOpened,
   setIsAddTagToProjectModalOpened,
   setIsAddUserToProjectModalOpened,
@@ -33,6 +34,7 @@ import {
 import {
   isChangeColumnNameModalOpen,
   isDeleteColumnModalOpen,
+  isDeleteTaskModalOpen,
   selectCanBanCreatorId,
   selectColumns,
   selectErrorMessage,
@@ -42,13 +44,14 @@ import {
   selectStatus,
 } from '../../redux/slices/canban/selectors';
 import { fetchCanBanBoardById } from '../../redux/slices/canban/thunk';
-import { Column, SelectedTaskInfo } from '../../redux/slices/canban/type';
+import { Column, SelectedTaskInfo, Task } from '../../redux/slices/canban/type';
 import { Status } from '../../types/shared';
 
 import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
 import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToProjectModal';
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
+import DeleteTask from './components/DeleteTaskModal/DeleteTask';
 import EditProjectInfo from './components/EditProjectInfo/EditProjectInfo';
 import Tag from './components/Tag/Tag';
 import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
@@ -64,6 +67,7 @@ const CanBan = () => {
   const columns = useAppSelector(selectColumns);
   const isEditColumnNameModalOpen = useAppSelector(isChangeColumnNameModalOpen);
   const isDeleteModalOpened = useAppSelector(isDeleteColumnModalOpen);
+  const isDeleteTaskModalOpened = useAppSelector(isDeleteTaskModalOpen);
   const isProjectSettingsOpened = useAppSelector(selectIsProjectSettingsOpened);
   const isAddUserToProjectModalOpened = useAppSelector(
     selectIsAddUserProjectModalOpened,
@@ -147,6 +151,14 @@ const CanBan = () => {
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
+  };
+
+  const handleOpenDeleteTaskModal = (column: Column, task: Task) => {
+    dispatch(setSelectedTask({ task, columnId: column._id }));
+    dispatch(setDeleteTaskModalOpen(true));
+    dispatch(
+      setProcessingColumnData({ columnId: column._id, title: column.title }),
+    );
   };
 
   useEffect(() => {
@@ -268,6 +280,16 @@ const CanBan = () => {
                                 <Tag tag={tag} key={tag._id} />
                               ))}
                             </div>
+
+                            <FontAwesomeIcon
+                              fontSize="15px"
+                              icon={faTrash}
+                              className={styles.deleteTaskIcon}
+                              onClick={(e) => {
+                                handleOpenDeleteTaskModal(column, task);
+                                e.stopPropagation();
+                              }}
+                            />
                           </div>
                         )}
                       </Draggable>
@@ -331,7 +353,18 @@ const CanBan = () => {
         ChildComponent={AddTagToProgectModal}
         childProps={{}}
       />
+
       <TaskInfoSideBar />
+      <Modal
+        active={isDeleteTaskModalOpened}
+        setActive={() => {
+          dispatch(setDeleteTaskModalOpen(false));
+          dispatch(setProcessingColumnData(null));
+          dispatch(setSelectedTask({ task: null }));
+        }}
+        ChildComponent={DeleteTask}
+        childProps={{}}
+      />
 
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
     </div>

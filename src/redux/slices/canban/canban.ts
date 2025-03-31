@@ -18,6 +18,7 @@ const initialColumnsState: CanBanState = {
   selectedTask: { task: null },
   isChangeColumnNameModalOpen: false,
   isDeleteColumnModalOpen: false,
+  isDeleteTaskModalOpen: false,
   processingColumnData: null,
   isTaskInfoSideBarOpened: false,
   isProjectSettingsOpened: false,
@@ -91,14 +92,18 @@ const canBanSlice = createSlice({
       }
     },
 
-    deleteTask: (state, action: PayloadAction<string>) => {
+    deleteTask: (
+      state,
+      action: PayloadAction<{ columnId: string; taskId: string }>,
+    ) => {
       if (!state.data) return;
 
-      for (const column of state.data.columns) {
-        column.tasks = column.tasks.filter(
-          (task) => task._id !== action.payload,
-        );
-      }
+      const { columnId, taskId } = action.payload;
+
+      const column = state.data.columns.find((col) => col._id === columnId);
+      if (!column) return;
+
+      column.tasks = column.tasks.filter((task) => task._id !== taskId);
     },
 
     setProcessingColumnData: (
@@ -127,6 +132,11 @@ const canBanSlice = createSlice({
     setDeleteColumnModalOpen: (state, action: PayloadAction<boolean>) => {
       if (!state.data) return;
       state.data.isDeleteColumnModalOpen = action.payload;
+    },
+
+    setDeleteTaskModalOpen: (state, action: PayloadAction<boolean>) => {
+      if (!state.data) return;
+      state.data.isDeleteTaskModalOpen = action.payload;
     },
 
     setEditProjectModalOpened: (state, action: PayloadAction<boolean>) => {
@@ -399,4 +409,5 @@ export const {
   deleteUserFromColumns,
   deleteTagFromColumns,
   editTagInColumns,
+  setDeleteTaskModalOpen,
 } = canBanSlice.actions;

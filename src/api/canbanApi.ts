@@ -219,6 +219,28 @@ type MoveTaskToAnotherColumnResponseFail = {
   message: string;
 };
 
+export type DeleteTaskPayload = {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+};
+
+type DeleteTaskApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type DeleteTaskResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type DeleteTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 export type AddUserPayload = {
   boardId: string;
   targetUserId: string;
@@ -441,6 +463,22 @@ class canbanAPIClass {
           targetColumnId: payload.targetColumnId,
           order: payload.order,
         },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async deleteTask(
+    payload: DeleteTaskPayload,
+  ): Promise<DeleteTaskResponseSuccess | DeleteTaskResponseFail> {
+    try {
+      const response: DeleteTaskApiResponse = await instanse.delete(
+        `board/${payload.boardId}/column/${payload.columnId}/task/${payload.taskId}`,
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {
