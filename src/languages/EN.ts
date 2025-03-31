@@ -138,6 +138,7 @@ const EN = {
   projectDescription: 'project description',
   sureDeleteColumn: 'Are you sure you want to delete column',
   sureDeleteTask: 'Are you sure you want to delete task',
+  sureDeleteProject: 'Are you sure you want to delete project',
   tagColor: 'Tag color',
   addColumn: 'Add Column',
   addCanBanTask: 'Add Task',

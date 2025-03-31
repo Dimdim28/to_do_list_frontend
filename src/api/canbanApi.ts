@@ -56,6 +56,24 @@ type CreateBoardResponseFail = {
   message: string;
 };
 
+export type DeleteBoardPayload = string;
+
+type DeleteBoardApiResponse = {
+  data: ProjectShortInfo;
+  status: number;
+  statusText: string;
+};
+
+type DeleteBoardResponseSuccess = {
+  status: Status.SUCCESS;
+  data: ProjectShortInfo;
+};
+
+type DeleteBoardResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 export type CreateColumnPayload = {
   title: string;
   boardId: string;
@@ -346,6 +364,22 @@ class canbanAPIClass {
       const response: CreateBoardApiResponse = await instanse.post(
         `board`,
         payload,
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async deleteBoard(
+    payload: DeleteBoardPayload,
+  ): Promise<DeleteBoardResponseSuccess | DeleteBoardResponseFail> {
+    try {
+      const response: DeleteBoardApiResponse = await instanse.delete(
+        `board/${payload}`,
       );
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {

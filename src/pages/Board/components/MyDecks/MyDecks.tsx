@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { faCrown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
@@ -25,6 +25,8 @@ import ROUTES from '../../../../routes';
 import { Status } from '../../../../types/shared';
 import EditProjectInfo from '../../../CanBan/components/EditProjectInfo/EditProjectInfo';
 
+import DeleteProject from './DeleteProjectModal/DeleteTask';
+
 import styles from './MyDecks.module.scss';
 
 const MyDecks = () => {
@@ -37,11 +39,21 @@ const MyDecks = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+  const [selectedProjectName, setSelectedProjectName] = useState<string>('');
+
   const handleEditProjectSettingsModal = () => {
     dispatch(setProjectInfo(null));
     dispatch(setEditProjectModalOpened(true));
     dispatch(updateTags([]));
     dispatch(updateUsersInProject([]));
+  };
+
+  const handleDeleteProjectClick = (projectId: string, projectName: string) => {
+    setIsDeleteProjectOpened(true);
+    setSelectedProjectId(projectId);
+    setSelectedProjectName(projectName);
   };
 
   useEffect(() => {
@@ -85,6 +97,16 @@ const MyDecks = () => {
                 {t('members')}: {el.membersCount || 1}
               </div>
               <FontAwesomeIcon className={styles.crown} icon={faCrown} />
+
+              <FontAwesomeIcon
+                className={styles.deleteIcon}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteProjectClick(el._id, el.title);
+                }}
+                fontSize="20px"
+                icon={faTrash}
+              />
             </div>
           ))}
         </div>
@@ -97,6 +119,18 @@ const MyDecks = () => {
         }}
         ChildComponent={EditProjectInfo}
         childProps={{}}
+      />
+
+      <Modal
+        active={isDeleteProjectOpened}
+        setActive={() => {
+          setIsDeleteProjectOpened(false);
+        }}
+        ChildComponent={DeleteProject}
+        childProps={{
+          projectId: selectedProjectId,
+          projectName: selectedProjectName,
+        }}
       />
     </div>
   );

@@ -50,7 +50,8 @@
     background-color: $background-dark-50;
   }
 
-  .crown {
+  .crown,
+  .deleteIcon {
     display: none;
   }
 }
@@ -64,6 +65,41 @@
   color: $warning-200;
 }
 
+.ownerCard .deleteIcon {
+  display: block;
+  position: absolute;
+  right: 20px;
+  font-size: 15px;
+  top: 20px;
+  color: $white;
+  opacity: 0;
+  transform: translate(100%, -100%);
+  pointer-events: none;
+  transition:
+    color $transition-delay,
+    opacity $transition-delay,
+    transform $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) {
+  .ownerCard .deleteIcon {
+    color: $black;
+    &:hover {
+      color: $error-200;
+    }
+  }
+}
+.ownerCard:hover {
+  .deleteIcon {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
+  }
+}
 .title {
   flex-grow: 1;
   font-size: 24px;

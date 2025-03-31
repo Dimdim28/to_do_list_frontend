@@ -315,6 +315,13 @@ const canBanSlice = createSlice({
       columns[currentIndex] = columns[targetIndex];
       columns[targetIndex] = temp;
     },
+
+    deleteProject: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+      state.data.allProjects = state.data.allProjects.filter(
+        (project) => project._id !== action.payload,
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllCanBanBoards.pending, (state) => {
@@ -443,4 +450,5 @@ export const {
   editTagInColumns,
   setDeleteTaskModalOpen,
   reorderColumns,
+  deleteProject,
 } = canBanSlice.actions;
