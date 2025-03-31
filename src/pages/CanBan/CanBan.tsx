@@ -90,16 +90,24 @@ const CanBan = () => {
       }),
     );
 
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index !== destination.index &&
-      boardId
-    ) {
-      await handleTaskReorder({
+    if (!boardId) return;
+
+    if (source.droppableId === destination.droppableId) {
+      if (source.index !== destination.index) {
+        await canbanAPI.updateTask({
+          taskId: draggableId,
+          boardId,
+          columnId: source.droppableId,
+          order: destination.index,
+        });
+      }
+    } else {
+      await canbanAPI.moveTaskToAnotherColumn({
         taskId: draggableId,
         boardId,
         columnId: source.droppableId,
-        newOrder: destination.index,
+        targetColumnId: destination.droppableId,
+        order: destination.index,
       });
     }
   };
@@ -139,29 +147,6 @@ const CanBan = () => {
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
     dispatch(setSelectedTask(task));
-  };
-
-  const handleTaskReorder = async ({
-    taskId,
-    boardId,
-    columnId,
-    newOrder,
-  }: {
-    taskId: string;
-    boardId: string;
-    columnId: string;
-    newOrder: number;
-  }) => {
-    try {
-      await canbanAPI.updateTask({
-        taskId,
-        boardId,
-        columnId,
-        order: newOrder,
-      });
-    } catch (err) {
-      console.error('Failed to update task order', err);
-    }
   };
 
   useEffect(() => {

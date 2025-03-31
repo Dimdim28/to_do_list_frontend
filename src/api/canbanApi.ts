@@ -195,6 +195,30 @@ type UpdateTaskResponseFail = {
   message: string;
 };
 
+export type MoveTaskToAnotherColumnPayload = {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+  order: number;
+  targetColumnId: string;
+};
+
+type MoveTaskToAnotherColumnApiResponse = {
+  data: { success: true };
+  status: number;
+  statusText: string;
+};
+
+type MoveTaskToAnotherColumnResponseSuccess = {
+  status: Status.SUCCESS;
+  data: { success: true };
+};
+
+type MoveTaskToAnotherColumnResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 export type AddUserPayload = {
   boardId: string;
   targetUserId: string;
@@ -393,6 +417,28 @@ class canbanAPIClass {
           description: payload.description,
           assigneeIds: payload.assigneeIds,
           tagIds: payload.tagIds,
+          order: payload.order,
+        },
+      );
+      return { status: Status.SUCCESS, data: response.data };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async moveTaskToAnotherColumn(
+    payload: MoveTaskToAnotherColumnPayload,
+  ): Promise<
+    MoveTaskToAnotherColumnResponseSuccess | MoveTaskToAnotherColumnResponseFail
+  > {
+    try {
+      const response: MoveTaskToAnotherColumnApiResponse = await instanse.post(
+        `board/${payload.boardId}/column/${payload.columnId}/task/${payload.taskId}/move`,
+        {
+          targetColumnId: payload.targetColumnId,
           order: payload.order,
         },
       );
