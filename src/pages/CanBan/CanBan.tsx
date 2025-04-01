@@ -243,22 +243,24 @@ const CanBan = () => {
           {columns.map((column, index) => (
             <div className={styles.column} key={column._id}>
               <div className={styles.columnHeader}>
-                <div className={styles.arrows}>
-                  {index > 0 && (
-                    <FontAwesomeIcon
-                      onClick={() => handleMoveColumn(column, 'left')}
-                      icon={faArrowLeft}
-                      className={styles.arrow}
-                    />
-                  )}
-                  {index < columns.length - 1 && (
-                    <FontAwesomeIcon
-                      onClick={() => handleMoveColumn(column, 'right')}
-                      icon={faArrowRight}
-                      className={styles.arrow}
-                    />
-                  )}
-                </div>
+                {currentUserProfile?._id === creatorId ? (
+                  <div className={styles.arrows}>
+                    {index > 0 && (
+                      <FontAwesomeIcon
+                        onClick={() => handleMoveColumn(column, 'left')}
+                        icon={faArrowLeft}
+                        className={styles.arrow}
+                      />
+                    )}
+                    {index < columns.length - 1 && (
+                      <FontAwesomeIcon
+                        onClick={() => handleMoveColumn(column, 'right')}
+                        icon={faArrowRight}
+                        className={styles.arrow}
+                      />
+                    )}
+                  </div>
+                ) : null}
                 <h3 className={styles.columnTitle}>{column.title}</h3>
                 {currentUserProfile?._id === creatorId ? (
                   <div className={styles.icons}>
