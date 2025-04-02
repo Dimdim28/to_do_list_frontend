@@ -16,6 +16,7 @@ import {
   removeUserFromProject,
   setEditProjectModalOpened,
   setProjectInfo,
+  updateTagInList,
 } from '../../../../redux/slices/canban/canban';
 import {
   selectIsProjectInfo,
@@ -114,6 +115,7 @@ const EditProjectInfo = () => {
     setCurrentTags((tags) =>
       tags.map((currentTag) => (currentTag._id === tag._id ? tag : currentTag)),
     );
+    dispatch(updateTagInList(tag));
   };
 
   const deleteTag = (tag: TagType) => {

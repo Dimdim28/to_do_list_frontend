@@ -46,7 +46,7 @@ const EditTagProjectModal: FC<EditTagProjectModalProps> = ({
     });
     if (result.status === Status.SUCCESS) {
       updateTag({ _id: currentTag._id, title: text, color });
-      dispatch(editTagInColumns(currentTag));
+      dispatch(editTagInColumns({ _id: currentTag._id, color, title: text }));
       setError('');
       setIsLoading(false);
       toggleActive(false);
