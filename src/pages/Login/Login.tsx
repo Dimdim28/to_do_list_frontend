@@ -1,20 +1,14 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { faG } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useFormik } from 'formik';
 
 import socketsAPI from '../../api/socketsAPI';
 import { FormikInput } from '../../components/common/Input/Input';
+import GoogleLogin from '../../components/GoogleLogin';
 import withHomeRedirect from '../../hoc/withHomeRedirect';
 import { useAppDispatch } from '../../hooks';
-import {
-  fetchAuthMe,
-  fetchGoogleUser,
-  fetchUserData,
-} from '../../redux/slices/auth/thunk';
+import { fetchUserData } from '../../redux/slices/auth/thunk';
 import ROUTES from '../../routes';
 
 import { validate } from './helpers';
@@ -27,27 +21,6 @@ const Login: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const { t } = useTranslation();
-
-  const login = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: async (codeResponse) => {
-      const authCode = codeResponse.code;
-      const data: any = await dispatch(fetchGoogleUser(authCode));
-
-      if (data.error) {
-        setError(data.payload);
-      }
-
-      if ('token' in data.payload) {
-        window.localStorage.setItem('token', data.payload.token);
-        socketsAPI.init(data.payload.token);
-        dispatch(fetchAuthMe());
-      }
-    },
-    onError: () => {
-      setError('Google login failed');
-    },
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -115,16 +88,10 @@ const Login: FC = () => {
             >
               {t('signUp')}
             </NavLink>
-
-            <FontAwesomeIcon
-              className={styles.googleIcon}
-              icon={faG}
-              onClick={() => login()}
-            />
           </div>
-
-          {error ? <p className={styles.error}>{error}</p> : null}
         </form>
+        <GoogleLogin setError={setError} />
+        {error ? <p className={styles.error}>{error}</p> : null}
       </div>
     </main>
   );

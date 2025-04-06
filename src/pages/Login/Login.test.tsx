@@ -17,7 +17,7 @@ describe('Login', () => {
           <Router>
             <Login />
           </Router>
-        </Provider>{' '}
+        </Provider>
       </GoogleOAuthProvider>,
     );
 

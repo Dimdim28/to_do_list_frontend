@@ -86,23 +86,3 @@ form {
   text-align: center;
   margin-top: 20px;
 }
-
-.googleIcon {
-  color: white;
-  cursor: pointer;
-  transition: color $transition-delay;
-
-  &:hover {
-    color: $warning-200;
-  }
-}
-
-:global(.light_theme) {
-  .googleIcon {
-    color: black;
-
-    &:hover {
-      color: $warning-200;
-    }
-  }
-}

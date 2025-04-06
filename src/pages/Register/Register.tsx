@@ -1,20 +1,14 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { faG } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useFormik } from 'formik';
 
 import socketsAPI from '../../api/socketsAPI';
 import { FormikInput } from '../../components/common/Input/Input';
+import GoogleLogin from '../../components/GoogleLogin';
 import withHomeRedirect from '../../hoc/withHomeRedirect';
 import { useAppDispatch } from '../../hooks';
-import {
-  fetchAuthMe,
-  fetchGoogleUser,
-  registerUser,
-} from '../../redux/slices/auth/thunk';
+import { registerUser } from '../../redux/slices/auth/thunk';
 import ROUTES from '../../routes';
 
 import styles from './Register.module.scss';
@@ -89,27 +83,6 @@ const SignupForm: FC = () => {
       }
       formik.resetForm();
       setSubmitting(false);
-    },
-  });
-
-  const login = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: async (codeResponse) => {
-      const authCode = codeResponse.code;
-      const data: any = await dispatch(fetchGoogleUser(authCode));
-
-      if (data.error) {
-        setError(data.payload);
-      }
-
-      if ('token' in data.payload) {
-        window.localStorage.setItem('token', data.payload.token);
-        socketsAPI.init(data.payload.token);
-        dispatch(fetchAuthMe());
-      }
-    },
-    onError: () => {
-      setError('Google login failed');
     },
   });
 
@@ -190,15 +163,10 @@ const SignupForm: FC = () => {
             >
               {t('signIn')}
             </NavLink>
-
-            <FontAwesomeIcon
-              className={styles.googleIcon}
-              icon={faG}
-              onClick={() => login()}
-            />
           </div>
-          {error && <p className={styles.error}>{error}</p>}
         </form>
+        <GoogleLogin setError={setError} />
+        {error && <p className={styles.error}>{error}</p>}
       </div>
     </main>
   );
