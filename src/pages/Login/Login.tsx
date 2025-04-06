@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { faG } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useFormik } from 'formik';
 
@@ -113,11 +115,16 @@ const Login: FC = () => {
             >
               {t('signUp')}
             </NavLink>
+
+            <FontAwesomeIcon
+              className={styles.googleIcon}
+              icon={faG}
+              onClick={() => login()}
+            />
           </div>
 
           {error ? <p className={styles.error}>{error}</p> : null}
         </form>
-        <button onClick={() => login()}>Войти через Google</button>
       </div>
     </main>
   );
