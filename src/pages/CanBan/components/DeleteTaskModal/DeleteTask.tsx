@@ -69,12 +69,7 @@ const DeleteTask: FC<DeleteTaskProps> = ({ toggleActive }) => {
 
       <div className={styles.actions}>
         <Button text={t('cancel')} callback={cancel} class="cancel" />
-        <Button
-          text={t('submit')}
-          callback={submit}
-          class="submit"
-          disabled={title.length < 3}
-        />
+        <Button text={t('submit')} callback={submit} class="submit" />
       </div>
       {error && <p className={styles.error}>{error}</p>}
     </div>

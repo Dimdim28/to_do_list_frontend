@@ -17,7 +17,9 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addTask,
   editTask,
+  setDeleteTaskModalOpen,
   setIsTaskInfoModalOpened,
+  setProcessingColumnData,
   setSelectedTask,
 } from '../../../../redux/slices/canban/canban';
 import {
@@ -27,7 +29,7 @@ import {
   selectProjectTags,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
-import { Tag } from '../../../../redux/slices/canban/type';
+import { Tag, Task } from '../../../../redux/slices/canban/type';
 import { Status, User } from '../../../../types/shared';
 import TagComponent from '../Tag/Tag';
 
@@ -140,6 +142,12 @@ const TaskInfoSideBar = () => {
     }
   };
 
+  const handleOpenDeleteTaskModal = (columnId: string, task: Task) => {
+    dispatch(setSelectedTask({ task: task, columnId }));
+    dispatch(setDeleteTaskModalOpen(true));
+    dispatch(setProcessingColumnData({ columnId, title: '' }));
+  };
+
   useEffect(() => {
     document.addEventListener(KEY_EVENT_TYPE, handleEscKey);
     return () => {
@@ -239,6 +247,12 @@ const TaskInfoSideBar = () => {
                     isAddAssignerMenuOpened ? styles.opened : undefined
                   }`}
                 >
+                  {members.filter(
+                    (user) =>
+                      !assigners.find((assigner) => assigner._id === user._id),
+                  ).length === 0 ? (
+                    <p>{t('noFreeMembers')}</p>
+                  ) : null}
                   {members
                     .filter(
                       (user) =>
@@ -312,6 +326,20 @@ const TaskInfoSideBar = () => {
                       />
                     ))}
                 </div>
+              </div>
+            </div>
+
+            <div className={styles.deleteTask}>
+              <div
+                className={styles.deleteTaskText}
+                onClick={(e) => {
+                  if (!taskInfo?.columnId || !taskInfo?.task) return;
+
+                  handleOpenDeleteTaskModal(taskInfo.columnId, taskInfo.task);
+                  e.stopPropagation();
+                }}
+              >
+                {t('deleteTask')}
               </div>
             </div>
 

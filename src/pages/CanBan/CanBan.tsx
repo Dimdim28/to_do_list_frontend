@@ -1,14 +1,10 @@
 import { useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import {
-  faArrowLeft,
-  faArrowRight,
   faFolderPlus,
   faGear,
-  faPencil,
-  faTrash,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,13 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import canbanAPI from '../../api/canbanApi';
 import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
-import UserImage from '../../components/UserImage/UserImage';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectProfile } from '../../redux/slices/auth/selectors';
 import {
   moveTask,
-  reorderColumns,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
   setDeleteTaskModalOpen,
@@ -47,16 +41,15 @@ import {
   selectStatus,
 } from '../../redux/slices/canban/selectors';
 import { fetchCanBanBoardById } from '../../redux/slices/canban/thunk';
-import { Column, SelectedTaskInfo, Task } from '../../redux/slices/canban/type';
 import { Status } from '../../types/shared';
 
 import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
 import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToProjectModal';
 import ChangeColumnName from './components/ChangeColumnName/ChangeColumnName';
+import Column from './components/Column';
 import DeleteColumn from './components/DeleteColumModal/DeleteColumn';
 import DeleteTask from './components/DeleteTaskModal/DeleteTask';
 import EditProjectInfo from './components/EditProjectInfo/EditProjectInfo';
-import Tag from './components/Tag/Tag';
 import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 
 import styles from './CanBan.module.scss';
@@ -124,20 +117,6 @@ const CanBan = () => {
     dispatch(setChangeColumnNameModalOpen(true));
   };
 
-  const handleOpenEditColumnModal = (column: Column) => {
-    dispatch(
-      setProcessingColumnData({ columnId: column._id, title: column.title }),
-    );
-    dispatch(setChangeColumnNameModalOpen(true));
-  };
-
-  const handleOpenDeleteColumnModal = (column: Column) => {
-    dispatch(
-      setProcessingColumnData({ columnId: column._id, title: column.title }),
-    );
-    dispatch(setDeleteColumnModalOpen(true));
-  };
-
   const handleEditProjectSettingsModal = () => {
     dispatch(setEditProjectModalOpened(true));
   };
@@ -151,51 +130,6 @@ const CanBan = () => {
     dispatch(setIsAddTagToProjectModalOpened(true));
   };
 
-  const handleTaskClick = (task: SelectedTaskInfo) => {
-    dispatch(setIsTaskInfoModalOpened(true));
-    dispatch(setSelectedTask(task));
-  };
-
-  const handleOpenDeleteTaskModal = (column: Column, task: Task) => {
-    dispatch(setSelectedTask({ task, columnId: column._id }));
-    dispatch(setDeleteTaskModalOpen(true));
-    dispatch(
-      setProcessingColumnData({ columnId: column._id, title: column.title }),
-    );
-  };
-
-  const handleMoveColumn = async (
-    column: Column,
-    direction: 'left' | 'right',
-  ) => {
-    if (!boardId) return;
-
-    const currentIndex = columns.findIndex((col) => col._id === column._id);
-    const targetIndex =
-      direction === 'left' ? currentIndex - 1 : currentIndex + 1;
-
-    if (targetIndex < 0 || targetIndex >= columns.length) return;
-
-    const targetOrder = columns[targetIndex].order;
-
-    const result = await canbanAPI.updateColumn({
-      boardId,
-      columnId: column._id,
-      order: targetOrder,
-    });
-
-    if (result.status === Status.SUCCESS) {
-      dispatch(
-        reorderColumns({
-          columnId: column._id,
-          direction,
-        }),
-      );
-    } else {
-      console.error('Failed to move column:', result.message);
-    }
-  };
-
   useEffect(() => {
     if (boardId) {
       dispatch(fetchCanBanBoardById(boardId));
@@ -206,9 +140,11 @@ const CanBan = () => {
     return <Preloader />;
   }
 
+  const isCreator = currentUserProfile?._id === creatorId;
+
   return (
     <div className={styles.wrapper}>
-      {currentUserProfile?._id === creatorId ? (
+      {isCreator ? (
         <div className={styles.line}>
           <button
             className={styles.addColumnButton}
@@ -241,124 +177,14 @@ const CanBan = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {columns.map((column, index) => (
-            <div className={styles.column} key={column._id}>
-              <div className={styles.columnHeader}>
-                {currentUserProfile?._id === creatorId ? (
-                  <div className={styles.arrows}>
-                    {index > 0 && (
-                      <FontAwesomeIcon
-                        onClick={() => handleMoveColumn(column, 'left')}
-                        icon={faArrowLeft}
-                        className={styles.arrow}
-                      />
-                    )}
-                    {index < columns.length - 1 && (
-                      <FontAwesomeIcon
-                        onClick={() => handleMoveColumn(column, 'right')}
-                        icon={faArrowRight}
-                        className={styles.arrow}
-                      />
-                    )}
-                  </div>
-                ) : null}
-                <h3 className={styles.columnTitle}>{column.title}</h3>
-                {currentUserProfile?._id === creatorId ? (
-                  <div className={styles.icons}>
-                    <FontAwesomeIcon
-                      className={`${styles.icon} ${styles.pencil}`}
-                      onClick={(e) => {
-                        handleOpenEditColumnModal(column);
-
-                        e.stopPropagation();
-                      }}
-                      fontSize="15px"
-                      icon={faPencil}
-                    />
-                    <FontAwesomeIcon
-                      fontSize="15px"
-                      icon={faTrash}
-                      className={`${styles.icon} ${styles.trash}`}
-                      onClick={(e) => {
-                        handleOpenDeleteColumnModal(column);
-                        e.stopPropagation();
-                      }}
-                    />
-                  </div>
-                ) : null}
-              </div>
-              <Droppable droppableId={column._id}>
-                {(provided) => (
-                  <div
-                    className={styles.taskList}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {column.tasks.map((task, index) => (
-                      <Draggable
-                        key={task._id}
-                        draggableId={task._id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            onClick={() => {
-                              handleTaskClick({
-                                task: task,
-                                columnId: column._id,
-                              });
-                            }}
-                            className={styles.task}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <div className={styles.taskContent}>
-                              <div className={styles.title}>{task.title}</div>
-                              <div className={styles.assignedUsers}>
-                                {task.assignees
-                                  ?.slice(0, 3)
-                                  .map((user) => (
-                                    <UserImage
-                                      key={user._id}
-                                      additionalClassname={styles.userAvatar}
-                                      user={user}
-                                    />
-                                  ))}
-                              </div>
-                            </div>
-
-                            <div className={styles.tags}>
-                              {task.tags.map((tag) => (
-                                <Tag tag={tag} key={tag._id} />
-                              ))}
-                            </div>
-
-                            <FontAwesomeIcon
-                              fontSize="15px"
-                              icon={faTrash}
-                              className={styles.deleteTaskIcon}
-                              onClick={(e) => {
-                                handleOpenDeleteTaskModal(column, task);
-                                e.stopPropagation();
-                              }}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-              <button
-                className={styles.addTaskButton}
-                onClick={() => {
-                  handleTaskClick({ task: null, columnId: column._id });
-                }}
-              >
-                + {t('addCanBanTask')}
-              </button>
-            </div>
+            <Column
+              index={index}
+              isCreator={isCreator}
+              key={column._id}
+              boardId={boardId}
+              column={column}
+              columns={columns}
+            />
           ))}
         </div>
         {columns.length === 0 ? (
@@ -413,6 +239,7 @@ const CanBan = () => {
           dispatch(setDeleteTaskModalOpen(false));
           dispatch(setProcessingColumnData(null));
           dispatch(setSelectedTask({ task: null }));
+          dispatch(setIsTaskInfoModalOpened(false));
         }}
         ChildComponent={DeleteTask}
         childProps={{}}

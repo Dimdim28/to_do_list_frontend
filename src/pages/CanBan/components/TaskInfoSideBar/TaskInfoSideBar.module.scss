@@ -280,3 +280,28 @@
     }
   }
 }
+
+.deleteTask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteTaskText {
+  cursor: pointer;
+
+  transition: color $transition-delay;
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .deleteTaskText {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}

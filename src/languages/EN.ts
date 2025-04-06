@@ -149,6 +149,8 @@ const EN = {
   assigners: 'Assigners',
   tags: 'Tags',
   noColumns: 'There are no columns in project right now',
+  deleteTask: 'Delete task',
+  noFreeMembers: 'No free users',
 };
 
 export default EN;

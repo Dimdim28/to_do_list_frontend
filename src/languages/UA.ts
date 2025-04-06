@@ -150,6 +150,8 @@ const UA = {
   assigners: 'Відповідальні',
   tags: 'Теги',
   noColumns: 'У проекті зараз немає колонок',
+  deleteTask: 'Видалити задачу',
+  noFreeMembers: 'Немає вільних користувачів',
 };
 
 export default UA;

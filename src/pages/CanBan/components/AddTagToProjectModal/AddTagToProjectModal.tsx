@@ -98,7 +98,7 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
           text={t('submit')}
           callback={submit}
           class="submit"
-          disabled={text.length < 3}
+          disabled={text.length < 1}
         />
       </div>
       {error && <p className={styles.error}>{error}</p>}

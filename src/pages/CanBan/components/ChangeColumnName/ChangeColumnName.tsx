@@ -63,7 +63,7 @@ const ChangeColumnName: FC<ChangeColumnNameProps> = ({ toggleActive }) => {
           text={t('submit')}
           callback={submit}
           class="submit"
-          disabled={title.length < 3}
+          disabled={title.length < 1}
         />
       </div>
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}

@@ -53,12 +53,7 @@ const DeleteColumn: FC<DeleteColumnProps> = ({ toggleActive }) => {
 
       <div className={styles.actions}>
         <Button text={t('cancel')} callback={cancel} class="cancel" />
-        <Button
-          text={t('submit')}
-          callback={submit}
-          class="submit"
-          disabled={title.length < 3}
-        />
+        <Button text={t('submit')} callback={submit} class="submit" />
       </div>
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
     </div>
