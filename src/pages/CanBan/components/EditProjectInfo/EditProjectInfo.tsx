@@ -69,12 +69,8 @@ const EditProjectInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleClose = () => {
-    dispatch(setEditProjectModalOpened(false));
-  };
-
   const handleCancel = () => {
-    handleClose();
+    dispatch(setEditProjectModalOpened(false));
   };
 
   const handleSubmit = async () => {
@@ -94,6 +90,8 @@ const EditProjectInfo = () => {
       });
 
       if (result.status === Status.SUCCESS) {
+        dispatch(setEditProjectModalOpened(false));
+
         dispatch(
           setProjectInfo({
             id: projectInfo?.id || `${Math.random() * 1000}`,
@@ -103,7 +101,6 @@ const EditProjectInfo = () => {
         );
         setError('');
         setIsLoading(false);
-        handleClose();
       } else {
         setError(result.message);
         setIsLoading(false);

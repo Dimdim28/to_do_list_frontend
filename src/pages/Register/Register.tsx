@@ -1,13 +1,18 @@
-import { FC,useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useFormik } from 'formik';
 
 import socketsAPI from '../../api/socketsAPI';
 import { FormikInput } from '../../components/common/Input/Input';
 import withHomeRedirect from '../../hoc/withHomeRedirect';
 import { useAppDispatch } from '../../hooks';
-import { registerUser } from '../../redux/slices/auth/thunk';
+import {
+  fetchAuthMe,
+  fetchGoogleUser,
+  registerUser,
+} from '../../redux/slices/auth/thunk';
 import ROUTES from '../../routes';
 
 import styles from './Register.module.scss';
@@ -60,7 +65,7 @@ const validate = (values: Values) => {
 };
 
 const SignupForm: FC = () => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -82,6 +87,27 @@ const SignupForm: FC = () => {
       }
       formik.resetForm();
       setSubmitting(false);
+    },
+  });
+
+  const login = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (codeResponse) => {
+      const authCode = codeResponse.code;
+      const data: any = await dispatch(fetchGoogleUser(authCode));
+
+      if (data.error) {
+        setError(data.payload);
+      }
+
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
+        socketsAPI.init(data.payload.token);
+        dispatch(fetchAuthMe());
+      }
+    },
+    onError: () => {
+      setError('Google login failed');
     },
   });
 
@@ -163,8 +189,9 @@ const SignupForm: FC = () => {
               {t('signIn')}
             </NavLink>
           </div>
+          {error && <p className={styles.error}>{error}</p>}
         </form>
-        {error && <p className={styles.error}>{error}</p>}
+        <button onClick={() => login()}>Войти через Google</button>
       </div>
     </main>
   );

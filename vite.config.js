@@ -26,6 +26,9 @@ export default defineConfig(({ mode }) => {
       'process.env.REACT_SOCKETS_API_URL': JSON.stringify(
         env.REACT_SOCKETS_API_URL,
       ),
+      'process.env.REACT_GOOGLE_CLIENT_ID': JSON.stringify(
+        env.REACT_GOOGLE_CLIENT_ID,
+      ),
     },
     optimizeDeps: {
       exclude: ['events'],

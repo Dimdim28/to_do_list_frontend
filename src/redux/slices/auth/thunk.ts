@@ -48,3 +48,19 @@ export const fetchAuthMe = createAsyncThunk<Profile>(
     return data;
   },
 );
+
+export const fetchGoogleUser = createAsyncThunk<Profile, string>(
+  'auth/fetchGoogleUser',
+  async (code, { rejectWithValue }) => {
+    try {
+      const response: ProfileResponse = await instanse.post('/auth/google', {
+        code,
+      });
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(
+        err?.response?.data?.message || 'Google login error',
+      );
+    }
+  },
+);

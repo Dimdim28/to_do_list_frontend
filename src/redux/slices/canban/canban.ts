@@ -359,7 +359,9 @@ const canBanSlice = createSlice({
       if (!state.data) return;
       state.data.allProjects.push(action.payload);
       state.status = Status.SUCCESS;
+      state.data.isProjectSettingsOpened = false;
       state.message = '';
+      state.data.info = null;
     });
     builder.addCase(createCanBanBoard.rejected, (state, action) => {
       state.status = Status.ERROR;
