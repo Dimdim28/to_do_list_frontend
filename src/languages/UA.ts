@@ -152,6 +152,7 @@ const UA = {
   noColumns: 'У проекті зараз немає колонок',
   deleteTask: 'Видалити задачу',
   noFreeMembers: 'Немає вільних користувачів',
+  backToAllBoards: 'Повернутися до усіх дошок',
 };
 
 export default UA;

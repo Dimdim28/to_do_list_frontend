@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import {
+  faArrowLeft,
   faFolderPlus,
   faGear,
   faUser,
@@ -41,6 +43,7 @@ import {
   selectStatus,
 } from '../../redux/slices/canban/selectors';
 import { fetchCanBanBoardById } from '../../redux/slices/canban/thunk';
+import ROUTES from '../../routes';
 import { Status } from '../../types/shared';
 
 import AddTagToProgectModal from './components/AddTagToProjectModal/AddTagToProjectModal';
@@ -146,12 +149,18 @@ const CanBan = () => {
     <div className={styles.wrapper}>
       {isCreator ? (
         <div className={styles.line}>
-          <button
-            className={styles.addColumnButton}
-            onClick={handleOpenAddColumnModal}
-          >
-            {t('addColumn')}
-          </button>
+          <div className={styles.options}>
+            <NavLink to={ROUTES.CanBan} className={styles.backToAllBoards}>
+              <FontAwesomeIcon icon={faArrowLeft} /> {t('backToAllBoards')}
+            </NavLink>
+            <button
+              className={styles.addColumnButton}
+              onClick={handleOpenAddColumnModal}
+            >
+              {t('addColumn')}
+            </button>
+          </div>
+
           <div className={styles.options}>
             <FontAwesomeIcon
               className={styles.gear}
@@ -173,7 +182,12 @@ const CanBan = () => {
             />
           </div>
         </div>
-      ) : null}
+      ) : (
+        <NavLink to={ROUTES.CanBan} className={styles.backToAllBoards}>
+          <FontAwesomeIcon icon={faArrowLeft} /> {t('backToAllBoards')}
+        </NavLink>
+      )}
+
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={styles.columns}>
           {columns.map((column, index) => (

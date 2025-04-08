@@ -20,10 +20,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .addColumnButton {
+  margin-top: 10px;
   align-self: flex-start;
   background-color: $info-200;
   color: $white;
@@ -93,6 +93,17 @@
   overflow-x: auto;
 }
 
+.backToAllBoards {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
 :global(.light_theme) {
   .wrapper {
     background: $gray-500;
@@ -121,6 +132,14 @@
 
     &:hover {
       color: $amber-200;
+    }
+  }
+
+  .backToAllBoards {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
     }
   }
 }

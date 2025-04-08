@@ -151,6 +151,7 @@ const EN = {
   noColumns: 'There are no columns in project right now',
   deleteTask: 'Delete task',
   noFreeMembers: 'No free users',
+  backToAllBoards: 'Back to all boards',
 };
 
 export default EN;
