@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   // eslint-disable-next-line no-undef
   const env = loadEnv(mode, process.cwd(), '');
   return {
-    base: '',
+    base: '/',
     server: {
       open: true,
       port: 3000,
