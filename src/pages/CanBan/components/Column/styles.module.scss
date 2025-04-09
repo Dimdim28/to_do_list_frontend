@@ -1,6 +1,7 @@
 @import 'src/styles/partials/theme';
 
 .column {
+  position: relative;
   background-color: $background-dark-10;
   transition: background-color $transition-delay;
   border-radius: 8px;

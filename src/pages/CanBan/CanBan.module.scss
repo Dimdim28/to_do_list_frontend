@@ -1,6 +1,7 @@
 @import 'src/styles/partials/theme';
 
 .wrapper {
+  position: relative;
   color: white;
   height: calc(100% - 80px);
   width: 100%;
@@ -89,8 +90,13 @@
   display: flex;
   gap: 20px;
   height: calc(100% - 44px);
+  height: 100%;
+  min-height: 0;
   width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  scroll-behavior: smooth;
 }
 
 .backToAllBoards {
