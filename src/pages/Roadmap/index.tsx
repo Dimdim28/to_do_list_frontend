@@ -1,4 +1,4 @@
-import { DragEvent } from 'react';
+import { DragEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -59,6 +59,11 @@ import styles from './styles.module.scss';
 const RoadMap = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const SCROLL_THRESHOLD = 50;
+  const SCROLL_SPEED = 10;
 
   const data = useAppSelector(selectRoadmapData);
   const status = useAppSelector(selectRoadmapStatus);
@@ -148,6 +153,21 @@ const RoadMap = () => {
     dispatch(setRoadmapCurrentRow(row));
     dispatch(setRoadmapCurrentTask(null));
     dispatch(setRoadmapIsEditingTaskOpened(true));
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    if (!wrapperRef.current) return;
+    e.preventDefault();
+
+    const wrapper = wrapperRef.current;
+    const { top, bottom } = wrapper.getBoundingClientRect();
+    const mouseY = e.clientY;
+
+    if (mouseY - top < SCROLL_THRESHOLD) {
+      wrapper.scrollTop -= SCROLL_SPEED;
+    } else if (bottom - mouseY < SCROLL_THRESHOLD) {
+      wrapper.scrollTop += SCROLL_SPEED;
+    }
   };
 
   const handleMilestoneDoubleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -252,7 +272,11 @@ const RoadMap = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      ref={wrapperRef}
+      className={styles.wrapper}
+      onDragOver={handleDragOver}
+    >
       <h1 className={styles.projectTitle}>{title}</h1>
 
       <div
