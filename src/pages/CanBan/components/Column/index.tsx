@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   faArrowLeft,
@@ -11,8 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import canbanAPI from '../../../../api/canbanApi';
 import UserImage from '../../../../components/UserImage/UserImage';
+import { useDrag } from '../../../../helpers/DragContext';
 import { useAppDispatch } from '../../../../hooks';
 import {
+  moveTask,
   reorderColumns,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
@@ -26,6 +27,9 @@ import Tag from '../Tag/Tag';
 
 import styles from './styles.module.scss';
 
+const SCROLL_THRESHOLD = 40;
+const SCROLL_SPEED = 5;
+
 interface ColumnProps {
   column: Column;
   boardId?: string;
@@ -33,7 +37,8 @@ interface ColumnProps {
   isCreator: boolean;
   index: number;
 }
-const ColumnComponent: FC<ColumnProps> = ({
+
+const ColumnComponent: React.FC<ColumnProps> = ({
   column,
   boardId,
   columns,
@@ -42,6 +47,10 @@ const ColumnComponent: FC<ColumnProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const taskListRef = useRef<HTMLDivElement>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const { isDragging, setIsDragging, draggingTaskId, setDraggingTaskId } =
+    useDrag();
 
   const handleTaskClick = (task: SelectedTaskInfo) => {
     dispatch(setIsTaskInfoModalOpened(true));
@@ -83,21 +92,195 @@ const ColumnComponent: FC<ColumnProps> = ({
     });
 
     if (result.status === Status.SUCCESS) {
-      dispatch(
-        reorderColumns({
-          columnId: column._id,
-          direction,
-        }),
-      );
+      dispatch(reorderColumns({ columnId: column._id, direction }));
     } else {
       console.error('Failed to move column:', result.message);
     }
   };
 
+  const onTaskDragStart = (
+    e: React.DragEvent<HTMLDivElement>,
+    taskId: string,
+    sourceIndex: number,
+  ) => {
+    setTimeout(() => {
+      setIsDragging(true);
+      setDraggingTaskId(taskId);
+    }, 0);
+
+    const data = JSON.stringify({
+      taskId,
+      sourceColId: column._id,
+      sourceIndex,
+      offsetY: e.clientY,
+    });
+    e.dataTransfer.setData('application/json', data);
+  };
+
+  const onTaskDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!taskListRef.current) return;
+
+    const list = taskListRef.current;
+    const { top, bottom } = list.getBoundingClientRect();
+    const mouseY = e.clientY;
+
+    if (mouseY - top < SCROLL_THRESHOLD) {
+      list.scrollTop -= SCROLL_SPEED;
+    } else if (bottom - mouseY < SCROLL_THRESHOLD) {
+      list.scrollTop += SCROLL_SPEED;
+    }
+
+    const children = Array.from(list.children).filter(
+      (child) => !child.classList.contains(styles.placeholder),
+    );
+
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i] as HTMLElement;
+      const rect = child.getBoundingClientRect();
+      if (mouseY < rect.top + rect.height / 2) {
+        setHoveredIndex(i);
+        return;
+      }
+    }
+
+    setHoveredIndex(column.tasks.length);
+  };
+
+  const onTaskDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const raw = e.dataTransfer.getData('application/json');
+    if (!raw) return;
+    const { taskId, sourceColId, sourceIndex } = JSON.parse(raw);
+
+    const currentTasks = column.tasks.filter((t) => t._id !== draggingTaskId);
+    const maxIndex = currentTasks.length;
+
+    let destinationIndex = hoveredIndex ?? maxIndex;
+    if (destinationIndex > maxIndex) {
+      destinationIndex = maxIndex;
+    }
+
+    setHoveredIndex(null);
+    setIsDragging(false);
+    setDraggingTaskId(null);
+
+    dispatch(
+      moveTask({
+        sourceIndex,
+        destinationIndex,
+        sourceColId,
+        destColId: column._id,
+      }),
+    );
+
+    if (boardId) {
+      if (sourceColId === column._id) {
+        if (sourceIndex !== destinationIndex) {
+          canbanAPI.updateTask({
+            taskId,
+            boardId,
+            columnId: column._id,
+            order: destinationIndex,
+          });
+        }
+      } else {
+        canbanAPI.moveTaskToAnotherColumn({
+          taskId,
+          boardId,
+          columnId: sourceColId,
+          targetColumnId: column._id,
+          order: destinationIndex,
+        });
+      }
+    }
+  };
+
+  const onDragLeave = () => {
+    setHoveredIndex(null);
+  };
+
+  useEffect(() => {
+    const handleGlobalDragEnd = () => {
+      setIsDragging(false);
+      setDraggingTaskId(null);
+    };
+
+    document.addEventListener('dragend', handleGlobalDragEnd);
+    return () => {
+      document.removeEventListener('dragend', handleGlobalDragEnd);
+    };
+  }, []);
+
+  const renderTasksWithPlaceholder = () => {
+    const totalTasks = column.tasks.length;
+    const filteredTasks = column.tasks.filter(
+      (task) => task._id !== draggingTaskId,
+    );
+    const tasksWithPlaceholder = [...filteredTasks];
+
+    if (
+      hoveredIndex !== null &&
+      hoveredIndex >= 0 &&
+      hoveredIndex <= totalTasks
+    ) {
+      tasksWithPlaceholder.splice(hoveredIndex, 0, {
+        _id: '__placeholder__',
+      } as any);
+    }
+
+    return tasksWithPlaceholder.map((task, idx) => {
+      if (task._id === '__placeholder__') {
+        return <div key={`ph-${idx}`} className={styles.placeholder} />;
+      }
+
+      const isBeingDragged = isDragging && draggingTaskId === task._id;
+
+      return (
+        <div
+          key={task._id}
+          className={styles.task}
+          draggable
+          onDragStart={(e) => onTaskDragStart(e, task._id, idx)}
+          onClick={() => handleTaskClick({ task, columnId: column._id })}
+          style={{
+            pointerEvents: isDragging ? 'none' : 'all',
+            opacity: isBeingDragged ? 0 : 1,
+            visibility: isBeingDragged ? 'hidden' : 'visible',
+            height: isBeingDragged ? 0 : undefined,
+            margin: isBeingDragged ? 0 : undefined,
+            padding: isBeingDragged ? 0 : undefined,
+            overflow: isBeingDragged ? 'hidden' : undefined,
+          }}
+        >
+          <div className={styles.taskContent}>
+            <div className={styles.title}>{task.title}</div>
+            <div className={styles.assignedUsers}>
+              {task.assignees
+                ?.slice(0, 3)
+                .map((user) => (
+                  <UserImage
+                    key={user._id}
+                    additionalClassname={styles.userAvatar}
+                    user={user}
+                  />
+                ))}
+            </div>
+          </div>
+          <div className={styles.tags}>
+            {task.tags.map((tag) => (
+              <Tag tag={tag} key={tag._id} />
+            ))}
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
-    <div className={styles.column} key={column._id}>
+    <div className={styles.column}>
       <div className={styles.columnHeader}>
-        {isCreator ? (
+        {isCreator && (
           <div className={styles.arrows}>
             {index > 0 && (
               <FontAwesomeIcon
@@ -114,15 +297,14 @@ const ColumnComponent: FC<ColumnProps> = ({
               />
             )}
           </div>
-        ) : null}
+        )}
         <h3 className={styles.columnTitle}>{column.title}</h3>
-        {isCreator ? (
+        {isCreator && (
           <div className={styles.icons}>
             <FontAwesomeIcon
               className={`${styles.icon} ${styles.pencil}`}
               onClick={(e) => {
                 handleOpenEditColumnModal(column);
-
                 e.stopPropagation();
               }}
               fontSize="15px"
@@ -138,58 +320,22 @@ const ColumnComponent: FC<ColumnProps> = ({
               }}
             />
           </div>
-        ) : null}
-      </div>
-      <Droppable droppableId={column._id}>
-        {(provided) => (
-          <div
-            className={styles.taskList}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {column.tasks.map((task, index) => (
-              <Draggable key={task._id} draggableId={task._id} index={index}>
-                {(provided) => (
-                  <div
-                    onClick={() => {
-                      handleTaskClick({
-                        task: task,
-                        columnId: column._id,
-                      });
-                    }}
-                    className={styles.task}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <div className={styles.taskContent}>
-                      <div className={styles.title}>{task.title}</div>
-                      <div className={styles.assignedUsers}>
-                        {task.assignees
-                          ?.slice(0, 3)
-                          .map((user) => (
-                            <UserImage
-                              key={user._id}
-                              additionalClassname={styles.userAvatar}
-                              user={user}
-                            />
-                          ))}
-                      </div>
-                    </div>
-
-                    <div className={styles.tags}>
-                      {task.tags.map((tag) => (
-                        <Tag tag={tag} key={tag._id} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
         )}
-      </Droppable>
+      </div>
+      <div
+        className={styles.taskList}
+        ref={taskListRef}
+        onDragOver={onTaskDragOver}
+        onDrop={onTaskDrop}
+        onDragLeave={onDragLeave}
+        style={{
+          paddingTop: isDragging ? '20px' : '0px',
+          paddingBottom: isDragging ? '20px' : '0px',
+          transition: 'padding-top 0.2s ease, padding-bottom 0.2s ease',
+        }}
+      >
+        {renderTasksWithPlaceholder()}
+      </div>
       <button
         className={styles.addTaskButton}
         onClick={() => {

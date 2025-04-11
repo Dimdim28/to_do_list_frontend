@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import {
   faArrowLeft,
   faFolderPlus,
@@ -11,14 +9,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import canbanAPI from '../../api/canbanApi';
 import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
+import { useDrag } from '../../helpers/DragContext';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectProfile } from '../../redux/slices/auth/selectors';
 import {
-  moveTask,
   setChangeColumnNameModalOpen,
   setDeleteColumnModalOpen,
   setDeleteTaskModalOpen,
@@ -57,6 +54,9 @@ import TaskInfoSideBar from './components/TaskInfoSideBar/TaskInfoSideBar';
 
 import styles from './CanBan.module.scss';
 
+const SCROLL_THRESHOLD = 50;
+const SCROLL_SPEED = 10;
+
 const CanBan = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -79,59 +79,9 @@ const CanBan = () => {
   const creatorId = useAppSelector(selectCanBanCreatorId);
 
   const { id: boardId } = useParams();
+  const boardRef = useRef<HTMLDivElement>(null);
 
-  const onDragEnd = async (result: any) => {
-    const { source, destination, draggableId } = result;
-    if (!destination) return;
-
-    dispatch(
-      moveTask({
-        sourceIndex: source.index,
-        destinationIndex: destination.index,
-        sourceColId: source.droppableId,
-        destColId: destination.droppableId,
-      }),
-    );
-
-    if (!boardId) return;
-
-    if (source.droppableId === destination.droppableId) {
-      if (source.index !== destination.index) {
-        await canbanAPI.updateTask({
-          taskId: draggableId,
-          boardId,
-          columnId: source.droppableId,
-          order: destination.index,
-        });
-      }
-    } else {
-      await canbanAPI.moveTaskToAnotherColumn({
-        taskId: draggableId,
-        boardId,
-        columnId: source.droppableId,
-        targetColumnId: destination.droppableId,
-        order: destination.index,
-      });
-    }
-  };
-
-  const handleOpenAddColumnModal = () => {
-    dispatch(setProcessingColumnData(null));
-    dispatch(setChangeColumnNameModalOpen(true));
-  };
-
-  const handleEditProjectSettingsModal = () => {
-    dispatch(setEditProjectModalOpened(true));
-  };
-
-  const handleAddUserToProjectModal = () => {
-    dispatch(setIsAddUserToProjectModalOpened(true));
-  };
-
-  const handleAddTagToProjectModal = () => {
-    dispatch(setSelectedTag(null));
-    dispatch(setIsAddTagToProjectModalOpened(true));
-  };
+  const { setIsDragging, setDraggingTaskId } = useDrag();
 
   useEffect(() => {
     if (boardId) {
@@ -145,6 +95,27 @@ const CanBan = () => {
 
   const isCreator = currentUserProfile?._id === creatorId;
 
+  // Горизонтальный автоскролл для контейнера колонок
+  const handleBoardDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!boardRef.current) return;
+    const board = boardRef.current;
+    const { left, right } = board.getBoundingClientRect();
+    const mouseX = e.clientX;
+
+    if (mouseX - left < SCROLL_THRESHOLD) {
+      board.scrollLeft -= SCROLL_SPEED;
+    } else if (right - mouseX < SCROLL_THRESHOLD) {
+      board.scrollLeft += SCROLL_SPEED;
+    }
+  };
+
+  const handleBoardDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    setDraggingTaskId(null);
+  };
+
   return (
     <div className={styles.wrapper}>
       {isCreator ? (
@@ -155,7 +126,10 @@ const CanBan = () => {
             </NavLink>
             <button
               className={styles.addColumnButton}
-              onClick={handleOpenAddColumnModal}
+              onClick={() => {
+                dispatch(setProcessingColumnData(null));
+                dispatch(setChangeColumnNameModalOpen(true));
+              }}
             >
               {t('addColumn')}
             </button>
@@ -164,19 +138,22 @@ const CanBan = () => {
           <div className={styles.options}>
             <FontAwesomeIcon
               className={styles.gear}
-              onClick={handleEditProjectSettingsModal}
+              onClick={() => dispatch(setEditProjectModalOpened(true))}
               fontSize="20px"
               icon={faGear}
             />
             <FontAwesomeIcon
               className={styles.user}
-              onClick={handleAddUserToProjectModal}
+              onClick={() => dispatch(setIsAddUserToProjectModalOpened(true))}
               fontSize="20px"
               icon={faUser}
             />
             <FontAwesomeIcon
               className={styles.tag}
-              onClick={handleAddTagToProjectModal}
+              onClick={() => {
+                dispatch(setSelectedTag(null));
+                dispatch(setIsAddTagToProjectModalOpened(true));
+              }}
               fontSize="20px"
               icon={faFolderPlus}
             />
@@ -188,23 +165,27 @@ const CanBan = () => {
         </NavLink>
       )}
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className={styles.columns}>
-          {columns.map((column, index) => (
-            <Column
-              index={index}
-              isCreator={isCreator}
-              key={column._id}
-              boardId={boardId}
-              column={column}
-              columns={columns}
-            />
-          ))}
-        </div>
-        {columns.length === 0 ? (
+      <div
+        className={styles.columns}
+        ref={boardRef}
+        onDragOver={handleBoardDragOver}
+        onDrop={handleBoardDrop}
+      >
+        {columns.map((column, index) => (
+          <Column
+            key={column._id}
+            boardId={boardId}
+            column={column}
+            columns={columns}
+            isCreator={isCreator}
+            index={index}
+          />
+        ))}
+        {columns.length === 0 && (
           <div className={styles.noColumns}>{t('noColumns')}</div>
-        ) : null}
-      </DragDropContext>
+        )}
+      </div>
+
       <Modal
         active={isEditColumnNameModalOpen}
         setActive={() => {
@@ -247,6 +228,7 @@ const CanBan = () => {
       />
 
       <TaskInfoSideBar />
+
       <Modal
         active={isDeleteTaskModalOpened}
         setActive={() => {

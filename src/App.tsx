@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import i18next from 'i18next';
 
 import { Link } from './components/Header/Header';
+import { DragProvider } from './helpers/DragContext';
 import AuthLayout from './layouts/AuthLayout';
 import FAQLayout from './layouts/FAQLayout';
 import HomeLayout from './layouts/HomeLayout';
@@ -99,7 +100,14 @@ function App() {
           <Route path="" element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.FAQ} element={<FAQ />} />
-            <Route path={`${ROUTES.CanBan}/:id`} element={<CanBan />} />
+            <Route
+              path={`${ROUTES.CanBan}/:id`}
+              element={
+                <DragProvider>
+                  <CanBan />
+                </DragProvider>
+              }
+            />
             <Route path={ROUTES.CanBan} element={<Board />} />
             <Route path={`${ROUTES.ROADMAP}/:id`} element={<Roadmap />} />
             <Route path={`${ROUTES.ROADMAP}`} element={<Roadmap />} />

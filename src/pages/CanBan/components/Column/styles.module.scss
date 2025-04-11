@@ -46,15 +46,13 @@
     transform: translateY(0);
   }
 }
+
 .arrow {
   width: 15px;
   height: 15px;
   z-index: 3;
   cursor: pointer;
   transition: color $transition-delay;
-}
-
-.arrow {
   color: $white;
 
   &:hover {
@@ -132,8 +130,11 @@
 }
 
 .task {
+  cursor: grab;
   position: relative;
   overflow-x: hidden;
+  overflow-y: visible;
+  flex-shrink: 0;
   gap: 10px;
   background-color: $background-dark-0;
   color: white;
@@ -161,7 +162,6 @@
 }
 
 .title {
-  // word-break: break-all;
   word-break: break-word;
   text-align: left;
   flex-shrink: 1;
@@ -202,6 +202,19 @@
   }
 }
 
+.placeholder {
+  flex-shrink: 0;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
+  border: 2px dashed $warning-200;
+  border-radius: 4px;
+  background-color: $background-dark-0;
+  animation: fadeIn 0.2s ease;
+  pointer-events: none;
+  transition: background-color $transition-delay;
+}
+
 :global(.light_theme) {
   .column {
     background-color: $gray-600;
@@ -221,5 +234,20 @@
     &:hover {
       background-color: $success-500;
     }
+  }
+
+  .placeholder {
+    background-color: $gray-500;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
   }
 }
