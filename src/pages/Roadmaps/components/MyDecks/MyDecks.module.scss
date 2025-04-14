@@ -1,0 +1,159 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: $background-dark-35;
+  transition: background-color $transition-delay;
+  position: relative;
+}
+
+.line {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 20px;
+}
+.addIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 300px));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  background-color: $background-dark-0;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color $transition-delay;
+  &:hover {
+    background-color: $background-dark-50;
+  }
+
+  .crown,
+  .deleteIcon {
+    display: none;
+  }
+}
+
+.ownerCard .crown {
+  display: block;
+  position: absolute;
+  left: 20px;
+  top: 0;
+  transform: translate(-50%, -100%);
+  color: $warning-200;
+}
+
+.ownerCard .deleteIcon {
+  display: block;
+  position: absolute;
+  right: 20px;
+  font-size: 15px;
+  top: 20px;
+  color: $white;
+  opacity: 0;
+  transform: translate(100%, -100%);
+  pointer-events: none;
+  transition:
+    color $transition-delay,
+    opacity $transition-delay,
+    transform $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) {
+  .ownerCard .deleteIcon {
+    color: $black;
+    &:hover {
+      color: $error-200;
+    }
+  }
+}
+.ownerCard:hover {
+  .deleteIcon {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
+  }
+}
+.title {
+  flex-grow: 1;
+  font-size: 24px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+  color: $warning-200;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  font-size: 16px;
+  word-break: break-word;
+  transition: color $transition-delay;
+  text-align: start;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.members {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  color: $info-200;
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+  }
+  .card {
+    background-color: $gray-600;
+
+    &:hover {
+      background-color: $gray-400;
+    }
+  }
+
+  .description {
+    color: $black;
+  }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+.info {
+  width: 100%;
+  text-align: center;
+}

@@ -10,6 +10,7 @@ import AuthLayout from './layouts/AuthLayout';
 import FAQLayout from './layouts/FAQLayout';
 import HomeLayout from './layouts/HomeLayout';
 import PageLayout from './layouts/PageLayout';
+import Roadmaps from './pages/Roadmaps/Roadmaps';
 import { selectTheme } from './redux/slices/auth/selectors';
 import { fetchAuthMe } from './redux/slices/auth/thunk';
 import { Language } from './types/shared';
@@ -110,7 +111,7 @@ function App() {
             />
             <Route path={ROUTES.CanBan} element={<Board />} />
             <Route path={`${ROUTES.ROADMAP}/:id`} element={<Roadmap />} />
-            <Route path={`${ROUTES.ROADMAP}`} element={<Roadmap />} />
+            <Route path={`${ROUTES.ROADMAP}`} element={<Roadmaps />} />
           </Route>
           <Route path="" element={<PageLayout />}>
             <Route path={`${ROUTES.PROFILE}/:id`} element={<Profile />} />

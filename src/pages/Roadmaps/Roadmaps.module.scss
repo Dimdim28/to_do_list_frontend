@@ -1,0 +1,7 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  height: calc(100% - 80px);
+  width: 100%;
+  background-color: $background-dark-35;
+}
