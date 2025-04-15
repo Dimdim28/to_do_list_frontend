@@ -23,7 +23,7 @@ const MyDecks = () => {
   const { t } = useTranslation();
 
   const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>('');
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
   const [allProjects, setAllProjects] = useState<
     {
@@ -38,7 +38,12 @@ const MyDecks = () => {
   const [status, setStatus] = useState(Status.LOADING);
 
   const [isProjectSettingsOpened, setIsProjectSettingsOpened] = useState(false);
-  const handleEditProjectSettingsModal = () => {};
+
+  const handleEditProjectSettingsModal = () => {
+    setSelectedProjectId(null);
+    setIsProjectSettingsOpened(true);
+    setSelectedProjectName('');
+  };
 
   const handleDeleteProjectClick = (projectId: string, projectName: string) => {
     setIsDeleteProjectOpened(true);
