@@ -152,6 +152,7 @@ const EN = {
   deleteTask: 'Delete task',
   noFreeMembers: 'No free users',
   backToAllBoards: 'Back to all boards',
+  noRoadmapBoards: 'You have no Roadmap boards',
 };
 
 export default EN;

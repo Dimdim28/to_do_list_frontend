@@ -153,6 +153,7 @@ const UA = {
   deleteTask: 'Видалити задачу',
   noFreeMembers: 'Немає вільних користувачів',
   backToAllBoards: 'Повернутися до усіх дошок',
+  noRoadmapBoards: 'У вас нема Роадмап дошок',
 };
 
 export default UA;

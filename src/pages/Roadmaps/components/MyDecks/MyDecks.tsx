@@ -10,7 +10,7 @@ import { useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import ROUTES from '../../../../routes';
 import { Status } from '../../../../types/shared';
-import EditProjectInfo from '../../../CanBan/components/EditProjectInfo/EditProjectInfo';
+import AddProject from '../AddProject/AddProject';
 
 import DeleteProject from './DeleteProjectModal/DeleteProject';
 
@@ -79,7 +79,7 @@ const MyDecks = () => {
       </div>
 
       {allProjects.length === 0 ? (
-        <div className={styles.info}>{t('noCanBanBoards')}</div>
+        <div className={styles.info}>{t('noRoadmapBoards')}</div>
       ) : (
         <div className={styles.cards}>
           {allProjects.map((el) => (
@@ -118,8 +118,8 @@ const MyDecks = () => {
         setActive={() => {
           setIsProjectSettingsOpened(false);
         }}
-        ChildComponent={EditProjectInfo}
-        childProps={{}}
+        ChildComponent={AddProject}
+        childProps={{ setAllProjects }}
       />
 
       <Modal

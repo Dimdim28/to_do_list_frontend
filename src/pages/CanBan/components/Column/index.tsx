@@ -328,11 +328,6 @@ const ColumnComponent: React.FC<ColumnProps> = ({
         onDragOver={onTaskDragOver}
         onDrop={onTaskDrop}
         onDragLeave={onDragLeave}
-        style={{
-          paddingTop: isDragging ? '20px' : '0px',
-          paddingBottom: isDragging ? '20px' : '0px',
-          transition: 'padding-top 0.2s ease, padding-bottom 0.2s ease',
-        }}
       >
         {renderTasksWithPlaceholder()}
       </div>
