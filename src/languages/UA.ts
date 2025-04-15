@@ -154,6 +154,18 @@ const UA = {
   noFreeMembers: 'Немає вільних користувачів',
   backToAllBoards: 'Повернутися до усіх дошок',
   noRoadmapBoards: 'У вас нема Роадмап дошок',
+  updatedLabel: 'останнє оновлення',
+  updated: {
+    justNow: 'щойно',
+    fewMinutesAgo: 'кілька хвилин тому',
+    minutesAgo: '{{count}} хвилин тому',
+    anHourAgo: 'годину тому',
+    hoursAgo: '{{count}} годин тому',
+    yesterday: 'вчора',
+    daysAgo: '{{count}} днів тому',
+    aWeekAgo: 'тиждень тому',
+    weeksAgo: '{{count}} тижнів тому',
+  },
 };
 
 export default UA;

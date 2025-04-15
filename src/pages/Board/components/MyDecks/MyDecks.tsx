@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
 import Preloader from '../../../../components/Preloader/Preloader';
+import { getRelativeTime } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import {
@@ -93,9 +94,14 @@ const MyDecks = () => {
             >
               <div className={styles.title}>{el.title}</div>
               <div className={styles.description}>{el.description}</div>
+              <div className={styles.updatedAt}>
+                {t('updatedLabel')}: {getRelativeTime(el.updatedAt, t)}
+              </div>
+
               <div className={styles.members}>
                 {t('members')}: {el.membersCount || 1}
               </div>
+
               <FontAwesomeIcon className={styles.crown} icon={faCrown} />
 
               <FontAwesomeIcon

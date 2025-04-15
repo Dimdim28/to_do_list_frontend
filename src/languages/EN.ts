@@ -153,6 +153,18 @@ const EN = {
   noFreeMembers: 'No free users',
   backToAllBoards: 'Back to all boards',
   noRoadmapBoards: 'You have no Roadmap boards',
+  updatedLabel: 'Last update',
+  updated: {
+    justNow: 'just now',
+    fewMinutesAgo: 'a few minutes ago',
+    minutesAgo: '{{count}} minutes ago',
+    anHourAgo: 'an hour ago',
+    hoursAgo: '{{count}} hours ago',
+    yesterday: 'yesterday',
+    daysAgo: '{{count}} days ago',
+    aWeekAgo: 'a week ago',
+    weeksAgo: '{{count}} weeks ago',
+  },
 };
 
 export default EN;

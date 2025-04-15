@@ -123,8 +123,15 @@
   overflow: hidden;
 }
 
+.updatedAt {
+  margin-top: 10px;
+  display: flex;
+  justify-content: start;
+  color: $success-200;
+}
+
 .members {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: end;
   color: $info-200;
