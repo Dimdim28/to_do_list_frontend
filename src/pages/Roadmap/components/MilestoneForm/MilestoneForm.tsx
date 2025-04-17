@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addRoadmapMilestone,
@@ -35,7 +35,7 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
 
   useEffect(() => {
     setTittle(currentMilestone?.title || '');
-  }, [currentMilestone?.id]);
+  }, [currentMilestone?._id]);
 
   const submit = async () => {
     // setStatus(Status.LOADING);
@@ -63,7 +63,7 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
         addRoadmapMilestone({
           position: start,
           title,
-          id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
+          _id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
         }),
       );
       setTittle('');

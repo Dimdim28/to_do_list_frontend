@@ -49,9 +49,9 @@ const TaskComponent: FC<TaskProps> = ({
   } | null>(null);
 
   const roadmapWidth = 300 * totalQuarters;
-  const categoryId = category.id;
+  const categoryId = category._id;
   const categoryColor = category.color;
-  const rowId = row.id;
+  const rowId = row._id;
 
   const onResizeStart = (e: React.MouseEvent, side: 'start' | 'end') => {
     e.stopPropagation();
@@ -92,7 +92,7 @@ const TaskComponent: FC<TaskProps> = ({
 
     const overlap = allTasksInRow.some(
       (t) =>
-        t.id !== localTask.id &&
+        t._id !== localTask._id &&
         !(newValue <= t.start - 2 || newValue >= t.end + 2),
     );
 
@@ -118,7 +118,7 @@ const TaskComponent: FC<TaskProps> = ({
       updateRoadmapTaskInCategory({
         categoryId,
         rowId,
-        taskId: localTask.id,
+        taskId: localTask._id,
         updates: {
           start: localTaskRef.current.start,
           end: localTaskRef.current.end,
@@ -177,7 +177,7 @@ const TaskComponent: FC<TaskProps> = ({
       updateRoadmapTaskInCategory({
         categoryId,
         rowId,
-        taskId: localTask.id,
+        taskId: localTask._id,
         updates: {
           progress: localTaskRef.current.progress,
         },
@@ -217,7 +217,7 @@ const TaskComponent: FC<TaskProps> = ({
       }}
       onDragStart={(e) => {
         const dragData = JSON.stringify({
-          taskId: localTask.id,
+          taskId: localTask._id,
           categoryId,
           rowId,
           start: localTask.start,
@@ -225,7 +225,6 @@ const TaskComponent: FC<TaskProps> = ({
           progress: localTask.progress,
           offsetX: e.clientX,
           title: localTask.title,
-          status: localTask.status,
         });
         e.dataTransfer.setData('application/json', dragData);
       }}

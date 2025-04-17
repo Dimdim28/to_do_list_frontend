@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addRoadmapTask,
@@ -39,7 +39,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
 
   useEffect(() => {
     setTittle(currentTask?.title || '');
-  }, [currentTask?.id]);
+  }, [currentTask?._id]);
 
   const submit = async () => {
     if (!currentRow || !currentCategory) return;
@@ -63,8 +63,8 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
       dispatch(
         editRoadmapTask({
           task: { ...currentTask, title },
-          categoryId: currentCategory.id,
-          rowId: currentRow.id,
+          categoryId: currentCategory._id,
+          rowId: currentRow._id,
         }),
       );
     } else {
@@ -72,15 +72,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
       dispatch(
         addRoadmapTask({
           task: {
-            status: 'in_progress',
             progress: 0,
             start: start,
             end: start + 10,
             title,
-            id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
+            _id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
           },
-          categoryId: currentCategory.id,
-          rowId: currentRow.id,
+          categoryId: currentCategory._id,
+          rowId: currentRow._id,
         }),
       );
       setTittle('');

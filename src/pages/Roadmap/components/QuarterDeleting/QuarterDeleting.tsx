@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { deleteRoadmapQuarter } from '../../../../redux/slices/roadmap/roadmap';
 import { selectRoadmapCurrentQuarter } from '../../../../redux/slices/roadmap/selectors';

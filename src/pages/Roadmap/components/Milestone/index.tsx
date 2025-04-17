@@ -64,7 +64,7 @@ const MilestoneComponent: FC<MilestoneProps> = ({
   const onMouseUp = () => {
     dragStateRef.current.dragging = false;
 
-    dispatch(updateMilestonePosition({ id: milestone.id, position }));
+    dispatch(updateMilestonePosition({ id: milestone._id, position }));
 
     // 📡 API example
     // await api.updateMilestone(milestone.id, { position });

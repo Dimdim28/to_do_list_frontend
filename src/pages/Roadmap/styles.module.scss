@@ -263,6 +263,12 @@
   }
 }
 
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
 :global(.light_theme) .removeRowIcon {
   color: $black;
 

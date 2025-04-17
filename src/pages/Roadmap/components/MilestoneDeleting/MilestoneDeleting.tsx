@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { deleteRoadmapMilestone } from '../../../../redux/slices/roadmap/roadmap';
@@ -38,7 +38,7 @@ export const MilestoneDeleting: FC<MilestoneDeletingProps> = ({
     //   dispatch(removeCategoryFromTasksList(_id));
     toggleActive(false);
     // }
-    dispatch(deleteRoadmapMilestone(currentMilestone.id));
+    dispatch(deleteRoadmapMilestone(currentMilestone._id));
   };
 
   const cancel = () => {

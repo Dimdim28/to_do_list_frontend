@@ -1,9 +1,10 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   addRoadmapCategory,
@@ -16,16 +17,17 @@ import styles from './CategoryForm.module.scss';
 
 interface CategoryFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
+const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const [color, setColor] = useState(currentCategory?.color || '#ffffff');
   const [title, setTittle] = useState(currentCategory?.title || '');
@@ -33,42 +35,61 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
   useEffect(() => {
     setColor(currentCategory?.color || '#ffffff');
     setTittle(currentCategory?.title || '');
-  }, [currentCategory?.id]);
+  }, [currentCategory?._id]);
 
   const submit = async () => {
-    // setStatus(Status.LOADING);
-    // const result = _id
-    //   ? await categoryAPI.editCategory({ _id, title, color })
-    //   : await categoryAPI.addCategory({ title, user: userId, color });
-    // const { message, status, category } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    toggleActive(false);
-    //   if (_id) {
-    //     dispatch(updateCategoryInTasksList({ _id, title, color }));
-    //     dispatch(updateCategoryInList({ _id, title, color }));
-    //   } else {
-    //     dispatch(addCategoryToList(category));
-    //   }
-    // }
+    setIsLoading(true);
     if (currentCategory) {
-      dispatch(editRoadmapCategory({ color, title, id: currentCategory.id }));
+      const result = await roadmapAPI.updateCategory({
+        title,
+        color,
+        categoryId: currentCategory._id,
+        roadmapId: childProps.roadmapId,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        setIsLoading(false);
+        setMessage('');
+        toggleActive(false);
+        dispatch(
+          editRoadmapCategory({ color, title, id: currentCategory._id }),
+        );
+      } else {
+        setMessage(result.message);
+        setIsLoading(false);
+      }
     } else {
-      dispatch(
-        addRoadmapCategory({
-          color,
-          title,
-          id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
-          rows: [
-            {
-              id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
-              tasks: [],
-              title: 'row',
-            },
-          ],
-        }),
-      );
+      const result = await roadmapAPI.createCategory({
+        title,
+        color,
+        roadmapId: childProps.roadmapId,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        setIsLoading(false);
+        setMessage('');
+        toggleActive(false);
+
+        dispatch(
+          addRoadmapCategory({
+            color,
+            title,
+            _id: result.data._id,
+            rows: [
+              {
+                _id: `${
+                  Math.random() * 1000 + 'category' + Math.random() * 100
+                }`,
+                tasks: [],
+                title: 'row',
+              },
+            ],
+          }),
+        );
+      } else {
+        setMessage(result.message);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -78,7 +99,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader />
       ) : (
         <>
@@ -107,7 +128,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive }) => {
             />
           </div>
 
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>

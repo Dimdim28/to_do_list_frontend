@@ -1,8 +1,10 @@
-import { DragEvent, useRef } from 'react';
+import { DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import roadmapAPI from '../../api/roadmapApi';
 import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
@@ -25,6 +27,7 @@ import {
   setRoadmapIsEditingCategoryOpened,
   setRoadmapIsEditingMilestoneOpened,
   setRoadmapIsEditingTaskOpened,
+  updateRoadmapData,
   updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
@@ -37,8 +40,6 @@ import {
   selectRoadmapIsEditingCategoryOpened,
   selectRoadmapIsEditingMilestoneModalOpened,
   selectRoadmapIsEditingTaskModalOpened,
-  selectRoadmapMessage,
-  selectRoadmapStatus,
 } from '../../redux/slices/roadmap/selectors';
 import { Category, Quarter, Row } from '../../redux/slices/roadmap/type';
 import { Status } from '../../types/shared';
@@ -59,6 +60,7 @@ import styles from './styles.module.scss';
 const RoadMap = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { id: boardId } = useParams();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -66,8 +68,9 @@ const RoadMap = () => {
   const SCROLL_SPEED = 10;
 
   const data = useAppSelector(selectRoadmapData);
-  const status = useAppSelector(selectRoadmapStatus);
-  const message = useAppSelector(selectRoadmapMessage);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const categoryEditing = useAppSelector(selectRoadmapIsEditingCategoryOpened);
   const categoryDeleting = useAppSelector(
@@ -86,8 +89,39 @@ const RoadMap = () => {
   const taskEditing = useAppSelector(selectRoadmapIsEditingTaskModalOpened);
   const taskDeleting = useAppSelector(selectRoadmapIsDeletingTaskModalOpened);
 
-  if (status === Status.LOADING) return <Preloader />;
-  if (!data) return <div className={styles.error}>{message}</div>;
+  useEffect(() => {
+    const fetchBoardData = async (boardId: string) => {
+      setIsLoading(true);
+      const res = await roadmapAPI.getBoard(boardId);
+
+      if (res.status === Status.SUCCESS) {
+        dispatch(updateRoadmapData(res.data));
+        setErrorMessage('');
+        setIsLoading(false);
+      } else {
+        setErrorMessage(res.message);
+        setIsLoading(false);
+      }
+    };
+
+    if (boardId) {
+      fetchBoardData(boardId);
+    }
+  }, [boardId, dispatch]);
+
+  if (errorMessage)
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.error}>{errorMessage}</div>
+      </div>
+    );
+
+  if (isLoading || !data)
+    return (
+      <div className={styles.wrapper}>
+        <Preloader />
+      </div>
+    );
 
   const { title, categories, milestones, quarters } = data;
 
@@ -218,24 +252,24 @@ const RoadMap = () => {
     const newStart = Math.round(data.start + deltaValue);
     const newEnd = Math.round(data.end + deltaValue);
 
-    const isSameRow = data.rowId === row.id && data.categoryId === category.id;
+    const isSameRow =
+      data.rowId === row._id && data.categoryId === category._id;
 
     if (newStart < 0 || newEnd > timelineWidth) return;
 
     const overlap = row.tasks.some(
       (t) =>
-        t.id !== data.taskId &&
+        t._id !== data.taskId &&
         !(newEnd + 2 <= t.start || newStart >= t.end + 2),
     );
 
     if (overlap) return;
 
     if (isSameRow) {
-      // Просто двигаем таску по оси X
       dispatch(
         updateRoadmapTaskInCategory({
-          categoryId: category.id,
-          rowId: row.id,
+          categoryId: category._id,
+          rowId: row._id,
           taskId: data.taskId,
           updates: {
             start: newStart,
@@ -248,7 +282,7 @@ const RoadMap = () => {
       // await api.updateTask(data.taskId, { start: newStart, end: newEnd });
     } else {
       const task = {
-        id: data.taskId,
+        _id: data.taskId,
         title: data.title,
         start: newStart,
         end: newEnd,
@@ -260,8 +294,8 @@ const RoadMap = () => {
         moveRoadmapTask({
           fromCategoryId: data.categoryId,
           fromRowId: data.rowId,
-          toCategoryId: category.id,
-          toRowId: row.id,
+          toCategoryId: category._id,
+          toRowId: row._id,
           task,
         }),
       );
@@ -287,7 +321,7 @@ const RoadMap = () => {
           {quarters.map((quarter, index) =>
             index > 0 ? (
               <div
-                key={quarter.id}
+                key={quarter._id}
                 className={styles.quarterLine}
                 style={{
                   left: `${(index / totalQuarters) * 100}%`,
@@ -302,7 +336,7 @@ const RoadMap = () => {
             <div className={styles.quarteers}>
               {quarters.map((quarteer, id) => (
                 <div
-                  key={quarteer.id}
+                  key={quarteer._id}
                   className={styles.quarteer}
                   style={{ width: `${100 / totalQuarters}%` }}
                 >
@@ -350,7 +384,7 @@ const RoadMap = () => {
                 <MilestoneComponent
                   totalQuarters={totalQuarters}
                   milestone={milestone}
-                  key={milestone.id}
+                  key={milestone._id}
                 />
               ))}
             </div>
@@ -358,7 +392,7 @@ const RoadMap = () => {
         </div>
 
         {categories.map((category) => (
-          <div key={category.id} className={styles.lineWrapper}>
+          <div key={category._id} className={styles.lineWrapper}>
             <div
               className={styles.category}
               style={{
@@ -394,7 +428,7 @@ const RoadMap = () => {
               {category.rows.map((row) => (
                 <div
                   onDoubleClick={(e) => handleRowDoubleClick(e, row, category)}
-                  key={row.id}
+                  key={row._id}
                   className={styles.row}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => handleTaskDrop(e, row, category)}
@@ -404,7 +438,7 @@ const RoadMap = () => {
                       allTasksInRow={row.tasks}
                       task={task}
                       totalQuarters={totalQuarters}
-                      key={task.id}
+                      key={task._id}
                       category={category}
                       row={row}
                     />
@@ -430,7 +464,7 @@ const RoadMap = () => {
                       rowId: `${
                         Math.random() * 1000 + 'category' + Math.random() * 100
                       }`,
-                      categoryId: category.id,
+                      categoryId: category._id,
                       title: '',
                     }),
                   );
@@ -459,7 +493,7 @@ const RoadMap = () => {
           dispatch(setRoadmapCurrentCategory(null));
         }}
         ChildComponent={CategoryForm}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
       <Modal
         active={categoryDeleting}
@@ -468,7 +502,7 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingCategoryOpened(false));
         }}
         ChildComponent={CategoryDeleting}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal

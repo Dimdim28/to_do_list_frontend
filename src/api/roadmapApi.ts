@@ -1,5 +1,8 @@
 import instanse from '../axios';
+import { Category } from '../redux/slices/roadmap/type';
 import { Status } from '../types/shared';
+
+import { RoadmapData } from './../redux/slices/roadmap/type';
 
 export type RoadMapProjectShortInfo = {
   _id: string;
@@ -10,9 +13,7 @@ export type RoadMapProjectShortInfo = {
   updatedAt: string;
 };
 
-export type ProjectFullInfo = {
-  type: '';
-};
+type ProjectFullInfo = RoadmapData;
 
 type GetBoardsApiResponse = {
   data: RoadMapProjectShortInfo[];
@@ -32,17 +33,17 @@ type GetBoardApiResponse = {
   statusText: string;
 };
 
-export type GetBoardResponseSuccess = {
+type GetBoardResponseSuccess = {
   status: Status.SUCCESS;
   data: ProjectFullInfo;
 };
 
-export type GetBoardResponseFail = {
+type GetBoardResponseFail = {
   status: Status.ERROR;
   message: string;
 };
 
-export type CreateBoardPayload = {
+type CreateBoardPayload = {
   title: string;
   description: string;
 };
@@ -63,7 +64,7 @@ type CreateBoardResponseFail = {
   message: string;
 };
 
-export type UpdateBoardPayload = {
+type UpdateBoardPayload = {
   boardId: string;
   title: string;
   description: string;
@@ -85,7 +86,7 @@ type UpdateBoardResponseFail = {
   message: string;
 };
 
-export type DeleteBoardPayload = string;
+type DeleteBoardPayload = string;
 
 type DeleteBoardApiResponse = {
   data: RoadMapProjectShortInfo;
@@ -99,6 +100,58 @@ type DeleteBoardResponseSuccess = {
 };
 
 type DeleteBoardResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type CreateCategoryPayload = {
+  roadmapId: string;
+  title: string;
+  color: string;
+};
+
+export type UpdateCategoryPayload = {
+  roadmapId: string;
+  categoryId: string;
+  title?: string;
+  color?: string;
+};
+
+export type DeleteCategoryPayload = {
+  roadmapId: string;
+  categoryId: string;
+};
+
+type CreateCategoryApiResponse = {
+  data: Category;
+  status: number;
+  statusText: string;
+};
+
+type CreateCategoryResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Category;
+};
+
+type CreateCategoryResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type UpdateCategoryResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type UpdateCategoryResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type DeleteCategoryResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type DeleteCategoryResponseFail = {
   status: Status.ERROR;
   message: string;
 };
@@ -119,10 +172,10 @@ class roadmapAPIClass {
 
   public async getBoard(
     boardId: string,
-  ): Promise<GetBoardResponseSuccess | CreateBoardResponseFail> {
+  ): Promise<GetBoardResponseSuccess | GetBoardResponseFail> {
     try {
       const response: GetBoardApiResponse = await instanse.get(
-        `board/${boardId}`,
+        `roadmap/${boardId}`,
       );
 
       return {
@@ -183,6 +236,65 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async createCategory(
+    payload: CreateCategoryPayload,
+  ): Promise<CreateCategoryResponseSuccess | CreateCategoryResponseFail> {
+    try {
+      const response: CreateCategoryApiResponse = await instanse.post(
+        `roadmap/${payload.roadmapId}/category`,
+        {
+          title: payload.title,
+          color: payload.color,
+        },
+      );
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error creating category',
+      };
+    }
+  }
+
+  public async updateCategory(
+    payload: UpdateCategoryPayload,
+  ): Promise<UpdateCategoryResponseSuccess | UpdateCategoryResponseFail> {
+    try {
+      await instanse.patch(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}`,
+        {
+          title: payload.title,
+          color: payload.color,
+        },
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error updating category',
+      };
+    }
+  }
+
+  public async deleteCategory(
+    payload: DeleteCategoryPayload,
+  ): Promise<DeleteCategoryResponseSuccess | DeleteCategoryResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error deleting category',
       };
     }
   }

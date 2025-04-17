@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { deleteRoadmapRow } from '../../../../redux/slices/roadmap/roadmap';
@@ -42,8 +42,8 @@ export const RowDeleting: FC<RowDeletingProps> = ({ toggleActive }) => {
     // }
     dispatch(
       deleteRoadmapRow({
-        rowId: currentRow.id,
-        categoryId: currentCategory.id,
+        rowId: currentRow._id,
+        categoryId: currentCategory._id,
       }),
     );
   };
