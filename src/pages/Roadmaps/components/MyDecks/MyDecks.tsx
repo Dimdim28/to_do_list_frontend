@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { faCrown, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCrown,
+  faPencil,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import roadmapAPI, {
+  RoadMapProjectShortInfo,
+} from '../../../../api/roadmapApi';
 import { Modal } from '../../../../components/common/Modal/Modal';
 import Preloader from '../../../../components/Preloader/Preloader';
+import { getRelativeTime } from '../../../../helpers/string';
 import { useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
 import ROUTES from '../../../../routes';
@@ -23,56 +32,55 @@ const MyDecks = () => {
   const { t } = useTranslation();
 
   const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>('');
-  const [selectedProjectName, setSelectedProjectName] = useState<string>('');
-  const [allProjects, setAllProjects] = useState<
-    {
-      membersCount: number;
-      creatorId: string;
-      description: string;
-      title: string;
-      _id: string;
-    }[]
-  >([]);
+  const [allProjects, setAllProjects] = useState<RoadMapProjectShortInfo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [status, setStatus] = useState(Status.LOADING);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentProject, setCurrentProject] =
+    useState<RoadMapProjectShortInfo | null>(null);
   const [isProjectSettingsOpened, setIsProjectSettingsOpened] = useState(false);
 
-  const handleEditProjectSettingsModal = () => {
-    setSelectedProjectId(null);
+  const handleEditProjectSettingsModal = (
+    project: RoadMapProjectShortInfo | null,
+  ) => {
     setIsProjectSettingsOpened(true);
-    setSelectedProjectName('');
+    setCurrentProject(project);
   };
 
-  const handleDeleteProjectClick = (projectId: string, projectName: string) => {
+  const handleDeleteProjectClick = (project: RoadMapProjectShortInfo) => {
     setIsDeleteProjectOpened(true);
-    setSelectedProjectId(projectId);
-    setSelectedProjectName(projectName);
+    setCurrentProject(project);
   };
 
   const fetchAllCanBanBoards = async () => {
-    setStatus(Status.SUCCESS);
-    setErrorMessage('');
-    setAllProjects([]);
+    setIsLoading(true);
+
+    const result = await roadmapAPI.getBoards();
+
+    if (result.status === Status.SUCCESS) {
+      setIsLoading(false);
+      setErrorMessage('');
+      setAllProjects(result.data);
+    } else {
+      setIsLoading(false);
+      setErrorMessage(result.message || '');
+      setAllProjects([]);
+    }
   };
 
   useEffect(() => {
     fetchAllCanBanBoards();
   }, []);
 
-  if (status === Status.LOADING) return <Preloader />;
+  if (isLoading) return <Preloader />;
 
-  if (status === Status.ERROR) {
-    return <div className={styles.error}>{errorMessage}</div>;
-  }
+  if (errorMessage) return <div className={styles.error}>{errorMessage}</div>;
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.line}>
         <FontAwesomeIcon
           className={styles.addIcon}
-          onClick={handleEditProjectSettingsModal}
+          onClick={() => handleEditProjectSettingsModal(null)}
           fontSize="20px"
           icon={faPlus}
         />
@@ -94,20 +102,34 @@ const MyDecks = () => {
             >
               <div className={styles.title}>{el.title}</div>
               <div className={styles.description}>{el.description}</div>
+              <div className={styles.updatedAt}>
+                {t('updatedLabel')}: {getRelativeTime(el.updatedAt, t)}
+              </div>
               <div className={styles.members}>
                 {t('members')}: {el.membersCount || 1}
               </div>
               <FontAwesomeIcon className={styles.crown} icon={faCrown} />
 
-              <FontAwesomeIcon
-                className={styles.deleteIcon}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteProjectClick(el._id, el.title);
-                }}
-                fontSize="20px"
-                icon={faTrash}
-              />
+              <div className={styles.icons}>
+                <FontAwesomeIcon
+                  className={styles.deleteIcon}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteProjectClick(el);
+                  }}
+                  fontSize="20px"
+                  icon={faTrash}
+                />
+                <FontAwesomeIcon
+                  className={styles.editIcon}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditProjectSettingsModal(el);
+                  }}
+                  fontSize="20px"
+                  icon={faPencil}
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -119,7 +141,11 @@ const MyDecks = () => {
           setIsProjectSettingsOpened(false);
         }}
         ChildComponent={AddProject}
-        childProps={{ setAllProjects }}
+        childProps={{
+          setAllProjects,
+          currentProject,
+          isOpened: isProjectSettingsOpened,
+        }}
       />
 
       <Modal
@@ -128,10 +154,7 @@ const MyDecks = () => {
           setIsDeleteProjectOpened(false);
         }}
         ChildComponent={DeleteProject}
-        childProps={{
-          projectId: selectedProjectId,
-          projectName: selectedProjectName,
-        }}
+        childProps={{ setAllProjects, currentProject }}
       />
     </div>
   );

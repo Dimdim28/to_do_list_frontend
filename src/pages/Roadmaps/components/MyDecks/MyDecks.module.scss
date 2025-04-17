@@ -51,37 +51,61 @@
   }
 
   .crown,
-  .deleteIcon {
+  .icons {
     display: none;
   }
 }
 
-.ownerCard .crown {
-  display: block;
-  position: absolute;
-  left: 20px;
-  top: 0;
-  transform: translate(-50%, -100%);
-  color: $warning-200;
-}
+.ownerCard {
+  .crown {
+    display: block;
+    position: absolute;
+    left: 20px;
+    top: 0;
+    transform: translate(-50%, -100%);
+    color: $warning-200;
+  }
 
-.ownerCard .deleteIcon {
-  display: block;
-  position: absolute;
-  right: 20px;
-  font-size: 15px;
-  top: 20px;
-  color: $white;
-  opacity: 0;
-  transform: translate(100%, -100%);
-  pointer-events: none;
-  transition:
-    color $transition-delay,
-    opacity $transition-delay,
-    transform $transition-delay;
+  .icons {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    opacity: 0;
+    transform: translate(100%, -100%);
+    pointer-events: none;
+    transition:
+      opacity $transition-delay,
+      transform $transition-delay;
+  }
 
   &:hover {
-    color: $error-200;
+    .icons {
+      opacity: 1;
+      transform: translate(0, 0);
+      pointer-events: all;
+    }
+  }
+}
+
+.icons {
+  .deleteIcon,
+  .editIcon {
+    transition: color $transition-delay;
+    font-size: 15px;
+    color: $white;
+  }
+  .deleteIcon {
+    &:hover {
+      color: $error-200;
+    }
+  }
+
+  .editIcon {
+    &:hover {
+      color: $warning-200;
+    }
   }
 }
 
@@ -121,6 +145,13 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.updatedAt {
+  margin-top: 10px;
+  display: flex;
+  justify-content: start;
+  color: $success-200;
 }
 
 .members {

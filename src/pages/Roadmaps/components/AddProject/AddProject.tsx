@@ -1,16 +1,12 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import canbanAPI from '../../../../api/canbanApi';
+import roadmapAPI, {
+  RoadMapProjectShortInfo,
+} from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import { SimpleInput } from '../../../../components/common/SimpleInput/SimpleInput';
 import Preloader from '../../../../components/Preloader/Preloader';
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import {
-  selectIsProjectInfo,
-  selectIsProjectSettingsOpened,
-} from '../../../../redux/slices/canban/selectors';
-import { createCanBanBoard } from '../../../../redux/slices/canban/thunk';
 import { Status } from '../../../../types/shared';
 import { ProjectDescriptionTextArea } from '../ProjectDescriptionTextArea/ProjectDescriptionTextArea';
 
@@ -19,6 +15,7 @@ import styles from './AddProject.module.scss';
 const EditProjectInfo: FC<{
   toggleActive: () => void;
   childProps: {
+    isOpened: boolean;
     setAllProjects: Dispatch<
       SetStateAction<
         {
@@ -30,15 +27,14 @@ const EditProjectInfo: FC<{
         }[]
       >
     >;
+    currentProject: RoadMapProjectShortInfo | null;
   };
 }> = ({ toggleActive, childProps }) => {
-  const projectInfo = useAppSelector(selectIsProjectInfo);
-  const isOpened = useAppSelector(selectIsProjectSettingsOpened);
-
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const setProjects = childProps.setAllProjects;
+  const projectInfo = childProps.currentProject;
+  const isOpened = childProps.isOpened;
 
   const [title, setTitle] = useState(projectInfo?.title || '');
   const [description, setDescription] = useState(
@@ -52,16 +48,27 @@ const EditProjectInfo: FC<{
 
   const handleSubmit = async () => {
     if (!projectInfo) {
-      dispatch(
-        createCanBanBoard({
-          title,
-          description,
-        }),
-      );
+      setIsLoading(true);
+
+      const result = await roadmapAPI.createBoard({
+        title,
+        description,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        toggleActive();
+
+        setProjects((prev) => [...prev, result.data]);
+        setError('');
+        setIsLoading(false);
+      } else {
+        setError(result.message);
+        setIsLoading(false);
+      }
     } else {
       setIsLoading(true);
-      const result = await canbanAPI.updateBoard({
-        boardId: projectInfo.id,
+      const result = await roadmapAPI.updateBoard({
+        boardId: projectInfo._id,
         description,
         title,
       });
@@ -69,16 +76,13 @@ const EditProjectInfo: FC<{
       if (result.status === Status.SUCCESS) {
         toggleActive();
 
-        setProjects((prev) => [
-          ...prev,
-          {
-            _id: projectInfo?.id || `${Math.random() * 1000}`,
-            title,
-            description,
-            creatorId: '',
-            membersCount: 1,
-          },
-        ]);
+        setProjects((prev) =>
+          prev.map((el) =>
+            el._id === projectInfo._id
+              ? { ...projectInfo, title, description }
+              : el,
+          ),
+        );
         setError('');
         setIsLoading(false);
       } else {

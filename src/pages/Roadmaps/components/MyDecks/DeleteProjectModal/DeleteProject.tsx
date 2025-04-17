@@ -1,28 +1,41 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import canbanAPI from '../../../../../api/canbanApi';
+import roadmapAPI, {
+  RoadMapProjectShortInfo,
+} from '../../../../../api/roadmapApi';
 import Button from '../../../../../components/common/Button/Button';
 import Preloader from '../../../../../components/FallBackPreloader/FallBackPreloader';
 import { truncate } from '../../../../../helpers/string';
-import { useAppDispatch } from '../../../../../hooks';
-import { deleteProject } from '../../../../../redux/slices/canban/canban';
 import { Status } from '../../../../../types/shared';
 
 import styles from './DeleteProject.module.scss';
 
 interface DeleteProjectProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
-  childProps: { projectId: string; projectName: string };
+  childProps: {
+    setAllProjects: Dispatch<
+      SetStateAction<
+        {
+          membersCount: number;
+          creatorId: string;
+          description: string;
+          title: string;
+          _id: string;
+        }[]
+      >
+    >;
+    currentProject: RoadMapProjectShortInfo | null;
+  };
 }
 const DeleteProject: FC<DeleteProjectProps> = ({
   toggleActive,
   childProps,
 }) => {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const setAllProjects = childProps.setAllProjects;
 
-  const title = childProps.projectName;
+  const title = childProps.currentProject?.title;
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,12 +45,17 @@ const DeleteProject: FC<DeleteProjectProps> = ({
   };
 
   const submit = async () => {
-    if (!childProps.projectId) return;
+    const currentProject = childProps.currentProject;
+
+    if (!currentProject || !currentProject._id) return;
+
     setIsLoading(true);
 
-    const result = await canbanAPI.deleteBoard(childProps.projectId);
+    const result = await roadmapAPI.deleteBoard(currentProject._id);
     if (result.status === Status.SUCCESS) {
-      dispatch(deleteProject(childProps.projectId));
+      setAllProjects((prev) =>
+        prev.filter((el) => el._id !== currentProject._id),
+      );
       setIsLoading(false);
       setError('');
       toggleActive(false);
