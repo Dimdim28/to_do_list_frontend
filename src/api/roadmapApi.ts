@@ -192,6 +192,67 @@ type DeleteRowResponseFail = {
   message: string;
 };
 
+export type Quarter = {
+  _id: string;
+  title: string;
+  start: number;
+  end: number;
+};
+
+export type CreateQuarterPayload = {
+  roadmapId: string;
+  title: string;
+  start: number;
+  end: number;
+};
+
+export type UpdateQuarterPayload = {
+  roadmapId: string;
+  quarterId: string;
+  title?: string;
+  start?: number;
+  end?: number;
+};
+
+export type DeleteQuarterPayload = {
+  roadmapId: string;
+  quarterId: string;
+};
+
+type CreateQuarterApiResponse = {
+  data: Quarter;
+  status: number;
+  statusText: string;
+};
+
+type CreateQuarterResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Quarter;
+};
+
+type CreateQuarterResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type UpdateQuarterResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type UpdateQuarterResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type DeleteQuarterResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type DeleteQuarterResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class roadmapAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -366,6 +427,67 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error deleting row',
+      };
+    }
+  }
+
+  public async createQuarter(
+    payload: CreateQuarterPayload,
+  ): Promise<CreateQuarterResponseSuccess | CreateQuarterResponseFail> {
+    try {
+      const response: CreateQuarterApiResponse = await instanse.post(
+        `roadmap/${payload.roadmapId}/quarter`,
+        {
+          title: payload.title,
+          start: payload.start,
+          end: payload.end,
+        },
+      );
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error creating quarter',
+      };
+    }
+  }
+
+  public async updateQuarter(
+    payload: UpdateQuarterPayload,
+  ): Promise<UpdateQuarterResponseSuccess | UpdateQuarterResponseFail> {
+    try {
+      await instanse.patch(
+        `roadmap/${payload.roadmapId}/quarter/${payload.quarterId}`,
+        {
+          title: payload.title,
+          start: payload.start,
+          end: payload.end,
+        },
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error updating quarter',
+      };
+    }
+  }
+
+  public async deleteQuarter(
+    payload: DeleteQuarterPayload,
+  ): Promise<DeleteQuarterResponseSuccess | DeleteQuarterResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/quarter/${payload.quarterId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error deleting quarter',
       };
     }
   }

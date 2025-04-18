@@ -5,7 +5,7 @@ import roadmapAPI, {
   RoadMapProjectShortInfo,
 } from '../../../../../api/roadmapApi';
 import Button from '../../../../../components/common/Button/Button';
-import Preloader from '../../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../../helpers/string';
 import { Status } from '../../../../../types/shared';
 

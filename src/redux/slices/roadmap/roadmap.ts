@@ -96,20 +96,10 @@ const canBanSlice = createSlice({
       state.data.categories = [...state.data.categories, action.payload];
     },
 
-    addRoadmapNewQuarter: (state) => {
+    addRoadmapNewQuarter: (state, action: PayloadAction<Quarter>) => {
       if (!state.data) return;
 
-      const length = state.data.quarters.length;
-
-      state.data.quarters = [
-        ...state.data.quarters,
-        {
-          _id: `q${length + 1}`,
-          start: 100 * length,
-          end: 100 * (length + 1),
-          title: `Q${length + 1}`,
-        },
-      ];
+      state.data.quarters = [...state.data.quarters, action.payload];
     },
 
     addRoadmapNewLineToCategory: (

@@ -170,6 +170,22 @@ const RoadMap = () => {
     dispatch(setRoadmapIsDeletingRowOpened(true));
   };
 
+  const handleAddNewQuarter = async (
+    roadmapData: RoadmapData,
+    totalQuarters: number,
+  ) => {
+    const result = await roadmapAPI.createQuarter({
+      start: totalQuarters * 100,
+      end: (totalQuarters + 1) * 100,
+      roadmapId: roadmapData._id,
+      title: `Q${totalQuarters + 1}`,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      dispatch(addRoadmapNewQuarter(result.data));
+    }
+  };
+
   const handleOpenDeleteQuarteerModal = (quarter: Quarter) => {
     dispatch(setRoadmapCurrentQuarter(quarter));
     dispatch(setRoadmapIsDeletingQuarterOpened(true));
@@ -380,7 +396,10 @@ const RoadMap = () => {
 
               <FontAwesomeIcon
                 className={styles.addQuarterIcon}
-                onClick={() => dispatch(addRoadmapNewQuarter())}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddNewQuarter(data, totalQuarters);
+                }}
                 fontSize="20px"
                 icon={faPlus}
               />
@@ -428,7 +447,6 @@ const RoadMap = () => {
                   className={`${styles.icon} ${styles.pencil}`}
                   onClick={(e) => {
                     handleOpenEditColumnModal(category);
-
                     e.stopPropagation();
                   }}
                   fontSize="15px"
@@ -537,7 +555,7 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingQuarterOpened(false));
         }}
         ChildComponent={QuarterDeleting}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal
@@ -548,7 +566,7 @@ const RoadMap = () => {
           dispatch(setRoadmapClickPosition(0));
         }}
         ChildComponent={MilestoneForm}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal
@@ -558,7 +576,7 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingMilestoneOpened(false));
         }}
         ChildComponent={MilestoneDeleting}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal
@@ -571,7 +589,7 @@ const RoadMap = () => {
           dispatch(setRoadmapClickPosition(0));
         }}
         ChildComponent={TaskForm}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal
@@ -583,7 +601,7 @@ const RoadMap = () => {
           dispatch(setRoadmapCurrentRow(null));
         }}
         ChildComponent={TaskDeleting}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
     </div>
   );

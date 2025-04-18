@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import canbanAPI from '../../../../../api/canbanApi';
 import Button from '../../../../../components/common/Button/Button';
-import Preloader from '../../../../../components/FallBackPreloader/FallBackPreloader';
+import Preloader from '../../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../../helpers/string';
 import { useAppDispatch } from '../../../../../hooks';
 import { deleteProject } from '../../../../../redux/slices/canban/canban';

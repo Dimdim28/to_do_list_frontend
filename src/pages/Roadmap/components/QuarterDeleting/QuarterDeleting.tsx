@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
@@ -12,30 +13,37 @@ import styles from './QuarterDeleting.module.scss';
 
 interface QuarterDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-export const QuarterDeleting: FC<QuarterDeletingProps> = ({ toggleActive }) => {
+export const QuarterDeleting: FC<QuarterDeletingProps> = ({
+  toggleActive,
+  childProps,
+}) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const currentQuarter = useAppSelector(selectRoadmapCurrentQuarter);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const submit = async () => {
     if (!currentQuarter) return;
-    // setStatus(Status.LOADING);
-    // const result = await categoryAPI.deleteCategory(_id);
-    // const { message, status } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    //   dispatch(removeCategoryFromList(_id));
-    //   dispatch(removeCategoryFromTasksList(_id));
-    toggleActive(false);
-    // }
-    dispatch(deleteRoadmapQuarter(currentQuarter));
+    const result = await roadmapAPI.deleteQuarter({
+      roadmapId: childProps.roadmapId,
+      quarterId: currentQuarter._id,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      setIsLoading(false);
+      setMessage('');
+      toggleActive(false);
+      dispatch(deleteRoadmapQuarter(currentQuarter));
+    } else {
+      setMessage(result.message);
+      setIsLoading(false);
+    }
   };
 
   const cancel = () => {
@@ -44,7 +52,7 @@ export const QuarterDeleting: FC<QuarterDeletingProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader data-testid="preloader" />
       ) : (
         <>
@@ -55,7 +63,7 @@ export const QuarterDeleting: FC<QuarterDeletingProps> = ({ toggleActive }) => {
             <Button text={t('no')} callback={cancel} class="cancel" />
             <Button text={t('yes')} callback={submit} class="submit" />
           </div>
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>
