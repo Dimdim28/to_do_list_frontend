@@ -308,7 +308,7 @@ const RoadMap = () => {
     const data = JSON.parse(raw);
 
     const dropX = e.clientX;
-    const roadmapWidth = 300 * totalQuarters;
+    const roadmapWidth = roadmapContentWidth;
     const timelineWidth = totalQuarters * 100;
 
     const deltaPx = dropX - data.offsetX;
@@ -454,6 +454,7 @@ const RoadMap = () => {
                   totalQuarters={totalQuarters}
                   milestone={milestone}
                   key={milestone._id}
+                  roadmapContentWidth={roadmapContentWidth}
                 />
               ))}
             </div>

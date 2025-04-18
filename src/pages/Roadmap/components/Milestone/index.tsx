@@ -16,11 +16,13 @@ import styles from './styles.module.scss';
 interface MilestoneProps {
   milestone: Milestone;
   totalQuarters: number;
+  roadmapContentWidth: number;
 }
 
 const MilestoneComponent: FC<MilestoneProps> = ({
   milestone,
   totalQuarters,
+  roadmapContentWidth,
 }) => {
   const dispatch = useAppDispatch();
   const [position, setPosition] = useState(milestone.position);
@@ -34,7 +36,7 @@ const MilestoneComponent: FC<MilestoneProps> = ({
     startPosition: milestone.position,
   });
 
-  const roadmapWidth = 300 * totalQuarters;
+  const roadmapWidth = roadmapContentWidth;
   const maxPosition = totalQuarters * 100;
 
   const onMouseDown = (e: React.MouseEvent) => {
