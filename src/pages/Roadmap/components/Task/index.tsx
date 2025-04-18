@@ -21,6 +21,7 @@ interface TaskProps {
   category: Category;
   row: Row;
   allTasksInRow: Task[];
+  roadmapContentWidth: number;
 }
 
 const TaskComponent: FC<TaskProps> = ({
@@ -29,6 +30,7 @@ const TaskComponent: FC<TaskProps> = ({
   row,
   category,
   allTasksInRow,
+  roadmapContentWidth,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -48,7 +50,6 @@ const TaskComponent: FC<TaskProps> = ({
     isResizing: boolean;
   } | null>(null);
 
-  const roadmapWidth = 300 * totalQuarters;
   const categoryId = category._id;
   const categoryColor = category.color;
   const rowId = row._id;
@@ -75,34 +76,51 @@ const TaskComponent: FC<TaskProps> = ({
     e.preventDefault();
 
     const deltaPx = e.clientX - info.initialX;
-    const deltaValue = (deltaPx / roadmapWidth) * (totalQuarters * 100);
+    const deltaValue = (deltaPx / roadmapContentWidth) * (totalQuarters * 100);
     const newValue = Math.round(info.initialValue + deltaValue);
 
     const maxValue = totalQuarters * 100;
 
     if (newValue < 0 || newValue > maxValue) return;
-
     if (info.side === 'start') {
-      if (newValue >= localTask.end || localTask.end - newValue < 10) return;
+      const proposedStart = newValue;
+      const proposedEnd = localTask.end;
+
+      if (proposedEnd - proposedStart < 10) return;
+
+      const isOverlapping = allTasksInRow.some((t) => {
+        if (t._id === localTask._id) return false;
+        return !(proposedEnd + 2 <= t.start || proposedStart >= t.end + 2);
+      });
+
+      if (isOverlapping) return;
+
+      setLocalTask((prev) => {
+        const updated = { ...prev, start: proposedStart };
+        localTaskRef.current = updated;
+        return updated;
+      });
     }
+
     if (info.side === 'end') {
-      if (newValue <= localTask.start || newValue - localTask.start < 10)
-        return;
+      const proposedStart = localTask.start;
+      const proposedEnd = newValue;
+
+      if (proposedEnd - proposedStart < 10) return;
+
+      const isOverlapping = allTasksInRow.some((t) => {
+        if (t._id === localTask._id) return false;
+        return !(proposedEnd + 2 <= t.start || proposedStart >= t.end + 2);
+      });
+
+      if (isOverlapping) return;
+
+      setLocalTask((prev) => {
+        const updated = { ...prev, end: proposedEnd };
+        localTaskRef.current = updated;
+        return updated;
+      });
     }
-
-    const overlap = allTasksInRow.some(
-      (t) =>
-        t._id !== localTask._id &&
-        !(newValue <= t.start - 2 || newValue >= t.end + 2),
-    );
-
-    if (overlap) return;
-
-    setLocalTask((prev) => {
-      const updated = { ...prev, [info.side]: newValue };
-      localTaskRef.current = updated;
-      return updated;
-    });
   };
 
   const onResizeEnd = () => {
@@ -151,7 +169,7 @@ const TaskComponent: FC<TaskProps> = ({
     const deltaPx = e.clientX - info.initialX;
     const taskWidthPx =
       ((localTask.end - localTask.start) / (totalQuarters * 100)) *
-      roadmapWidth;
+      roadmapContentWidth;
 
     const deltaProgress = (deltaPx / taskWidthPx) * 100;
     let newProgress = Math.round(info.initialProgress + deltaProgress);

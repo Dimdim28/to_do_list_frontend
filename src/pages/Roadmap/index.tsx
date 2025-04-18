@@ -68,6 +68,7 @@ const RoadMap = () => {
   const { id: boardId } = useParams();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const roadmapRef = useRef<HTMLDivElement>(null);
 
   const SCROLL_THRESHOLD = 50;
   const SCROLL_SPEED = 10;
@@ -76,6 +77,7 @@ const RoadMap = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [roadmapContentWidth, setRoadmapContentWidth] = useState<number>(0);
 
   const categoryEditing = useAppSelector(selectRoadmapIsEditingCategoryOpened);
   const categoryDeleting = useAppSelector(
@@ -94,6 +96,13 @@ const RoadMap = () => {
   const taskEditing = useAppSelector(selectRoadmapIsEditingTaskModalOpened);
   const taskDeleting = useAppSelector(selectRoadmapIsDeletingTaskModalOpened);
 
+  const updateWidth = () => {
+    if (!roadmapRef.current) return;
+    const fullWidth = roadmapRef.current.clientWidth;
+    const contentWidth = fullWidth - 200 - 10;
+    setRoadmapContentWidth(contentWidth);
+  };
+
   useEffect(() => {
     const fetchBoardData = async (boardId: string) => {
       setIsLoading(true);
@@ -103,6 +112,7 @@ const RoadMap = () => {
         dispatch(updateRoadmapData(res.data));
         setErrorMessage('');
         setIsLoading(false);
+        requestAnimationFrame(updateWidth);
       } else {
         setErrorMessage(res.message);
         setIsLoading(false);
@@ -113,6 +123,23 @@ const RoadMap = () => {
       fetchBoardData(boardId);
     }
   }, [boardId, dispatch]);
+
+  // один раз после загрузки
+  useEffect(() => {
+    const frame = requestAnimationFrame(updateWidth);
+    window.addEventListener('resize', updateWidth);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && data?.quarters.length) {
+      requestAnimationFrame(updateWidth);
+    }
+  }, [isLoading, data?.quarters.length]);
 
   if (errorMessage)
     return (
@@ -353,6 +380,7 @@ const RoadMap = () => {
 
       <div
         className={styles.roadmap}
+        ref={roadmapRef}
         style={{ minWidth: `${210 + totalQuarters * 300}px` }}
       >
         <div className={styles.quarterLines}>
@@ -475,6 +503,7 @@ const RoadMap = () => {
                 >
                   {row.tasks.map((task) => (
                     <TaskComponent
+                      roadmapContentWidth={roadmapContentWidth}
                       allTasksInRow={row.tasks}
                       task={task}
                       totalQuarters={totalQuarters}

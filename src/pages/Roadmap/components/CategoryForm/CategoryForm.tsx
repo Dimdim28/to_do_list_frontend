@@ -75,12 +75,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
             color,
             title,
             _id: result.data._id,
-            rows: [
-              {
-                _id: result.data._id,
-                tasks: [],
-              },
-            ],
+            rows: [],
           }),
         );
       } else {
