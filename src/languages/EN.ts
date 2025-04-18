@@ -160,6 +160,7 @@ const EN = {
     minutesAgo: '{{count}} minutes ago',
     anHourAgo: 'an hour ago',
     hoursAgo: '{{count}} hours ago',
+    today: 'today',
     yesterday: 'yesterday',
     daysAgo: '{{count}} days ago',
     aWeekAgo: 'a week ago',

@@ -41,7 +41,12 @@ import {
   selectRoadmapIsEditingMilestoneModalOpened,
   selectRoadmapIsEditingTaskModalOpened,
 } from '../../redux/slices/roadmap/selectors';
-import { Category, Quarter, Row } from '../../redux/slices/roadmap/type';
+import {
+  Category,
+  Quarter,
+  RoadmapData,
+  Row,
+} from '../../redux/slices/roadmap/type';
 import { Status } from '../../types/shared';
 
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
@@ -140,6 +145,23 @@ const RoadMap = () => {
   const handleEditProjectSettingsModal = () => {
     dispatch(setRoadmapCurrentCategory(null));
     dispatch(setRoadmapIsEditingCategoryOpened(true));
+  };
+
+  const handleCreateRow = async (category: Category, data: RoadmapData) => {
+    const result = await roadmapAPI.createRow({
+      categoryId: category._id,
+      roadmapId: data._id,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      const newRow = result.data;
+      dispatch(
+        addRoadmapNewLineToCategory({
+          rowId: newRow._id,
+          categoryId: category._id,
+        }),
+      );
+    }
   };
 
   const handleOpenDeleteRowModal = (row: Row, category: Category) => {
@@ -449,8 +471,8 @@ const RoadMap = () => {
                     icon={faTrash}
                     className={styles.removeRowIcon}
                     onClick={(e) => {
-                      handleOpenDeleteRowModal(row, category);
                       e.stopPropagation();
+                      handleOpenDeleteRowModal(row, category);
                     }}
                   />
                 </div>
@@ -458,16 +480,9 @@ const RoadMap = () => {
 
               <FontAwesomeIcon
                 className={styles.addRowIcon}
-                onClick={() => {
-                  dispatch(
-                    addRoadmapNewLineToCategory({
-                      rowId: `${
-                        Math.random() * 1000 + 'category' + Math.random() * 100
-                      }`,
-                      categoryId: category._id,
-                      title: '',
-                    }),
-                  );
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCreateRow(category, data);
                 }}
                 fontSize="20px"
                 icon={faPlus}
@@ -512,7 +527,7 @@ const RoadMap = () => {
           dispatch(setRoadmapIsDeletingRowOpened(false));
         }}
         ChildComponent={RowDeleting}
-        childProps={{}}
+        childProps={{ roadmapId: data._id }}
       />
 
       <Modal

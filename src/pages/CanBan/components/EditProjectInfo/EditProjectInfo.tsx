@@ -94,7 +94,7 @@ const EditProjectInfo = () => {
 
         dispatch(
           setProjectInfo({
-            id: projectInfo?.id || `${Math.random() * 1000}`,
+            id: projectInfo.id,
             title,
             description,
           }),

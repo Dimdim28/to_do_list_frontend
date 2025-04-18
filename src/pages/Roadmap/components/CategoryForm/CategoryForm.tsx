@@ -77,11 +77,8 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
             _id: result.data._id,
             rows: [
               {
-                _id: `${
-                  Math.random() * 1000 + 'category' + Math.random() * 100
-                }`,
+                _id: result.data._id,
                 tasks: [],
-                title: 'row',
               },
             ],
           }),

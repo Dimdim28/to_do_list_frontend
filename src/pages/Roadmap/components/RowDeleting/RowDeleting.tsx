@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
@@ -16,36 +17,45 @@ import styles from './RowDeleting.module.scss';
 
 interface RowDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-export const RowDeleting: FC<RowDeletingProps> = ({ toggleActive }) => {
+export const RowDeleting: FC<RowDeletingProps> = ({
+  toggleActive,
+  childProps,
+}) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const currentRow = useAppSelector(selectRoadmapCurrentRow);
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const submit = async () => {
     if (!currentRow || !currentCategory) return;
-    // setStatus(Status.LOADING);
-    // const result = await categoryAPI.deleteCategory(_id);
-    // const { message, status } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    //   dispatch(removeCategoryFromList(_id));
-    //   dispatch(removeCategoryFromTasksList(_id));
-    toggleActive(false);
-    // }
-    dispatch(
-      deleteRoadmapRow({
-        rowId: currentRow._id,
-        categoryId: currentCategory._id,
-      }),
-    );
+    setIsLoading(true);
+    const result = await roadmapAPI.deleteRow({
+      rowId: currentRow._id,
+      roadmapId: childProps.roadmapId,
+      categoryId: currentCategory._id,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      setIsLoading(false);
+      setMessage('');
+      toggleActive(false);
+      dispatch(
+        deleteRoadmapRow({
+          rowId: currentRow._id,
+          categoryId: currentCategory._id,
+        }),
+      );
+    } else {
+      setMessage(result.message);
+      setIsLoading(false);
+    }
   };
 
   const cancel = () => {
@@ -54,7 +64,7 @@ export const RowDeleting: FC<RowDeletingProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader data-testid="preloader" />
       ) : (
         <>
@@ -68,7 +78,7 @@ export const RowDeleting: FC<RowDeletingProps> = ({ toggleActive }) => {
             <Button text={t('no')} callback={cancel} class="cancel" />
             <Button text={t('yes')} callback={submit} class="submit" />
           </div>
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>

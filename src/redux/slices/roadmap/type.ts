@@ -12,7 +12,6 @@ export type Task = {
 
 export type Row = {
   _id: string;
-  title: string;
   tasks: Task[];
 };
 

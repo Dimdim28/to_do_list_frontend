@@ -31,10 +31,11 @@ export function getRelativeTime(
   if (diffMin < 60) return t('updated.minutesAgo', { count: diffMin });
   if (diffHours < 2) return t('updated.anHourAgo');
   if (diffHours < 5) return t('updated.hoursAgo', { count: diffHours });
+  if (diffDays < 1) return t('updated.today');
   if (diffDays === 1) return t('updated.yesterday');
   if (diffDays < 7) return t('updated.daysAgo', { count: diffDays });
   if (diffWeeks === 1) return t('updated.aWeekAgo');
   if (diffWeeks < 4) return t('updated.weeksAgo', { count: diffWeeks });
 
-  return date.toLocaleDateString(); // если больше месяца — просто дата
+  return date.toLocaleDateString();
 }

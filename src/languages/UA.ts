@@ -161,6 +161,7 @@ const UA = {
     minutesAgo: '{{count}} хвилин тому',
     anHourAgo: 'годину тому',
     hoursAgo: '{{count}} годин тому',
+    today: 'сьогодні',
     yesterday: 'вчора',
     daysAgo: '{{count}} днів тому',
     aWeekAgo: 'тиждень тому',

@@ -116,7 +116,6 @@ const canBanSlice = createSlice({
       state,
       action: PayloadAction<{
         rowId: string;
-        title: string;
         categoryId: string;
       }>,
     ) => {
@@ -131,7 +130,6 @@ const canBanSlice = createSlice({
                 {
                   _id: action.payload.rowId,
                   tasks: [],
-                  title: action.payload.title,
                 },
               ],
             }

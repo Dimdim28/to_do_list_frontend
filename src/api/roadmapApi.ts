@@ -1,5 +1,5 @@
 import instanse from '../axios';
-import { Category } from '../redux/slices/roadmap/type';
+import { Category, Row } from '../redux/slices/roadmap/type';
 import { Status } from '../types/shared';
 
 import { RoadmapData } from './../redux/slices/roadmap/type';
@@ -156,6 +156,42 @@ type DeleteCategoryResponseFail = {
   message: string;
 };
 
+export type CreateRowPayload = {
+  roadmapId: string;
+  categoryId: string;
+};
+
+export type DeleteRowPayload = {
+  roadmapId: string;
+  categoryId: string;
+  rowId: string;
+};
+
+type CreateRowApiResponse = {
+  data: Row;
+  status: number;
+  statusText: string;
+};
+
+type CreateRowResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Row;
+};
+
+type CreateRowResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type DeleteRowResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type DeleteRowResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class roadmapAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -295,6 +331,41 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error deleting category',
+      };
+    }
+  }
+
+  public async createRow(
+    payload: CreateRowPayload,
+  ): Promise<CreateRowResponseSuccess | CreateRowResponseFail> {
+    try {
+      const response: CreateRowApiResponse = await instanse.post(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row`,
+      );
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error creating row',
+      };
+    }
+  }
+
+  public async deleteRow(
+    payload: DeleteRowPayload,
+  ): Promise<DeleteRowResponseSuccess | DeleteRowResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row/${payload.rowId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error deleting row',
       };
     }
   }
