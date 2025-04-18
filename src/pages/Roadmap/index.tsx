@@ -296,7 +296,7 @@ const RoadMap = () => {
     dispatch(setRoadmapIsEditingMilestoneOpened(true));
   };
 
-  const handleTaskDrop = (
+  const handleTaskDrop = async (
     e: DragEvent<HTMLDivElement>,
     row: Row,
     category: Category,
@@ -306,6 +306,8 @@ const RoadMap = () => {
 
     if (!raw) return;
     const data = JSON.parse(raw);
+
+    console.log('Dropping data:', data);
 
     const dropX = e.clientX;
     const roadmapWidth = roadmapContentWidth;
@@ -331,6 +333,15 @@ const RoadMap = () => {
     if (overlap) return;
 
     if (isSameRow) {
+      await roadmapAPI.updateTask({
+        roadmapId: data.roadmapId,
+        categoryId: data.categoryId,
+        rowId: data.rowId,
+        taskId: data.taskId,
+        start: newStart,
+        end: newEnd,
+      });
+
       dispatch(
         updateRoadmapTaskInCategory({
           categoryId: category._id,
@@ -342,9 +353,6 @@ const RoadMap = () => {
           },
         }),
       );
-
-      // TODO: API для позиции
-      // await api.updateTask(data.taskId, { start: newStart, end: newEnd });
     } else {
       const task = {
         _id: data.taskId,
@@ -355,6 +363,15 @@ const RoadMap = () => {
         status: data.status,
       };
 
+      await roadmapAPI.updateTask({
+        roadmapId: data.roadmapId,
+        categoryId: category._id,
+        rowId: row._id,
+        taskId: data.taskId,
+        start: newStart,
+        end: newEnd,
+      });
+
       dispatch(
         moveRoadmapTask({
           fromCategoryId: data.categoryId,
@@ -364,9 +381,6 @@ const RoadMap = () => {
           task,
         }),
       );
-
-      // TODO: API для перемещения
-      // await api.moveTask({ taskId: data.taskId, toRowId: row.id, start: newStart, end: newEnd });
     }
   };
 

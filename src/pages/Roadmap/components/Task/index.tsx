@@ -250,12 +250,15 @@ const TaskComponent: FC<TaskProps> = ({
           taskId: localTask._id,
           categoryId,
           rowId,
+          roadmapId: roadmapId,
           start: localTask.start,
           end: localTask.end,
           progress: localTask.progress,
           offsetX: e.clientX,
           title: localTask.title,
         });
+
+        console.log('dragData', dragData);
         e.dataTransfer.setData('application/json', dragData);
       }}
     >
