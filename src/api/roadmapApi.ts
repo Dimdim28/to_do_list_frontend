@@ -1,5 +1,11 @@
 import instanse from '../axios';
-import { Category, Row } from '../redux/slices/roadmap/type';
+import {
+  Category,
+  Milestone,
+  Quarter,
+  Row,
+  Task,
+} from '../redux/slices/roadmap/type';
 import { Status } from '../types/shared';
 
 import { RoadmapData } from './../redux/slices/roadmap/type';
@@ -192,13 +198,6 @@ type DeleteRowResponseFail = {
   message: string;
 };
 
-export type Quarter = {
-  _id: string;
-  title: string;
-  start: number;
-  end: number;
-};
-
 export type CreateQuarterPayload = {
   roadmapId: string;
   title: string;
@@ -249,6 +248,120 @@ type DeleteQuarterResponseSuccess = {
 };
 
 type DeleteQuarterResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type CreateMilestonePayload = {
+  roadmapId: string;
+  title: string;
+  position: number;
+};
+
+export type UpdateMilestonePayload = {
+  roadmapId: string;
+  milestoneId: string;
+  title?: string;
+  position?: number;
+};
+
+export type DeleteMilestonePayload = {
+  roadmapId: string;
+  milestoneId: string;
+};
+
+type CreateMilestoneApiResponse = {
+  data: Milestone;
+  status: number;
+  statusText: string;
+};
+
+type CreateMilestoneResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Milestone;
+};
+
+type CreateMilestoneResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type UpdateMilestoneResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type UpdateMilestoneResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type DeleteMilestoneResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type DeleteMilestoneResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+export type CreateTaskPayload = {
+  roadmapId: string;
+  categoryId: string;
+  rowId: string;
+  title: string;
+  progress?: number;
+  start?: number;
+  end?: number;
+};
+
+export type UpdateTaskPayload = {
+  roadmapId: string;
+  categoryId: string;
+  rowId: string;
+  taskId: string;
+  title?: string;
+  progress?: number;
+  start?: number;
+  end?: number;
+};
+
+export type DeleteTaskPayload = {
+  roadmapId: string;
+  categoryId: string;
+  rowId: string;
+  taskId: string;
+};
+
+type CreateTaskApiResponse = {
+  data: Task;
+  status: number;
+  statusText: string;
+};
+
+type CreateTaskResponseSuccess = {
+  status: Status.SUCCESS;
+  data: Task;
+};
+
+type CreateTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type UpdateTaskResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type UpdateTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
+type DeleteTaskResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type DeleteTaskResponseFail = {
   status: Status.ERROR;
   message: string;
 };
@@ -488,6 +601,128 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error deleting quarter',
+      };
+    }
+  }
+
+  public async createMilestone(
+    payload: CreateMilestonePayload,
+  ): Promise<CreateMilestoneResponseSuccess | CreateMilestoneResponseFail> {
+    try {
+      const response: CreateMilestoneApiResponse = await instanse.post(
+        `roadmap/${payload.roadmapId}/milestone`,
+        {
+          title: payload.title,
+          position: payload.position,
+        },
+      );
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error creating milestone',
+      };
+    }
+  }
+
+  public async updateMilestone(
+    payload: UpdateMilestonePayload,
+  ): Promise<UpdateMilestoneResponseSuccess | UpdateMilestoneResponseFail> {
+    try {
+      await instanse.patch(
+        `roadmap/${payload.roadmapId}/milestone/${payload.milestoneId}`,
+        {
+          title: payload.title,
+          position: payload.position,
+        },
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error updating milestone',
+      };
+    }
+  }
+
+  public async deleteMilestone(
+    payload: DeleteMilestonePayload,
+  ): Promise<DeleteMilestoneResponseSuccess | DeleteMilestoneResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/milestone/${payload.milestoneId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error deleting milestone',
+      };
+    }
+  }
+
+  public async createTask(
+    payload: CreateTaskPayload,
+  ): Promise<CreateTaskResponseSuccess | CreateTaskResponseFail> {
+    try {
+      const response: CreateTaskApiResponse = await instanse.post(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row/${payload.rowId}/task`,
+        {
+          title: payload.title,
+          progress: payload.progress,
+          start: payload.start,
+          end: payload.end,
+        },
+      );
+      return {
+        status: Status.SUCCESS,
+        data: response.data,
+      };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error creating task',
+      };
+    }
+  }
+
+  public async updateTask(
+    payload: UpdateTaskPayload,
+  ): Promise<UpdateTaskResponseSuccess | UpdateTaskResponseFail> {
+    try {
+      await instanse.patch(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row/${payload.rowId}/task/${payload.taskId}`,
+        {
+          title: payload.title,
+          progress: payload.progress,
+          start: payload.start,
+          end: payload.end,
+        },
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error updating task',
+      };
+    }
+  }
+
+  public async deleteTask(
+    payload: DeleteTaskPayload,
+  ): Promise<DeleteTaskResponseSuccess | DeleteTaskResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row/${payload.rowId}/task/${payload.taskId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error deleting task',
       };
     }
   }

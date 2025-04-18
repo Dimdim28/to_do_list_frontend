@@ -79,7 +79,6 @@ export const MOCK_OBJECT_ONE: RootState = {
   },
   roadmap: {
     data: null,
-    status: Status.LOADING,
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
@@ -167,7 +166,6 @@ export const MOCK_OBJECT_TWO: RootState = {
   },
   roadmap: {
     data: null,
-    status: Status.LOADING,
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
@@ -241,7 +239,6 @@ export const MOCK_OBJECT_THREE: RootState = {
   },
   roadmap: {
     data: null,
-    status: Status.LOADING,
     currentCategory: null,
     isDeletingCategoryOpened: false,
     isEditingCategoryOpened: false,
