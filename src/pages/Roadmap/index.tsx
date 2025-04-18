@@ -511,6 +511,7 @@ const RoadMap = () => {
                       key={task._id}
                       category={category}
                       row={row}
+                      roadmapId={data._id}
                     />
                   ))}
 

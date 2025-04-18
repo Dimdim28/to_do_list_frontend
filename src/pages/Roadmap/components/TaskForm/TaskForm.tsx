@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
 import Preloader from '../../../../components/Preloader/Preloader';
@@ -21,9 +22,10 @@ import styles from './TaskForm.module.scss';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
+const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -32,58 +34,69 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
   const currentRow = useAppSelector(selectRoadmapCurrentRow);
   const clickPosition = useAppSelector(selectRoadmapClickPosition);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
-
-  const [title, setTittle] = useState(currentTask?.title || '');
+  const [title, setTitle] = useState(currentTask?.title || '');
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setTittle(currentTask?.title || '');
+    setTitle(currentTask?.title || '');
   }, [currentTask?._id]);
 
   const submit = async () => {
-    if (!currentRow || !currentCategory) return;
-    // setStatus(Status.LOADING);
-    // const result = _id
-    //   ? await categoryAPI.editCategory({ _id, title, color })
-    //   : await categoryAPI.addCategory({ title, user: userId, color });
-    // const { message, status, category } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    toggleActive(false);
-    //   if (_id) {
-    //     dispatch(updateCategoryInTasksList({ _id, title, color }));
-    //     dispatch(updateCategoryInList({ _id, title, color }));
-    //   } else {
-    //     dispatch(addCategoryToList(category));
-    //   }
-    // }
+    if (!currentCategory || !currentRow) return;
+
+    setIsLoading(true);
+    setMessage('');
+
     if (currentTask) {
-      dispatch(
-        editRoadmapTask({
-          task: { ...currentTask, title },
-          categoryId: currentCategory._id,
-          rowId: currentRow._id,
-        }),
-      );
+      const result = await roadmapAPI.updateTask({
+        roadmapId: childProps.roadmapId,
+        categoryId: currentCategory._id,
+        rowId: currentRow._id,
+        taskId: currentTask._id,
+        title,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        dispatch(
+          editRoadmapTask({
+            task: { ...currentTask, title },
+            categoryId: currentCategory._id,
+            rowId: currentRow._id,
+          }),
+        );
+        toggleActive(false);
+      } else {
+        setMessage(result.message);
+      }
     } else {
       const start = clickPosition || 0;
-      dispatch(
-        addRoadmapTask({
-          task: {
-            progress: 0,
-            start: start,
-            end: start + 10,
-            title,
-            _id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
-          },
-          categoryId: currentCategory._id,
-          rowId: currentRow._id,
-        }),
-      );
-      setTittle('');
+      const result = await roadmapAPI.createTask({
+        roadmapId: childProps.roadmapId,
+        categoryId: currentCategory._id,
+        rowId: currentRow._id,
+        title,
+        start,
+        end: start + 10,
+        progress: 0,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        dispatch(
+          addRoadmapTask({
+            task: result.data,
+            categoryId: currentCategory._id,
+            rowId: currentRow._id,
+          }),
+        );
+        setTitle('');
+        toggleActive(false);
+      } else {
+        setMessage(result.message);
+      }
     }
+
+    setIsLoading(false);
   };
 
   const cancel = () => {
@@ -92,14 +105,14 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader />
       ) : (
         <>
           <Input
             title={t('title')}
             value={title}
-            setValue={setTittle}
+            setValue={setTitle}
             type="text"
           />
 
@@ -113,7 +126,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive }) => {
             />
           </div>
 
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>

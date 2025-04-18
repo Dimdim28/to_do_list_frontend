@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
@@ -17,9 +18,13 @@ import styles from './TaskDeleting.module.scss';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-export const TaskDeleting: FC<TaskDeletingProps> = ({ toggleActive }) => {
+export const TaskDeleting: FC<TaskDeletingProps> = ({
+  toggleActive,
+  childProps,
+}) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -27,28 +32,33 @@ export const TaskDeleting: FC<TaskDeletingProps> = ({ toggleActive }) => {
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
   const currentRow = useAppSelector(selectRoadmapCurrentRow);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
+  const [status, setStatus] = useState<Status>(Status.SUCCESS);
+  const [message, setMessage] = useState('');
 
   const submit = async () => {
     if (!currentTask || !currentCategory || !currentRow) return;
-    // setStatus(Status.LOADING);
-    // const result = await categoryAPI.deleteCategory(_id);
-    // const { message, status } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    //   dispatch(removeCategoryFromList(_id));
-    //   dispatch(removeCategoryFromTasksList(_id));
-    toggleActive(false);
-    // }
-    dispatch(
-      deleteRoadmapTask({
-        categoryId: currentCategory._id,
-        taskId: currentTask._id,
-        rowId: currentRow._id,
-      }),
-    );
+
+    setStatus(Status.LOADING);
+    const result = await roadmapAPI.deleteTask({
+      roadmapId: childProps.roadmapId,
+      categoryId: currentCategory._id,
+      rowId: currentRow._id,
+      taskId: currentTask._id,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      dispatch(
+        deleteRoadmapTask({
+          categoryId: currentCategory._id,
+          rowId: currentRow._id,
+          taskId: currentTask._id,
+        }),
+      );
+      toggleActive(false);
+    } else {
+      setMessage(result.message);
+      setStatus(Status.ERROR);
+    }
   };
 
   const cancel = () => {
@@ -71,7 +81,7 @@ export const TaskDeleting: FC<TaskDeletingProps> = ({ toggleActive }) => {
             <Button text={t('no')} callback={cancel} class="cancel" />
             <Button text={t('yes')} callback={submit} class="submit" />
           </div>
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>

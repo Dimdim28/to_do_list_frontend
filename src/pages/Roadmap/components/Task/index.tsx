@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import { useAppDispatch } from '../../../../hooks';
 import {
   setRoadmapCurrentCategory,
@@ -22,6 +23,7 @@ interface TaskProps {
   row: Row;
   allTasksInRow: Task[];
   roadmapContentWidth: number;
+  roadmapId: string;
 }
 
 const TaskComponent: FC<TaskProps> = ({
@@ -31,6 +33,7 @@ const TaskComponent: FC<TaskProps> = ({
   category,
   allTasksInRow,
   roadmapContentWidth,
+  roadmapId,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -123,7 +126,7 @@ const TaskComponent: FC<TaskProps> = ({
     }
   };
 
-  const onResizeEnd = () => {
+  const onResizeEnd = async () => {
     if (resizingRef.current) {
       resizingRef.current.isResizing = false;
     }
@@ -131,7 +134,6 @@ const TaskComponent: FC<TaskProps> = ({
     document.removeEventListener('mousemove', onResizeMove);
     document.removeEventListener('mouseup', onResizeEnd);
 
-    // ✅ Один раз отправляем в Redux и можно сделать API-запрос
     dispatch(
       updateRoadmapTaskInCategory({
         categoryId,
@@ -144,8 +146,14 @@ const TaskComponent: FC<TaskProps> = ({
       }),
     );
 
-    // 📡 TODO: Здесь можно отправить PUT/PATCH запрос на сервер
-    // await api.updateTask(localTask.id, { start: localTask.start, end: localTask.end });
+    await roadmapAPI.updateTask({
+      roadmapId,
+      categoryId,
+      rowId,
+      taskId: localTask._id,
+      start: localTaskRef.current.start,
+      end: localTaskRef.current.end,
+    });
   };
 
   const onProgressResizeStart = (e: React.MouseEvent) => {
@@ -182,7 +190,7 @@ const TaskComponent: FC<TaskProps> = ({
     });
   };
 
-  const onProgressResizeEnd = () => {
+  const onProgressResizeEnd = async () => {
     if (progressResizingRef.current) {
       progressResizingRef.current.isResizing = false;
     }
@@ -190,7 +198,6 @@ const TaskComponent: FC<TaskProps> = ({
     document.removeEventListener('mousemove', onProgressResizeMove);
     document.removeEventListener('mouseup', onProgressResizeEnd);
 
-    // ✅ Один раз отправляем прогресс в Redux и можно сделать API-запрос
     dispatch(
       updateRoadmapTaskInCategory({
         categoryId,
@@ -202,8 +209,13 @@ const TaskComponent: FC<TaskProps> = ({
       }),
     );
 
-    // 📡 TODO: Здесь можно отправить PUT/PATCH запрос на сервер
-    // await api.updateTask(localTask.id, { progress: localTask.progress });
+    await roadmapAPI.updateTask({
+      roadmapId,
+      categoryId,
+      rowId,
+      taskId: localTask._id,
+      progress: localTaskRef.current.progress,
+    });
   };
 
   const handleOpenEditTaskModal = (task: Task) => {
