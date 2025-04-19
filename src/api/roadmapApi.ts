@@ -357,6 +357,26 @@ type UpdateTaskResponseFail = {
   message: string;
 };
 
+export type MoveTaskPayload = {
+  roadmapId: string;
+  categoryId: string;
+  rowId: string;
+  taskId: string;
+  toCategoryId: string;
+  toRowId: string;
+  start: number;
+  end: number;
+};
+
+type MoveTaskResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type MoveTaskResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 type DeleteTaskResponseSuccess = {
   status: Status.SUCCESS;
 };
@@ -707,6 +727,28 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error updating task',
+      };
+    }
+  }
+
+  public async moveTask(
+    payload: MoveTaskPayload,
+  ): Promise<MoveTaskResponseSuccess | MoveTaskResponseFail> {
+    try {
+      await instanse.patch(
+        `roadmap/${payload.roadmapId}/category/${payload.categoryId}/row/${payload.rowId}/task/${payload.taskId}/move`,
+        {
+          toCategoryId: payload.toCategoryId,
+          toRowId: payload.toRowId,
+          start: payload.start,
+          end: payload.end,
+        },
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error moving task',
       };
     }
   }

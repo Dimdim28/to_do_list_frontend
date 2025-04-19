@@ -363,11 +363,13 @@ const RoadMap = () => {
         status: data.status,
       };
 
-      await roadmapAPI.updateTask({
+      await roadmapAPI.moveTask({
         roadmapId: data.roadmapId,
-        categoryId: category._id,
-        rowId: row._id,
+        categoryId: data.categoryId,
+        rowId: data.rowId,
         taskId: data.taskId,
+        toCategoryId: category._id,
+        toRowId: row._id,
         start: newStart,
         end: newEnd,
       });
