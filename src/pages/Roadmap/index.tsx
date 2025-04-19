@@ -465,6 +465,7 @@ const RoadMap = () => {
             >
               {milestones.map((milestone) => (
                 <MilestoneComponent
+                  roadmapId={data._id}
                   totalQuarters={totalQuarters}
                   milestone={milestone}
                   key={milestone._id}

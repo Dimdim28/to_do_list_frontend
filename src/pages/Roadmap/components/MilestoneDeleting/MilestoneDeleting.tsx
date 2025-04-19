@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import Preloader from '../../../../components/Preloader/Preloader';
 import { truncate } from '../../../../helpers/string';
@@ -13,32 +14,39 @@ import styles from './MilestoneDeleting.module.scss';
 
 interface MilestoneDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
 export const MilestoneDeleting: FC<MilestoneDeletingProps> = ({
   toggleActive,
+  childProps,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const currentMilestone = useAppSelector(selectRoadmapCurrentMilestone);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const submit = async () => {
     if (!currentMilestone) return;
-    // setStatus(Status.LOADING);
-    // const result = await categoryAPI.deleteCategory(_id);
-    // const { message, status } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    //   dispatch(removeCategoryFromList(_id));
-    //   dispatch(removeCategoryFromTasksList(_id));
-    toggleActive(false);
-    // }
-    dispatch(deleteRoadmapMilestone(currentMilestone._id));
+
+    setIsLoading(true);
+
+    const result = await roadmapAPI.deleteMilestone({
+      roadmapId: childProps.roadmapId,
+      milestoneId: currentMilestone._id,
+    });
+
+    if (result.status === Status.SUCCESS) {
+      dispatch(deleteRoadmapMilestone(currentMilestone._id));
+      toggleActive(false);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      setMessage(result.message);
+    }
   };
 
   const cancel = () => {
@@ -47,7 +55,7 @@ export const MilestoneDeleting: FC<MilestoneDeletingProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader data-testid="preloader" />
       ) : (
         <>
@@ -59,7 +67,7 @@ export const MilestoneDeleting: FC<MilestoneDeletingProps> = ({
             <Button text={t('no')} callback={cancel} class="cancel" />
             <Button text={t('yes')} callback={submit} class="submit" />
           </div>
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>

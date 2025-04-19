@@ -2,6 +2,7 @@ import { FC, useRef, useState } from 'react';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import { useAppDispatch } from '../../../../hooks';
 import {
   setRoadmapCurrentMilestone,
@@ -17,12 +18,14 @@ interface MilestoneProps {
   milestone: Milestone;
   totalQuarters: number;
   roadmapContentWidth: number;
+  roadmapId: string;
 }
 
 const MilestoneComponent: FC<MilestoneProps> = ({
   milestone,
   totalQuarters,
   roadmapContentWidth,
+  roadmapId,
 }) => {
   const dispatch = useAppDispatch();
   const [position, setPosition] = useState(milestone.position);
@@ -63,13 +66,15 @@ const MilestoneComponent: FC<MilestoneProps> = ({
     }
   };
 
-  const onMouseUp = () => {
+  const onMouseUp = async () => {
     dragStateRef.current.dragging = false;
-
     dispatch(updateMilestonePosition({ id: milestone._id, position }));
 
-    // 📡 API example
-    // await api.updateMilestone(milestone.id, { position });
+    await roadmapAPI.updateMilestone({
+      roadmapId,
+      milestoneId: milestone._id,
+      position,
+    });
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);

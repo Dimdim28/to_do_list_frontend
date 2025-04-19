@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import roadmapAPI from '../../../../api/roadmapApi';
 import Button from '../../../../components/common/Button/Button';
 import { Input } from '../../../../components/common/Input/Input';
 import Preloader from '../../../../components/Preloader/Preloader';
@@ -19,54 +20,68 @@ import styles from './MilestoneForm.module.scss';
 
 interface MilestoneFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
+  childProps: { roadmapId: string };
 }
 
-const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
+const MilestoneForm: FC<MilestoneFormProps> = ({
+  toggleActive,
+  childProps,
+}) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const currentMilestone = useAppSelector(selectRoadmapCurrentMilestone);
   const clickPosition = useAppSelector(selectRoadmapClickPosition);
 
-  const [status] = useState(Status.SUCCESS);
-  const [categoryError] = useState('');
-
-  const [title, setTittle] = useState(currentMilestone?.title || '');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [title, setTitle] = useState(currentMilestone?.title || '');
 
   useEffect(() => {
-    setTittle(currentMilestone?.title || '');
+    setTitle(currentMilestone?.title || '');
   }, [currentMilestone?._id]);
 
   const submit = async () => {
-    // setStatus(Status.LOADING);
-    // const result = _id
-    //   ? await categoryAPI.editCategory({ _id, title, color })
-    //   : await categoryAPI.addCategory({ title, user: userId, color });
-    // const { message, status, category } = result;
-    // setStatus(status);
-    // setCategoryError(message || '');
-    // if (status === Status.SUCCESS) {
-    toggleActive(false);
-    //   if (_id) {
-    //     dispatch(updateCategoryInTasksList({ _id, title, color }));
-    //     dispatch(updateCategoryInList({ _id, title, color }));
-    //   } else {
-    //     dispatch(addCategoryToList(category));
-    //   }
-    // }
-    if (currentMilestone) {
-      dispatch(editRoadmapMilestone({ ...currentMilestone, title }));
-    } else {
-      const start = clickPosition || 0;
+    setIsLoading(true);
+    setMessage('');
 
-      dispatch(
-        addRoadmapMilestone({
-          position: start,
-          title,
-          _id: `${Math.random() * 1000 + 'category' + Math.random() * 100}`,
-        }),
-      );
-      setTittle('');
+    if (title.length < 3) return;
+
+    if (currentMilestone) {
+      const result = await roadmapAPI.updateMilestone({
+        roadmapId: childProps.roadmapId,
+        milestoneId: currentMilestone._id,
+        title,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        dispatch(editRoadmapMilestone({ ...currentMilestone, title }));
+        toggleActive(false);
+        setMessage('');
+        setIsLoading(false);
+      } else {
+        setMessage(result.message);
+        setIsLoading(false);
+      }
+    } else {
+      const position = clickPosition || 0;
+
+      const result = await roadmapAPI.createMilestone({
+        roadmapId: childProps.roadmapId,
+        title,
+        position,
+      });
+
+      if (result.status === Status.SUCCESS) {
+        dispatch(addRoadmapMilestone(result.data));
+        setTitle('');
+        setMessage('');
+        toggleActive(false);
+        setIsLoading(false);
+      } else {
+        setMessage(result.message);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -76,14 +91,14 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader />
       ) : (
         <>
           <Input
             title={t('title')}
             value={title}
-            setValue={setTittle}
+            setValue={setTitle}
             type="text"
           />
 
@@ -97,7 +112,7 @@ const MilestoneForm: FC<MilestoneFormProps> = ({ toggleActive }) => {
             />
           </div>
 
-          {categoryError && <p className={styles.error}>{categoryError}</p>}
+          {message && <p className={styles.error}>{message}</p>}
         </>
       )}
     </div>
