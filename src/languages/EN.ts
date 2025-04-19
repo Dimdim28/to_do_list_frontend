@@ -149,7 +149,7 @@ const EN = {
   assigners: 'Assigners',
   tags: 'Tags',
   noColumns: 'There are no columns in project right now',
-  deleteTask: 'Delete task',
+  deleteTask: 'Delete',
   noFreeMembers: 'No free users',
   backToAllBoards: 'Back to all boards',
   noRoadmapBoards: 'You have no Roadmap boards',

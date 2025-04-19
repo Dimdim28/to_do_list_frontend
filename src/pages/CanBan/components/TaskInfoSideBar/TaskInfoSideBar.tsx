@@ -29,7 +29,7 @@ import {
   selectProjectTags,
   selectSelectedTask,
 } from '../../../../redux/slices/canban/selectors';
-import { Tag, Task } from '../../../../redux/slices/canban/type';
+import { Tag } from '../../../../redux/slices/canban/type';
 import { Status, User } from '../../../../types/shared';
 import TagComponent from '../Tag/Tag';
 
@@ -142,10 +142,16 @@ const TaskInfoSideBar = () => {
     }
   };
 
-  const handleOpenDeleteTaskModal = (columnId: string, task: Task) => {
-    dispatch(setSelectedTask({ task: task, columnId }));
+  const handleDeleteTask = () => {
+    if (!taskInfo?.columnId || !taskInfo?.task) return;
+
+    dispatch(
+      setSelectedTask({ task: taskInfo.task, columnId: taskInfo.columnId }),
+    );
+    dispatch(
+      setProcessingColumnData({ columnId: taskInfo.columnId, title: '' }),
+    );
     dispatch(setDeleteTaskModalOpen(true));
-    dispatch(setProcessingColumnData({ columnId, title: '' }));
   };
 
   useEffect(() => {
@@ -329,21 +335,13 @@ const TaskInfoSideBar = () => {
               </div>
             </div>
 
-            <div className={styles.deleteTask}>
-              <div
-                className={styles.deleteTaskText}
-                onClick={(e) => {
-                  if (!taskInfo?.columnId || !taskInfo?.task) return;
-
-                  handleOpenDeleteTaskModal(taskInfo.columnId, taskInfo.task);
-                  e.stopPropagation();
-                }}
-              >
-                {t('deleteTask')}
-              </div>
-            </div>
-
             <div className={styles.buttons}>
+              <Button
+                text={t('deleteTask')}
+                class="yellow"
+                callback={handleDeleteTask}
+              ></Button>
+
               <Button
                 text={t('cancel')}
                 class="cancel"

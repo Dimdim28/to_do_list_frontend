@@ -150,7 +150,7 @@ const UA = {
   assigners: 'Відповідальні',
   tags: 'Теги',
   noColumns: 'У проекті зараз немає колонок',
-  deleteTask: 'Видалити задачу',
+  deleteTask: 'Видалити',
   noFreeMembers: 'Немає вільних користувачів',
   backToAllBoards: 'Повернутися до усіх дошок',
   noRoadmapBoards: 'У вас нема Роадмап дошок',

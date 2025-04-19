@@ -41,3 +41,7 @@
 .cancel {
   @include style-button-color($red-200, $red-25, $red-10, $red-100);
 }
+
+.yellow {
+  @include style-button-color($amber-100, $amber-50, $amber-25, $amber-200);
+}
