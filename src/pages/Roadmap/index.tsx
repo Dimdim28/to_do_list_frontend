@@ -1,7 +1,15 @@
 import { DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
+import {
+  faArrowLeft,
+  faPencil,
+  faPlus,
+  faTrash,
+  faUser,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import roadmapAPI from '../../api/roadmapApi';
@@ -9,6 +17,7 @@ import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectProfile } from '../../redux/slices/auth/selectors';
 import {
   addRoadmapNewLineToCategory,
   addRoadmapNewQuarter,
@@ -31,6 +40,7 @@ import {
   updateRoadmapTaskInCategory,
 } from '../../redux/slices/roadmap/roadmap';
 import {
+  selectRoadmapCreatorId,
   selectRoadmapData,
   selectRoadmapIsDeletingCategoryOpened,
   selectRoadmapIsDeletingMilestoneModalOpened,
@@ -47,10 +57,13 @@ import {
   RoadmapData,
   Row,
 } from '../../redux/slices/roadmap/type';
+import ROUTES from '../../routes';
 import { Status } from '../../types/shared';
 
+import AddUserToProjectModal from './components/AddUserToProjectModal/AddUserToProjectModal';
 import { CategoryDeleting } from './components/CategoryDeleting/CategoryDeleting';
 import CategoryForm from './components/CategoryForm/CategoryForm';
+import EditProjectInfo from './components/EditProjectInfo/EditProjectInfo';
 import MilestoneComponent from './components/Milestone';
 import { MilestoneDeleting } from './components/MilestoneDeleting/MilestoneDeleting';
 import MilestoneForm from './components/MilestoneForm/MilestoneForm';
@@ -79,6 +92,11 @@ const RoadMap = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [roadmapContentWidth, setRoadmapContentWidth] = useState<number>(0);
 
+  const [isProjectSettingsOpened, setIsProjectSettingsOpened] =
+    useState<boolean>(false);
+  const [isAddUserToProjectModalOpened, setIsAddUserToProjectModalOpened] =
+    useState<boolean>(false);
+
   const categoryEditing = useAppSelector(selectRoadmapIsEditingCategoryOpened);
   const categoryDeleting = useAppSelector(
     selectRoadmapIsDeletingCategoryOpened,
@@ -95,6 +113,11 @@ const RoadMap = () => {
 
   const taskEditing = useAppSelector(selectRoadmapIsEditingTaskModalOpened);
   const taskDeleting = useAppSelector(selectRoadmapIsDeletingTaskModalOpened);
+
+  const currentUserProfile = useAppSelector(selectProfile);
+  const creatorId = useAppSelector(selectRoadmapCreatorId);
+
+  const isCreator = currentUserProfile?._id === creatorId;
 
   const updateWidth = () => {
     if (!roadmapRef.current) return;
@@ -124,7 +147,6 @@ const RoadMap = () => {
     }
   }, [boardId, dispatch]);
 
-  // один раз после загрузки
   useEffect(() => {
     const frame = requestAnimationFrame(updateWidth);
     window.addEventListener('resize', updateWidth);
@@ -155,7 +177,7 @@ const RoadMap = () => {
       </div>
     );
 
-  const { title, categories, milestones, quarters } = data;
+  const { title, categories, milestones, quarters, description } = data;
 
   const totalQuarters = quarters.length;
 
@@ -392,7 +414,43 @@ const RoadMap = () => {
       className={styles.wrapper}
       onDragOver={handleDragOver}
     >
-      <h1 className={styles.projectTitle}>{title}</h1>
+      {isCreator ? (
+        <div className={styles.projectLine}>
+          <div className={styles.options}>
+            <NavLink to={ROUTES.ROADMAP} className={styles.backToAllBoards}>
+              <FontAwesomeIcon icon={faArrowLeft} /> {t('backToAllBoards')}
+            </NavLink>
+          </div>
+
+          <div className={styles.options}>
+            <h1 className={styles.projectTitle}>{title}</h1>
+            <h2 className={styles.projectDescription}>{description}</h2>
+          </div>
+
+          <div className={styles.options}>
+            <FontAwesomeIcon
+              className={styles.gear}
+              onClick={() => {
+                setIsProjectSettingsOpened(true);
+              }}
+              fontSize="20px"
+              icon={faUser}
+            />
+            <FontAwesomeIcon
+              className={styles.user}
+              onClick={() => {
+                setIsAddUserToProjectModalOpened(true);
+              }}
+              fontSize="20px"
+              icon={faUserPlus}
+            />
+          </div>
+        </div>
+      ) : (
+        <NavLink to={ROUTES.ROADMAP} className={styles.backToAllBoards}>
+          <FontAwesomeIcon icon={faArrowLeft} /> {t('backToAllBoards')}
+        </NavLink>
+      )}
 
       <div
         className={styles.roadmap}
@@ -565,6 +623,26 @@ const RoadMap = () => {
           />
         </div>
       </div>
+
+      <Modal
+        active={isProjectSettingsOpened}
+        setActive={() => {
+          setIsProjectSettingsOpened(false);
+        }}
+        ChildComponent={EditProjectInfo}
+        childProps={{ members: data.members, projectId: data._id }}
+      />
+      <Modal
+        active={isAddUserToProjectModalOpened}
+        setActive={() => {
+          setIsAddUserToProjectModalOpened(false);
+        }}
+        ChildComponent={AddUserToProjectModal}
+        childProps={{
+          isOpened: isAddUserToProjectModalOpened,
+          projectId: data._id,
+        }}
+      />
 
       <Modal
         active={categoryEditing}

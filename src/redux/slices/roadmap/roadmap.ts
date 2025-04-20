@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { User } from '../../../types/shared';
+
 import {
   Category,
   Milestone,
@@ -423,6 +425,18 @@ const canBanSlice = createSlice({
     setRoadmapClickPosition: (state, action: PayloadAction<number>) => {
       state.clickPosition = action.payload;
     },
+
+    removeUserFromRoadmapMembers: (state, action: PayloadAction<string>) => {
+      if (!state.data) return;
+      state.data.members = state.data.members.filter(
+        (el) => el._id !== action.payload,
+      );
+    },
+
+    addUserToRoadmapMembers: (state, action: PayloadAction<User>) => {
+      if (!state.data) return;
+      state.data.members = [...state.data.members, action.payload];
+    },
   },
 });
 
@@ -459,4 +473,6 @@ export const {
   addRoadmapTask,
   editRoadmapTask,
   setRoadmapClickPosition,
+  removeUserFromRoadmapMembers,
+  addUserToRoadmapMembers,
 } = canBanSlice.actions;

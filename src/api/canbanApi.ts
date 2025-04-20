@@ -389,6 +389,17 @@ type DeleteTagResponseFail = {
   message: string;
 };
 
+export type LeaveBoardPayload = string;
+
+type LeaveBoardResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type LeaveBoardResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class canbanAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -634,6 +645,20 @@ class canbanAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error',
+      };
+    }
+  }
+
+  public async leaveBoard(
+    boardId: LeaveBoardPayload,
+  ): Promise<LeaveBoardResponseSuccess | LeaveBoardResponseFail> {
+    try {
+      await instanse.delete(`board/${boardId}/leave`);
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error leaving board',
       };
     }
   }

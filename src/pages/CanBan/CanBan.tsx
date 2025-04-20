@@ -95,7 +95,6 @@ const CanBan = () => {
 
   const isCreator = currentUserProfile?._id === creatorId;
 
-  // Горизонтальный автоскролл для контейнера колонок
   const handleBoardDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!boardRef.current) return;

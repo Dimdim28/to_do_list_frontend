@@ -11,11 +11,100 @@
   transition: color $transition-delay;
 }
 
+.projectLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.addColumnButton {
+  margin-top: 10px;
+  align-self: flex-start;
+  background-color: $info-200;
+  color: $white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    background-color: $amber-300;
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gear {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.user {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $info-200;
+  }
+}
+
+.columns {
+  display: flex;
+  gap: 20px;
+  height: calc(100% - 44px);
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.backToAllBoards {
+  width: fit-content;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
 .projectTitle {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+  line-height: 30px;
+}
+
+.projectDescription {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
   line-height: 30px;
 }
 
@@ -311,5 +400,37 @@
   }
   .quarterLine {
     background-color: black;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+    color: black;
+  }
+
+  .gear {
+    color: black;
+    width: 20px;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .user {
+    color: black;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .backToAllBoards {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
+    }
   }
 }

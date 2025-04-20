@@ -386,6 +386,27 @@ type DeleteTaskResponseFail = {
   message: string;
 };
 
+export type AddUserToRoadmapPayload = {
+  roadmapId: string;
+  userId: string;
+};
+
+export type RemoveUserFromRoadmapPayload = {
+  roadmapId: string;
+  userId: string;
+};
+
+export type LeaveRoadmapPayload = string;
+
+type RoadmapUserActionResponseSuccess = {
+  status: Status.SUCCESS;
+};
+
+type RoadmapUserActionResponseFail = {
+  status: Status.ERROR;
+  message: string;
+};
+
 class roadmapAPIClass {
   public async getBoards(): Promise<GetBoardsResponse> {
     try {
@@ -765,6 +786,52 @@ class roadmapAPIClass {
       return {
         status: Status.ERROR,
         message: err?.response?.data?.message || 'Error deleting task',
+      };
+    }
+  }
+
+  public async addUserToRoadmap(
+    payload: AddUserToRoadmapPayload,
+  ): Promise<RoadmapUserActionResponseSuccess | RoadmapUserActionResponseFail> {
+    try {
+      await instanse.post(
+        `roadmap/${payload.roadmapId}/add-user/${payload.userId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error adding user',
+      };
+    }
+  }
+
+  public async removeUserFromRoadmap(
+    payload: RemoveUserFromRoadmapPayload,
+  ): Promise<RoadmapUserActionResponseSuccess | RoadmapUserActionResponseFail> {
+    try {
+      await instanse.delete(
+        `roadmap/${payload.roadmapId}/remove-user/${payload.userId}`,
+      );
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error removing user',
+      };
+    }
+  }
+
+  public async leaveRoadmap(
+    roadmapId: LeaveRoadmapPayload,
+  ): Promise<RoadmapUserActionResponseSuccess | RoadmapUserActionResponseFail> {
+    try {
+      await instanse.delete(`roadmap/${roadmapId}/leave`);
+      return { status: Status.SUCCESS };
+    } catch (err: any) {
+      return {
+        status: Status.ERROR,
+        message: err?.response?.data?.message || 'Error leaving roadmap',
       };
     }
   }

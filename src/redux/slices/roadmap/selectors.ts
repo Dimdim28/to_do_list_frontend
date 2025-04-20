@@ -29,3 +29,5 @@ export const selectRoadmapIsEditingTaskModalOpened = (state: RootState) =>
   state.roadmap.isEditingTaskModalOpened;
 export const selectRoadmapIsDeletingTaskModalOpened = (state: RootState) =>
   state.roadmap.isDeletingTaskModalOpened;
+export const selectRoadmapCreatorId = (state: RootState) =>
+  state.roadmap.data?.creatorId;
