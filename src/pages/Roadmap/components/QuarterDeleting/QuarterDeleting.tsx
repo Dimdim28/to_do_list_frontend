@@ -30,6 +30,7 @@ export const QuarterDeleting: FC<QuarterDeletingProps> = ({
 
   const submit = async () => {
     if (!currentQuarter) return;
+    setIsLoading(true);
     const result = await roadmapAPI.deleteQuarter({
       roadmapId: childProps.roadmapId,
       quarterId: currentQuarter._id,
