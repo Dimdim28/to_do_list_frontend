@@ -18,7 +18,7 @@ interface TaskDescriptionTextAreaProps
 }
 
 export const TaskDescriptionTextArea: FC<TaskDescriptionTextAreaProps> = ({
-  value,
+  value = '',
   placeholder,
   setValue,
   currentTaskId,
