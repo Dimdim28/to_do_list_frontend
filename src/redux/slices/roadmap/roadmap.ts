@@ -268,7 +268,7 @@ const canBanSlice = createSlice({
         rows: category.rows.map((row) => ({
           ...row,
           tasks: row.tasks.filter((task) => {
-            if (task.start >= start - 10) return false;
+            if (task.start > start - 10) return false;
 
             if (task.end > start) {
               task.end = start;
