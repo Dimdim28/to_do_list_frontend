@@ -6,6 +6,7 @@
   width: 100%;
   height: calc(100% - 80px);
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
   color: white;
   transition: color $transition-delay;
@@ -17,6 +18,8 @@
   justify-content: space-between;
   width: 100%;
   margin-bottom: 40px;
+  position: sticky;
+  left: 0;
 }
 
 .addColumnButton {
@@ -109,10 +112,17 @@
 }
 
 .roadmap {
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
+}
+
+.roadmapContent {
   display: flex;
   flex-direction: column;
-  position: relative;
   gap: 20px;
+  min-width: fit-content;
+  position: relative;
 }
 
 .lineWrapper {
@@ -122,6 +132,7 @@
 }
 
 .category {
+  overflow: hidden;
   display: flex;
   width: 200px;
   align-items: center;
@@ -130,7 +141,9 @@
   flex-shrink: 0;
   font-weight: 700;
   color: white;
-  position: relative;
+  position: sticky;
+  left: 0;
+  z-index: 3;
 
   &:hover {
     .icons {
@@ -319,10 +332,13 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0;
+  position: relative;
 }
 
 .addIcon {
+  position: sticky;
+  left: 0px;
   width: 20px;
   height: 20px;
   z-index: 3;

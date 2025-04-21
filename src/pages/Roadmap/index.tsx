@@ -452,175 +452,179 @@ const RoadMap = () => {
         </NavLink>
       )}
 
-      <div
-        className={styles.roadmap}
-        ref={roadmapRef}
-        style={{ minWidth: `${210 + totalQuarters * 300}px` }}
-      >
-        <div className={styles.quarterLines}>
-          {quarters.map((quarter, index) =>
-            index > 0 ? (
-              <div
-                key={quarter._id}
-                className={styles.quarterLine}
-                style={{
-                  left: `${(index / totalQuarters) * 100}%`,
-                }}
-              />
-            ) : null,
-          )}
-        </div>
-        <div className={styles.lineWrapper}>
-          <div className={styles.category}></div>
-          <div className={styles.blocks}>
-            <div className={styles.quarteers}>
-              {quarters.map((quarteer, id) => (
+      <div className={styles.roadmap}>
+        <div
+          ref={roadmapRef}
+          className={styles.roadmapContent}
+          style={{ minWidth: `${210 + totalQuarters * 300}px` }}
+        >
+          <div className={styles.quarterLines}>
+            {quarters.map((quarter, index) =>
+              index > 0 ? (
                 <div
-                  key={quarteer._id}
-                  className={styles.quarteer}
-                  style={{ width: `${100 / totalQuarters}%` }}
-                >
-                  {quarteer.title}
-
-                  {id === quarters.length - 1 ? (
-                    <FontAwesomeIcon
-                      fontSize="15px"
-                      icon={faTrash}
-                      className={styles.removeQuarterIcon}
-                      onClick={(e) => {
-                        handleOpenDeleteQuarteerModal(quarteer);
-                        e.stopPropagation();
-                      }}
-                    />
-                  ) : null}
-                </div>
-              ))}
-
-              <FontAwesomeIcon
-                className={styles.addQuarterIcon}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAddNewQuarter(data, totalQuarters);
-                }}
-                fontSize="20px"
-                icon={faPlus}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.lineWrapper}>
-          <div
-            className={styles.category}
-            style={{
-              backgroundColor: '#4066FE',
-            }}
-          >
-            {t('milestones')}
-          </div>
-          <div className={styles.blocks}>
-            <div
-              className={styles.milestonesRow}
-              onDoubleClick={handleMilestoneDoubleClick}
-            >
-              {milestones.map((milestone) => (
-                <MilestoneComponent
-                  roadmapId={data._id}
-                  totalQuarters={totalQuarters}
-                  milestone={milestone}
-                  key={milestone._id}
-                  roadmapContentWidth={roadmapContentWidth}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {categories.map((category) => (
-          <div key={category._id} className={styles.lineWrapper}>
-            <div
-              className={styles.category}
-              style={{
-                backgroundColor: category.color,
-              }}
-            >
-              {category.title}
-
-              <div className={styles.icons}>
-                <FontAwesomeIcon
-                  className={`${styles.icon} ${styles.pencil}`}
-                  onClick={(e) => {
-                    handleOpenEditColumnModal(category);
-                    e.stopPropagation();
+                  key={quarter._id}
+                  className={styles.quarterLine}
+                  style={{
+                    left: `${(index / totalQuarters) * 100}%`,
                   }}
-                  fontSize="15px"
-                  icon={faPencil}
                 />
+              ) : null,
+            )}
+          </div>
+          <div className={styles.lineWrapper}>
+            <div className={styles.category}></div>
+            <div className={styles.blocks}>
+              <div className={styles.quarteers}>
+                {quarters.map((quarteer, id) => (
+                  <div
+                    key={quarteer._id}
+                    className={styles.quarteer}
+                    style={{ width: `${100 / totalQuarters}%` }}
+                  >
+                    {quarteer.title}
+
+                    {id === quarters.length - 1 ? (
+                      <FontAwesomeIcon
+                        fontSize="15px"
+                        icon={faTrash}
+                        className={styles.removeQuarterIcon}
+                        onClick={(e) => {
+                          handleOpenDeleteQuarteerModal(quarteer);
+                          e.stopPropagation();
+                        }}
+                      />
+                    ) : null}
+                  </div>
+                ))}
+
                 <FontAwesomeIcon
-                  fontSize="15px"
-                  icon={faTrash}
-                  className={`${styles.icon} ${styles.trash}`}
+                  className={styles.addQuarterIcon}
                   onClick={(e) => {
-                    handleOpenDeleteColumnModal(category);
                     e.stopPropagation();
+                    handleAddNewQuarter(data, totalQuarters);
                   }}
+                  fontSize="20px"
+                  icon={faPlus}
                 />
               </div>
             </div>
+          </div>
 
-            <div className={`${styles.blocks} ${styles.rows}`}>
-              {category.rows.map((row) => (
-                <div
-                  onDoubleClick={(e) => handleRowDoubleClick(e, row, category)}
-                  key={row._id}
-                  className={styles.row}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => handleTaskDrop(e, row, category)}
-                >
-                  {row.tasks.map((task) => (
-                    <TaskComponent
-                      roadmapContentWidth={roadmapContentWidth}
-                      allTasksInRow={row.tasks}
-                      task={task}
-                      totalQuarters={totalQuarters}
-                      key={task._id}
-                      category={category}
-                      row={row}
-                      roadmapId={data._id}
-                    />
-                  ))}
+          <div className={styles.lineWrapper}>
+            <div
+              className={styles.category}
+              style={{
+                backgroundColor: '#4066FE',
+              }}
+            >
+              {t('milestones')}
+            </div>
+            <div className={styles.blocks}>
+              <div
+                className={styles.milestonesRow}
+                onDoubleClick={handleMilestoneDoubleClick}
+              >
+                {milestones.map((milestone) => (
+                  <MilestoneComponent
+                    roadmapId={data._id}
+                    totalQuarters={totalQuarters}
+                    milestone={milestone}
+                    key={milestone._id}
+                    roadmapContentWidth={roadmapContentWidth}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
 
+          {categories.map((category) => (
+            <div key={category._id} className={styles.lineWrapper}>
+              <div
+                className={styles.category}
+                style={{
+                  backgroundColor: category.color,
+                }}
+              >
+                {category.title}
+
+                <div className={styles.icons}>
+                  <FontAwesomeIcon
+                    className={`${styles.icon} ${styles.pencil}`}
+                    onClick={(e) => {
+                      handleOpenEditColumnModal(category);
+                      e.stopPropagation();
+                    }}
+                    fontSize="15px"
+                    icon={faPencil}
+                  />
                   <FontAwesomeIcon
                     fontSize="15px"
                     icon={faTrash}
-                    className={styles.removeRowIcon}
+                    className={`${styles.icon} ${styles.trash}`}
                     onClick={(e) => {
+                      handleOpenDeleteColumnModal(category);
                       e.stopPropagation();
-                      handleOpenDeleteRowModal(row, category);
                     }}
                   />
                 </div>
-              ))}
+              </div>
 
-              <FontAwesomeIcon
-                className={styles.addRowIcon}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCreateRow(category, data);
-                }}
-                fontSize="20px"
-                icon={faPlus}
-              />
+              <div className={`${styles.blocks} ${styles.rows}`}>
+                {category.rows.map((row) => (
+                  <div
+                    onDoubleClick={(e) =>
+                      handleRowDoubleClick(e, row, category)
+                    }
+                    key={row._id}
+                    className={styles.row}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => handleTaskDrop(e, row, category)}
+                  >
+                    {row.tasks.map((task) => (
+                      <TaskComponent
+                        roadmapContentWidth={roadmapContentWidth}
+                        allTasksInRow={row.tasks}
+                        task={task}
+                        totalQuarters={totalQuarters}
+                        key={task._id}
+                        category={category}
+                        row={row}
+                        roadmapId={data._id}
+                      />
+                    ))}
+
+                    <FontAwesomeIcon
+                      fontSize="15px"
+                      icon={faTrash}
+                      className={styles.removeRowIcon}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenDeleteRowModal(row, category);
+                      }}
+                    />
+                  </div>
+                ))}
+
+                <FontAwesomeIcon
+                  className={styles.addRowIcon}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCreateRow(category, data);
+                  }}
+                  fontSize="20px"
+                  icon={faPlus}
+                />
+              </div>
             </div>
+          ))}
+          <div className={styles.line}>
+            <FontAwesomeIcon
+              className={styles.addIcon}
+              onClick={handleEditProjectSettingsModal}
+              fontSize="20px"
+              icon={faPlus}
+            />
           </div>
-        ))}
-        <div className={styles.line}>
-          <FontAwesomeIcon
-            className={styles.addIcon}
-            onClick={handleEditProjectSettingsModal}
-            fontSize="20px"
-            icon={faPlus}
-          />
         </div>
       </div>
 
