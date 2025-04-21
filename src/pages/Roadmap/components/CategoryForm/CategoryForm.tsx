@@ -48,12 +48,12 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
       });
 
       if (result.status === Status.SUCCESS) {
-        setIsLoading(false);
         setMessage('');
-        toggleActive(false);
         dispatch(
           editRoadmapCategory({ color, title, id: currentCategory._id }),
         );
+        setIsLoading(false);
+        toggleActive(false);
       } else {
         setMessage(result.message);
         setIsLoading(false);
@@ -66,10 +66,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
       });
 
       if (result.status === Status.SUCCESS) {
-        setIsLoading(false);
         setMessage('');
-        toggleActive(false);
-
         dispatch(
           addRoadmapCategory({
             color,
@@ -78,6 +75,8 @@ const CategoryForm: FC<CategoryFormProps> = ({ toggleActive, childProps }) => {
             rows: [],
           }),
         );
+        setIsLoading(false);
+        toggleActive(false);
       } else {
         setMessage(result.message);
         setIsLoading(false);

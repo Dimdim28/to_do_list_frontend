@@ -38,8 +38,8 @@ const DeleteProject: FC<DeleteProjectProps> = ({
     const result = await canbanAPI.deleteBoard(childProps.projectId);
     if (result.status === Status.SUCCESS) {
       dispatch(deleteProject(childProps.projectId));
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

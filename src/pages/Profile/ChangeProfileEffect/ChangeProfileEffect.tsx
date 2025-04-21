@@ -47,11 +47,11 @@ export const ChangeProfileEffect: FC<ChangeAvatarEffectProps> = ({
     }
 
     setError('');
-    setIsLoading(false);
     if (res.newEffect?.profileEffect) {
       dispatch(updateProfileEffect(res.newEffect.profileEffect));
     }
 
+    setIsLoading(false);
     toggleActive(false);
   };
 

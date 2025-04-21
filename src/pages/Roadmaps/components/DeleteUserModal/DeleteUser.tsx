@@ -43,8 +43,8 @@ const DeleteUser: FC<DeleteUserProps> = ({ toggleActive, childProps }) => {
     });
     if (result.status === Status.SUCCESS) {
       deleteUser(user);
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

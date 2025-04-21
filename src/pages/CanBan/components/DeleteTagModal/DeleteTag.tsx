@@ -45,10 +45,10 @@ const DeleteTag: FC<DeleteTagProps> = ({ toggleActive, childProps }) => {
     });
     if (result.status === Status.SUCCESS) {
       deleteTag(tag);
-      setIsLoading(false);
       setError('');
-      toggleActive(false);
       dispatch(deleteTagFromColumns(tag._id));
+      setIsLoading(false);
+      toggleActive(false);
     } else {
       setError(result.message);
       setIsLoading(false);

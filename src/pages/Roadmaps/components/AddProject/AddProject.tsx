@@ -56,11 +56,10 @@ const EditProjectInfo: FC<{
       });
 
       if (result.status === Status.SUCCESS) {
-        toggleActive();
-
         setProjects((prev) => [...prev, result.data]);
         setError('');
         setIsLoading(false);
+        toggleActive();
       } else {
         setError(result.message);
         setIsLoading(false);
@@ -74,8 +73,6 @@ const EditProjectInfo: FC<{
       });
 
       if (result.status === Status.SUCCESS) {
-        toggleActive();
-
         setProjects((prev) =>
           prev.map((el) =>
             el._id === projectInfo._id
@@ -85,6 +82,7 @@ const EditProjectInfo: FC<{
         );
         setError('');
         setIsLoading(false);
+        toggleActive();
       } else {
         setError(result.message);
         setIsLoading(false);

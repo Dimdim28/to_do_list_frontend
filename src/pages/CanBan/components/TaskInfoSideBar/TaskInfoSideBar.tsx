@@ -102,8 +102,8 @@ const TaskInfoSideBar = () => {
             tags,
           }),
         );
-        setIsLoading(false);
         setError('');
+        setIsLoading(false);
         handleCLoseSideBar();
       } else {
         setError(result.message);
@@ -132,8 +132,8 @@ const TaskInfoSideBar = () => {
           }),
         );
 
-        setIsLoading(false);
         setError('');
+        setIsLoading(false);
         handleCLoseSideBar();
       } else {
         setError(result.message);

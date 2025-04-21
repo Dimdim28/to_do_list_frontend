@@ -49,8 +49,8 @@ const DeleteTask: FC<DeleteTaskProps> = ({ toggleActive }) => {
       dispatch(
         deleteTask({ columnId: columnData.id, taskId: taskData.task._id }),
       );
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

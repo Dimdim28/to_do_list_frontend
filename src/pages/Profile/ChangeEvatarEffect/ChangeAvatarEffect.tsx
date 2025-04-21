@@ -49,11 +49,11 @@ export const ChangeAvatarEffect: FC<ChangeAvatarEffectProps> = ({
     }
 
     setError('');
-    setIsLoading(false);
     if (res.newEffect?.avatarEffect) {
       dispatch(updateUserAvatarEffect(res.newEffect.avatarEffect));
     }
 
+    setIsLoading(false);
     toggleActive(false);
   };
 

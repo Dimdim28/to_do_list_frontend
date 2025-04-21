@@ -56,8 +56,8 @@ const DeleteProject: FC<DeleteProjectProps> = ({
       setAllProjects((prev) =>
         prev.filter((el) => el._id !== currentProject._id),
       );
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

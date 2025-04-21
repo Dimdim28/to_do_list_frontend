@@ -53,8 +53,8 @@ const ExitProject: FC<ExitProjectProps> = ({ toggleActive, childProps }) => {
       setAllProjects((prev) =>
         prev.filter((el) => el._id !== currentProject._id),
       );
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

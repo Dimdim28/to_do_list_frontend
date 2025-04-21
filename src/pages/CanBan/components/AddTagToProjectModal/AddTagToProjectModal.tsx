@@ -68,7 +68,6 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
   useEffect(() => {
     const tag = currentTag?.tag;
     setError('');
-    setIsLoading(false);
     if (tag) {
       setColor(tag.color);
       setText(tag.title);
@@ -76,6 +75,7 @@ const AddTagToProgectModal: FC<AddTagToProgectModalProps> = ({
       setText('');
       setColor('#ffffff');
     }
+    setIsLoading(false);
   }, [currentTag]);
 
   if (isLoading) return <Preloader />;

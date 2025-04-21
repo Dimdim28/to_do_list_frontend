@@ -65,13 +65,13 @@ const MyDecks = () => {
     const result = await roadmapAPI.getBoards();
 
     if (result.status === Status.SUCCESS) {
-      setIsLoading(false);
       setErrorMessage('');
       setAllProjects(result.data);
-    } else {
       setIsLoading(false);
+    } else {
       setErrorMessage(result.message || '');
       setAllProjects([]);
+      setIsLoading(false);
     }
   };
 

@@ -56,9 +56,9 @@ const MilestoneForm: FC<MilestoneFormProps> = ({
 
       if (result.status === Status.SUCCESS) {
         dispatch(editRoadmapMilestone({ ...currentMilestone, title }));
-        toggleActive(false);
         setMessage('');
         setIsLoading(false);
+        toggleActive(false);
       } else {
         setMessage(result.message);
         setIsLoading(false);
@@ -76,8 +76,8 @@ const MilestoneForm: FC<MilestoneFormProps> = ({
         dispatch(addRoadmapMilestone(result.data));
         setTitle('');
         setMessage('');
-        toggleActive(false);
         setIsLoading(false);
+        toggleActive(false);
       } else {
         setMessage(result.message);
         setIsLoading(false);

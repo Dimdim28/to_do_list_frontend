@@ -38,10 +38,10 @@ export const CategoryDeleting: FC<CategoryDeletingProps> = ({
     });
 
     if (result.status === Status.SUCCESS) {
-      setIsLoading(false);
       setMessage('');
-      toggleActive(false);
       dispatch(deleteRoadmapCategory(currentCategory._id));
+      setIsLoading(false);
+      toggleActive(false);
     } else {
       setMessage(result.message);
       setIsLoading(false);

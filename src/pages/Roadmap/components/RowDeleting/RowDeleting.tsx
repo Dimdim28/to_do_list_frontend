@@ -43,15 +43,15 @@ export const RowDeleting: FC<RowDeletingProps> = ({
     });
 
     if (result.status === Status.SUCCESS) {
-      setIsLoading(false);
       setMessage('');
-      toggleActive(false);
       dispatch(
         deleteRoadmapRow({
           rowId: currentRow._id,
           categoryId: currentCategory._id,
         }),
       );
+      setIsLoading(false);
+      toggleActive(false);
     } else {
       setMessage(result.message);
       setIsLoading(false);

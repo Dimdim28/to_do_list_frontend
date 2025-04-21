@@ -37,10 +37,10 @@ export const QuarterDeleting: FC<QuarterDeletingProps> = ({
     });
 
     if (result.status === Status.SUCCESS) {
-      setIsLoading(false);
       setMessage('');
-      toggleActive(false);
       dispatch(deleteRoadmapQuarter(currentQuarter));
+      setIsLoading(false);
+      toggleActive(false);
     } else {
       setMessage(result.message);
       setIsLoading(false);

@@ -35,8 +35,8 @@ const ExitProject: FC<ExitProjectProps> = ({ toggleActive, childProps }) => {
     const result = await canbanAPI.leaveBoard(childProps.projectId);
     if (result.status === Status.SUCCESS) {
       dispatch(deleteProject(childProps.projectId));
-      setIsLoading(false);
       setError('');
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setError(result.message);

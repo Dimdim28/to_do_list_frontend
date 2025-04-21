@@ -41,8 +41,8 @@ export const MilestoneDeleting: FC<MilestoneDeletingProps> = ({
 
     if (result.status === Status.SUCCESS) {
       dispatch(deleteRoadmapMilestone(currentMilestone._id));
-      toggleActive(false);
       setIsLoading(false);
+      toggleActive(false);
     } else {
       setIsLoading(false);
       setMessage(result.message);
