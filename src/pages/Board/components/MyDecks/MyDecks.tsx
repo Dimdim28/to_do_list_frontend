@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { faCrown, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCrown,
+  faDoorOpen,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
@@ -27,6 +32,7 @@ import { Status } from '../../../../types/shared';
 import EditProjectInfo from '../../../CanBan/components/EditProjectInfo/EditProjectInfo';
 
 import DeleteProject from './DeleteProjectModal/DeleteTask';
+import ExitProject from './LeaveProjectModal/LeaveProjectModal';
 
 import styles from './MyDecks.module.scss';
 
@@ -43,6 +49,7 @@ const MyDecks = () => {
   const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
+  const [isExitProjectOpened, setIsExitProjectOpened] = useState(false);
 
   const handleEditProjectSettingsModal = () => {
     dispatch(setProjectInfo(null));
@@ -53,6 +60,12 @@ const MyDecks = () => {
 
   const handleDeleteProjectClick = (projectId: string, projectName: string) => {
     setIsDeleteProjectOpened(true);
+    setSelectedProjectId(projectId);
+    setSelectedProjectName(projectName);
+  };
+
+  const handleExitProjectClick = (projectId: string, projectName: string) => {
+    setIsExitProjectOpened(true);
     setSelectedProjectId(projectId);
     setSelectedProjectName(projectName);
   };
@@ -102,17 +115,31 @@ const MyDecks = () => {
                 {t('members')}: {el.membersCount || 1}
               </div>
 
-              <FontAwesomeIcon className={styles.crown} icon={faCrown} />
+              {currentUserProfile?._id === el.creatorId ? (
+                <>
+                  <FontAwesomeIcon className={styles.crown} icon={faCrown} />
 
-              <FontAwesomeIcon
-                className={styles.deleteIcon}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteProjectClick(el._id, el.title);
-                }}
-                fontSize="20px"
-                icon={faTrash}
-              />
+                  <FontAwesomeIcon
+                    className={styles.deleteIcon}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteProjectClick(el._id, el.title);
+                    }}
+                    fontSize="20px"
+                    icon={faTrash}
+                  />
+                </>
+              ) : (
+                <FontAwesomeIcon
+                  className={styles.deleteIcon}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleExitProjectClick(el._id, el.title);
+                  }}
+                  fontSize="20px"
+                  icon={faDoorOpen}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -133,6 +160,18 @@ const MyDecks = () => {
           setIsDeleteProjectOpened(false);
         }}
         ChildComponent={DeleteProject}
+        childProps={{
+          projectId: selectedProjectId,
+          projectName: selectedProjectName,
+        }}
+      />
+
+      <Modal
+        active={isExitProjectOpened}
+        setActive={() => {
+          setIsExitProjectOpened(false);
+        }}
+        ChildComponent={ExitProject}
         childProps={{
           projectId: selectedProjectId,
           projectName: selectedProjectName,

@@ -139,6 +139,7 @@ const EN = {
   sureDeleteColumn: 'Are you sure you want to delete column',
   sureDeleteTask: 'Are you sure you want to delete task',
   sureDeleteProject: 'Are you sure you want to delete project',
+  sureExitProject: 'Are you sure you want to leave project',
   sureDeleteTag: 'Are you sure you want to delete tag',
   sureDeleteUser: 'Are you sure you want to delete user',
   tagColor: 'Tag color',

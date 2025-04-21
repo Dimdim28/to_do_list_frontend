@@ -49,11 +49,6 @@
   &:hover {
     background-color: $background-dark-50;
   }
-
-  .crown,
-  .deleteIcon {
-    display: none;
-  }
 }
 
 .ownerCard .crown {
@@ -65,7 +60,7 @@
   color: $warning-200;
 }
 
-.ownerCard .deleteIcon {
+.card .deleteIcon {
   display: block;
   position: absolute;
   right: 20px;
@@ -86,14 +81,14 @@
 }
 
 :global(.light_theme) {
-  .ownerCard .deleteIcon {
+  .card .deleteIcon {
     color: $black;
     &:hover {
       color: $error-200;
     }
   }
 }
-.ownerCard:hover {
+.card:hover {
   .deleteIcon {
     opacity: 1;
     transform: translate(0, 0);

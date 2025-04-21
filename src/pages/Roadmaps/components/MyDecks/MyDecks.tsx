@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import {
   faCrown,
+  faDoorOpen,
   faPencil,
   faPlus,
   faTrash,
@@ -22,6 +23,7 @@ import { Status } from '../../../../types/shared';
 import AddProject from '../AddProject/AddProject';
 
 import DeleteProject from './DeleteProjectModal/DeleteProject';
+import ExitProject from './ExitProjectModal/ExitProject';
 
 import styles from './MyDecks.module.scss';
 
@@ -32,6 +34,7 @@ const MyDecks = () => {
   const { t } = useTranslation();
 
   const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
+  const [isExitProjectOpened, setIsExitProjectOpened] = useState(false);
   const [allProjects, setAllProjects] = useState<RoadMapProjectShortInfo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +51,11 @@ const MyDecks = () => {
 
   const handleDeleteProjectClick = (project: RoadMapProjectShortInfo) => {
     setIsDeleteProjectOpened(true);
+    setCurrentProject(project);
+  };
+
+  const handleExitProjectClick = (project: RoadMapProjectShortInfo) => {
+    setIsExitProjectOpened(true);
     setCurrentProject(project);
   };
 
@@ -108,27 +116,46 @@ const MyDecks = () => {
               <div className={styles.members}>
                 {t('members')}: {el.membersCount || 1}
               </div>
-              <FontAwesomeIcon className={styles.crown} icon={faCrown} />
+
+              {currentUserProfile?._id === el.creatorId ? (
+                <FontAwesomeIcon className={styles.crown} icon={faCrown} />
+              ) : null}
 
               <div className={styles.icons}>
-                <FontAwesomeIcon
-                  className={styles.deleteIcon}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteProjectClick(el);
-                  }}
-                  fontSize="20px"
-                  icon={faTrash}
-                />
-                <FontAwesomeIcon
-                  className={styles.editIcon}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditProjectSettingsModal(el);
-                  }}
-                  fontSize="20px"
-                  icon={faPencil}
-                />
+                {currentUserProfile?._id === el.creatorId ? (
+                  <>
+                    <FontAwesomeIcon
+                      className={styles.deleteIcon}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteProjectClick(el);
+                      }}
+                      fontSize="20px"
+                      icon={faTrash}
+                    />
+                    <FontAwesomeIcon
+                      className={styles.editIcon}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditProjectSettingsModal(el);
+                      }}
+                      fontSize="20px"
+                      icon={faPencil}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon
+                      className={styles.deleteIcon}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleExitProjectClick(el);
+                      }}
+                      fontSize="20px"
+                      icon={faDoorOpen}
+                    />
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -154,6 +181,15 @@ const MyDecks = () => {
           setIsDeleteProjectOpened(false);
         }}
         ChildComponent={DeleteProject}
+        childProps={{ setAllProjects, currentProject }}
+      />
+
+      <Modal
+        active={isExitProjectOpened}
+        setActive={() => {
+          setIsExitProjectOpened(false);
+        }}
+        ChildComponent={ExitProject}
         childProps={{ setAllProjects, currentProject }}
       />
     </div>

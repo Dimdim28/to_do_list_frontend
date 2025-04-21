@@ -15,6 +15,7 @@
   align-items: center;
   padding: 20px;
 }
+
 .addIcon {
   width: 20px;
   height: 20px;
@@ -26,6 +27,7 @@
     color: $warning-200;
   }
 }
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, 300px));
@@ -46,13 +48,29 @@
   gap: 5px;
   cursor: pointer;
   transition: background-color $transition-delay;
-  &:hover {
-    background-color: $background-dark-50;
+
+  .icons {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    opacity: 0;
+    transform: translate(100%, -100%);
+    pointer-events: none;
+    transition:
+      opacity $transition-delay,
+      transform $transition-delay;
   }
 
-  .crown,
-  .icons {
-    display: none;
+  &:hover {
+    background-color: $background-dark-50;
+
+    .icons {
+      opacity: 1;
+      transform: translate(0, 0);
+      pointer-events: all;
+    }
   }
 }
 
@@ -73,7 +91,7 @@
     right: 20px;
     top: 20px;
     opacity: 0;
-    transform: translate(100%, -100%);
+    transform: translate(50%, -100%);
     pointer-events: none;
     transition:
       opacity $transition-delay,
