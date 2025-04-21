@@ -32,13 +32,13 @@ export const TaskDeleting: FC<TaskDeletingProps> = ({
   const currentCategory = useAppSelector(selectRoadmapCurrentCategory);
   const currentRow = useAppSelector(selectRoadmapCurrentRow);
 
-  const [status, setStatus] = useState<Status>(Status.SUCCESS);
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const submit = async () => {
     if (!currentTask || !currentCategory || !currentRow) return;
 
-    setStatus(Status.LOADING);
+    setIsLoading(true);
     const result = await roadmapAPI.deleteTask({
       roadmapId: childProps.roadmapId,
       categoryId: currentCategory._id,
@@ -54,10 +54,11 @@ export const TaskDeleting: FC<TaskDeletingProps> = ({
           taskId: currentTask._id,
         }),
       );
+      setIsLoading(false);
       toggleActive(false);
     } else {
       setMessage(result.message);
-      setStatus(Status.ERROR);
+      setIsLoading(false);
     }
   };
 
@@ -67,7 +68,7 @@ export const TaskDeleting: FC<TaskDeletingProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      {status === Status.LOADING ? (
+      {isLoading ? (
         <Preloader data-testid="preloader" />
       ) : (
         <>
