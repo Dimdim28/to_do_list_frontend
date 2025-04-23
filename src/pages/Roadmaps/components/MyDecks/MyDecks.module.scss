@@ -179,6 +179,19 @@
   color: $info-200;
 }
 
+.loadMoreBtn {
+  color: white;
+  text-align: center;
+  width: 100%;
+  transition: color $transition-delay;
+  font-weight: 500;
+  font-size: 20px;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
 :global(.light_theme) {
   .wrapper {
     background: $gray-500;
@@ -193,6 +206,14 @@
 
   .description {
     color: $black;
+  }
+
+  .loadMoreBtn {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
+    }
   }
 }
 

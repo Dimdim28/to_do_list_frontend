@@ -101,10 +101,6 @@ const MyDecks = () => {
       fetchAllCanBanBoards(currentPage + 1);
   };
 
-  if (isLoading) return <Preloader />;
-
-  if (errorMessage) return <div className={styles.error}>{errorMessage}</div>;
-
   return (
     <div
       className={styles.wrapper}
@@ -120,7 +116,7 @@ const MyDecks = () => {
         />
       </div>
 
-      {allProjects.length === 0 ? (
+      {allProjects.length === 0 && !isLoading ? (
         <div className={styles.info}>{t('noRoadmapBoards')}</div>
       ) : (
         <div className={styles.cards}>
@@ -196,6 +192,10 @@ const MyDecks = () => {
           {t('loadMore')}
         </button>
       )}
+
+      {isLoading ? <Preloader /> : null}
+
+      {errorMessage ? <div className={styles.error}>{errorMessage}</div> : null}
       <Modal
         active={isProjectSettingsOpened}
         setActive={() => {

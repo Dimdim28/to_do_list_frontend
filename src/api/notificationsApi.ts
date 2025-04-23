@@ -6,7 +6,7 @@ type NotificationsResponse = {
   status: number;
   statusText: string;
   data: {
-    notifications: Notification[];
+    results: Notification[];
     currentPage: number;
     totalPages: number;
   };
@@ -36,8 +36,13 @@ class notificationsAPIClass {
         `/notification`,
         { params: { page, limit, skip } },
       );
-      const { notifications, currentPage, totalPages } = response.data;
-      return { notifications, currentPage, totalPages, status: Status.SUCCESS };
+      const { results, currentPage, totalPages } = response.data;
+      return {
+        notifications: results,
+        currentPage,
+        totalPages,
+        status: Status.SUCCESS,
+      };
     } catch (err: any) {
       return {
         message: err?.response?.data?.message || 'Error',

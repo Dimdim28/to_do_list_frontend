@@ -17,6 +17,7 @@ export const fetchAllCanBanBoards = createAsyncThunk<
   try {
     const response = await canbanAPI.getBoards(page);
 
+    console.log(response.status);
     if (response.status === Status.SUCCESS) {
       return {
         results: response.data.results,
