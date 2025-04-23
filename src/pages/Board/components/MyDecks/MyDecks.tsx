@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { UIEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import {
@@ -22,9 +22,11 @@ import {
 } from '../../../../redux/slices/canban/canban';
 import {
   selectAllProjects,
+  selectCurrentPage,
   selectErrorMessage,
   selectIsProjectSettingsOpened,
   selectStatus,
+  selectTotalPages,
 } from '../../../../redux/slices/canban/selectors';
 import { fetchAllCanBanBoards } from '../../../../redux/slices/canban/thunk';
 import ROUTES from '../../../../routes';
@@ -38,11 +40,17 @@ import styles from './MyDecks.module.scss';
 
 const MyDecks = () => {
   const navigate = useNavigate();
+
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
   const isProjectSettingsOpened = useAppSelector(selectIsProjectSettingsOpened);
   const allProjects = useAppSelector(selectAllProjects);
   const errorMessage = useAppSelector(selectErrorMessage);
   const status = useAppSelector(selectStatus);
   const currentUserProfile = useAppSelector(selectProfile);
+  const currentPage = useAppSelector(selectCurrentPage);
+  const totalPages = useAppSelector(selectTotalPages);
+
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -50,6 +58,7 @@ const MyDecks = () => {
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
   const [selectedProjectName, setSelectedProjectName] = useState<string>('');
   const [isExitProjectOpened, setIsExitProjectOpened] = useState(false);
+  const [showLoadMoreButton, setShowLoadMoreButton] = useState(false);
 
   const handleEditProjectSettingsModal = () => {
     dispatch(setProjectInfo(null));
@@ -74,6 +83,22 @@ const MyDecks = () => {
     dispatch(fetchAllCanBanBoards());
   }, []);
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const hasScroll = wrapper.scrollHeight > wrapper.clientHeight;
+    setShowLoadMoreButton(!hasScroll && currentPage < totalPages);
+  }, [allProjects, currentPage, totalPages]);
+
+  const handleCategoriesScroll = async (e: UIEvent<HTMLElement>) => {
+    const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+    const isScrolled = scrollHeight === scrollTop + clientHeight;
+    if (status !== Status.LOADING && currentPage < totalPages && isScrolled) {
+      dispatch(fetchAllCanBanBoards(currentPage + 1));
+    }
+  };
+
   if (status === Status.LOADING) return <Preloader />;
 
   if (status === Status.ERROR) {
@@ -81,7 +106,11 @@ const MyDecks = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      ref={wrapperRef}
+      onScroll={handleCategoriesScroll}
+    >
       <div className={styles.line}>
         <FontAwesomeIcon
           className={styles.addIcon}
@@ -145,6 +174,14 @@ const MyDecks = () => {
         </div>
       )}
 
+      {showLoadMoreButton && (
+        <button
+          className={styles.loadMoreBtn}
+          onClick={() => dispatch(fetchAllCanBanBoards(currentPage + 1))}
+        >
+          {t('loadMore')}
+        </button>
+      )}
       <Modal
         active={isProjectSettingsOpened}
         setActive={() => {

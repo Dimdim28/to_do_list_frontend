@@ -22,13 +22,17 @@ export type RoadMapProjectShortInfo = {
 type ProjectFullInfo = RoadmapData;
 
 type GetBoardsApiResponse = {
-  data: RoadMapProjectShortInfo[];
+  data: {
+    results: RoadMapProjectShortInfo[];
+    page: number;
+    totalPages: number;
+  };
   status: number;
   statusText: string;
 };
 
 type GetBoardsResponse = {
-  data: RoadMapProjectShortInfo[];
+  data: GetBoardsApiResponse['data'];
   message?: string;
   status: Status;
 };
@@ -408,13 +412,22 @@ type RoadmapUserActionResponseFail = {
 };
 
 class roadmapAPIClass {
-  public async getBoards(): Promise<GetBoardsResponse> {
+  public async getBoards(
+    page?: number,
+    limit = 10,
+  ): Promise<GetBoardsResponse> {
     try {
-      const response: GetBoardsApiResponse = await instanse.get(`roadmap`);
+      const response: GetBoardsApiResponse = await instanse.get('roadmap', {
+        params: {
+          ...(page ? { page } : {}),
+          ...(limit ? { limit } : {}),
+        },
+      });
+
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {
       return {
-        data: [],
+        data: { results: [], page: 0, totalPages: 0 },
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
       };

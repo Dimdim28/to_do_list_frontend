@@ -167,6 +167,7 @@ const EN = {
     aWeekAgo: 'a week ago',
     weeksAgo: '{{count}} weeks ago',
   },
+  loadMore: 'Load more',
 };
 
 export default EN;

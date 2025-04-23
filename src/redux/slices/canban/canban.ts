@@ -29,6 +29,8 @@ const initialColumnsState: CanBanState = {
   tags: [],
   allProjects: [],
   creatorId: null,
+  currentPage: 0,
+  totalPages: 0,
 };
 
 const initialState: CanBanSliceState = {
@@ -344,9 +346,14 @@ const canBanSlice = createSlice({
       state.message = '';
     });
     builder.addCase(fetchAllCanBanBoards.fulfilled, (state, action) => {
-      state.data.allProjects = action.payload;
-      state.message = '';
+      const { results, page, totalPages } = action.payload;
+      if (!state.data) return;
+
+      state.data.allProjects = [...state.data.allProjects, ...results];
+      state.data.currentPage = page;
+      state.data.totalPages = totalPages;
       state.status = Status.SUCCESS;
+      state.message = '';
     });
     builder.addCase(fetchAllCanBanBoards.rejected, (state, action) => {
       state.status = Status.ERROR;

@@ -168,6 +168,7 @@ const UA = {
     aWeekAgo: 'тиждень тому',
     weeksAgo: '{{count}} тижнів тому',
   },
+  loadMore: 'Завантажити ще',
 };
 
 export default UA;

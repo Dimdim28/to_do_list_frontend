@@ -10,22 +10,26 @@ import { Status } from '../../../types/shared';
 
 import { Column, ProjectFullInfo, ProjectShortInfo } from './type';
 
-export const fetchAllCanBanBoards = createAsyncThunk<ProjectShortInfo[]>(
-  'canban/fetchBoards',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await canbanAPI.getBoards();
+export const fetchAllCanBanBoards = createAsyncThunk<
+  { results: ProjectShortInfo[]; page: number; totalPages: number },
+  number | undefined
+>('canban/fetchBoards', async (page = 1, { rejectWithValue }) => {
+  try {
+    const response = await canbanAPI.getBoards(page);
 
-      if (response.status === Status.SUCCESS) {
-        return response.data;
-      } else {
-        return rejectWithValue(response.message || 'Unknown error');
-      }
-    } catch (err: any) {
-      return rejectWithValue(err?.response?.data?.message || 'Error');
+    if (response.status === Status.SUCCESS) {
+      return {
+        results: response.data.results,
+        page: response.data.page,
+        totalPages: response.data.totalPages,
+      };
+    } else {
+      return rejectWithValue(response.message || 'Unknown error');
     }
-  },
-);
+  } catch (err: any) {
+    return rejectWithValue(err?.response?.data?.message || 'Error');
+  }
+});
 
 export const fetchCanBanBoardById = createAsyncThunk<ProjectFullInfo, string>(
   'canban/fetchBoardById',

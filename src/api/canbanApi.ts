@@ -8,13 +8,13 @@ import {
 import { Status } from '../types/shared';
 
 type GetBoardsApiResponse = {
-  data: ProjectShortInfo[];
+  data: { results: ProjectShortInfo[]; page: number; totalPages: number };
   status: number;
   statusText: string;
 };
 
 type GetBoardsResponse = {
-  data: ProjectShortInfo[];
+  data: GetBoardsApiResponse['data'];
   message?: string;
   status: Status;
 };
@@ -401,13 +401,21 @@ type LeaveBoardResponseFail = {
 };
 
 class canbanAPIClass {
-  public async getBoards(): Promise<GetBoardsResponse> {
+  public async getBoards(
+    page?: number,
+    limit = 10,
+  ): Promise<GetBoardsResponse> {
     try {
-      const response: GetBoardsApiResponse = await instanse.get(`board`);
+      const response: GetBoardsApiResponse = await instanse.get(`board`, {
+        params: {
+          ...(page ? { page } : {}),
+          ...(limit ? { limit } : {}),
+        },
+      });
       return { status: Status.SUCCESS, data: response.data };
     } catch (err: any) {
       return {
-        data: [],
+        data: { results: [], page: 0, totalPages: 0 },
         message: err?.response?.data?.message || 'Error',
         status: Status.ERROR,
       };

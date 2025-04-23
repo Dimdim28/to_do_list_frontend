@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { UIEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import {
@@ -33,6 +33,8 @@ const MyDecks = () => {
   const currentUserProfile = useAppSelector(selectProfile);
   const { t } = useTranslation();
 
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
   const [isDeleteProjectOpened, setIsDeleteProjectOpened] = useState(false);
   const [isExitProjectOpened, setIsExitProjectOpened] = useState(false);
   const [allProjects, setAllProjects] = useState<RoadMapProjectShortInfo[]>([]);
@@ -41,6 +43,9 @@ const MyDecks = () => {
   const [currentProject, setCurrentProject] =
     useState<RoadMapProjectShortInfo | null>(null);
   const [isProjectSettingsOpened, setIsProjectSettingsOpened] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [showLoadMoreButton, setShowLoadMoreButton] = useState(false);
 
   const handleEditProjectSettingsModal = (
     project: RoadMapProjectShortInfo | null,
@@ -59,15 +64,17 @@ const MyDecks = () => {
     setCurrentProject(project);
   };
 
-  const fetchAllCanBanBoards = async () => {
+  const fetchAllCanBanBoards = async (page?: number) => {
     setIsLoading(true);
 
-    const result = await roadmapAPI.getBoards();
+    const result = await roadmapAPI.getBoards(page);
 
     if (result.status === Status.SUCCESS) {
       setErrorMessage('');
-      setAllProjects(result.data);
+      setAllProjects((prev) => [...prev, ...result.data.results]);
       setIsLoading(false);
+      setTotalPages(result.data.totalPages);
+      setCurrentPage(result.data.page);
     } else {
       setErrorMessage(result.message || '');
       setAllProjects([]);
@@ -79,12 +86,31 @@ const MyDecks = () => {
     fetchAllCanBanBoards();
   }, []);
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const hasScroll = wrapper.scrollHeight > wrapper.clientHeight;
+    setShowLoadMoreButton(!hasScroll && currentPage < totalPages);
+  }, [allProjects, currentPage, totalPages]);
+
+  const handleCategoriesScroll = async (e: UIEvent<HTMLElement>) => {
+    const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+    const isScrolled = scrollHeight === scrollTop + clientHeight;
+    if (isLoading && currentPage < totalPages && isScrolled)
+      fetchAllCanBanBoards(currentPage + 1);
+  };
+
   if (isLoading) return <Preloader />;
 
   if (errorMessage) return <div className={styles.error}>{errorMessage}</div>;
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      ref={wrapperRef}
+      onScroll={handleCategoriesScroll}
+    >
       <div className={styles.line}>
         <FontAwesomeIcon
           className={styles.addIcon}
@@ -162,6 +188,14 @@ const MyDecks = () => {
         </div>
       )}
 
+      {showLoadMoreButton && (
+        <button
+          className={styles.loadMoreBtn}
+          onClick={() => fetchAllCanBanBoards(currentPage + 1)}
+        >
+          {t('loadMore')}
+        </button>
+      )}
       <Modal
         active={isProjectSettingsOpened}
         setActive={() => {

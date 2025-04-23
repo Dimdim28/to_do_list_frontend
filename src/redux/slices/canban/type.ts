@@ -52,6 +52,8 @@ export type CanBanState = {
   } | null;
   allProjects: ProjectShortInfo[];
   creatorId: string | null;
+  currentPage: number;
+  totalPages: number;
 };
 
 export type Task = {

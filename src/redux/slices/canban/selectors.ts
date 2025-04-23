@@ -36,3 +36,7 @@ export const selectAllProjects = (state: RootState) =>
   (state.canban.data as CanBanState).allProjects;
 export const selectCanBanCreatorId = (state: RootState) =>
   (state.canban.data as CanBanState).creatorId;
+export const selectCurrentPage = (state: RootState) =>
+  (state.canban.data as CanBanState).currentPage;
+export const selectTotalPages = (state: RootState) =>
+  (state.canban.data as CanBanState).totalPages;
