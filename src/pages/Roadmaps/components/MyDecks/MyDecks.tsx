@@ -84,6 +84,12 @@ const MyDecks = () => {
 
   useEffect(() => {
     fetchAllCanBanBoards();
+
+    return () => {
+      setAllProjects([]);
+      setCurrentPage(0);
+      setTotalPages(0);
+    };
   }, []);
 
   useEffect(() => {
@@ -96,8 +102,9 @@ const MyDecks = () => {
 
   const handleCategoriesScroll = async (e: UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-    const isScrolled = scrollHeight === scrollTop + clientHeight;
-    if (isLoading && currentPage < totalPages && isScrolled)
+    const threshold = 100;
+    const isScrolled = scrollTop + clientHeight >= scrollHeight - threshold;
+    if (!isLoading && currentPage < totalPages && isScrolled)
       fetchAllCanBanBoards(currentPage + 1);
   };
 

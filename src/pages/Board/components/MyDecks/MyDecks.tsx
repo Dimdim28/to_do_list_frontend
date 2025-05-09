@@ -93,7 +93,9 @@ const MyDecks = () => {
 
   const handleCategoriesScroll = async (e: UIEvent<HTMLElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-    const isScrolled = scrollHeight === scrollTop + clientHeight;
+    const threshold = 100;
+    const isScrolled = scrollTop + clientHeight >= scrollHeight - threshold;
+
     if (status !== Status.LOADING && currentPage < totalPages && isScrolled) {
       dispatch(fetchAllCanBanBoards(currentPage + 1));
     }
