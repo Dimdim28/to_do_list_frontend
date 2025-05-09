@@ -5,13 +5,19 @@ import {
 import { Category } from '../../../types/entities/Category';
 import { Task } from '../../../types/entities/Task';
 import { Status } from '../../../types/shared';
+export interface CategoriesResponse {
+  results: Category[];
+  page: number;
+  totalPages: number;
+}
 
-export type CategoriesResponse = {
-  data: Categories;
-  status: number;
-  statusText: string;
-};
+export interface TasksResponse {
+  results: Task[];
+  page: number;
+  totalPages: number;
+}
 
+// Redux-хранилище
 export type Categories = {
   categories: Category[];
   totalPages: number;
@@ -30,12 +36,6 @@ export type Tasks = {
   activeCategories: Category[];
   status: Status;
   message?: string;
-};
-
-export type TasksResponse = {
-  data: Tasks;
-  status: number;
-  statusText: string;
 };
 
 export interface HomeSliceState {

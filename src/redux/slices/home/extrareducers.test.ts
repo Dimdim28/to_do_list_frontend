@@ -26,9 +26,9 @@ const initialState: any = {
 describe('fetchCategories extra reducers:', () => {
   it('should update categories and status when fetchCategories is fulfilled', () => {
     const categoriesPayload = {
-      categories: ['Category 1', 'Category 2'],
+      results: ['Category 1', 'Category 2'],
       totalPages: 2,
-      currentPage: '1',
+      page: 1,
     };
 
     const action = {

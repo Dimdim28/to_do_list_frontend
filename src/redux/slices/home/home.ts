@@ -273,12 +273,12 @@ const homeSlice = createSlice({
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.category.categories = [
         ...state.category.categories,
-        ...(action.payload?.categories || []),
+        ...(action.payload.results || []),
       ];
       state.category.message = '';
       state.category.status = Status.SUCCESS;
       state.category.totalPages = action.payload.totalPages;
-      state.category.currentPage = Number(action.payload.currentPage);
+      state.category.currentPage = Number(action.payload.page ?? 1);
     });
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.category.status = Status.ERROR;
@@ -289,10 +289,10 @@ const homeSlice = createSlice({
       state.task.message = '';
     });
     builder.addCase(fetchTasks.fulfilled, (state, action) => {
-      state.task.tasks = action.payload.tasks;
+      state.task.tasks = action.payload.results;
       state.task.status = Status.SUCCESS;
       state.task.totalPages = action.payload.totalPages;
-      state.task.currentPage = Number(action.payload.currentPage);
+      state.task.currentPage = Number(action.payload.page ?? 1);
       state.task.message = '';
     });
     builder.addCase(fetchTasks.rejected, (state, action) => {
