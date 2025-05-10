@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import socketsAPI from '../../api/socketsAPI';
@@ -63,6 +63,7 @@ const validate = (values: Values) => {
 const SignupForm: FC = () => {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -76,11 +77,17 @@ const SignupForm: FC = () => {
     validate,
     onSubmit: async (values, { setSubmitting }) => {
       const data: any = await dispatch(registerUser(values));
-      if (data.error) setError(data.payload);
-      if ('token' in data.payload) {
-        window.localStorage.setItem('token', data.payload.token);
-        socketsAPI.init(data.payload.token);
+      if (data.error) {
+        setError(data.payload);
+      } else {
+        if ('token' in data.payload) {
+          window.localStorage.setItem('token', data.payload.token);
+          socketsAPI.init(data.payload.token);
+        }
+        localStorage.setItem('emailForVerification', values.email);
+        navigate(ROUTES.EMAIL_CONFIRMATION_REQUIRED);
       }
+
       formik.resetForm();
       setSubmitting(false);
     },

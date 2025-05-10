@@ -72,7 +72,9 @@ const authSlice = createSlice({
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.profile = action.payload;
-      state.status = Status.SUCCESS;
+      state.status = action.payload.isEmailVerified
+        ? Status.SUCCESS
+        : Status.NEEDS_EMAIL_VERIFICATION;
       state.message = '';
     });
     builder.addCase(registerUser.rejected, (state, action) => {

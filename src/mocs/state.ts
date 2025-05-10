@@ -5,6 +5,7 @@ export const MOCK_OBJECT_ONE: RootState = {
   auth: {
     status: Status.SUCCESS,
     profile: {
+      isEmailVerified: true,
       _id: '123456',
       createdAt: '2007 year',
       updatedAt: '2008 year',
@@ -132,6 +133,7 @@ export const MOCK_OBJECT_TWO: RootState = {
       { counter: 8, date: '100' },
     ],
     data: {
+      isEmailVerified: true,
       _id: '6460e2e3832ea98269aa3777',
       token: '01032004hahathisismytoken',
       username: 'dench',

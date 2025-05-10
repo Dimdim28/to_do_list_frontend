@@ -26,6 +26,7 @@ describe('Testing profile slice selectors', () => {
 
     expect(recievedFirstState).toBe(null);
     expect(recievedSecondState).toEqual({
+      isEmailVerified: true,
       _id: '6460e2e3832ea98269aa3777',
       username: 'dench',
       email: 'dench@gmail.com',

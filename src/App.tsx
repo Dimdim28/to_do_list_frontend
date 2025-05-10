@@ -31,6 +31,10 @@ const FAQ = lazy(() => import('./pages/FAQ/FAQ'));
 const Board = lazy(() => import('./pages/Board/Board'));
 const CanBan = lazy(() => import('./pages/CanBan/CanBan'));
 const Roadmap = lazy(() => import('./pages/Roadmap'));
+const EmailConfirmationRequired = lazy(
+  () => import('./pages/EmailConfirmationRequired/EmailConfirmationRequired'),
+);
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail/VerifyEmail'));
 
 i18next.use(initReactI18next).init({
   lng: localStorage.getItem('lang') || Language.EN,
@@ -96,7 +100,11 @@ function App() {
         <Routes>
           <Route path={ROUTES.AUTH} element={<AuthLayout />}>
             <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.REGISTER} element={<Register />} />
+            <Route path={ROUTES.REGISTER} element={<Register />} />{' '}
+            <Route
+              path={`${ROUTES.VERIFYEMAIL}/:code`}
+              element={<VerifyEmail />}
+            />
           </Route>
           <Route path="" element={<HomeLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
@@ -120,6 +128,13 @@ function App() {
           <Route path="" element={<FAQLayout />}>
             <Route path={ROUTES.FAQ} element={<FAQ />} />
           </Route>
+          <Route path="" element={<AuthLayout />}>
+            <Route
+              path={ROUTES.EMAIL_CONFIRMATION_REQUIRED}
+              element={<EmailConfirmationRequired />}
+            />
+          </Route>
+
           <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
         </Routes>
       </div>

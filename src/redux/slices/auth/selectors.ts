@@ -16,3 +16,5 @@ export const selectTheme = (state: RootState): Theme => state.auth.theme;
 export const selectLanguage = (state: RootState) => state.auth.lang;
 export const selectIsAdmin = (state: RootState) =>
   state.auth.profile?.roles?.includes('admin');
+export const selectNeedsEmailVerification = (state: RootState) =>
+  state.auth.status === Status.NEEDS_EMAIL_VERIFICATION;

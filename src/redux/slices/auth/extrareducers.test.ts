@@ -132,7 +132,7 @@ describe('Testing auth slice extra reducers', () => {
       expect(result).toEqual({
         message: '',
         profile: USER_DATA,
-        status: Status.SUCCESS,
+        status: Status.NEEDS_EMAIL_VERIFICATION,
         theme: Theme.DARK,
         lang: Language.EN,
       });

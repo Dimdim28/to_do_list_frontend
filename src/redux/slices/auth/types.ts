@@ -20,6 +20,7 @@ export type Profile = {
   isBanned?: boolean;
   profileEffect: ProfileEffect;
   avatarEffect: AvatarEffect;
+  isEmailVerified: boolean;
 };
 
 export type ProfileResponse = {

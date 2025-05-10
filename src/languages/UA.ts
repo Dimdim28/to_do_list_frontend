@@ -169,6 +169,15 @@ const UA = {
     weeksAgo: '{{count}} тижнів тому',
   },
   loadMore: 'Завантажити ще',
+  emailConfirmTitle: 'Підтвердіть вашу пошту',
+  emailConfirmText:
+    'Ми надіслали листа з посиланням на верифікацію. Перевірте inbox/spam.',
+  resendEmail: 'Надіслати листа повторно',
+  resendSuccess: 'Листа повторно надіслано',
+  resendError: 'Помилка надсилання листа',
+  verifyTitle: 'Підтвердження пошти',
+  verifyFailed: 'Помилка верифікації',
+  verifyInvalid: 'Недійсне або прострочене посилання',
 };
 
 export default UA;
