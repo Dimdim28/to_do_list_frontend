@@ -2,6 +2,7 @@ export enum Status {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error',
+  UNAUTHORIZED = 'unauthorized',
   NEEDS_EMAIL_VERIFICATION = 'needs-email-verification',
 }
 

@@ -18,21 +18,25 @@ instanse.interceptors.request.use(
 );
 
 instanse.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    if (error.response && error.response.status === 403) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+
+    if (status === 403 && message !== 'Email not verified') {
       localStorage.removeItem('token');
+
       if (
         !['/auth/login', '/auth/register'].includes(window.location.pathname)
       ) {
         window.location.href = '/auth/login';
       }
     }
-    if (error.response && error.response.status !== 403) {
-      toast.error(error?.response?.data?.message || 'Error');
+
+    if (message && status !== 403) {
+      toast.error(message || 'Error');
     }
+
     return Promise.reject(error);
   },
 );
