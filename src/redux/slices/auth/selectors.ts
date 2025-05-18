@@ -5,8 +5,7 @@ import { Profile } from './types';
 
 export const selectIsAuth = (state: RootState) => Boolean(state.auth.profile);
 export const selectIsChecked = (state: RootState) =>
-  ![Status.LOADING, Status.UNAUTHORIZED].includes(state.auth.status);
-export const selectAuthStatus = (state: RootState) => state.auth.status;
+  state.auth.status !== Status.LOADING;
 export const selectIsRegistered = (state: RootState) =>
   Boolean(state.auth.profile);
 export const selectProfile = (state: RootState): Profile | null =>

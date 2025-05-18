@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
 import { initReactI18next } from 'react-i18next';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import i18next from 'i18next';
 
@@ -11,9 +11,9 @@ import FAQLayout from './layouts/FAQLayout';
 import HomeLayout from './layouts/HomeLayout';
 import PageLayout from './layouts/PageLayout';
 import Roadmaps from './pages/Roadmaps/Roadmaps';
-import { selectAuthStatus, selectTheme } from './redux/slices/auth/selectors';
+import { selectTheme } from './redux/slices/auth/selectors';
 import { fetchAuthMe } from './redux/slices/auth/thunk';
-import { Language, Status } from './types/shared';
+import { Language } from './types/shared';
 import { useAppDispatch, useAppSelector } from './hooks';
 import TRANSLATIONS from './lang';
 import ROUTES from './routes';
@@ -71,8 +71,6 @@ export const FOOTER_LINKS: Link[] = [
 
 function App() {
   const dispatch = useAppDispatch();
-  const status = useAppSelector(selectAuthStatus);
-  const navigate = useNavigate();
 
   const appHeight = () => {
     const doc = document.documentElement;
@@ -93,22 +91,8 @@ function App() {
   document.documentElement.className = `${theme}_theme`;
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(fetchAuthMe());
-    } else {
-      navigate(ROUTES.FULLLOGIN);
-    }
+    dispatch(fetchAuthMe());
   }, []);
-
-  useEffect(() => {
-    if (status === Status.UNAUTHORIZED) {
-      navigate(ROUTES.FULLLOGIN);
-    }
-    if (status === Status.NEEDS_EMAIL_VERIFICATION) {
-      navigate(ROUTES.EMAIL_CONFIRMATION_REQUIRED);
-    }
-  }, [status]);
 
   return (
     <>

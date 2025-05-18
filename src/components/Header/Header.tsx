@@ -10,7 +10,6 @@ import { changeLang, changeTheme } from '../../redux/slices/auth/auth';
 import {
   selectIsAuth,
   selectLanguage,
-  selectNeedsEmailVerification,
   selectTheme,
 } from '../../redux/slices/auth/selectors';
 import ROUTES from '../../routes';
@@ -36,7 +35,6 @@ const Header: FC<HeaderProps> = ({ links }) => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
   const isAuthorized = useAppSelector(selectIsAuth);
-  const needsEmailVerification = useAppSelector(selectNeedsEmailVerification);
 
   const toggleTheme = () => {
     const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
@@ -59,7 +57,7 @@ const Header: FC<HeaderProps> = ({ links }) => {
     <header>
       <div className={styles.actionsWrapper}>
         <img className={styles.logo} alt="logo" src={logo} />
-        {isAuthorized && !needsEmailVerification && <Notifications />}
+        {isAuthorized && <Notifications />}
         <FontAwesomeIcon
           onClick={toggleTheme}
           data-testid="theme-icon"

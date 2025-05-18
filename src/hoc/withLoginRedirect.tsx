@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Navigate } from 'react-router';
 
-import Preloader from '../components/Preloader/Preloader';
 import { useAppSelector } from '../hooks';
 import {
   selectIsAuth,
@@ -16,16 +15,12 @@ export const withLoginRedirect = (Component: FC<unknown>) => () => {
   const isChecked = useAppSelector(selectIsChecked);
   const needsEmailVerification = useAppSelector(selectNeedsEmailVerification);
 
-  if (!isChecked) {
-    return <Preloader />;
+  if (isAuth && isChecked && needsEmailVerification) {
+    return <Navigate to={ROUTES.EMAIL_CONFIRMATION_REQUIRED} />;
   }
 
-  if (isAuth && needsEmailVerification) {
-    return <Navigate to={ROUTES.EMAIL_CONFIRMATION_REQUIRED} replace />;
-  }
-
-  if (!isAuth) {
-    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} replace />;
+  if (!isAuth && isChecked) {
+    return <Navigate to={`${ROUTES.AUTH}/${ROUTES.LOGIN}`} />;
   }
 
   return <Component />;
