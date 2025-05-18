@@ -9,8 +9,6 @@ enum ROUTES {
   FULLLOGIN = '/auth/login',
   CanBan = '/canban',
   ROADMAP = '/roadmap',
-  EMAIL_CONFIRMATION_REQUIRED = '/email-confirmation-required',
-  VERIFYEMAIL = 'verify-email',
 }
 
 export default ROUTES;

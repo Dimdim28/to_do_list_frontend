@@ -35,7 +35,6 @@ const Login: FC = () => {
         window.localStorage.setItem('token', data.payload.token);
         socketsAPI.init(data.payload.token);
       }
-      localStorage.setItem('emailForVerification', values.email);
       formik.resetForm();
       setSubmitting(false);
     },

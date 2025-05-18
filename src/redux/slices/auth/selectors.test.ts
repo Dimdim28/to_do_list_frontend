@@ -45,7 +45,6 @@ describe('Testing auth slice selectors', () => {
       avatar: 'link',
       avatarEffect: { _id: '1', animated: '', preview: '', title: '' },
       profileEffect: { _id: '1', preview: '', title: '', sides: '' },
-      isEmailVerified: true,
     });
 
     expect(recievedSecondState).toBe(null);

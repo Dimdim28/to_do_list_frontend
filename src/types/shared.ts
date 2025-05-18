@@ -2,7 +2,6 @@ export enum Status {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error',
-  NEEDS_EMAIL_VERIFICATION = 'needs-email-verification',
 }
 
 export enum Theme {

@@ -168,15 +168,6 @@ const EN = {
     weeksAgo: '{{count}} weeks ago',
   },
   loadMore: 'Load more',
-  emailConfirmTitle: 'Confirm your email',
-  emailConfirmText:
-    'We have sent a verification link to your email. Check your inbox/spam.',
-  resendEmail: 'Resend email',
-  resendSuccess: 'Email resent successfully',
-  resendError: 'Failed to resend email',
-  verifyTitle: 'Email verification',
-  verifyFailed: 'Verification failed',
-  verifyInvalid: 'Invalid or expired verification link',
 };
 
 export default EN;
