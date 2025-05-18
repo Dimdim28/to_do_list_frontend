@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
 import Categories from './Categories';
-import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 
@@ -30,6 +30,17 @@ describe('Categories', () => {
           error: null,
         },
       },
+      profile: {
+        data: null,
+        status: 'loading',
+        stats: [],
+      },
+      auth: {
+        profile: null,
+        status: 'loading',
+        theme: 'dark',
+        lang: 'en',
+      },
     });
   });
 
@@ -40,7 +51,6 @@ describe('Categories', () => {
           isForTask={false}
           activeCategories={[]}
           setActiveCategories={() => {}}
-          taskFetchingParams={{}}
         />
       </Provider>,
     );
@@ -63,6 +73,17 @@ describe('Categories', () => {
           error: null,
         },
       },
+      profile: {
+        data: null,
+        status: 'loading',
+        stats: [],
+      },
+      auth: {
+        profile: null,
+        status: 'loading',
+        theme: 'dark',
+        lang: 'en',
+      },
     });
 
     render(
@@ -71,7 +92,6 @@ describe('Categories', () => {
           isForTask={false}
           activeCategories={[]}
           setActiveCategories={() => {}}
-          taskFetchingParams={{}}
         />
       </Provider>,
     );
@@ -92,6 +112,17 @@ describe('Categories', () => {
           error: null,
         },
       },
+      profile: {
+        data: null,
+        status: 'loading',
+        stats: [],
+      },
+      auth: {
+        profile: null,
+        status: 'loading',
+        theme: 'dark',
+        lang: 'en',
+      },
     });
 
     render(
@@ -100,7 +131,6 @@ describe('Categories', () => {
           isForTask={false}
           activeCategories={[]}
           setActiveCategories={() => {}}
-          taskFetchingParams={{}}
         />
       </Provider>,
     );

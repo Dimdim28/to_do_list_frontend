@@ -1,12 +1,8 @@
-import { useState, Dispatch, SetStateAction, FC, UIEvent } from 'react';
+import { FC, UIEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '../../../../components/common/Modal/Modal';
 import Preloader from '../../../../components/Preloader/Preloader';
-import CategoryForm from './CategoryForm/CategoryForm';
-import Category from './Category/Category';
-import { CategoryDeleting } from './CategoryDeleting/CategoryDeleting';
-
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import {
   selectCategories,
@@ -16,21 +12,23 @@ import {
   selectCategoryTotalPages,
 } from '../../../../redux/slices/home/selectors';
 import { fetchCategories } from '../../../../redux/slices/home/thunk';
-import { getTask } from '../../../../api/taskAPI';
+import { Category as CategoryType } from '../../../../types/entities/Category';
+
+import Category from './Category/Category';
+import { CategoryDeleting } from './CategoryDeleting/CategoryDeleting';
+import CategoryForm from './CategoryForm/CategoryForm';
 
 import styles from './Categories.module.scss';
 
 interface CategoryProps {
   isForTask?: boolean;
-  activeCategories: string[];
-  setActiveCategories: Dispatch<SetStateAction<string[]>>;
-  taskFetchingParams: getTask;
+  activeCategories: CategoryType[];
+  setActiveCategories: (categories: CategoryType[]) => void;
 }
 const Categories: FC<CategoryProps> = ({
   isForTask,
   activeCategories,
   setActiveCategories,
-  taskFetchingParams,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -76,15 +74,15 @@ const Categories: FC<CategoryProps> = ({
               <Category
                 {...el}
                 key={id}
+                activeCategories={activeCategories}
                 setCategoryEditing={setCategoryEditing}
                 setCategoryInfo={setCategoryProps}
                 setCategoryDeleting={setCategoryDeleting}
                 isForTask={isForTask}
                 setActiveCategories={setActiveCategories}
                 isActive={
-                  !!activeCategories.find((category) => category === el._id)
+                  !!activeCategories.find((category) => category._id === el._id)
                 }
-                taskFetchingParams={taskFetchingParams}
               />
             ))
           )}
@@ -93,7 +91,7 @@ const Categories: FC<CategoryProps> = ({
         <p
           className={styles.addCategory}
           onClick={() => {
-            setCategoryProps({ ...taskFetchingParams });
+            setCategoryProps({});
             setCategoryEditing(true);
           }}
         >

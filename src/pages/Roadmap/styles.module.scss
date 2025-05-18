@@ -1,0 +1,452 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  color: white;
+  transition: color $transition-delay;
+}
+
+.projectLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 40px;
+  position: sticky;
+  left: 0;
+}
+
+.addColumnButton {
+  margin-top: 10px;
+  align-self: flex-start;
+  background-color: $info-200;
+  color: $white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    background-color: $amber-300;
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gear {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.user {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $info-200;
+  }
+}
+
+.columns {
+  display: flex;
+  gap: 20px;
+  height: calc(100% - 44px);
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.backToAllBoards {
+  width: fit-content;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.projectTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  line-height: 30px;
+}
+
+.projectDescription {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 30px;
+}
+
+.roadmap {
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
+}
+
+.roadmapContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: fit-content;
+  position: relative;
+}
+
+.lineWrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.category {
+  overflow: hidden;
+  display: flex;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+  font-weight: 700;
+  color: white;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+
+  &:hover {
+    .icons {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  transition: opacity $transition-delay;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $black;
+  }
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $black;
+  }
+}
+
+.blocks {
+  display: flex;
+  flex-grow: 1;
+}
+
+.quarteers {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.addQuarterIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.removeQuarterIcon {
+  cursor: pointer;
+  position: absolute;
+  right: 20%;
+  top: 50%;
+  opacity: 0;
+  pointer-events: none;
+  color: $white;
+  transform: translateY(-50%);
+  transition:
+    opacity $transition-delay,
+    color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.quarteer {
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &:hover {
+    .removeQuarterIcon {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}
+
+.milestonesRow {
+  overflow-x: hidden;
+  display: flex;
+  background-color: $background-dark-100;
+  width: 100%;
+  position: relative;
+  transition: background-color $transition-delay;
+}
+
+.rows {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+
+  .row {
+    background-color: $background-dark-100;
+    height: 40px;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+    border-radius: 2px;
+    transition: background-color $transition-delay;
+  }
+}
+
+.addRowIcon {
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition:
+    color $transition-delay,
+    opacity $transition-delay;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateY(50%);
+  opacity: 0;
+  pointer-events: none;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+.rows {
+  &:hover {
+    .addRowIcon {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}
+
+.quarterLines {
+  position: absolute;
+  top: 0;
+  left: 210px;
+  width: calc(100% - 210px);
+  height: calc(100% - 80px);
+  pointer-events: none;
+}
+
+.quarterLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: white;
+  transition: background-color $transition-delay;
+}
+
+.line {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 20px 0;
+  position: relative;
+}
+
+.addIcon {
+  position: sticky;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.removeRowIcon {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(100%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  color: $white;
+  transition:
+    opacity $transition-delay,
+    color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+:global(.light_theme) .removeRowIcon {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .removeQuarterIcon {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.row:hover {
+  .removeRowIcon {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    color: black;
+  }
+  .rows {
+    .row {
+      background-color: $gray-600;
+    }
+  }
+
+  .milestonesRow {
+    background-color: $gray-600;
+
+    .quarteer {
+      border-color: black;
+    }
+  }
+  .quarterLine {
+    background-color: black;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+    color: black;
+  }
+
+  .gear {
+    color: black;
+    width: 20px;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .user {
+    color: black;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .backToAllBoards {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+}

@@ -1,14 +1,15 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
 
-import withHomeRedirect from '../../hoc/withHomeRedirect';
+import socketsAPI from '../../api/socketsAPI';
 import { FormikInput } from '../../components/common/Input/Input';
+import GoogleLogin from '../../components/GoogleLogin';
+import withHomeRedirect from '../../hoc/withHomeRedirect';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../redux/slices/auth/thunk';
 import ROUTES from '../../routes';
-import socketsAPI from '../../api/socketsAPI';
 
 import styles from './Register.module.scss';
 
@@ -60,7 +61,7 @@ const validate = (values: Values) => {
 };
 
 const SignupForm: FC = () => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -164,6 +165,7 @@ const SignupForm: FC = () => {
             </NavLink>
           </div>
         </form>
+        <GoogleLogin setError={setError} />
         {error && <p className={styles.error}>{error}</p>}
       </div>
     </main>

@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent,render, screen } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
 import Exit from './Exit';
-import configureStore from 'redux-mock-store';
 
 const mockToggleActive = jest.fn();
 const mockStore = configureStore([]);

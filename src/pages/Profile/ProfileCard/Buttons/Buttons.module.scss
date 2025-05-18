@@ -1,4 +1,4 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
 @mixin style-button-icon-color($default, $hover, $active, $focus) {
   color: $default;
@@ -17,22 +17,23 @@
 }
 
 .buttons {
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 7px;
+  gap: 20px;
+  background-color: $background-dark-10;
+  transition: background-color $transition-delay;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid $warning-200;
 
   .exit {
     font-weight: 500;
     white-space: nowrap;
     cursor: pointer;
     color: $white;
-    transition: background-color $transition-delay;
+    transition: color $transition-delay;
     @include style-button-icon-color(
       $gray-600,
       $error-200,
@@ -47,7 +48,7 @@
     white-space: nowrap;
     cursor: pointer;
     color: $white;
-    transition: background-color $transition-delay;
+    transition: color $transition-delay;
 
     &:hover {
       color: $warning-200;
@@ -59,7 +60,7 @@
     white-space: nowrap;
     cursor: pointer;
     color: $white;
-    transition: background-color $transition-delay;
+    transition: color $transition-delay;
     @include style-button-icon-color(
       $gray-600,
       $error-200,
@@ -67,9 +68,15 @@
       $error-200
     );
   }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 :global(.light_theme) .buttons {
+  background-color: $gray-600;
+
   .exit {
     color: $black;
     @include style-button-icon-color(
@@ -99,11 +106,36 @@
   }
 }
 
-@media screen and (max-width: 480px) {
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    gap: 30px;
+.changeEffect {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $success-200;
+  }
+}
+
+:global(.light_theme) .changeEffect {
+  color: $black;
+
+  &:hover {
+    color: $success-200;
+  }
+}
+
+.changeProfileEffect {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $indigo-500;
+  }
+}
+
+:global(.light_theme) .changeProfileEffect {
+  color: $black;
+
+  &:hover {
+    color: $indigo-500;
   }
 }

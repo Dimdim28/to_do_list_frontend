@@ -1,14 +1,5 @@
 import instanse from '../axios';
-import { Status } from '../types';
-
-export type User = {
-  _id: string;
-  username: string;
-  avatar: {
-    url: string;
-    public_id: string;
-  } | null;
-};
+import { AvatarEffect, ProfileEffect, Status, User } from '../types/shared';
 
 export type FetchUsersResponse = {
   status: number;
@@ -17,6 +8,42 @@ export type FetchUsersResponse = {
     foundUsers: User[];
     page: number;
     totalPages: number;
+  };
+};
+
+export type FetchProfileEffectsResponse = {
+  status: number;
+  statusText: string;
+  data: ProfileEffect[];
+};
+
+export type UpdateUserProfileEffectResponse = {
+  status: number;
+  statusText: string;
+  data: {
+    _id: string;
+    username: string;
+    email: string;
+    avatar: string;
+    profileEffect: ProfileEffect;
+  };
+};
+
+export type FetchAvatarEffectsResponse = {
+  status: number;
+  statusText: string;
+  data: AvatarEffect[];
+};
+
+export type UpdateUserAvatarEffectResponse = {
+  status: number;
+  statusText: string;
+  data: {
+    _id: string;
+    username: string;
+    email: string;
+    avatar: string;
+    avatarEffect: AvatarEffect;
   };
 };
 
@@ -43,6 +70,81 @@ class userAPIClass {
         users: [],
         page: 1,
         totalPages: 1,
+      };
+    }
+  }
+
+  public async getAllProfileEffects() {
+    try {
+      const response: FetchProfileEffectsResponse = await instanse.get(
+        `/image/profile-effect`,
+        {},
+      );
+      return {
+        effects: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
+
+  public async updateUserProfileEffect(id: string) {
+    try {
+      const response: UpdateUserProfileEffectResponse = await instanse.patch(
+        `/user`,
+        {
+          profileEffectId: id,
+        },
+      );
+      return {
+        newEffect: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
+
+  public async getAllUserAvatarEffects() {
+    try {
+      const response: FetchAvatarEffectsResponse = await instanse.get(
+        `/image/user-avatar-effect`,
+      );
+      return {
+        effects: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
+      };
+    }
+  }
+
+  public async updateUserAvatarEffect(id: string) {
+    try {
+      const response: UpdateUserAvatarEffectResponse = await instanse.patch(
+        `/user`,
+        {
+          avatarEffectId: id,
+        },
+      );
+      return {
+        newEffect: response.data,
+        status: Status.SUCCESS,
+      };
+    } catch (err: any) {
+      return {
+        message: err?.response?.data?.message || 'Error',
+        status: Status.ERROR,
       };
     }
   }

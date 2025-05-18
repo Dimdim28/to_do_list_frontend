@@ -1,13 +1,15 @@
-import { useEffect, useState, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { Chart as ChartJS, registerables } from 'chart.js';
 
+import { Modal } from '../../components/common/Modal/Modal';
 import Preloader from '../../components/Preloader/Preloader';
-import ProfileCard from './ProfileCard/ProfileCard';
+import { chartOptions, getChartData } from '../../helpers/stats';
 import withLoginRedirect from '../../hoc/withLoginRedirect';
-import { ChangePass } from './ChangePass/ChangePass';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfile, selectIsAuth } from '../../redux/slices/auth/selectors';
+import { selectIsAuth, selectProfile } from '../../redux/slices/auth/selectors';
 import {
   selectProfileMessage,
   selectProfileStatus,
@@ -15,20 +17,28 @@ import {
   selectUserProfile,
 } from '../../redux/slices/profile/selectors';
 import { fetchUserProfile, getStats } from '../../redux/slices/profile/thunk';
-import { chartOptions, getChartData } from '../../helpers/stats';
-import { Chart as ChartJS, registerables } from 'chart.js';
+
+import { ChangeAvatarEffect } from './ChangeEvatarEffect/ChangeAvatarEffect';
+import { ChangePass } from './ChangePass/ChangePass';
+import { ChangeProfileEffect } from './ChangeProfileEffect/ChangeProfileEffect';
+import Buttons from './ProfileCard/Buttons/Buttons';
+import ProfileCard from './ProfileCard/ProfileCard';
 
 import styles from './Profile.module.scss';
 
 ChartJS.register(...registerables);
 
-const Profile: FC = () => {
+const Profile = () => {
   const dispatch = useAppDispatch();
+  const { id = '' } = useParams();
 
   const [isNameEditing, setIsNameEditing] = useState(false);
   const [isPassEditing, setIspassEditing] = useState(false);
   const [isAccountDeleting, setIsAccountDeleting] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
+  const [isProfileEffectModalOpened, setIsProfileEffectModalOpened] =
+    useState(false);
 
   const profile = useAppSelector(selectUserProfile) || {
     username: '',
@@ -39,12 +49,12 @@ const Profile: FC = () => {
   const status = useAppSelector(selectProfileStatus);
   const message = useAppSelector(selectProfileMessage);
   const profileStats = useSelector(selectStats);
-  const id = useAppSelector(selectProfile)?._id || '';
+  const ownerId = useAppSelector(selectProfile)?._id || '';
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
     if (isAuth)
-      dispatch(fetchUserProfile({ id })).then(() => {
+      dispatch(fetchUserProfile({ id: id })).then(() => {
         dispatch(getStats());
       });
   }, [id, isAuth]);
@@ -67,44 +77,66 @@ const Profile: FC = () => {
           setName={setName}
           id={id}
           setIsExiting={setIsExiting}
-          setIspassEditing={setIspassEditing}
           setIsAccountDeleting={setIsAccountDeleting}
           isAccountDeleting={isAccountDeleting}
           isExiting={isExiting}
+          ownerId={ownerId}
         />
 
-        {isPassEditing && (
-          <div className={styles.passwordWrapper}>
-            <div className={styles.passEditing}>
-              <ChangePass id={id} />
-            </div>
-          </div>
-        )}
-        {status === 'error' && <p className={styles.error}>{message}</p>}
+        <div className={styles.column}>
+          {profileStats.length > 0 && (
+            <>
+              {(!id || id === ownerId) && (
+                <div className={styles.chartWrapper}>
+                  <Bar
+                    data={getChartData(profileStats)}
+                    options={chartOptions}
+                  />
+                </div>
+              )}
+            </>
+          )}
+
+          {(!id || id === ownerId) && (
+            <Buttons
+              setIsExiting={setIsExiting}
+              setIspassEditing={setIspassEditing}
+              setIsAccountDeleting={setIsAccountDeleting}
+              setIsEffectModalOpened={setIsEffectModalOpened}
+              setIsProfileEffectModalOpened={setIsProfileEffectModalOpened}
+            />
+          )}
+        </div>
       </div>
-      {profileStats.length > 0 && (
-        <div className={styles.statsWrapper}>
-          <div className={styles.chartWrapper}>
-            <Bar data={getChartData(profileStats)} options={chartOptions} />
-          </div>
-          <div className={styles.statsNumbers}>
-            <div className={styles.leftcol}>
-              <span>76</span>
-              <span>583</span>
-              <span>1562</span>
-              <span>435</span>
-              <span>83</span>
-            </div>
-            <div className={styles.rightcol}>
-              <span>Public groups</span>
-              <span>Friends</span>
-              <span>Tasks completed</span>
-              <span>Tasks shared</span>
-              <span>Projects</span>
-            </div>
+
+      {isPassEditing && (!id || id === ownerId) && (
+        <div className={styles.passwordWrapper}>
+          <div className={styles.passEditing}>
+            <ChangePass id={id} />
           </div>
         </div>
       )}
+      {status === 'error' && <p className={styles.error}>{message}</p>}
+
+      <Modal
+        active={isEffectModalOpened}
+        setActive={setIsEffectModalOpened}
+        ChildComponent={ChangeAvatarEffect}
+        childProps={{
+          toggleActive: setIsEffectModalOpened,
+          isActive: isEffectModalOpened,
+        }}
+      />
+
+      <Modal
+        active={isProfileEffectModalOpened}
+        setActive={setIsProfileEffectModalOpened}
+        ChildComponent={ChangeProfileEffect}
+        childProps={{
+          toggleActive: setIsProfileEffectModalOpened,
+          isActive: isProfileEffectModalOpened,
+        }}
+      />
     </main>
   );
 };

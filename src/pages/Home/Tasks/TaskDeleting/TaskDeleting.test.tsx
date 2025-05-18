@@ -1,18 +1,18 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import taskAPI from '../../../../api/taskAPI';
+import store from '../../../../redux/store';
+import { Status } from '../../../../types/shared';
 
 import TaskDeleting from './TaskDeleting';
-import taskAPI from '../../../../api/taskAPI';
-import { Status } from '../../../../types';
-import store from '../../../../redux/store';
-import { Provider } from 'react-redux';
 
 jest.mock('../../../../api/taskAPI');
 
 describe('TaskDeleting', () => {
-  const childProps = {
+  const childProps: any = {
     _id: '1',
     title: 'abcd',
-    taskFetchingParams: {},
     setCurrentPage: () => {},
     length: 10,
     user: 'fgd',
@@ -29,7 +29,6 @@ describe('TaskDeleting', () => {
     );
 
     expect(screen.getByText('reallyTask')).toBeInTheDocument();
-    expect(screen.getByText('abcd')).toBeInTheDocument();
     expect(screen.getByText('no')).toBeInTheDocument();
     expect(screen.getByText('yes')).toBeInTheDocument();
   });

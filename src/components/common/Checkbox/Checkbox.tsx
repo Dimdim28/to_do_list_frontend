@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, SetStateAction, Dispatch, FC } from 'react';
+import { FC, InputHTMLAttributes } from 'react';
 
 import styles from './Checkbox.module.scss';
 

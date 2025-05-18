@@ -1,6 +1,5 @@
-@import "src/styles/partials/theme";
+@import 'src/styles/partials/theme';
 
-.modalActive,
 .modal {
   height: 100vh;
   width: 100vw;
@@ -18,8 +17,6 @@
 }
 
 :global(.light_theme) {
-
-  .modalActive,
   .modal {
     background-color: $gray-500;
   }
@@ -28,13 +25,14 @@
 .modal {
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.3s;
 }
 
 .modalActive {
   opacity: 1;
+  pointer-events: all;
 }
 
-.modalContentActive,
 .modalContent {
   padding: 20px;
   border-radius: 12px;
@@ -60,8 +58,7 @@
   }
 }
 
-:global(.light_theme) .modalContentActive,
-.modalContent {
+:global(.light_theme) .modalContent {
   background-color: $gray-600;
 
   .close {

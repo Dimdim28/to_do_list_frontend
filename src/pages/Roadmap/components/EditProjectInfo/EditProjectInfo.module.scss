@@ -1,0 +1,106 @@
+@import 'src/styles/partials/_theme.scss';
+
+.wrapper {
+  margin-top: 50px;
+  margin-bottom: 70px;
+  padding: 0 20px;
+  height: calc(100% - 120px);
+  max-height: 60vh;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 90vw;
+  max-width: 400px;
+  color: white;
+  transition: color $transition-delay;
+}
+
+.block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.buttons {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 20px;
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 30px;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: $gray-10;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background $transition-delay;
+}
+
+:global(.light_theme) .user {
+  background: $gray-500;
+}
+
+.user:hover {
+  background: $gray-25;
+}
+
+.trash {
+  color: $white;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    color: black;
+  }
+  .user {
+    background: $gray-500;
+    &:hover {
+      background: $gray-400;
+    }
+  }
+  .trash {
+    color: $black;
+
+    &:hover {
+      color: $error-200;
+    }
+  }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}

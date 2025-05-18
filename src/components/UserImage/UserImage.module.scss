@@ -10,7 +10,18 @@
     border-radius: 50%;
     // border: 2px solid $warning-200;
     object-fit: cover;
+
+    &.clickable {
+      cursor: pointer;
+      transition: 0.3s all ease;
+
+      &:hover {
+        filter: brightness(1.5);
+        box-shadow: 0 0 10px $warning-200;
+      }
+    }
   }
+
   .avatarEffect {
     width: 120%;
     height: 120%;
@@ -20,6 +31,7 @@
     z-index: 2;
     max-width: none;
     pointer-events: none;
+    border-radius: 0%;
   }
 }
 

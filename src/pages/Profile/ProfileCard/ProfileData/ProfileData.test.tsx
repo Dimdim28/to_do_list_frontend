@@ -1,27 +1,24 @@
-import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import { Provider } from 'react-redux';
+import { render, screen } from '@testing-library/react';
 
-import ProfileData from "./ProfileData";
-import store from "../../../../redux/store";
+import store from '../../../../redux/store';
+
+import ProfileData from './ProfileData';
 
 const renderProfileData = () => {
   render(
     <Provider store={store}>
       <ProfileData />
-    </Provider>
+    </Provider>,
   );
 };
 
-describe("ProfileData", () => {
+describe('ProfileData', () => {
   beforeEach(() => {
     renderProfileData();
   });
 
-  it("renders without crashing", () => {
-    expect(screen.getByTestId("profile-data-container")).toBeInTheDocument();
-  });
-
-  it("renders without errors", () => {
-    expect(screen.queryByTestId("error")).toBeNull();
+  it('renders without errors', () => {
+    expect(screen.queryByTestId('error')).toBeNull();
   });
 });

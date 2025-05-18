@@ -1,20 +1,13 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useDeferredValue,
-  useEffect,
-} from 'react';
+import { FC, useDeferredValue, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './SearchTask.module.scss';
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
 interface SearchTaskProps {
   value: string;
-  changeValue: Dispatch<SetStateAction<string>>;
+  changeValue: (value: string) => void;
   callback: (value: string) => void;
 }
 

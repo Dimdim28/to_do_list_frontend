@@ -1,6 +1,7 @@
-import styles from './Pagination.module.scss';
 import { useAppDispatch } from '../../../../hooks';
 import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
+
+import styles from './Pagination.module.scss';
 
 interface PaginationProps {
   currentPage: number;

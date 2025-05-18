@@ -1,0 +1,307 @@
+@import 'src/styles/partials/_theme.scss';
+
+.wrapper {
+  position: absolute;
+  z-index: 3;
+  max-width: 400px;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+  transform: translateX(100%);
+  background-color: $gray-25;
+  transition:
+    width $transition-delay,
+    transform $transition-delay,
+    background-color $transition-delay;
+
+  .closeIcon {
+    display: none;
+  }
+}
+
+.blur {
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter $transition-delay;
+  pointer-events: none;
+
+  &.active {
+    backdrop-filter: blur(10px);
+    pointer-events: all;
+
+    .wrapper {
+      width: 100%;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    .closeIcon {
+      position: absolute;
+      opacity: 1;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+      transition: opacity $transition-delay;
+      width: 30px;
+      height: 30px;
+      display: block;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.content {
+  margin-top: 50px;
+  margin-bottom: 70px;
+  padding: 0 20px;
+  height: calc(100% - 120px);
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.buttons {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 20px;
+}
+
+.block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.assigners {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.assigner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .userImage {
+    width: 30px;
+    height: 30px;
+  }
+
+  .userName {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .removeIcon {
+    cursor: pointer;
+    color: $white;
+    transition: color $transition-delay;
+    width: 20px;
+    height: 20px;
+    display: block;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+}
+
+.addMembersLine {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+
+  .addUserIcon {
+    cursor: pointer;
+    color: $white;
+    transition: color $transition-delay;
+    width: 20px;
+    height: 20px;
+    display: block;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .addAssignerMenu {
+    height: fit-content;
+    opacity: 0;
+    max-height: 0px;
+    pointer-events: none;
+    transition:
+      opacity $transition-delay,
+      max-height $transition-delay;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    &.opened {
+      opacity: 1;
+      max-height: 100vh;
+      pointer-events: all;
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 0px 5px;
+
+      .memberImage {
+        height: 30px;
+        width: 30px;
+      }
+      .memberName {
+        font-weight: 600;
+        font-size: 18px;
+        transition: color $transition-delay;
+      }
+
+      &:hover {
+        .memberName {
+          color: $warning-200;
+        }
+      }
+    }
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.addTagLine {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+
+  .addTagIcon {
+    cursor: pointer;
+    color: $white;
+    transition: color $transition-delay;
+    width: 20px;
+    height: 20px;
+    display: block;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .addTagMenu {
+    overflow-y: hidden;
+    height: fit-content;
+    opacity: 0;
+    max-height: 0px;
+    pointer-events: none;
+    transition:
+      opacity $transition-delay,
+      max-height $transition-delay;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    &.opened {
+      opacity: 1;
+      max-height: 100vh;
+      pointer-events: all;
+    }
+  }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-600;
+    color: black;
+  }
+
+  .addTagLine {
+    .addTagIcon {
+      color: $black;
+
+      &:hover {
+        color: $info-200;
+      }
+    }
+  }
+
+  .assigner {
+    .removeIcon {
+      color: $black;
+
+      &:hover {
+        color: $warning-200;
+      }
+    }
+  }
+
+  .addMembersLine {
+    .addUserIcon {
+      color: $black;
+
+      &:hover {
+        color: $info-200;
+      }
+    }
+  }
+}
+
+.deleteTask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteTaskText {
+  cursor: pointer;
+
+  transition: color $transition-delay;
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .deleteTaskText {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}

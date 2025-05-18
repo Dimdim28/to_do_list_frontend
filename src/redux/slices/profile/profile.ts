@@ -1,14 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { AvatarEffect, ProfileEffect, Status } from '../../../types/shared';
+import { Profile } from '../auth/types';
 
 import {
+  banUser,
   changeAvatar,
+  changeName,
   changePass,
   deleteAccount,
   fetchUserProfile,
-  changeName,
   getStats,
 } from './thunk';
-import { Status } from '../../../types';
 import { ProfileSliceState } from './types';
 
 const initialState: ProfileSliceState = {
@@ -26,6 +29,17 @@ const profileSlice = createSlice({
     },
     clearProfileErrorMessage(state) {
       state.message = '';
+    },
+    updateProfileEffect(state, action: PayloadAction<ProfileEffect>) {
+      if (!state.data) return;
+
+      state.data.profileEffect = action.payload;
+    },
+
+    updateUserAvatarEffect(state, action: PayloadAction<AvatarEffect>) {
+      if (!state.data) return;
+
+      state.data.avatarEffect = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -92,10 +106,16 @@ const profileSlice = createSlice({
       state.status = Status.LOADING;
       state.message = '';
     });
-    builder.addCase(changeName.fulfilled, (state) => {
-      state.status = Status.SUCCESS;
-      state.message = '';
-    });
+    builder.addCase(
+      changeName.fulfilled,
+      (state, action: PayloadAction<Profile>) => {
+        state.status = Status.SUCCESS;
+        state.message = '';
+        if (state.data) {
+          state.data.username = action.payload.username;
+        }
+      },
+    );
     builder.addCase(changeName.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.message = String(action.payload);
@@ -112,8 +132,30 @@ const profileSlice = createSlice({
       state.status = Status.ERROR;
       state.message = String(action.payload);
     });
+    builder.addCase(banUser.pending, (state) => {
+      state.status = Status.LOADING;
+      state.message = '';
+    });
+    builder.addCase(banUser.fulfilled, (state, action) => {
+      state.status = Status.SUCCESS;
+      state.message = '';
+      if (action.payload.status === Status.SUCCESS) {
+        if (state?.data?.isBanned !== undefined) {
+          state.data.isBanned = action.payload.isBanned;
+        }
+      }
+    });
+    builder.addCase(banUser.rejected, (state, action) => {
+      state.status = Status.ERROR;
+      state.message = String(action.payload);
+    });
   },
 });
 
 export const profileReducer = profileSlice.reducer;
-export const { exit, clearProfileErrorMessage } = profileSlice.actions;
+export const {
+  exit,
+  clearProfileErrorMessage,
+  updateProfileEffect,
+  updateUserAvatarEffect,
+} = profileSlice.actions;

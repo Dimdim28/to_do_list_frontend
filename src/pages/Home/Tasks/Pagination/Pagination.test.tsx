@@ -1,8 +1,9 @@
+import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 
-import Pagination from './Pagination';
 import store from '../../../../redux/store';
-import { Provider } from 'react-redux';
+
+import Pagination from './Pagination';
 
 describe('Pagination', () => {
   test('renders pagination buttons correctly', () => {

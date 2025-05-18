@@ -1,8 +1,8 @@
-import { Provider } from "react-redux";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { Provider } from 'react-redux';
+import { fireEvent, render, screen } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
-import Name from "./Name";
-import configureStore from "redux-mock-store";
+import Name from './Name';
 
 const mockStore = configureStore([]);
 const mockToggleActive = jest.fn();
@@ -11,102 +11,107 @@ let store: any;
 beforeEach(() => {
   store = mockStore({
     profile: {
-      status: "success",
+      status: 'success',
     },
   });
 });
 
-describe("Name", () => {
-  it("should render name container", () => {
+describe('Name', () => {
+  it('should render name container', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={() => {}}
-          name={"Ivan"}
+          name={'Ivan'}
           setName={() => {}}
-          id={"22"}
+          id={'22'}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByTestId("name-container")).toBeInTheDocument();
-    expect(screen.getByTestId("name-component")).toBeInTheDocument();
-    expect(screen.getByTestId("text-component")).toBeInTheDocument();
-    expect(screen.getByTestId("edit-component")).toBeInTheDocument();
-    expect(screen.getByTestId("pencil-component")).toBeInTheDocument();
+    expect(screen.getByTestId('name-container')).toBeInTheDocument();
+    expect(screen.getByTestId('name-component')).toBeInTheDocument();
+    expect(screen.getByTestId('text-component')).toBeInTheDocument();
+    expect(screen.getByTestId('edit-component')).toBeInTheDocument();
+    expect(screen.getByTestId('pencil-component')).toBeInTheDocument();
   });
 
-  it("should render input when isNameEditing is true", () => {
+  it('should render input when isNameEditing is true', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={true}
           setIsNameEditing={() => {}}
-          name={"Ivan"}
+          name={'Ivan'}
           setName={() => {}}
-          id={"22"}
+          id={'22'}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByTestId("name-container")).toBeInTheDocument();
-    expect(screen.getByTestId("name-component")).toBeInTheDocument();
-    expect(screen.getByTestId("input-name-component")).toBeInTheDocument();
-    expect(screen.getByTestId("check-component")).toBeInTheDocument();
-    expect(screen.getByTestId("close-component")).toBeInTheDocument();
+    expect(screen.getByTestId('name-container')).toBeInTheDocument();
+    expect(screen.getByTestId('name-component')).toBeInTheDocument();
+    expect(screen.getByTestId('input-name-component')).toBeInTheDocument();
+    expect(screen.getByTestId('check-component')).toBeInTheDocument();
+    expect(screen.getByTestId('close-component')).toBeInTheDocument();
   });
 
-  it("should render error message when status is error", () => {
+  it('should render error message when status is error', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={() => {}}
-          name={"Ivan"}
+          name={'Ivan'}
           setName={() => {}}
-          id={"22"}
+          id={'22'}
         />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByTestId("name-container")).toBeInTheDocument();
+    expect(screen.getByTestId('name-container')).toBeInTheDocument();
   });
 
-  it("renders without errors", () => {
-    expect(screen.queryByTestId("error")).toBeNull();
+  it('renders without errors', () => {
+    expect(screen.queryByTestId('error')).toBeNull();
   });
 
-  it("should call mockToggleActive when edit button is clicked", () => {
+  it('should call mockToggleActive when edit button is clicked', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={false}
           setIsNameEditing={mockToggleActive}
-          name={"Name"}
+          name={'Name'}
           setName={() => {}}
-          id={"22"}
+          id={'22'}
         />
-      </Provider>
+      </Provider>,
     );
-    fireEvent.click(screen.getByTestId("edit-component"));
+    fireEvent.click(screen.getByTestId('edit-component'));
 
     expect(mockToggleActive).toHaveBeenCalled();
   });
 
-  it("should call mockToggleActive when cancel button is clicked", () => {
+  it('should call mockToggleActive when cancel button is clicked', () => {
     render(
       <Provider store={store}>
         <Name
+          isOwner={true}
           isNameEditing={true}
           setIsNameEditing={mockToggleActive}
-          name={"Name"}
+          name={'Name'}
           setName={() => {}}
-          id={"22"}
+          id={'22'}
         />
-      </Provider>
+      </Provider>,
     );
-    fireEvent.click(screen.getByTestId("close-component"));
+    fireEvent.click(screen.getByTestId('close-component'));
 
     expect(mockToggleActive).toHaveBeenCalled();
   });

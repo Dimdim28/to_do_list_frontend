@@ -1,17 +1,23 @@
-import React, { useState, FC } from 'react';
-import { toast } from 'react-toastify';
+import React, { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Button from '../../../components/common/Button/Button';
+import { Modal } from '../../../components/common/Modal/Modal';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { selectIsAdmin } from '../../../redux/slices/auth/selectors';
+import {
+  selectIsUserBanned,
+  selectUserProfile,
+} from '../../../redux/slices/profile/selectors';
+import { banUser } from '../../../redux/slices/profile/thunk';
+
 import Avatar from './Avatar/Avatar';
-import Name from './Name/Name';
-import ProfileData from './ProfileData/ProfileData';
-import Buttons from './Buttons/Buttons';
 import DeleteProfile from './DeleteProfile/DeleteProfile';
 import Exit from './Exit/Exit';
-import { Modal } from '../../../components/common/Modal/Modal';
+import Name from './Name/Name';
+import ProfileData from './ProfileData/ProfileData';
 
 import styles from './ProfileCard.module.scss';
-import { ChangeAvatarEffect } from '../ChangeEvatarEffect/ChangeAvatarEffect';
 
 interface ProfileCardProps {
   isNameEditing: boolean;
@@ -20,13 +26,15 @@ interface ProfileCardProps {
   setName: React.Dispatch<React.SetStateAction<string>>;
 
   id: string;
+  ownerId: string;
   setIsExiting: React.Dispatch<React.SetStateAction<boolean>>;
-  setIspassEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAccountDeleting: React.Dispatch<React.SetStateAction<boolean>>;
 
   isAccountDeleting: boolean;
   isExiting: boolean;
 }
+
+const NO_EFFECT_ID = '67b1ec027db000d397abed1f';
 
 const ProfileCard: FC<ProfileCardProps> = ({
   isNameEditing,
@@ -34,50 +42,63 @@ const ProfileCard: FC<ProfileCardProps> = ({
   name,
   setName,
   id,
-
+  ownerId,
   setIsExiting,
-  setIspassEditing,
   setIsAccountDeleting,
-
   isAccountDeleting,
   isExiting,
 }) => {
   const { t } = useTranslation();
 
-  const [isIdShown, setIsIdShown] = useState(false);
-  const [isEffectModalOpened, setIsEffectModalOpened] = useState(false);
+  const dispatch = useAppDispatch();
+  const isUserBanned = useAppSelector(selectIsUserBanned);
+  const areYouAdmin = useAppSelector(selectIsAdmin);
+  const profileData = useAppSelector(selectUserProfile);
 
-  const showIdHandler = () => {
-    if (!isIdShown) {
-      setIsIdShown(true);
-    } else {
-      navigator.clipboard.writeText(id);
-      toast.success('Copied to Clipboard');
-      setTimeout(() => {
-        setIsIdShown(false);
-      }, 5000);
-    }
+  const [avatarEffectStatus, setAvatarEffectStatus] = useState<
+    'intro' | 'loop' | 'no'
+  >('no');
+
+  const effectsImages = {
+    intro: profileData?.profileEffect?.intro,
+    loop: profileData?.profileEffect?.sides,
   };
+
+  const banUserHandler = (id: string, isBanned: boolean) => {
+    dispatch(banUser({ id, isBanned }));
+  };
+
+  useEffect(() => {
+    const id = profileData?.profileEffect?._id;
+
+    if (id) {
+      if (id === NO_EFFECT_ID) {
+        setAvatarEffectStatus('no');
+        return;
+      }
+      setAvatarEffectStatus('intro');
+    }
+  }, [profileData?.profileEffect?._id]);
+
+  useEffect(() => {
+    if (avatarEffectStatus === 'intro') {
+      setTimeout(() => {
+        setAvatarEffectStatus('loop');
+      }, 3000);
+    }
+  }, [avatarEffectStatus]);
 
   return (
     <div className={styles.row} data-testid="profile-card-container">
-      <Avatar />
-      <button
-        className={styles.changeEffect}
-        onClick={() => {
-          setIsEffectModalOpened(true);
-        }}
-      >
-        {t('changeAvatarEffect')}
-      </button>
+      {avatarEffectStatus !== 'no' ? (
+        <img
+          className={styles.backgroundEffect}
+          src={effectsImages[avatarEffectStatus] || effectsImages.loop}
+        />
+      ) : null}
 
-      <div
-        className={styles.idWrapper}
-        onClick={showIdHandler}
-        data-testid="id"
-      >
-        {isIdShown ? id : t('showMyId')}
-      </div>
+      <Avatar isOwner={!id || id === ownerId} />
+
       <div className={styles.info} data-testid="info">
         <Name
           isNameEditing={isNameEditing}
@@ -86,41 +107,42 @@ const ProfileCard: FC<ProfileCardProps> = ({
           setName={setName}
           id={id}
           data-testid="name"
+          isOwner={!id || id === ownerId}
         />
 
-        <ProfileData />
+        {(!id || id === ownerId) && <ProfileData />}
+
+        {!!id && areYouAdmin && id !== ownerId && (
+          <>
+            {isUserBanned ? (
+              <Button
+                text={t('revokeUser')}
+                callback={() => banUserHandler(id, false)}
+                class="submit"
+              ></Button>
+            ) : (
+              <Button
+                text={t('banUser')}
+                callback={() => banUserHandler(id, true)}
+                class="cancel"
+              ></Button>
+            )}
+          </>
+        )}
       </div>
 
-      <Buttons
-        setIsExiting={setIsExiting}
-        setIspassEditing={setIspassEditing}
-        setIsAccountDeleting={setIsAccountDeleting}
+      <Modal
+        active={isAccountDeleting}
+        setActive={setIsAccountDeleting}
+        ChildComponent={DeleteProfile}
+        childProps={{ toggleActive: setIsAccountDeleting }}
       />
-
-      {isAccountDeleting && (
-        <Modal
-          active={isAccountDeleting}
-          setActive={setIsAccountDeleting}
-          ChildComponent={DeleteProfile}
-          childProps={{ toggleActive: setIsAccountDeleting }}
-        />
-      )}
-      {isExiting && (
-        <Modal
-          active={isExiting}
-          setActive={setIsExiting}
-          ChildComponent={Exit}
-          childProps={{ toggleActive: setIsExiting }}
-        />
-      )}
-      {
-        <Modal
-          active={isEffectModalOpened}
-          setActive={setIsEffectModalOpened}
-          ChildComponent={ChangeAvatarEffect}
-          childProps={{ toggleActive: setIsEffectModalOpened }}
-        />
-      }
+      <Modal
+        active={isExiting}
+        setActive={setIsExiting}
+        ChildComponent={Exit}
+        childProps={{ toggleActive: setIsExiting }}
+      />
     </div>
   );
 };

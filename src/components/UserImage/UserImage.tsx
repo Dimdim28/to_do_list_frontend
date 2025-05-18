@@ -1,10 +1,8 @@
 import { FC } from 'react';
 
-import { User } from '../../api/userAPI';
+import { User } from '../../types/shared';
 
 import styles from './UserImage.module.scss';
-
-import avatarEffect from '../../assets/32animated.png';
 
 type Size = 'medium' | 'large';
 
@@ -12,12 +10,14 @@ interface UserImageProps {
   user: User;
   size?: Size;
   additionalClassname?: string;
+  onAvatarClick?: (user: User) => void;
 }
 
 const UserImage: FC<UserImageProps> = ({
   user,
   size = 'medium',
   additionalClassname,
+  onAvatarClick,
 }) => {
   return (
     <div
@@ -26,14 +26,28 @@ const UserImage: FC<UserImageProps> = ({
       } ${additionalClassname ?? ''}`}
     >
       <img
-        className={styles.avatarImage}
+        onClick={(e) => {
+          if (onAvatarClick) {
+            e.stopPropagation();
+            onAvatarClick(user);
+          }
+        }}
+        className={`${styles.avatarImage} ${
+          onAvatarClick ? styles.clickable : ''
+        }`}
         src={
-          user?.avatar?.url ||
+          user?.avatar ||
           'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg'
         }
         alt={user?.username || 'User'}
       />
-      <img src={avatarEffect} className={styles.avatarEffect} alt="effect" />
+      {user.avatarEffect ? (
+        <img
+          src={user.avatarEffect.animated}
+          className={styles.avatarEffect}
+          alt="effect"
+        />
+      ) : null}
     </div>
   );
 };

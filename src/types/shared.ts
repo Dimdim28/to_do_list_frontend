@@ -109,3 +109,31 @@ export enum TranslationKeys {
   Answer9 = 'answer9',
   Answer10 = 'answer10',
 }
+
+export type Avatar = {
+  url: string;
+  public_id: string;
+};
+
+export type User = {
+  _id: string;
+  username: string;
+  avatar: string;
+  avatarEffect?: AvatarEffect;
+};
+
+export type ProfileEffect = {
+  title: string;
+  intro?: string;
+  preview: string;
+  sides: string;
+  top?: string;
+  _id: string;
+};
+
+export type AvatarEffect = {
+  _id: string;
+  title: string;
+  preview: string;
+  animated: string;
+};

@@ -1,29 +1,35 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Preloader from '../../../../components/Preloader/Preloader';
-import Button from '../../../../components/common/Button/Button';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
-import { truncate } from '../../../../helpers/string';
-import { Status } from '../../../../types';
 import subTasksAPI from '../../../../api/subTaskAPI';
+import taskAPI from '../../../../api/taskAPI';
+import Button from '../../../../components/common/Button/Button';
+import Preloader from '../../../../components/Preloader/Preloader';
+import { truncate } from '../../../../helpers/string';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import {
+  removeTaskFromList,
+  updateSubTaskIsRejectedStatusInSubtasksList,
+  updateTaskCurrentPage,
+} from '../../../../redux/slices/home/home';
+import { selectTaskCurrentPage } from '../../../../redux/slices/home/selectors';
+import { Task } from '../../../../types/entities/Task';
+import { Status } from '../../../../types/shared';
 
 import styles from './TaskDeleting.module.scss';
-import { useAppDispatch } from '../../../../hooks';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface TaskDeletingProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    taskFetchingParams: getTask;
     length: number;
     isForSubTask?: boolean;
   };
 }
 
 const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
-  const { _id, title, taskFetchingParams, length, isForSubTask } = childProps;
+  const { _id, title, length, isForSubTask } = childProps;
+
+  const currentPage = useAppSelector(selectTaskCurrentPage);
 
   const [status, setStatus] = useState(Status.SUCCESS);
   const [taskError, setTaskError] = useState('');
@@ -34,16 +40,22 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
   const submit = async () => {
     setStatus(Status.LOADING);
     const result = isForSubTask
-      ? await subTasksAPI.editSubTask({ subTaskId: _id, rejected: true })
+      ? await subTasksAPI.editSubTask({ subTaskId: _id, isRejected: true })
       : await taskAPI.deleteTask(_id);
     const { message, status } = result;
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
       if (length === 1) {
-        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 2) - 1));
+        dispatch(updateTaskCurrentPage((currentPage || 2) - 1));
       } else {
-        dispatch(fetchTasks(taskFetchingParams));
+        dispatch(removeTaskFromList(_id));
+        dispatch(
+          updateSubTaskIsRejectedStatusInSubtasksList({
+            subTaskId: _id,
+            isRejected: true,
+          }),
+        );
       }
       toggleActive(false);
     }
@@ -61,7 +73,7 @@ const TaskDeleting: FC<TaskDeletingProps> = ({ childProps, toggleActive }) => {
         <>
           <div className={styles.modalContent}>
             <p>{isForSubTask ? t('reallyRejectSubTask') : t('reallyTask')}</p>
-            <h3>{truncate(title, 12)}</h3>
+            <h3>{truncate(title, 12)}?</h3>
           </div>
           <div className={styles.actions}>
             <Button text={t('no')} callback={cancel} class="cancel" />

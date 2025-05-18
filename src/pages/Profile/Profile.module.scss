@@ -2,12 +2,14 @@
 
 .wrapper {
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   height: calc(100% - 80px);
   overflow-y: auto;
   background-color: $background-dark-35;
   transition: background-color $transition-delay;
-  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 :global(.light_theme) .wrapper {
@@ -17,11 +19,20 @@
 .profile {
   border-radius: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   width: 95%;
   position: relative;
   width: 100%;
-  margin-bottom: 40px;
+  gap: 40px;
+  flex-grow: 1;
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .passwordWrapper {
@@ -29,10 +40,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 40px;
   width: 100%;
   border: 2px solid $warning-200;
   border-radius: 15px;
+  margin: 40px auto 0;
+  @media screen and (max-width: 1024px) {
+    max-width: 400px;
+  }
 
   .passEditing {
     display: flex;
@@ -51,22 +65,23 @@
   color: $error-200;
 }
 
-.statsWrapper {
+.column {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 20px;
   gap: 40px;
   width: 100%;
+  flex-shrink: 1;
+  flex-grow: 1;
+  max-width: calc(100% - 400px);
 
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
+  @media screen and (max-width: 1024px) {
+    max-width: 400px;
   }
 }
 
 .chartWrapper {
-  width: 400px;
-  max-height: 300px;
-  max-width: 600px;
+  width: 100%;
   height: auto;
   display: flex;
   align-items: center;
@@ -84,45 +99,6 @@
   }
 }
 
-.statsNumbers {
-  border-radius: 10px;
-  padding: 10px;
-  border: 2px solid $warning-200;
-  display: flex;
-  flex-grow: 1;
-  max-height: 300px;
-  max-width: 600px;
-  justify-content: space-around;
-  font-weight: 600;
-  font-size: 20px;
-  background-color: $background-dark-10;
-  transition: background-color $transition-delay;
-
-  .leftcol {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-right: 20px;
-
-    span {
-      color: $warning-200;
-      text-align: center;
-    }
-  }
-  .rightcol {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    color: $white;
-  }
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    max-width: 100%;
-    justify-content: center;
-  }
-}
-
-:global(.light_theme) .statsNumbers,
 :global(.light_theme) .chartWrapper {
   background-color: $gray-600;
 }

@@ -1,23 +1,23 @@
 import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import logo from '../../assets/logo.png';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeLang, changeTheme } from '../../redux/slices/auth/auth';
 import {
   selectIsAuth,
   selectLanguage,
   selectTheme,
 } from '../../redux/slices/auth/selectors';
 import ROUTES from '../../routes';
+import { Language, Theme } from '../../types/shared';
+
 import Notifications from './Notifications/Notifications';
-import { Language, Theme } from '../../types';
-import { changeLang, changeTheme } from '../../redux/slices/auth/auth';
 
 import styles from './Header.module.scss';
-
-import logo from '../../assets/logo.png';
 
 export type Link = {
   path: ROUTES;

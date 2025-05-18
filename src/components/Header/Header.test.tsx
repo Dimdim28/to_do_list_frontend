@@ -1,14 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from '../../mocs/links';
+import { mockLocalStorage } from '../../mocs/localstorage';
+import store from '../../redux/store';
+import ROUTES from '../../routes';
+import { Theme, TranslationKeys } from '../../types/shared';
 
 import Header from './Header';
-import ROUTES from '../../routes';
-import store from '../../redux/store';
-import { Theme, TranslationKeys } from '../../types';
-import { mockLocalStorage } from '../../mocs/localstorage';
-import { MOCK_FOR_AMOUNT_OF_LINKS_CHECKING } from '../../mocs/links';
 
 const HEADER_LINKS = [
   {

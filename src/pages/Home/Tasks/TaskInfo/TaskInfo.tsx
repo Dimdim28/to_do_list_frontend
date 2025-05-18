@@ -1,32 +1,26 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SubTasks from './SubTasks/SubTasks';
-import { Task, getTask } from '../../../../api/taskAPI';
 import { humaniseDate } from '../../../../helpers/string';
-import { SubTask } from '../../../../api/subTaskAPI';
+import { SharedTask } from '../../../../types/entities/SharedTask';
+import { SubTask } from '../../../../types/entities/SubTask';
+import { Task } from '../../../../types/entities/Task';
+
+import SubTasks from './SubTasks/SubTasks';
 
 import styles from './TaskInfo.module.scss';
 
 interface TaskInfoProps {
-  childProps: Task & {
-    taskFetchingParams: getTask;
-    setSubTasksArray?: SubTask[];
-  };
+  childProps:
+    | Task
+    | (SharedTask & {
+        setSubTasksArray?: SubTask[];
+      });
 }
 
 const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
-  const {
-    title,
-    description,
-    categories,
-    deadline,
-    isCompleted,
-    sharedWith,
-    links,
-    subtasks,
-    taskFetchingParams,
-  } = childProps;
+  const { _id, title, description, categories, deadline, isCompleted, links } =
+    childProps;
 
   const { t } = useTranslation();
   return (
@@ -57,8 +51,8 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
       </div>
       <p className={styles.description}>{description}</p>
 
-      {subtasks?.length > 0 ? (
-        <SubTasks subTasks={subtasks} taskFetchingParams={taskFetchingParams} />
+      {(childProps as Task).subtasks?.length > 0 ? (
+        <SubTasks subTasks={(childProps as Task).subtasks} taskId={_id} />
       ) : null}
 
       <div className={styles.links}>
@@ -74,20 +68,6 @@ const TaskInfo: FC<TaskInfoProps> = ({ childProps }) => {
           {t('deadline')} {humaniseDate(deadline)}
         </p>
       )}
-      {sharedWith &&
-        sharedWith[0] !== 'already shared' &&
-        sharedWith.length > 0 && (
-          <>
-            <h5 className={styles.sharedTitle}>{t('sharedWith')}:</h5>
-            <div className={styles.sharedWrapper}>
-              {sharedWith.map((el, id) => (
-                <p className={styles.username} key={id}>
-                  {typeof el !== 'string' && el.username}
-                </p>
-              ))}
-            </div>
-          </>
-        )}
     </div>
   );
 };

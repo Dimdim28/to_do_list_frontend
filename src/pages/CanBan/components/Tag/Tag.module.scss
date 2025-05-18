@@ -1,0 +1,73 @@
+@import 'src/styles/partials/theme';
+
+.tag {
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid $warning-200;
+  text-align: center;
+  position: relative;
+}
+
+.hoverable {
+  transition:
+    border-color $transition-delay,
+    color $transition-delay;
+  cursor: pointer;
+
+  &:hover {
+    color: $warning-200;
+    border-color: $warning-200 !important;
+  }
+}
+
+.icons {
+  position: absolute;
+  right: -20px;
+  top: 0;
+  bottom: 0;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: $transition-delay;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .pencil {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .trash {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}

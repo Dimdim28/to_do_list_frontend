@@ -1,8 +1,9 @@
-import { Status } from '../../../types';
+import { Status } from '../../../types/shared';
+
 import { homeReducer } from './home';
 import { fetchCategories } from './thunk';
 
-const initialState = {
+const initialState: any = {
   category: {
     categories: [],
     totalPages: 0,
@@ -13,6 +14,10 @@ const initialState = {
   task: {
     tasks: [],
     currentPage: 1,
+    searchPattern: '',
+    isCompleted: 'false',
+    date: 'all',
+    activeCategories: [],
     status: Status.LOADING,
     totalPages: 0,
   },
@@ -21,9 +26,9 @@ const initialState = {
 describe('fetchCategories extra reducers:', () => {
   it('should update categories and status when fetchCategories is fulfilled', () => {
     const categoriesPayload = {
-      categories: ['Category 1', 'Category 2'],
+      results: ['Category 1', 'Category 2'],
       totalPages: 2,
-      currentPage: '1',
+      page: 1,
     };
 
     const action = {
@@ -42,6 +47,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },
@@ -67,6 +76,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },
@@ -93,6 +106,10 @@ describe('fetchCategories extra reducers:', () => {
       task: {
         tasks: [],
         currentPage: 1,
+        date: 'all',
+        isCompleted: 'false',
+        activeCategories: [],
+        searchPattern: '',
         status: Status.LOADING,
         totalPages: 0,
       },

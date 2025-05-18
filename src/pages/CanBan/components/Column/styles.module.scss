@@ -1,0 +1,253 @@
+@import 'src/styles/partials/theme';
+
+.column {
+  position: relative;
+  background-color: $background-dark-10;
+  transition: background-color $transition-delay;
+  border-radius: 8px;
+  padding: 10px;
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+
+.columnHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.arrows {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity $transition-delay,
+    transform $transition-delay;
+}
+
+.columnHeader:hover {
+  .arrows {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+}
+
+.arrow {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .arrow {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+}
+
+.pencil {
+  color: $white;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) .pencil {
+  color: $black;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.trash {
+  color: $white;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+:global(.light_theme) .trash {
+  color: $black;
+
+  &:hover {
+    color: $error-200;
+  }
+}
+
+.columnTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: $warning-200;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 50px;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.task {
+  cursor: grab;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  flex-shrink: 0;
+  gap: 10px;
+  background-color: $background-dark-0;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
+
+  &:hover {
+    background-color: $success-100;
+  }
+}
+
+.taskContent {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  word-break: break-word;
+  text-align: left;
+  flex-shrink: 1;
+  flex-grow: 1;
+  width: 20px;
+}
+
+.assignedUsers {
+  display: flex;
+  gap: 5px;
+
+  .userAvatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+}
+
+.tags {
+  display: flex;
+  justify-content: start;
+  gap: 5px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.addTaskButton {
+  color: white;
+  cursor: pointer;
+  transition: color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.placeholder {
+  flex-shrink: 0;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
+  border: 2px dashed $warning-200;
+  border-radius: 4px;
+  background-color: $background-dark-0;
+  animation: fadeIn 0.2s ease;
+  pointer-events: none;
+  transition: background-color $transition-delay;
+}
+
+:global(.light_theme) {
+  .column {
+    background-color: $gray-600;
+  }
+
+  .addTaskButton {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .task {
+    background-color: $gray-500;
+    color: black;
+    &:hover {
+      background-color: $success-500;
+    }
+  }
+
+  .placeholder {
+    background-color: $gray-500;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

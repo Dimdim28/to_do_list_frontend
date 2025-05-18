@@ -95,6 +95,7 @@
   z-index: 2;
   max-width: none;
   pointer-events: none;
+  border-radius: 0%;
 }
 
 .avatarsList {
@@ -145,4 +146,10 @@
 
 :global(.light_theme) .effectPreview {
   background-color: $gray-600;
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
 }

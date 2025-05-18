@@ -1,0 +1,163 @@
+@import 'src/styles/partials/theme';
+
+.wrapper {
+  position: relative;
+  color: white;
+  height: calc(100% - 80px);
+  width: 100%;
+  background-color: $background-dark-35;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  background-color: $background-dark-35;
+  transition:
+    background-color $transition-delay,
+    color $transition-delay;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.addColumnButton {
+  margin-top: 10px;
+  align-self: flex-start;
+  background-color: $info-200;
+  color: $white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color $transition-delay;
+  font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    background-color: $amber-300;
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gear {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+.user {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $info-200;
+  }
+}
+
+.tag {
+  color: white;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  cursor: pointer;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $amber-200;
+  }
+}
+
+.columns {
+  display: flex;
+  gap: 20px;
+  height: calc(100% - 44px);
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.backToAllBoards {
+  width: fit-content;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  transition: color $transition-delay;
+
+  &:hover {
+    color: $warning-200;
+  }
+}
+
+:global(.light_theme) {
+  .wrapper {
+    background: $gray-500;
+    color: black;
+  }
+
+  .gear {
+    color: black;
+    width: 20px;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+
+  .user {
+    color: black;
+
+    &:hover {
+      color: $info-200;
+    }
+  }
+
+  .tag {
+    color: black;
+
+    &:hover {
+      color: $amber-200;
+    }
+  }
+
+  .backToAllBoards {
+    color: black;
+
+    &:hover {
+      color: $warning-200;
+    }
+  }
+}
+
+.error {
+  color: $error-200;
+  text-align: center;
+  width: 100%;
+}
+
+.noColumns {
+  color: $warning-200;
+  text-align: center;
+  width: 100%;
+}

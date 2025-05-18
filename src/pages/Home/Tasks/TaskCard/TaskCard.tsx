@@ -1,34 +1,37 @@
-import { useState, Dispatch, SetStateAction, useCallback } from 'react';
-import { toast } from 'react-toastify';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import {
+  faListCheck,
+  faPencil,
+  faPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Task, getTask } from '../../../../api/taskAPI';
-import { humaniseDate, truncate } from '../../../../helpers/string';
+import subTasksAPI from '../../../../api/subTaskAPI';
+import taskAPI from '../../../../api/taskAPI';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
 import UserImage from '../../../../components/UserImage/UserImage';
-import taskAPI from '../../../../api/taskAPI';
+import { humaniseDate, truncate } from '../../../../helpers/string';
+import { useAppDispatch } from '../../../../hooks';
+import {
+  updateSubTaskCompletionStatusInSubtasksList,
+  updateTaskCompletionStatus,
+} from '../../../../redux/slices/home/home';
+import ROUTES from '../../../../routes';
+import { SharedTask } from '../../../../types/entities/SharedTask';
+import { Task } from '../../../../types/entities/Task';
 
 import styles from './TaskCard.module.scss';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPencil,
-  faTrash,
-  faListCheck,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons';
-import subTasksAPI from '../../../../api/subTaskAPI';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { useAppDispatch } from '../../../../hooks';
-
 interface taskProps {
-  task: Task;
+  task: Task | SharedTask;
   setTaskEditing: Dispatch<SetStateAction<boolean>>;
   setTaskProps: Dispatch<
     SetStateAction<
-      | {}
+      | object
       | (Task & {
-          taskFetchingParams: getTask;
           isAssignedUser?: boolean;
         })
     >
@@ -37,10 +40,8 @@ interface taskProps {
   setTaskSharing: Dispatch<SetStateAction<boolean>>;
   setTaskAddingLink: Dispatch<SetStateAction<boolean>>;
   setTaskInfo: Dispatch<SetStateAction<boolean>>;
-  taskFetchingParams: getTask;
-  setCurrentPage: (page: number) => {};
+  setCurrentPage: (page: number) => void;
   length?: number;
-  updateTaskStatus: (id: string, isCompleted: boolean) => void;
 }
 
 const TaskCard = ({
@@ -51,9 +52,6 @@ const TaskCard = ({
   setTaskSharing,
   setTaskAddingLink,
   setTaskInfo,
-  taskFetchingParams,
-  setCurrentPage,
-  updateTaskStatus,
   length,
 }: taskProps) => {
   const {
@@ -63,54 +61,63 @@ const TaskCard = ({
     isCompleted,
     categories,
     _id,
-    sharedWith,
     links,
-    subtasks,
-    assigneeId,
-    userId,
+    type,
   } = task;
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const [completed, setIsCompleted] = useState(isCompleted || false);
+  const goToProfile = (id: string) => {
+    navigate(`${ROUTES.PROFILE}/${id}`);
+  };
 
   const onChangeCheckBoxCallback = useCallback(() => {
     const toggle = async () => {
       try {
-        const result = assigneeId
-          ? await subTasksAPI.editSubTask({
-              subTaskId: _id,
-              isCompleted: !completed,
-            })
-          : await taskAPI.edittask({
-              _id: _id || '',
-              isCompleted: !completed,
-            });
-        if (result.status === 'success') setIsCompleted((prev) => !prev);
-        if (assigneeId) {
-          dispatch(fetchTasks(taskFetchingParams));
+        const result =
+          type === 'subtask'
+            ? await subTasksAPI.editSubTask({
+                subTaskId: _id,
+                isCompleted: !isCompleted,
+              })
+            : await taskAPI.edittask({
+                _id: _id || '',
+                isCompleted: !isCompleted,
+              });
+        if (result.status === 'success') {
+          dispatch(
+            updateTaskCompletionStatus({ id: _id, isCompleted: !isCompleted }),
+          );
+          if (type === 'subtask') {
+            dispatch(
+              updateSubTaskCompletionStatusInSubtasksList({
+                subTaskId: _id,
+                isCompleted: !isCompleted,
+              }),
+            );
+          }
         }
-        updateTaskStatus(_id || '', !completed);
       } catch (e) {
         console.log(e);
       }
     };
     toggle();
-  }, []);
+  }, [isCompleted]);
 
   return (
     <div
-      className={completed ? styles.completedWrapper : styles.wrapper}
+      className={isCompleted ? styles.completedWrapper : styles.wrapper}
       onClick={() => {
-        setTaskProps({ ...task, taskFetchingParams });
+        setTaskProps({ ...task });
         setTaskInfo(true);
       }}
     >
       <div className={styles.header}>
         <h1 className={styles.title}>{title} </h1>
         <Checkbox
-          isChecked={completed}
+          isChecked={isCompleted}
           label=""
           data-testid="checkbox"
           isRounded
@@ -133,11 +140,18 @@ const TaskCard = ({
       </div>
       <p className={styles.description}>{truncate(description, 80)}</p>
 
-      {assigneeId && (
+      {(task as SharedTask).creator && (
         <div className={styles.sharedWrapper}>
           <h4 className={styles.sharedTitle}>{t('sharedFrom')}</h4>
-          {userId && <UserImage user={userId} />}
-          <p className={styles.sharedUsername}>{userId?.username}</p>
+          {(task as SharedTask).creator && (
+            <UserImage
+              user={(task as SharedTask).creator}
+              onAvatarClick={(user) => goToProfile(user._id)}
+            />
+          )}
+          <p className={styles.sharedUsername}>
+            {(task as SharedTask).creator?.username}
+          </p>
         </div>
       )}
       <div className={styles.links}>
@@ -149,9 +163,9 @@ const TaskCard = ({
       </div>
 
       <div className={styles.subtasks}>
-        {subtasks && subtasks.length > 0 && (
+        {(task as Task).subtasks && (task as Task).subtasks.length > 0 && (
           <p className={styles.subtask}>
-            {t('subTasksAmount')}: {subtasks.length}
+            {t('subTasksAmount')}: {(task as Task).subtasks.length}
           </p>
         )}
       </div>
@@ -160,13 +174,6 @@ const TaskCard = ({
           {t('deadline')} {humaniseDate(deadline)}
         </p>
       )}
-      {sharedWith &&
-        sharedWith[0] !== 'already shared' &&
-        sharedWith.length > 0 && (
-          <div className={styles.username}>
-            {t('sharedWith')}: {sharedWith.length}
-          </div>
-        )}
       <div className={styles.icons}>
         <FontAwesomeIcon
           data-testid="edit-icon"
@@ -174,8 +181,7 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
-              isAssignedUser: !!assigneeId,
+              isAssignedUser: !!(task as SharedTask).creator,
             });
             setTaskEditing(true);
             e.stopPropagation();
@@ -191,8 +197,7 @@ const TaskCard = ({
             onClick={(e) => {
               setTaskProps({
                 ...task,
-                taskFetchingParams,
-                isForSubTask: !!assigneeId,
+                isForSubTask: !!(task as SharedTask).creator,
               });
               setTaskAddingLink(true);
               e.stopPropagation();
@@ -211,16 +216,15 @@ const TaskCard = ({
           onClick={(e) => {
             setTaskProps({
               ...task,
-              taskFetchingParams,
               length,
-              isForSubTask: !!assigneeId,
+              isForSubTask: !!(task as SharedTask).creator,
             });
             setTaskDeleting(true);
             e.stopPropagation();
           }}
         />
 
-        {subtasks && subtasks.length < 10 && (
+        {(task as Task).subtasks && (task as Task).subtasks.length < 10 && (
           <FontAwesomeIcon
             color="black"
             data-testid="share-icon"
@@ -228,15 +232,9 @@ const TaskCard = ({
             icon={faListCheck}
             className={`${styles.icon} ${styles.share}`}
             onClick={(e) => {
-              if (sharedWith && sharedWith[0] === 'already shared') {
-                toast.error(
-                  'ERROR! You are not the author of this task, you can not share this task!',
-                );
-                return;
-              }
               setTaskProps({
                 _id: _id,
-                taskFetchingParams,
+                parentTaskId: _id,
                 isForSubtask: true,
               });
               setTaskSharing(true);

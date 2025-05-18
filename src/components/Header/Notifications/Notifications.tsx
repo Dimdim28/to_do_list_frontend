@@ -1,29 +1,33 @@
-import { useEffect, useState, UIEvent, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router';
+import { UIEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ROUTES from '../../../routes';
-import notificationsAPI, { Notification } from '../../../api/notificationsApi';
+import notificationsAPI from '../../../api/notificationsApi';
 import socketsAPI from '../../../api/socketsAPI';
-import UserImage from '../../UserImage/UserImage';
-import { Status } from '../../../types';
-import { truncate } from '../../../helpers/string';
+import newNotificationAudio from '../../../assets/newNotification.mp3';
+import ROUTES from '../../../routes';
+import {
+  ConfirmNotification,
+  Notification,
+  NotificationServerEvents,
+  NotificationType,
+} from '../../../types/entities/Notification';
+import { Status } from '../../../types/shared';
+
+import UserActionNotification from './notification/UserActionNotification';
+import UserConfirmNotification from './notification/UserConfirmNotification';
 
 import styles from './Notifications.module.scss';
-
-import newNotificationAudio from '../../../assets/newNotification.mp3';
 
 const Notifications = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const NOTIFICATION_TYPES_COLLECTION = {
-    'subtask-confirmation': 'subtaskConfirmation',
-  };
-
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<
+    (Notification | ConfirmNotification)[]
+  >([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -79,18 +83,35 @@ const Notifications = () => {
 
     const socket = socketsAPI.getSocket();
 
-    socket.on('newSubtaskConfirmation', (notification: Notification) => {
-      setNotifications((prev) => [notification, ...prev]);
-      setRealTimeNotificationsCount((prev) => prev + 1);
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-    });
+    socket.on(
+      NotificationServerEvents.NEW_SUBTASK_CONFIRMATION,
+      (notification: Notification) => {
+        setNotifications((prev) => [notification, ...prev]);
+        setRealTimeNotificationsCount((prev) => prev + 1);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+      },
+    );
 
-    socket.on('delSubtaskConfirmation', (notifId: string) => {
-      setNotifications((prev) => prev.filter((el) => el._id !== notifId));
-      setRealTimeNotificationsCount((prev) => prev - 1);
-    });
+    socket.on(
+      NotificationServerEvents.DEL_SUBTASK_CONFIRMATION,
+      (notifId: string) => {
+        setNotifications((prev) => prev.filter((el) => el._id !== notifId));
+        setRealTimeNotificationsCount((prev) => prev - 1);
+      },
+    );
+
+    socket.on(
+      NotificationServerEvents.NEW_NOTIFICATION,
+      (notification: Notification) => {
+        setNotifications((prev) => [notification, ...prev]);
+        setRealTimeNotificationsCount((prev) => prev + 1);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+      },
+    );
   }
 
   async function loadMore() {
@@ -115,6 +136,34 @@ const Notifications = () => {
     }
   }
 
+  function handleAcceptSubTask(notification: ConfirmNotification) {
+    socketsAPI.confirmSubtask(
+      notification.subtaskId._id,
+      notification.creator._id,
+    );
+    setRealTimeNotificationsCount((prev) => prev - 1);
+    removeNotification(notification._id);
+    navigate(ROUTES.PROFILE);
+    setTimeout(() => {
+      navigate(ROUTES.HOME);
+    }, 0);
+  }
+
+  function handleRejectSubtask(notification: ConfirmNotification) {
+    socketsAPI.rejectSubtask(
+      notification.subtaskId._id,
+      notification.creator._id,
+    );
+    removeNotification(notification._id);
+    setRealTimeNotificationsCount((prev) => prev - 1);
+  }
+
+  function handleReadNotification(notification: Notification) {
+    notificationsAPI.readNotification(notification._id, true);
+    removeNotification(notification._id);
+    setRealTimeNotificationsCount((prev) => prev - 1);
+  }
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     getNotifications();
@@ -127,56 +176,25 @@ const Notifications = () => {
   const NotificationsList = () => {
     return (
       <>
-        {notifications.map((notification) => (
-          <div key={notification._id} className={styles.notification}>
-            <p className={styles.notificationType}>
-              {t(NOTIFICATION_TYPES_COLLECTION[notification.type])}
-            </p>
-            <div className={styles.user}>
-              <UserImage user={notification.userId} size="large" />
-              <div className={styles.taskInfosection}>
-                <p className={styles.userName}>
-                  {truncate(notification?.userId?.username || 'User', 16)}
-                </p>
-                <p className={styles.taskName}>
-                  {truncate(notification.subtaskId.title, 16)}
-                </p>
-              </div>
-              <div className={styles.buttons}>
-                <button
-                  className={styles.accept}
-                  onClick={() => {
-                    socketsAPI.confirmSubtask(notification.subtaskId._id);
-                    setRealTimeNotificationsCount((prev) => prev - 1);
-                    removeNotification(notification._id);
-                    navigate(ROUTES.PROFILE);
-                    setTimeout(() => {
-                      navigate(ROUTES.HOME);
-                    }, 0);
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className={styles.acceptIcon}
-                  />
-                </button>
-                <button
-                  className={styles.decline}
-                  onClick={() => {
-                    socketsAPI.rejectSubtask(notification.subtaskId._id);
-                    removeNotification(notification._id);
-                    setRealTimeNotificationsCount((prev) => prev - 1);
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faXmark}
-                    className={styles.declineIcon}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+        {notifications.map((notification) => {
+          if (notification.type === NotificationType.SUBTASK_CONFIRMATION) {
+            return (
+              <UserConfirmNotification
+                notification={notification as ConfirmNotification}
+                key={notification._id}
+                handleRejectSubtask={handleRejectSubtask}
+                handleAcceptSubTask={handleAcceptSubTask}
+              />
+            );
+          }
+          return (
+            <UserActionNotification
+              key={notification._id}
+              handleReadNotification={handleReadNotification}
+              notification={notification}
+            />
+          );
+        })}
       </>
     );
   };

@@ -1,27 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import {
-  Avatar,
-  AvatarResponse,
-  ChangeAvatarParams,
-  GetProfileParams,
-  Profile,
-  ProfileResponse,
-  DeleteAccountResponse,
-  Message,
-  ChangePassword,
-  UpdateProfileResponse,
-  ChangeName,
-  DailyStats,
-  StatsResponse,
-} from './types';
+import adminAPI from '../../../api/adminApi';
 import instanse from '../../../axios';
+import { Status } from '../../../types/shared';
+import { Profile } from '../auth/types';
+
+import {
+  ChangeAvatarParams,
+  ChangeName,
+  ChangePassword,
+  DailyStats,
+  DeleteAccountResponse,
+  GetProfileParams,
+  Message,
+  ProfileResponse,
+  PublicAvatarResponse,
+  StatsResponse,
+  UpdateProfileResponse,
+} from './types';
 
 export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
   'profile/fetchUserProfile',
   async (params, { rejectWithValue }) => {
+    const { id } = params;
+    const url = id ? `/user/profile/${id}` : '/user/me';
     try {
-      const response: ProfileResponse = await instanse.get(`/user/me`);
+      const response: ProfileResponse = await instanse.get(url);
       return {
         ...response.data,
         avatarUrl: response.data.avatar,
@@ -29,36 +33,36 @@ export const fetchUserProfile = createAsyncThunk<Profile, GetProfileParams>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
-export const changeAvatar = createAsyncThunk<Avatar, ChangeAvatarParams>(
+export const changeAvatar = createAsyncThunk<string, ChangeAvatarParams>(
   'profile/changeAvatar',
   async (params, { rejectWithValue }) => {
     try {
-      const response: AvatarResponse = await instanse.post(
+      const response: PublicAvatarResponse = await instanse.post(
         `/image/avatar`,
-        params.image
+        params.image,
       );
-
-      return response.data;
+      console.log(response);
+      return response.data.url;
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
 export const deleteAccount = createAsyncThunk<void>(
   'profile/deleteAccount',
-  async (params, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response: DeleteAccountResponse = await instanse.delete(`/user`);
 
-      return;
+      return response.data as any;
     } catch (err: any) {
       return rejectWithValue(err?.response?.message || 'Error');
     }
-  }
+  },
 );
 
 export const changePass = createAsyncThunk<Message, ChangePassword>(
@@ -67,7 +71,7 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
     try {
       const passCheckingResult: DeleteAccountResponse = await instanse.post(
         '/user/password',
-        { oldPassword: params.oldPassword, newPassword: params.newPassword }
+        { oldPassword: params.oldPassword, newPassword: params.newPassword },
       );
 
       if (passCheckingResult.status !== 200) {
@@ -78,10 +82,10 @@ export const changePass = createAsyncThunk<Message, ChangePassword>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
-export const changeName = createAsyncThunk<Message, ChangeName>(
+export const changeName = createAsyncThunk<Profile, ChangeName>(
   'profile/changeName',
   async (params, { rejectWithValue }) => {
     try {
@@ -92,7 +96,7 @@ export const changeName = createAsyncThunk<Message, ChangeName>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
 
 export const getStats = createAsyncThunk<DailyStats[]>(
@@ -104,5 +108,17 @@ export const getStats = createAsyncThunk<DailyStats[]>(
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'Error');
     }
-  }
+  },
 );
+
+export const banUser = createAsyncThunk<
+  { isBanned: boolean; status: Status },
+  { id: string; isBanned: boolean }
+>('admin/banUser', async ({ id, isBanned }, { rejectWithValue }) => {
+  try {
+    const recievedStats = await adminAPI.banUser(id, isBanned);
+    return { status: recievedStats.status, isBanned };
+  } catch (err: any) {
+    return rejectWithValue(err?.response?.data?.message || 'Error');
+  }
+});

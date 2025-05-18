@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../../hooks';
@@ -10,12 +10,16 @@ interface ButtonsProps {
   setIsExiting: React.Dispatch<React.SetStateAction<boolean>>;
   setIspassEditing: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAccountDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEffectModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsProfileEffectModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Buttons: FC<ButtonsProps> = ({
   setIsExiting,
   setIspassEditing,
   setIsAccountDeleting,
+  setIsEffectModalOpened,
+  setIsProfileEffectModalOpened,
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -53,6 +57,24 @@ const Buttons: FC<ButtonsProps> = ({
         data-testid="delete-account-button-component"
       >
         {t('deleteAccount')}
+      </button>
+
+      <button
+        className={styles.changeEffect}
+        onClick={() => {
+          setIsEffectModalOpened(true);
+        }}
+      >
+        {t('changeAvatarEffect')}
+      </button>
+
+      <button
+        className={styles.changeProfileEffect}
+        onClick={() => {
+          setIsProfileEffectModalOpened(true);
+        }}
+      >
+        {t('changeProfileEffect')}
       </button>
     </div>
   );

@@ -1,38 +1,44 @@
-import { useState, Dispatch, SetStateAction, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import subTasksAPI, { SubTaskResult } from '../../../../api/subTaskAPI';
+import taskAPI, { TaskResult } from '../../../../api/taskAPI';
 import Button from '../../../../components/common/Button/Button';
-import Preloader from '../../../../components/Preloader/Preloader';
-import Categories from '../../FiltersBar/Categories/Categories';
-import { Input } from '../../../../components/common/Input/Input';
 import { Checkbox } from '../../../../components/common/Checkbox/Checkbox';
+import { Input } from '../../../../components/common/Input/Input';
 import { TextArea } from '../../../../components/common/TextArea/TextArea';
+import Preloader from '../../../../components/Preloader/Preloader';
+import SearchUser from '../../../../components/SearchUser/SearchUser';
+import { humaniseDate, truncate } from '../../../../helpers/string';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { selectProfile } from '../../../../redux/slices/auth/selectors';
-import { Status } from '../../../../types';
-import taskAPI, { Task, getTask } from '../../../../api/taskAPI';
-import subTasksAPI, { SubTask } from '../../../../api/subTaskAPI';
-import SearchUser from '../../../../components/SearchUser/SearchUser';
+import {
+  addSubTaskToTask,
+  addTaskToList,
+  updateMySubTaskInTasksList,
+  updateSubTaskCompletionStatusInSubtasksList,
+  updateSubTaskInTask,
+  updateTaskInList,
+} from '../../../../redux/slices/home/home';
+import { SubTask } from '../../../../types/entities/SubTask';
+import { Task } from '../../../../types/entities/Task';
+import { Status, User } from '../../../../types/shared';
+import Categories from '../../FiltersBar/Categories/Categories';
 import ChosenUser from '../ChosenUser/ChosenUser';
-import { User } from '../../../../api/userAPI';
 
 import styles from './TaskForm.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
-import { humaniseDate, truncate } from '../../../../helpers/string';
-import { fetchTasks } from '../../../../redux/slices/home/thunk';
-import { updateTaskCurrentPage } from '../../../../redux/slices/home/home';
 
 interface TaskFormProps {
   toggleActive: Dispatch<SetStateAction<boolean>>;
   childProps: Task & {
-    taskFetchingParams: getTask;
     length: number;
     isForSubtask?: boolean;
-    assigneeId?: User | null;
+    assignee?: User | null;
     setSubTasksArray?: Dispatch<SetStateAction<SubTask[]>>;
     isAssignedUser?: boolean;
+    parentTaskId?: string;
   };
 }
 
@@ -45,15 +51,13 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
     deadline: prevDeadline,
     isCompleted: prevIscompleted,
     links: prevLinks,
-    taskFetchingParams,
-    length,
+    // length,
     isForSubtask,
-    assigneeId,
+    assignee,
     setSubTasksArray,
     isAssignedUser,
+    parentTaskId,
   } = childProps;
-
-  console.log('props =', childProps);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -62,49 +66,88 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
   const [taskError, setTaskError] = useState('');
   const [title, setTittle] = useState(prevTitle || '');
   const [description, setDescription] = useState(prevDescription || '');
-  const [categories, setCategories] = useState(
-    prevCategories?.map((el) => el._id) || [],
-  );
+  const [categories, setCategories] = useState(prevCategories || []);
   const [hasDeadline, setHasDeadline] = useState(!!prevDeadline);
   const [deadline, setDeadline] = useState(prevDeadline || '');
   const [isCompleted, setIsCompleted] = useState(prevIscompleted || false);
   const [links, setLinks] = useState([...(prevLinks || [])]);
-  const [assigner, setAssigner] = useState<User | null>(assigneeId || null);
+  const [assigner, setAssigner] = useState<User | null>(assignee || null);
 
   const profile = useAppSelector(selectProfile);
 
+  useEffect(() => {
+    if (childProps) {
+      setStatus(Status.SUCCESS);
+      setTaskError('');
+      setTittle(prevTitle || '');
+      setDescription(prevDescription || '');
+      setCategories(prevCategories || []);
+      setHasDeadline(!!prevDeadline);
+      setDeadline(prevDeadline || '');
+      setIsCompleted(prevIscompleted || false);
+      setLinks([...(prevLinks || [])]);
+      setAssigner(assignee || null);
+    }
+  }, [childProps]);
+
   const userId = profile?._id || '';
-  const avatar = profile?.avatar || {
-    url: 'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg',
-    public_id: '',
-  };
+  const avatar =
+    profile?.avatar ||
+    'https://res.cloudinary.com/dmbythxia/image/upload/v1697126412/samples/animals/cat.jpg';
+  const avatarEffect = profile?.avatarEffect;
   const username = profile?.username || '';
 
   const submit = async () => {
     setStatus(Status.LOADING);
-    let payload = { title, description, links: links || [] };
+    let payload = {
+      title,
+      description,
+      links: links || [],
+      categories: [],
+      isCompleted: false,
+      deadline: null,
+    };
     payload = Object.assign(payload, {
       deadline: hasDeadline ? deadline : null,
     });
     if (categories.length >= 0)
       payload = Object.assign(payload, {
-        categories,
+        categories: categories.map((el) => el._id),
       });
     if ([false, true].includes(isCompleted))
       payload = Object.assign(payload, { isCompleted });
 
-    let result;
+    let result: TaskResult | SubTaskResult;
 
     if (isAssignedUser) {
-      result = await subTasksAPI.editSubTask({
+      //todo: here should be logic for update shared to us task
+      const response = await subTasksAPI.editSubTask({
         subTaskId: _id,
         links,
-        categories,
+        categories: categories.map((el) => el._id),
         isCompleted,
       });
+
+      dispatch(
+        updateSubTaskCompletionStatusInSubtasksList({
+          subTaskId: _id,
+          isCompleted,
+          taskId: parentTaskId,
+        }),
+      );
+      dispatch(
+        updateMySubTaskInTasksList({
+          _id: _id,
+          links,
+          isCompleted,
+          categories,
+        }),
+      );
+
+      result = response;
     } else if (isForSubtask) {
-      if (assigneeId) {
-        result = await subTasksAPI.editSubTask({
+      if (assignee) {
+        const response = await subTasksAPI.editSubTask({
           subTaskId: _id,
           title,
           description,
@@ -112,8 +155,68 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           isCompleted,
           assigneeId: assigner?._id || '',
         });
+
+        const typedAssigner = assigner as User;
+        // setSubTasksArray((prev) =>
+        //   prev.map((el) => (el._id === _id ? (result.task as SubTask) : el)),  todo: modify interfaces when be will be updated
+        // );
+
+        const { status, task } = response;
+
+        if (status === Status.SUCCESS && parentTaskId) {
+          dispatch(
+            updateSubTaskInTask({
+              taskId: parentTaskId as string,
+              subTask: {
+                ...(task as SubTask),
+                title,
+                description,
+                deadline,
+                isCompleted,
+                assignee: {
+                  _id: typedAssigner._id,
+                  avatar: typedAssigner.avatar || '',
+                  username: typedAssigner.username,
+                  avatarEffect: typedAssigner.avatarEffect,
+                },
+              },
+            }),
+          );
+          dispatch(
+            updateMySubTaskInTasksList({
+              _id: _id,
+              title,
+              description,
+              deadline,
+              isCompleted,
+            }),
+          );
+          if (setSubTasksArray) {
+            setSubTasksArray((prev) =>
+              prev.map((el) =>
+                el._id === _id
+                  ? {
+                      ...el,
+                      title,
+                      description,
+                      deadline,
+                      isCompleted,
+                      assignee: {
+                        _id: typedAssigner._id,
+                        avatar: typedAssigner.avatar || '',
+                        username: typedAssigner.username,
+                        avatarEffect: typedAssigner.avatarEffect,
+                      },
+                    }
+                  : el,
+              ),
+            );
+          }
+        }
+
+        result = response;
       } else {
-        result = await subTasksAPI.createSubTask({
+        const response = await subTasksAPI.createSubTask({
           taskId: _id,
           title,
           description,
@@ -121,46 +224,74 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           isCompleted,
           assigneeId: assigner?._id || '',
         });
-      }
-    } else {
-      result = _id
-        ? await taskAPI.edittask({ _id, ...payload })
-        : await taskAPI.addtask({ user: userId, ...payload });
-    }
 
-    if (isForSubtask && _id && setSubTasksArray) {
-      const typedAssigner = assigner as User;
-      setSubTasksArray((prev) =>
-        prev.map((el) =>
-          el._id === _id
-            ? {
-                ...el,
+        const { status, task } = response;
+
+        if (status === Status.SUCCESS && parentTaskId) {
+          const createdSubTask = task as SubTask;
+
+          if (setSubTasksArray)
+            setSubTasksArray((prev) => [...prev, createdSubTask]);
+          dispatch(
+            addSubTaskToTask({ taskId: parentTaskId, subTask: createdSubTask }),
+          );
+          if (createdSubTask.assignee._id === userId) {
+            const {
+              _id,
+              title,
+              description,
+              isCompleted,
+              deadline,
+              assignee,
+              dateOfCompletion,
+            } = createdSubTask as SubTask & { dateOfCompletion: string };
+            dispatch(
+              addTaskToList({
+                _id,
                 title,
                 description,
-                deadline,
                 isCompleted,
-                assigneeId: {
-                  _id: typedAssigner._id,
-                  avatar: {
-                    url: typedAssigner.avatar?.url || '',
-                    public_id: typedAssigner.avatar?.public_id || '',
-                  },
-                  username: typedAssigner.username,
-                },
-              }
-            : el,
-        ),
-      );
+                links: [],
+                categories: [],
+                deadline,
+                creator: assignee,
+                type: 'subtask',
+                dateOfCompletion,
+              } as any),
+            );
+          }
+        }
+
+        result = response;
+      }
+    } else {
+      if (_id) {
+        const response = await taskAPI.edittask({ _id, ...payload });
+
+        const { task, status } = response;
+
+        if (status === Status.SUCCESS) {
+          dispatch(updateTaskInList(task as Task));
+        }
+
+        result = response;
+      } else {
+        const response = await taskAPI.addtask({ user: userId, ...payload });
+
+        const { task, status } = response;
+
+        if (status === Status.SUCCESS) {
+          dispatch(addTaskToList(task as Task));
+        }
+        result = response;
+      }
     }
+
     const { message, status } = result;
+
     setStatus(status);
     setTaskError(message || '');
     if (status === Status.SUCCESS) {
-      if (!_id && length === 10 && !isForSubtask) {
-        dispatch(updateTaskCurrentPage((taskFetchingParams.page || 0) + 1));
-      } else {
-        dispatch(fetchTasks(taskFetchingParams));
-      }
       toggleActive(false);
     }
   };
@@ -199,6 +330,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                 removeUser={() => {
                   setAssigner(null);
                 }}
+                isForCreation={!assignee}
               />
             ) : (
               <>
@@ -214,6 +346,7 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
                       _id: userId,
                       avatar,
                       username,
+                      avatarEffect,
                     });
                   }}
                 >
@@ -224,7 +357,6 @@ const TaskForm: FC<TaskFormProps> = ({ toggleActive, childProps }) => {
           ) : (
             <Categories
               isForTask
-              taskFetchingParams={taskFetchingParams}
               activeCategories={categories}
               setActiveCategories={setCategories}
             />
