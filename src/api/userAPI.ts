@@ -2,13 +2,9 @@ import instanse from '../axios';
 import { AvatarEffect, ProfileEffect, Status, User } from '../types/shared';
 
 export type FetchUsersResponse = {
-  status: number;
-  statusText: string;
-  data: {
-    foundUsers: User[];
-    page: number;
-    totalPages: number;
-  };
+  results: User[];
+  page: number;
+  totalPages: number;
 };
 
 export type FetchProfileEffectsResponse = {
@@ -50,15 +46,16 @@ export type UpdateUserAvatarEffectResponse = {
 class userAPIClass {
   public async getUsers(username: string, page?: number, limit?: number) {
     try {
-      const response: FetchUsersResponse = await instanse.get(`/user`, {
+      const response = await instanse.get<FetchUsersResponse>(`/user`, {
         params: {
           username,
           page,
           limit,
         },
       });
+
       return {
-        users: response.data.foundUsers,
+        users: response.data.results,
         page: response.data.page || 1,
         totalPages: response.data.totalPages || 1,
         status: Status.SUCCESS,
