@@ -349,7 +349,11 @@ const canBanSlice = createSlice({
       const { results, page, totalPages } = action.payload;
       if (!state.data) return;
 
-      state.data.allProjects = [...state.data.allProjects, ...results];
+      if (page === 1) {
+        state.data.allProjects = [...results];
+      } else {
+        state.data.allProjects = [...state.data.allProjects, ...results];
+      }
       state.data.currentPage = page;
       state.data.totalPages = totalPages;
       state.status = Status.SUCCESS;
