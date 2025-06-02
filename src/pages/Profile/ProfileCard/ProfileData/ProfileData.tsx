@@ -33,8 +33,8 @@ const ProfileData: FC = () => {
 
   return (
     <>
-      <DataLine label="email" value={email} />
-      <DataLine label="registrationDate" value={date} />
+      {email ? <DataLine label="email" value={email} /> : null}
+      {createdAt ? <DataLine label="registrationDate" value={date} /> : null}
     </>
   );
 };
