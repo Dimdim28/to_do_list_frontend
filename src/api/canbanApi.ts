@@ -645,7 +645,7 @@ class canbanAPIClass {
     payload: RemoveUserPayload,
   ): Promise<RemoveUserResponseSuccess | RemoveUserResponseFail> {
     try {
-      const response: RemoveUserApiResponse = await instanse.post(
+      const response: RemoveUserApiResponse = await instanse.delete(
         `board/${payload.boardId}/remove-user/${payload.targetUserId}`,
       );
       return { status: Status.SUCCESS, data: response.data };

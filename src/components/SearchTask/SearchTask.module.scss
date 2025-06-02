@@ -1,6 +1,8 @@
 @import 'src/styles/partials/theme';
 
 .inputLine {
+  opacity: 0;
+  pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
