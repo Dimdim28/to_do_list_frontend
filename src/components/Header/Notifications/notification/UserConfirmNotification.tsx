@@ -25,6 +25,7 @@ const UserConfirmNotification: FC<UserConfirmNotificationProps> = ({
   handleRejectSubtask,
   handleAcceptSubTask,
 }) => {
+  console.log(notification);
   const navigate = useNavigate();
 
   const goToProfile = (id: string) => {
@@ -52,7 +53,9 @@ const UserConfirmNotification: FC<UserConfirmNotificationProps> = ({
             {truncate(notification?.creator?.username || 'User', 16)}
           </p>
           <p className={styles.taskName}>
-            {truncate(notification.subtaskId.title, 16)}
+            {notification.subtaskId?.title
+              ? truncate(notification.subtaskId.title, 16)
+              : t('subtaskDeleted')}
           </p>
         </div>
         <div className={styles.buttons}>
