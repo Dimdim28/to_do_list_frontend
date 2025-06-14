@@ -20,6 +20,9 @@ interface Values {
   secondPass?: string;
 }
 
+export const PASSWORD_REGEX =
+  /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
 const validate = (values: Values) => {
   const errors: Values = {};
   if (!values.email) {
@@ -38,20 +41,18 @@ const validate = (values: Values) => {
 
   if (!values.firstPass) {
     errors.firstPass = 'Required';
-  } else if (values.firstPass.length < 5) {
-    errors.firstPass = 'Must be 5 characters or more';
-  } else if (values.firstPass.length > 15) {
-    errors.firstPass = 'Must be 15 characters or less';
+  } else if (!PASSWORD_REGEX.test(values.firstPass)) {
+    errors.firstPass =
+      'Password must contain at least 8 characters, including a number, a capital letter, and a symbol';
   }
 
   if (!values.secondPass) {
     errors.secondPass = 'Required';
-  } else if (values.secondPass.length < 5) {
-    errors.secondPass = 'Must be 5 characters or more';
-  } else if (values.secondPass.length > 15) {
-    errors.secondPass = 'Must be 15 characters or less';
+  } else if (!PASSWORD_REGEX.test(values.secondPass)) {
+    errors.secondPass =
+      'Password must contain at least 8 characters, including a number, a capital letter, and a symbol';
   } else if (values.firstPass !== values.secondPass) {
-    errors.secondPass = 'Passwords must be same';
+    errors.secondPass = 'Passwords must match';
   }
 
   if (values.firstPass !== values.secondPass) {

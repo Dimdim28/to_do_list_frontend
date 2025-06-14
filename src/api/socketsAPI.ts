@@ -8,7 +8,7 @@ class socketsAPIClass {
   public init(token: string) {
     this.socket = io(
       `${process.env.REACT_SOCKETS_API_URL ? 'wss' : 'ws'}://${
-        process.env.REACT_SOCKETS_API_URL || 'localhost:5000'
+        process.env.REACT_SOCKETS_API_URL || 'localhost:5001'
       }/notifications`,
       {
         transportOptions: {
