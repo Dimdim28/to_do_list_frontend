@@ -169,6 +169,7 @@ const UA = {
     weeksAgo: '{{count}} тижнів тому',
   },
   loadMore: 'Завантажити ще',
+  subtaskDeleted: 'Підзадача була видалена',
 };
 
 export default UA;

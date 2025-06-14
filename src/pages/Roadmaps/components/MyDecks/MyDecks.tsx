@@ -71,7 +71,11 @@ const MyDecks = () => {
 
     if (result.status === Status.SUCCESS) {
       setErrorMessage('');
-      setAllProjects((prev) => [...prev, ...result.data.results]);
+      if (result.data.page === 1) {
+        setAllProjects([...result.data.results]);
+      } else {
+        setAllProjects((prev) => [...prev, ...result.data.results]);
+      }
       setIsLoading(false);
       setTotalPages(result.data.totalPages);
       setCurrentPage(result.data.page);

@@ -50,7 +50,9 @@ const UserActionNotification: FC<UserActionNotificationProps> = ({
             {truncate(notification?.actionByUser?.username || 'User', 16)}
           </p>
           <p className={styles.taskName}>
-            {truncate(notification.subtask.title || '', 16)}
+            {notification.subtask?.title
+              ? truncate(notification.subtask.title, 16)
+              : t('subtaskDeleted')}
           </p>
         </div>
         <div className={styles.buttons}>

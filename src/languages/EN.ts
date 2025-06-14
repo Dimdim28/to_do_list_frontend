@@ -168,6 +168,7 @@ const EN = {
     weeksAgo: '{{count}} weeks ago',
   },
   loadMore: 'Load more',
+  subtaskDeleted: 'Subtask was deleted',
 };
 
 export default EN;

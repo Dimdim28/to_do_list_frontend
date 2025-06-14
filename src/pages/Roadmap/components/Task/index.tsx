@@ -60,14 +60,12 @@ const TaskComponent: FC<TaskProps> = ({
   const onResizeStart = (e: React.MouseEvent, side: 'start' | 'end') => {
     e.stopPropagation();
     e.preventDefault();
-
     resizingRef.current = {
       side,
       initialX: e.clientX,
       initialValue: localTask[side],
       isResizing: true,
     };
-
     document.addEventListener('mousemove', onResizeMove);
     document.addEventListener('mouseup', onResizeEnd);
   };
@@ -75,49 +73,36 @@ const TaskComponent: FC<TaskProps> = ({
   const onResizeMove = (e: MouseEvent) => {
     const info = resizingRef.current;
     if (!info || !info.isResizing) return;
-
     e.preventDefault();
-
     const deltaPx = e.clientX - info.initialX;
     const deltaValue = (deltaPx / roadmapContentWidth) * (totalQuarters * 100);
     const newValue = Math.round(info.initialValue + deltaValue);
-
     const maxValue = totalQuarters * 100;
-
     if (newValue < 0 || newValue > maxValue) return;
     if (info.side === 'start') {
       const proposedStart = newValue;
       const proposedEnd = localTask.end;
-
       if (proposedEnd - proposedStart < 10) return;
-
       const isOverlapping = allTasksInRow.some((t) => {
         if (t._id === localTask._id) return false;
         return !(proposedEnd + 2 <= t.start || proposedStart >= t.end + 2);
       });
-
       if (isOverlapping) return;
-
       setLocalTask((prev) => {
         const updated = { ...prev, start: proposedStart };
         localTaskRef.current = updated;
         return updated;
       });
     }
-
     if (info.side === 'end') {
       const proposedStart = localTask.start;
       const proposedEnd = newValue;
-
       if (proposedEnd - proposedStart < 10) return;
-
       const isOverlapping = allTasksInRow.some((t) => {
         if (t._id === localTask._id) return false;
         return !(proposedEnd + 2 <= t.start || proposedStart >= t.end + 2);
       });
-
       if (isOverlapping) return;
-
       setLocalTask((prev) => {
         const updated = { ...prev, end: proposedEnd };
         localTaskRef.current = updated;
@@ -127,13 +112,9 @@ const TaskComponent: FC<TaskProps> = ({
   };
 
   const onResizeEnd = async () => {
-    if (resizingRef.current) {
-      resizingRef.current.isResizing = false;
-    }
-
+    if (resizingRef.current) resizingRef.current.isResizing = false;
     document.removeEventListener('mousemove', onResizeMove);
     document.removeEventListener('mouseup', onResizeEnd);
-
     dispatch(
       updateRoadmapTaskInCategory({
         categoryId,
@@ -145,7 +126,6 @@ const TaskComponent: FC<TaskProps> = ({
         },
       }),
     );
-
     await roadmapAPI.updateTask({
       roadmapId,
       categoryId,
